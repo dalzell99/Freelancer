@@ -1,0 +1,51 @@
+/* ----------- Remove Carousel Controls ----------- */
+.carousel-inner > .item > img {
+  margin: 0 auto;
+}
+
+/* -------------- Bootstrap Checkbox -------------- */
+input[type="checkbox"].styled:checked + label:after,
+input[type="radio"].styled:checked + label:after,
+.checkbox input[type=checkbox]:checked + label:after {
+  font-family: 'Glyphicons Halflings';
+  content: "\e013";
+}
+
+input[type="checkbox"].styled:checked label:after,
+input[type="radio"].styled:checked label:after,
+.checkbox label:after {
+  padding-left: 4px;
+  padding-top: 2px;
+  font-size: 9px;
+}
+
+/* ---------------- Index.php CSS ----------------- */
+#liveStats {
+  font-size: 2em;
+  text-align: center;
+  padding-top: 40px;
+}
+
+#liveStats > .row > .liveStatUser {
+  color: red;
+}
+
+#liveStats > .row > .liveStatTime {
+  color: orange;
+}
+
+#liveStats > .row > .liveStatPrizes {
+  color: #0076ff;
+}
+
+#liveStats > .row > .liveStatQuizzes {
+  color: green;
+}
+
+#howToVideo {
+  text-align: center;
+}
+
+promotions, #websiteDescription, #howToVideo, #testimonials {
+  padding: 40px 0;
+}

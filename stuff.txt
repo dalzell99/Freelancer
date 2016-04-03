@@ -1,0 +1,3 @@
+I have recently finished overhauling the scoring system for Canterbury Country Rugby (New Zealand). As part of that I used a MySQL database to store the game information and then retrieved and displaying that information for the general public. You can check it out at ccrscoring.co.nz. I would love to discuss this project with you so please don't hesitate to message me.
+
+I am available to create a form for you now. If you want to discuss this project or any others you may have, please message me.

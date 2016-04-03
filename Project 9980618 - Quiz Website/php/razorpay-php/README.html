@@ -1,0 +1,56 @@
+<h1 id="razorpay-php">razorpay-php</h1>
+<p><a href="https://travis-ci.org/razorpay/razorpay-php"><img src="https://travis-ci.org/razorpay/razorpay-php.svg?branch=master" alt="Build Status"></a> <a href="https://packagist.org/packages/razorpay/razorpay"><img src="https://poser.pugx.org/razorpay/razorpay/v/stable.svg" alt="Latest Stable Version"></a> <a href="https://packagist.org/packages/razorpay/razorpay"><img src="https://poser.pugx.org/razorpay/razorpay/license.svg" alt="License"></a></p>
+<p>Razorpay client PHP Api. The api follows the following practices:</p>
+<ul>
+<li>namespaced under Razorpay\Api</li>
+<li>call $api-&gt;class-&gt;function() to access the api</li>
+<li>api throws exceptions instead of returning errors</li>
+<li>options are passed as an array instead of multiple arguments wherever possible</li>
+<li>All request and responses are communicated over JSON</li>
+<li>A minimum of PHP 5.3 is required</li>
+</ul>
+<h1 id="installation">Installation</h1>
+<ul>
+<li>If your project uses composer, add following to composer.json<pre><code class="lang-json">{
+  &quot;require&quot;: {
+      &quot;razorpay/razorpay&quot;: &quot;1.*&quot;
+  }
+}
+</code></pre>
+</li>
+</ul>
+<p>Then, run <code>composer update</code>. If you are not using composer, download
+the latest release from <a href="https://github.com/razorpay/razorpay-php/releases">the releases section</a>.
+<strong>You should download the <code>razorpay-php.zip</code> file</strong>.</p>
+<p>After that include <code>Razorpay.php</code> in your application and you can use the
+API as usual.</p>
+<h1 id="usage">Usage</h1>
+<pre><code class="lang-php">use Razorpay\Api\Api;
+
+$api = new Api($api_key, $api_secret);
+$api-&gt;payment-&gt;all($options); // Returns array of payment objects
+$payment = $api-&gt;payment-&gt;fetch($id); // Returns a particular payment
+$api-&gt;payment-&gt;fetch($id)-&gt;capture(array(&#39;amount&#39;=&gt;$amount)); // Captures a payment
+$api-&gt;payment-&gt;fetch($id)-&gt;refund($id); // Refunds a payment
+
+// To get the payment details
+echo $payment-&gt;amount;
+echo $payment-&gt;currency;
+// And so on for other attributes
+</code></pre>
+<p>For further help, see our documentation on <a href="https://docs.razorpay.com">https://docs.razorpay.com</a>.</p>
+<h2 id="hacking">Hacking</h2>
+<p>See the <a href="doc.md">doc.md</a> file for getting started with development.</p>
+<h2 id="license">License</h2>
+<p>The Razorpay PHP SDK is released under the MIT License.</p>
+<h2 id="release">Release</h2>
+<p>Steps to follow for a release:</p>
+<ol>
+<li>Merge the branch with the new code to master.</li>
+<li>Bump the Version in <code>src/Api.php</code>.</li>
+<li>Rename Unreleased to the new tag in <code>CHANGELOG</code></li>
+<li>Fix links at bottom in <code>CHANGELOG</code></li>
+<li>Commit</li>
+<li>Tag the release and push to GitHub</li>
+<li>Create a release on GitHub using the website with more details about the release</li>
+</ol>

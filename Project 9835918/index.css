@@ -1,0 +1,6 @@
+#userContainer, #managerContainer,
+#newShowNameContainer, #newExpenseTypeContainer,
+#addNewUserFormContainer, #expensesTable,
+#addNewUserForm {
+  display: none;
+}

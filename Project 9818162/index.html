@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Customer Form</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:500">
+        <link rel="stylesheet" type="text/css" href="index.css" />
+        <script type="text/javascript" src="index.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    </head>
+    <body>
+        <header>
+        </header>
+        
+        <main>
+            <div id='container'>
+                <div id='tableContainer'>
+                    <table id='timeTable'>
+                        <tr>
+                            <td onclick='changeHours(1)'><img src='uparrow.png' alt='increase hours by 1'></td>
+                            <td></td>
+                            <td onclick='changeMinutes(1)'><img src='uparrow.png' alt='increase minutes by 1'></td>
+                        </tr>
+                        <tr>
+                            <td id='hours' class='timeDisplay'>00</td>
+                            <td class='timeDisplay'>:</td>
+                            <td id='minutes' class='timeDisplay'>00</td>
+                        </tr>
+                        <tr>
+                            <td onclick='changeHours(-1)'><img src='downarrow.png' alt='decrease hours by 1'></td>
+                            <td></td>
+                            <td onclick='changeMinutes(-1)'><img src='downarrow.png' alt='decrease minutes by 1'></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id='dropdownContainer'>
+                    <select id='statusDropdown'>
+                        <option value='Volvo'>Volvo</option>
+                        <option value='Saab'>Saab</option>
+                        <option value='Opel'>Opel</option>
+                        <option value='Audi'>Audi</option>
+                    </select>
+                </div>
+
+                <div id='buttonContainer'>
+                    <button onclick='submit()'>Submit</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bootstrap 3, from LayoutIt!</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-pills">
+				<li id='home'>
+					<a href="index.html">Home</a>
+				</li>
+				<li id='change'>
+					<a href="change.html">Change Availability</a>
+				</li>
+                <li id='check' class="active">
+					<a href="check.html">Check Availability</a>
+				</li>
+				<li id='messages'>
+					<a href="messages.html">Messages</a>
+				</li>
+				<li id='login'>
+					<a href="login.html">Login</a>
+				</li>
+                <li id='logout'>
+					<a onclick='logout()'>Logout</a>
+				</li>
+				<li class="dropdown pull-right">
+					 <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="#">Action</a>
+						</li>
+						<li>
+							<a href="#">Another action</a>
+						</li>
+						<li>
+							<a href="#">Something else here</a>
+						</li>
+						<li class="divider">
+						</li>
+						<li>
+							<a href="#">Separated link</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="alert alert-success alert-dismissable">
+				 
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+					×
+				</button>
+				<h4>
+					<strong>Hello!</strong> <span>Your basecamp postcode is: <span id='warehousePostcode'></span>. If you need to change it click here:</span> <a class="alert-link" onclick='changeWarehousePostcode()'>Change Postcode</a>.
+				</h4>
+			</div>
+			<form role="form">
+				<div class="form-group">
+					<label for="postcodeSearch">Delivery to hunter location</label>
+					<input type="text" class="form-control" id="postcodeSearch">
+				</div> 
+				<button type="button" class="btn btn-default" onclick='search()'>Submit</button>
+			</form>
+            
+			<table id='userTable' class="table"></table>
+		</div>
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>setWarehousePostcode();</script>
+  </body>
+</html>

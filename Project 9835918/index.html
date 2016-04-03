@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CCR Scoring</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:500">
+        <link rel="stylesheet" type="text/css" href="css/classic.min.css">
+        <link rel="stylesheet" type="text/css" href="css/classic.date.min.css">
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script type="text/javascript" src="js/picker.min.js"></script>
+        <script type="text/javascript" src="js/picker.date.min.js"></script>
+        <script type="text/javascript" src="js/sorttable.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+    <body>
+        <header>
+        </header>
+        
+        <main>
+            <div id="loginContainer">
+                <label for='#username'>User Name</label><input type='text' id='username'><br>
+                <label for='#password'>Password</label><input type='password' id='password'><br>
+                <button type='submit' onclick='login()'>Login</button>
+            </div>
+            
+            <div id='managerContainer'>
+                <!-- This user can log in and see all the data, they can sort it by date, show name and user name.
+
+                The manager must be able to change any data and then save it.
+
+                USER2 can then search by name and display all results the export WITH image as a PDF to print. 
+                Once printed the data will change from outstanding to 'submitted'
+
+                Then the manager can have to ability to change it to 'paid' at a later date. 
+
+
+                The manager/USER2 must be able to set 'Show Name'
+                The manager/USER2 must be able to make new users -->
+                
+                <div id='showNamesContainer'>
+                    <button onclick='$("#newShowNameContainer").slideToggle();'>Show Names</button>
+                    <div id='newShowNameContainer'>
+                        <label for='#newShowName'>Show Name</label><input type='text' id='newShowName'>
+                        <button type='submit' onclick='addShowName()'>Add Show Name</button>
+                        <div id='showNames'></div>
+                    </div>
+                </div>
+                
+                <div id='expenseTypesContainer'>
+                    <button onclick='$("#newExpenseTypeContainer").slideToggle();'>Expense Types</button>
+                    <div id='newExpenseTypeContainer'>
+                        <label for='#newExpenseType'>Expense Type</label><input type='text' id='newExpenseType'>
+                        <button type='submit' onclick='addExpenseType()'>Add Expense Type</button>
+                        <div id='expenseTypes'></div>
+                    </div>
+                </div>
+                
+                <div id='userTableContainer'>
+                    <button onclick='$("#addNewUserFormContainer").slideToggle();'>User Table</button><br>
+                    <div id='addNewUserFormContainer'>
+                        <button onclick='$("#addNewUserForm").slideToggle();'>Add New User</button>
+                        <div id='addNewUserForm'>
+                            <label for='#newUsername'>Username</label><input type='text' id='newUsername'>
+                            <label for='#newPassword'>Password</label><input type='text' id='newPassword'>
+                            <label for='#newAccountType'>Account Type</label>
+                            <select type='text' id='newAccountType'>
+                                <option value='user'>User</option>
+                                <option value='manager'>Manager</option>
+                            </select>
+                            <button type='submit' onclick='addUser()'>Add User</button>
+                        </div>
+                        <table id='userTable'></table>
+                    </div>
+                </div>
+                
+                <div id='expensesTableContainer'>
+                    <button onclick='$("#expensesTable").slideToggle();'>Expenses Table</button>
+                    <table id='expensesTable'></table>
+                </div>
+            </div>
+            
+            <div id='userContainer'>
+                <!-- 
+                Full Name:
+                Date of Show: (text box)
+                Show name: (drop down which USER2 can add values to)
+                Type of expense: (drop down which USER2 can add to)
+                Amount: (Number input
+                + option to add Another Amount
+
+                Photo upload.
+
+                Total Expense:
+
+                They will also be able to view previous submission and the status. -->
+                <div id='userExpenseForm'>
+                    <label for='#fullName'>Full Name</label><input type='text' id='fullName'><br>
+                    <label for='#showDate'>Date of show</label><input type='date' id='showDate'><br>
+                    <label for='#showNameDropdown'>Show Name</label><select id='showNameDropdown'></select><br>
+                    <label for='#expenseTypeDropdown'>Expense Type</label><select id='expenseTypeDropdown'></select><br>
+                    <label for='.amount.1'>Amount</label><input type='number' class='amount 1'><br>
+                    <button type='button' onclick='addAmount()'>Add another amount</button><br>
+                    <label for='#photo'>Upload Photo</label><input type='file' id='photo'><br>
+                    <label for='#total'>Expense Total</label><div id='expenseTotal'></div><br>
+                    <button type='submit' onclick='submitExpense()'>Submit Expense</button>
+                </div>
+                
+                <div id='previousExpenses'></div>
+            </div>
+        </main>
+      
+        <footer>
+        </footer>
+      
+    </body>
+</html>

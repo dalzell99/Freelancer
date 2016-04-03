@@ -1,0 +1,78 @@
+table {
+	border: 4px solid black;
+    border-collapse: collapse;
+	text-align:center;
+}
+
+tr.dayname {
+	font: 15px arial, sans-serif;
+    height: 40px;
+}
+
+tr.month {
+	font: 15px arial, sans-serif;
+    height: 40px;
+}
+
+td.daynum{
+	font: 10px arial, sans-serif;
+	border: 1px solid black;
+	background-color: #80ff80;
+	cursor:pointer;
+}
+
+td.daynum div{
+	width:20px;
+}
+
+
+td.emptydaynum{
+	border: 1px solid black;
+	background-color:#A4E6FC;
+	cursor:default;
+}
+
+/*
+td:hover.daynum{
+	font: 15px arial, sans-serif;
+	background-color: #239023;
+}
+
+td:hover.emptydaynum{
+	background-color: #FF738B;
+}
+*/
+
+td.daynames {
+	text-align:center;
+	font-weight: bold;
+	border: 2px solid black;
+	color:green;
+	background-color:yellow;
+}
+
+td.months {
+	text-align:center;
+	font-weight: bold;
+	border: 2px solid black;
+	color:white;
+	background-color:#2a7d7d;
+}
+
+td.month {
+	text-align:center;
+	font-weight: bold;
+	border: 2px solid black;
+	color:white;
+	background-color:#47d1d1;
+}
+
+.daynum , .emptydaynum{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+

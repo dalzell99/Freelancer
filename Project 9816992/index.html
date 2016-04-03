@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CCR Scoring</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:500">
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sorttable.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+    <body>
+        <header>
+        </header>
+        
+        <main>
+            <div id="loginContainer">
+                <label for='#username'>User Name</label><input type='text' id='username'><br>
+                <label for='#password'>Password</label><input type='password' id='password'><br>
+                <button type='submit' onclick='login()'>Login</button>
+            </div>
+            
+            <div id='tableContainer'>
+                <div>
+                    <div class='label'>English Name</div><input type='text' id='englishName'><br>
+                    <div class='label'>Translated Name</div><input type='text' id='translatedName'><br>
+                    <div class='label'>Image Location</div><input type='text' id='imagesURL'><br>
+                    <div class='label'>Description</div><input type='text' id='description'><br>
+                    <div class='label'>Price</div><input type='number' id='price'><br>
+                    <button type='submit' onclick=''>Add New Menu Item</button>
+                </div>
+                <table id='menuTable'>
+                    <tr>
+                        <th>English Name</th>
+                        <th>Translated Name</th>
+                        <th>Image Location</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                    <tr>
+                        <td contenteditable='true'>Soup</td>
+                        <td contenteditable='true'>Soup in other language</td>
+                        <td contenteditable='true'>yourwebsite.com/images/soup.png</td>
+                        <td contenteditable='true'>It's soup</td>
+                        <td contenteditable='true'>$20</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable='true'>Soup</td>
+                        <td contenteditable='true'>Soup in other language</td>
+                        <td contenteditable='true'>yourwebsite.com/images/soup.png</td>
+                        <td contenteditable='true'>It's soup</td>
+                        <td contenteditable='true'>$20</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable='true'>Soup</td>
+                        <td contenteditable='true'>Soup in other language</td>
+                        <td contenteditable='true'>yourwebsite.com/images/soup.png</td>
+                        <td contenteditable='true'>It's soup</td>
+                        <td contenteditable='true'>$20</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable='true'>Soup</td>
+                        <td contenteditable='true'>Soup in other language</td>
+                        <td contenteditable='true'>yourwebsite.com/images/soup.png</td>
+                        <td contenteditable='true'>It's soup</td>
+                        <td contenteditable='true'>$20</td>
+                    </tr>
+                </table>
+            </div>
+        </main>
+      
+        <footer>
+        </footer>
+      
+    </body>
+</html>

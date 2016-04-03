@@ -1,0 +1,36 @@
+#buttonContainer, #nameContainer, #basecampContainer, 
+#postcodeContainer, #urlContainer, #emailContainer,
+#createUserButton, #change, #check, #messages, #login,
+#logout, #messageContainer, #usernameTable, 
+#conversationTable, #warehousePostcodeContainer {
+    display: none;
+}
+
+.leftUser {
+    text-align: left;
+}
+
+.timeSent {
+    text-align: center;
+}
+
+.rightUser {
+    text-align: right;
+}
+
+#messageContainer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    padding: 0 10px 10px 10px;
+    background-color: white;
+}
+
+#messageInput {
+    margin: 0 0 10px 0;
+    height: 80px;
+}
+
+#conversationTable {
+    margin-bottom: 150px;
+}

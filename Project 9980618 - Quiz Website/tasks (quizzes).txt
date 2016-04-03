@@ -1,0 +1,67 @@
+Databases:
+Users
+- id (primary)
+- username (unique)
+- password (md5 hash with salt)
+- paid points balance
+- free points balance
+- email
+- email confirmed
+- security questions array (answers md5 hash with salt) [[question, md5 hash]]
+- home address
+- notifications array [message, time]
+- timeNotificationsViewed
+
+Quizzes
+- id (primary)
+- type (paid/free)
+- question array [[question, answer]]
+- category
+- points reward array [1st, 2nd, ...]
+- points cost
+- start time
+- end time
+- time limit
+- winning userID
+- users registered
+- rules array [rule1, rule2, ...]
+
+Quiz Results
+- userID (primary)
+- quizID (primary)
+- time taken
+- question results array [[question, answer given, correct/incorrect]]
+- % of questions correct
+
+Testimonials
+- testimonialID
+- username
+- message
+
+Promotions
+- promotionID
+- quizID
+- imageURL
+
+Admin
+- password
+
+Pages:
+Home page - Introduction page detailing what the site is and what can be won. Maybe show the prize list.
+How to play - A guide telling the user what the free and paid quizzes are and a description of the quizzes categories
+Quizzes - A list of quizzes where the user selects the quiz they want to take.
+My Account
+    - Change email
+    - Change password 
+    - Deposit using ccavenue
+    - Withdraw using ccavenue, cheque
+    - Edit security questions
+Admin
+    - Add, edit and view quiz details
+    - View user details
+    - Add money to user account
+Login (popup)
+    - forgot password (answer security questions)
+    - forgot username (answer security questions)
+Register (popup)
+    - email confirmation

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/bpampuch/pdfmake/master/build/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://rawgit.com/bpampuch/pdfmake/master/build/vfs_fonts.js"></script>
+    </head>
+    <body>
+        
+        <style>
+            .missing {
+                background-color: palegreen;
+            }
+            
+            .wcustomhtml input {
+                width: 150px;
+            }
+            
+            .wcustomhtml {
+                background-color: lightgray;
+                color: black;
+            }
+        </style>
+        
+        <div id='inputLabel'>Class Number: </div><input type='text' id='classNumber'>
+        <div id='inputLabel'>Date: </div><input type='text' id='dateInput'>
+        <table id='scoreInput'></table>
+        <button type='submit' id='calculateButton' onclick='calculate()'>Calculate</button>
+
+  
+        <script>
+            window.onload = function() {
+                var html = '';
+                
+                html += "<tr>";
+                html += "    <th style='text-align: left;'>Soldier's Name</th>";
+                html += "    <th>Push-ups</th>";
+                html += "    <th>Sit-ups</th>";
+                html += "    <th>Run Time<br><small>(MM:SS)</small></th>";
+                html += "    <th>Age/Gender</th>";
+                html += "</tr>";
+                
+                for (var i = 0; i < 30; i += 1) {
+                    html += "<tr>";
+                    html += "    <td><input type='text' name='soldier[" + i + "][name]' class='name'></td>";
+                    html += "    <td class='center'><input type='text' name='soldier[" + i + "][pu]' maxlength='3' class='reps'></td>";
+                    html += "    <td class='center'><input type='text' name='soldier[" + i + "][su]' maxlength='3' class='reps'></td>";
+                    html += "    <td class='center'><input type='text' name='soldier[" + i + "][ru]' maxlength='5' class='time'></td>";
+                    html += "    <td class='center'><input type='text' name='soldier[" + i + "][age]' maxlength='2' class='reps'>&nbsp;<select name='soldier[" + i + "][gender]'><option value='male'>Male</option><option value='female'>Female</option></select></td>";
+                    html += "</tr>";
+                }
+                
+                $('#scoreInput').empty().append(html);
+            }
+
+
+            var eventScores = [100, 95, 90, 85, 82, 78, 75, 70, 65, 62, 59, 56, 53, 50];
+
+            var sitUpScores = {
+                'female13': [72, 52, 50, 46, 44, 42, 42, 40, 40, 38, 37, 36, 35, 33], 
+                'female14': [72, 53, 49, 47, 45, 43, 42, 41, 40, 39, 37, 36, 35, 34], 
+                'female15': [74, 55, 51, 48, 46, 44, 41, 40, 39, 37, 36, 35, 34, 32], 
+                'female16': [77, 53, 49, 45, 43, 41, 40, 38, 37, 36, 35, 34, 33, 32], 
+                'female17': [67, 53, 47, 44, 41, 40, 38, 37, 36, 35, 34, 33, 31, 30], 
+                'male13': [76, 59, 55, 53, 51, 50, 48, 46, 45, 43, 42, 41, 40, 39], 
+                'male14': [79, 62, 58, 56, 54, 52, 51, 49, 48, 47, 45, 44, 42, 41], 
+                'male15': [81, 62, 59, 57, 55, 53, 51, 50, 49, 47, 45, 44, 43, 41], 
+                'male16': [77, 62, 58, 56, 53, 51, 50, 48, 48, 46, 45, 44, 42, 40], 
+                'male17': [73, 61, 57, 55, 53, 51, 50, 48, 46, 45, 44, 43, 41, 40]
+            };
+
+            var pushUpScores = {
+                'female13': [28, 25, 22, 21, 17, 17, 15, 14, 13, 12, 11, 10, 10, 8], 
+                'female14': [29, 25, 21, 20, 19, 15, 12, 11, 10, 10, 10, 9, 8, 5], 
+                'female15': [38, 34, 23, 20, 20, 20, 18, 18, 16, 15, 15, 15, 13, 11], 
+                'female16': [38, 32, 26, 24, 22, 20, 19, 16, 15, 13, 12, 12, 12, 11], 
+                'female17': [31, 29, 28, 25, 22, 20, 19, 18, 17, 16, 16, 15, 15, 14], 
+                'male13': [54, 51, 41, 39, 35, 35, 31, 30, 28, 26, 24, 21, 20, 20], 
+                'male14': [52, 47, 41, 40, 37, 32, 30, 28, 25, 24, 24, 22, 21, 20], 
+                'male15': [54, 50, 44, 42, 40, 37, 35, 34, 32, 31, 30, 30, 27, 25], 
+                'male16': [62, 59, 46, 44, 41, 40, 36, 34, 32, 30, 30, 29, 28, 25], 
+                'male17': [64, 60, 56, 53, 50, 46, 44, 43, 41, 40, 37, 35, 34, 30]
+            };
+
+            var runScores = {
+                'female13': [342, 441, 469, 493, 509, 529, 549, 570, 590, 607, 623, 657, 680, 700], 
+                'female14': [300, 440, 463, 479, 500, 516, 530, 549, 567, 591, 606, 625, 651, 670], 
+                'female15': [351, 445, 472, 488, 504, 520, 535, 549, 563, 577, 598, 618, 640, 660], 
+                'female16': [358, 446, 475, 503, 519, 530, 551, 565, 588, 609, 631, 658, 675, 704], 
+                'female17': [380, 442, 478, 495, 514, 532, 555, 573, 591, 608, 622, 648, 665, 680], 
+                'male13': [340, 385, 399, 410, 420, 431, 440, 449, 461, 475, 486, 497, 515, 534], 
+                'male14': [270, 361, 373, 386, 393, 405, 419, 429, 439, 449, 464, 479, 493, 510], 
+                'male15': [282, 350, 367, 380, 389, 398, 408, 417, 426, 436, 450, 459, 472, 488], 
+                'male16': [289, 340, 356, 368, 378, 385, 393, 404, 410, 418, 430, 440, 455, 473], 
+                'male17': [286, 335, 357, 366, 374, 383, 392, 400, 410, 417, 424, 434, 444, 455]
+            };
+
+            var soldierScores = [];
+
+            function calculate() {
+                $(".missing").removeClass('missing');
+                var errors = [];
+                
+                for (var i = 0; i < 30; i += 1) {
+                    var name = $('[name="soldier[' + i + '][name]"]').val();
+                    var gender = $('[name="soldier[' + i + '][gender]"]').val();
+                    var age = $('[name="soldier[' + i + '][age]"]').val();
+                    var pushUps = $('[name="soldier[' + i + '][pu]"]').val();
+                    var sitUps = $('[name="soldier[' + i + '][su]"]').val();
+                    var runTime = $('[name="soldier[' + i + '][ru]"]').val();
+                    var runSeconds = parseInt(runTime.substr(0, runTime.indexOf(':'))) * 60 + parseInt(runTime.substr(runTime.indexOf(':') + 1));
+                    
+                    if (name != '' && (age == '' || pushUps == '' || sitUps == '' || runTime == '')) {
+                        if (age == '') {
+                            errors.push([i, 'age']);
+                        } if (pushUps == '') {
+                            errors.push([i, 'pu']);
+                        } if (sitUps == '') {
+                            errors.push([i, 'su']);
+                        } if (runTime == '') {
+                            errors.push([i, 'ru']);
+                        }
+                    } else if (name == '') {
+                        
+                    } else {
+                        // If age greater than 17, then set it to 17. If age less than 13, set it to 13. Otherwise set to age inputted.
+                        var genderAge = gender + (age > 17 ? '17' : (age < 13 ? '13' : age));
+
+                        var pushUpScore = 0;
+                        var sitUpScore = 0;
+                        var runScore = 0;
+
+                        for (var j = 0; j < eventScores.length; j += 1) {
+                            if (pushUpScore == 0 && pushUps >= pushUpScores[genderAge][j]) {
+                                pushUpScore = eventScores[j];
+                            }
+
+                            if (sitUpScore == 0 && sitUps >= sitUpScores[genderAge][j]) {
+                                sitUpScore = eventScores[j];
+                            }
+
+                            if (runScore == 0 && runSeconds <= runScores[genderAge][j]) {
+                                runScore = eventScores[j];
+                            }
+                        }
+
+                        var overallScore = pushUpScore + sitUpScore + runScore;
+                        if (overallScore >= 240 && pushUpScore >= 50 && sitUpScore >= 50 && runScore >= 50) {
+                            var overallResult = 'Outstanding'; 
+                        } else if (overallScore >= 210 && pushUpScore >= 50 && sitUpScore >= 50 && runScore >= 50) {
+                            var overallResult = 'Excellent'; 
+                        } else if (overallScore >= 180 && pushUpScore >= 50 && sitUpScore >= 50 && runScore >= 50) {
+                            var overallResult = 'Good';  
+                        } else if (overallScore >= 150 && pushUpScore >= 50 && sitUpScore >= 50 && runScore >= 50) {
+                            var overallResult = 'Satisfactory';
+                        } else {
+                            var overallResult = 'Not Award Eligible';
+                        }
+
+                        soldierScores.push({name: name, situps: sitUps, pushups: pushUps, run: runTime, score: overallScore, result: overallResult});
+                    }
+                }
+                
+                if (errors.length == 0 && $("#classNumber").val() != '') {
+                    displayResults();
+                } else {
+                    if ($("#classNumber").val() == '') {
+                        soldierScores = [];
+                        $("#classNumber").addClass('missing');
+                    }
+                    displayErrors(errors);
+                }
+            }
+
+            function displayResults() {
+                /*
+                var today = new Date();                
+                var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var daysOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+                var date = daysOfWeek[today.getDay()] + " " + today.getDate() + " " + months[today.getMonth()] + " " + today.getFullYear()
+                */
+                
+                var body = [];
+                body.push([{text: 'CADET', style: 'tableHeader'}, {text: 'SIT-UPS', style: 'tableHeader'}, {text: 'PUSH-UPS', style: 'tableHeader'}, {text: 'RUN', style: 'tableHeader'}, {text: 'POINTS', style: 'tableHeader'}, {text: 'AWARD', style: 'tableHeader'}]);
+                
+                for (var i = 0; i < soldierScores.length; i += 1) {
+                    body.push([{text: soldierScores[i].name}, {text: '' + soldierScores[i].situps}, {text: '' + soldierScores[i].pushups}, {text: '' + soldierScores[i].run}, {text: '' + soldierScores[i].score}, {text: soldierScores[i].result}]);
+                }
+                
+                soldierScores = [];
+
+                var docDefinition = {
+                    content: [
+                        {
+                            text: 'Fitness Test',
+                            style: 'header'
+                        },
+                        {
+                            text: 'Date: ' + $("#dateInput").val(), 
+                            style: 'subheader'
+                        },
+                        {
+                            text: 'Class: ' + $("#classNumber").val(), 
+                            style: 'subheader'
+                        },
+                        {
+                            table: {
+                                widths: ['auto', '*', '*', '*', '*', 'auto'],
+                                body: body
+                            }, 
+                            margin: [0, 0, 0, 0],
+                            style: 'table'
+                        }
+                    ],
+                    styles: {
+                        table: {
+                            fontSize: 14,
+                            alignment: 'center'
+                        },
+                        header: {
+                            fontSize: 32,
+                            alignment: 'center'
+                        },
+                        subheader: {
+                            fontSize: 24,
+                            alignment: 'center'
+                        },
+                        tableHeader: {
+                            fontWeight: 'bold',
+                            color: '#133250'
+                        }
+                    }
+                };
+
+                pdfMake.createPdf(docDefinition).download('soldierscores.pdf');
+            }
+
+            function displayErrors(errors) {
+                for (var i = 0; i < errors.length; i += 1) {
+                    $('[name="soldier[' + errors[i][0] + '][' + errors[i][1] + ']"]').addClass('missing');
+                }
+
+                alert('There is some missing information. Please fill out the light green boxes');
+            }
+        </script>
+    </body>
+</html>

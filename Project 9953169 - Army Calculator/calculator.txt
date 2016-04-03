@@ -1,0 +1,327 @@
+        <style>
+            
+            #calccontainer p {
+                margin: 1% 0;
+            }
+            
+            .inputLabel {
+                float: left;
+                width: 40%;
+                text-align: right;
+                margin-right: 3%;
+            }
+            
+            .inputRow {
+                padding: 5px;
+            }
+            
+            #calccontainer select {
+                width: 50%;
+                padding: 5px;
+            }
+            
+            #calccontainer input {
+                padding: 5px;
+            }
+            
+            #calccontainer input:not(#minuteInput):not(#secondInput) {
+                width: 47%;
+            }
+            
+            #minuteInput, #secondInput {
+                width: 19.7%;
+            }
+            
+            @media (max-width: 900px) {
+                #minuteInput, #secondInput {
+                    width: 15.7%;
+                }
+            }
+            
+            #scoreContainer {
+                text-align: center;
+            }
+            
+            #breakdownContainer {
+                text-align: right;
+                padding-right: 28%;
+                margin-top: 4%;
+            }
+            
+            @media (max-width: 1100px) {
+                #breakdownContainer {
+                    padding-right: 19%;
+                }
+            }
+            
+            @media (max-width: 950px) {
+                #breakdownContainer {
+                    padding-right: 10%;
+                }
+            }
+            
+            #resultDisplay {
+                font-size: large;
+            }
+            
+            #scoreDisplay {
+                font-size: x-large;
+                font-weight: bold;
+            }
+            
+            #resultImage {
+                text-align: center;
+                padding: 10px;
+            }
+            
+            #calccontainer {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: 'Verdana', 'Arial', sans-serif;
+            }
+            
+            #calcheader {
+                background-color: #133250;
+            }
+            
+            #calcheader td {
+                width: 33%;
+            }
+            
+            #patriot {
+                float: left;
+                color: red;
+                font-size: 300%;
+                text-align: right;
+                width: 100%;
+            }
+            
+            #mainLogoContainer, #navyLogoContainer {
+                text-align: center;
+            }
+            
+            #mainLogo {
+                height: 100px;
+            }
+            
+            #navyLogo {
+                width: 45%;
+                min-width: 130px;
+            }
+            
+            #njrotc {
+                float: right;
+                color: white;
+                font-size: 300%;
+                text-align: left;
+                width: 100%;
+            }
+            
+            @media (max-width: 800px) {
+                #patriot, #njrotc {
+                    font-size: 250%;
+                }
+            }
+            
+            #calcbody {
+                background-color: #a6a6a6;
+            }
+            
+            #calcbody td {
+                padding: 25px 0;
+            }
+            
+            #calculateButton {
+                float: right;
+                margin-right: 8%;
+                padding: 10px;
+                margin-top: 10px;
+            }
+            
+            #result {
+                color: red;
+                font-size: 200%;
+                text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+                margin: 0;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            #calcfooter {
+                background-color: #10253f;
+                color: white;
+                text-align: center;
+                font-size: 300%;
+            }
+            
+            @media (max-width: 800px) {
+                #calcfooter {
+                    font-size: 200%;
+                }
+            }
+        </style>
+        
+        <table id='calccontainer'>
+            <tr id='calcheader'>
+                <td colspan="3">
+                    <div id='mainLogoContainer'>                        
+			<img id='mainLogo' src='https://i.imgsafe.org/6c57779.png' alt='main logo'>
+                    </div>
+                </td>
+            </tr>
+            <tr id='calcbody'>
+                <td>
+                    <div id='calculator'>
+                        <div class='inputRow'>
+                            <div class='inputLabel'>Gender</div>
+                            <select id='genderDropdown'>
+                                <option value='male'>Male</option>
+                                <option value='female'>Female</option>
+                            </select>
+                        </div>
+                        <div class='inputRow'>
+                            <div class='inputLabel'>Age</div>
+                            <input type='number' id='ageInput' placeholder="0">
+                        </div>
+                        <div class='inputRow'>
+                            <div class='inputLabel'>Sit Ups</div>
+                            <input type='number' id='sitUpInput' placeholder="0">
+                        </div>
+                        <div class='inputRow'>
+                            <div class='inputLabel'>Push Ups</div>
+                            <input type='number' id='pushUpInput' placeholder="0">
+                        </div>
+                        <div class='inputRow'>
+                            <div class='inputLabel'>1 Mile Run</div>
+                            <div id='timeInput'>
+                                <input type='number' id='minuteInput' placeholder="min">
+                                :
+                                <input type='number' id='secondInput' placeholder="sec">
+                            </div>
+                        </div>
+                        <button type='button' id='calculateButton' onclick='calculate()'>Calculate</button>
+                    </div>
+                </td>
+                <td>
+                    <div id='navyLogoContainer'>
+                        <img id='navyLogo' src='https://i.imgsafe.org/9722c54.png' alt='navy logo'>
+                    </div>
+                </td>
+                <td>
+                    <p id='result'>RESULTS</p>
+                    <div id='resultImage'></div>
+                    <div id='scoreContainer'>
+                        <div id='scoreDisplay'>Score: 0 / 300</div>
+                        <div id='resultDisplay'>Result: n/a</div>
+                    </div>
+                    <div id='breakdownContainer'>
+                        <div id='situpScoreDisplay'>Sit Ups Score: 0 / 100</div>
+                        <div id='pushupScoreDisplay'>Push Ups Score: 0 / 100</div>
+                        <div id='runScoreDisplay'>Run Score: 0 / 100</div>
+                    </div>
+                </td>
+            </tr>
+            <tr id='calcfooter'>
+                <td colspan="3">
+                    <p id='footerText'>FITNESS TEST CALCULATOR</p>
+                </td>
+            </tr>
+        </table>
+  
+        <script>
+            var eventScores = [100, 95, 90, 85, 82, 78, 75, 70, 65, 62, 59, 56, 53, 50];
+
+            var sitUpScores = {
+                'female13': [72, 52, 50, 46, 44, 42, 42, 40, 40, 38, 37, 36, 35, 33], 
+                'female14': [72, 53, 49, 47, 45, 43, 42, 41, 40, 39, 37, 36, 35, 34], 
+                'female15': [74, 55, 51, 48, 46, 44, 41, 40, 39, 37, 36, 35, 34, 32], 
+                'female16': [77, 53, 49, 45, 43, 41, 40, 38, 37, 36, 35, 34, 33, 32], 
+                'female17': [67, 53, 47, 44, 41, 40, 38, 37, 36, 35, 34, 33, 31, 30], 
+                'male13': [76, 59, 55, 53, 51, 50, 48, 46, 45, 43, 42, 41, 40, 39], 
+                'male14': [79, 62, 58, 56, 54, 52, 51, 49, 48, 47, 45, 44, 42, 41], 
+                'male15': [81, 62, 59, 57, 55, 53, 51, 50, 49, 47, 45, 44, 43, 41], 
+                'male16': [77, 62, 58, 56, 53, 51, 50, 48, 48, 46, 45, 44, 42, 40], 
+                'male17': [73, 61, 57, 55, 53, 51, 50, 48, 46, 45, 44, 43, 41, 40]
+            };
+
+            var pushUpScores = {
+                'female13': [28, 25, 22, 21, 17, 17, 15, 14, 13, 12, 11, 10, 10, 8], 
+                'female14': [29, 25, 21, 20, 19, 15, 12, 11, 10, 10, 10, 9, 8, 5], 
+                'female15': [38, 34, 23, 20, 20, 20, 18, 18, 16, 15, 15, 15, 13, 11], 
+                'female16': [38, 32, 26, 24, 22, 20, 19, 16, 15, 13, 12, 12, 12, 11], 
+                'female17': [31, 29, 28, 25, 22, 20, 19, 18, 17, 16, 16, 15, 15, 14], 
+                'male13': [54, 51, 41, 39, 35, 35, 31, 30, 28, 26, 24, 21, 20, 20], 
+                'male14': [52, 47, 41, 40, 37, 32, 30, 28, 25, 24, 24, 22, 21, 20], 
+                'male15': [54, 50, 44, 42, 40, 37, 35, 34, 32, 31, 30, 30, 27, 25], 
+                'male16': [62, 59, 46, 44, 41, 40, 36, 34, 32, 30, 30, 29, 28, 25], 
+                'male17': [64, 60, 56, 53, 50, 46, 44, 43, 41, 40, 37, 35, 34, 30]
+            };
+
+            var runScores = {
+                'female13': [342, 441, 469, 493, 509, 529, 549, 570, 590, 607, 623, 657, 680, 700], 
+                'female14': [300, 440, 463, 479, 500, 516, 530, 549, 567, 591, 606, 625, 651, 670], 
+                'female15': [351, 445, 472, 488, 504, 520, 535, 549, 563, 577, 598, 618, 640, 660], 
+                'female16': [358, 446, 475, 503, 519, 530, 551, 565, 588, 609, 631, 658, 675, 704], 
+                'female17': [380, 442, 478, 495, 514, 532, 555, 573, 591, 608, 622, 648, 665, 680], 
+                'male13': [340, 385, 399, 410, 420, 431, 440, 449, 461, 475, 486, 497, 515, 534], 
+                'male14': [270, 361, 373, 386, 393, 405, 419, 429, 439, 449, 464, 479, 493, 510], 
+                'male15': [282, 350, 367, 380, 389, 398, 408, 417, 426, 436, 450, 459, 472, 488], 
+                'male16': [289, 340, 356, 368, 378, 385, 393, 404, 410, 418, 430, 440, 455, 473], 
+                'male17': [286, 335, 357, 366, 374, 383, 392, 400, 410, 417, 424, 434, 444, 455]
+            };
+
+            function calculate() {
+                var gender = $("#genderDropdown").val();
+                var age = $("#ageInput").val();
+                var pushUps = $("#pushUpInput").val();
+                var sitUps = $("#sitUpInput").val();
+                var runSeconds = parseInt($("#minuteInput").val()) * 60 + parseInt($("#secondInput").val());
+
+                // If age greater than 17, then set it to 17. If age less than 13, set it to 13. Otherwise set to age inputted.
+                var genderAge = gender + (age > 17 ? '17' : (age < 13 ? '13' : age));
+
+                var pushUpScore = 0;
+                var sitUpScore = 0;
+                var runScore = 0;
+
+                for (var i = 0; i < eventScores.length; i += 1) {
+                    if (pushUpScore == 0 && pushUps >= pushUpScores[genderAge][i]) {
+                        pushUpScore = eventScores[i];
+                    }
+
+                    if (sitUpScore == 0 && sitUps >= sitUpScores[genderAge][i]) {
+                        sitUpScore = eventScores[i];
+                    }
+
+                    if (runScore == 0 && runSeconds <= runScores[genderAge][i]) {
+                        runScore = eventScores[i];
+                    }
+                }
+
+                var overallScore = pushUpScore + sitUpScore + runScore;
+                if (overallScore >= 240 && pushUpScore >= 50 && sitUpScore >= 50 && runScore >= 50) {
+                    var overallResult = 'Outstanding'; 
+                    var imgHTML = '<img src="https://i.imgsafe.org/8ae2f3e.png" alt="gold">';
+                } else if (overallScore >= 210 && pushUpScore >= 50 && sitUpScore >= 50 && runScore >= 50) {
+                    var overallResult = 'Excellent'; 
+                    var imgHTML = '<img src="https://i.imgsafe.org/9decaed.png" alt="silver">';
+                } else if (overallScore >= 180 && pushUpScore >= 50 && sitUpScore >= 50 && runScore >= 50) {
+                    var overallResult = 'Good';  
+                    var imgHTML = '<img src="https://i.imgsafe.org/85590b6.png" alt="bronze">';
+                } else if (overallScore >= 150 && pushUpScore >= 50 && sitUpScore >= 50 && runScore >= 50) {
+                    var overallResult = 'Satisfactory';
+                    var imgHTML = '<img src="https://i.imgsafe.org/98bd2a5.png" alt="ribbon">';
+                } else {
+                    var overallResult = 'Not Award Eligible';
+                    var imgHTML = '';
+                }
+
+                $("#pushupScoreDisplay").text('Push Ups Score: ' + pushUpScore + ' / 100');
+                $("#situpScoreDisplay").text('Sit Ups Score: ' + sitUpScore + ' / 100');
+                $("#runScoreDisplay").text('Run Score: ' + runScore + ' / 100');
+
+                $("#scoreDisplay").text('Score: ' + overallScore + ' / 300');
+                $("#resultDisplay").text('Result: ' + overallResult);
+                $("#resultImage").empty().append(imgHTML);
+            }
+        </script>

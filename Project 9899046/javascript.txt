@@ -1,0 +1,35 @@
+var parsedXML = [];
+            function loadSubjects() {
+                var html = '';
+                for (var i = 0; i < parsedXML.length; i += 1) {
+                    html += "<option value='" + parsedXML[i][0].textContent + "'>" + parsedXML[i][1].textContent + "</option>";
+                }
+                document.getElementById("subjectDropdown").innerHTML = html;
+            }
+
+            function loadTopics() {
+                var html = '';
+                var topics = parsedXML[document.getElementById("subjectDropdown").selectedIndex][2];
+                for (var i = 0; i < topics.length; i += 1) {
+                    html += "<option value='" + topics[i][0].textContent + "'>" + topics[i][1].textContent + "</option>";
+                }
+                document.getElementById("topicDropdown").innerHTML = html;
+            }
+
+            window.onload = function() {
+                $.get('/e/t/servicecenter/getcsmsgdata.xml?selAccountId=acctItem&instName=instName&instNum=instNum', function(data) {
+                    //var xmlDoc = data.responseXML;
+                    var subjects = data.getElementsByTagName("Subject");
+                    for (var i = 0; i < subjects.length; i += 1) {
+                        var subject = subjects[i].children;
+                        // Add subject id and description
+                        var tempArray = [subject[0], subject[2], []];
+                        for (var j = 4; j < subject.length; j += 1) {
+                            var topic = subject[j].children;
+                            tempArray[2].push([topic[1], topic[2]])
+                        }
+
+                        parsedXML.push(tempArray);
+                    }
+                });
+            }

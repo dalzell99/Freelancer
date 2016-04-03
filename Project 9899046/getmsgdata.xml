@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding="iso-8859-1"?> 
+   <root > 
+      <applicationname >servicecenter</applicationname> 
+      <pagename >getcsmsgdata</pagename> 
+      <result > 
+         <subjecttopic > 
+            <Count >13.0</Count> 
+               <Subject > 
+                  <SubjectId >1002</SubjectId> 
+                  <CsmsgTopicCount >8</CsmsgTopicCount> 
+                  <SubjectDescription >Account Services</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1002</SubjectId> 
+                        <TopicId >2183</TopicId> 
+                        <TopicDescription >Account Setup</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1002</SubjectId> 
+                        <TopicId >2187</TopicId> 
+                        <TopicDescription >Account Statements</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1002</SubjectId> 
+                        <TopicId >2004</TopicId> 
+                        <TopicDescription >Close Account</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1002</SubjectId> 
+                        <TopicId >2197</TopicId> 
+                        <TopicDescription >Fees/Service Charges</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1002</SubjectId> 
+                        <TopicId >4970</TopicId> 
+                        <TopicDescription >hello2</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1002</SubjectId> 
+                        <TopicId >2205</TopicId> 
+                        <TopicDescription >New Accounts</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1002</SubjectId> 
+                        <TopicId >2209</TopicId> 
+                        <TopicDescription >Promotions</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1002</SubjectId> 
+                        <TopicId >2006</TopicId> 
+                        <TopicDescription >Registration Update</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1001</SubjectId> 
+                  <CsmsgTopicCount >4</CsmsgTopicCount> 
+                  <SubjectDescription >ATM Card</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1001</SubjectId> 
+                        <TopicId >2001</TopicId> 
+                        <TopicDescription >Lost/Stolen Card</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1001</SubjectId> 
+                        <TopicId >2214</TopicId> 
+                        <TopicDescription >New Pin</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1001</SubjectId> 
+                        <TopicId >2215</TopicId> 
+                        <TopicDescription >Request a New Card</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1001</SubjectId> 
+                        <TopicId >2002</TopicId> 
+                        <TopicDescription >Transaction Issue</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1039</SubjectId> 
+                  <CsmsgTopicCount >1</CsmsgTopicCount> 
+                  <SubjectDescription >Bill Payment</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1039</SubjectId> 
+                        <TopicId >2234</TopicId> 
+                        <TopicDescription >Payment Issue</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1042</SubjectId> 
+                  <CsmsgTopicCount >7</CsmsgTopicCount> 
+                  <SubjectDescription >Cost Basis</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1042</SubjectId> 
+                        <TopicId >2260</TopicId> 
+                        <TopicDescription >Account Transfers</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1042</SubjectId> 
+                        <TopicId >2261</TopicId> 
+                        <TopicDescription >DRIP</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1042</SubjectId> 
+                        <TopicId >2262</TopicId> 
+                        <TopicDescription >Gifts / Inheritances</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1042</SubjectId> 
+                        <TopicId >2272</TopicId> 
+                        <TopicDescription >Historical Cost Basis</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1042</SubjectId> 
+                        <TopicId >2263</TopicId> 
+                        <TopicDescription >Mutual Funds</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1042</SubjectId> 
+                        <TopicId >2264</TopicId> 
+                        <TopicDescription >Short Sales</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1042</SubjectId> 
+                        <TopicId >2265</TopicId> 
+                        <TopicDescription >Wash Sales</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1003</SubjectId> 
+                  <CsmsgTopicCount >4</CsmsgTopicCount> 
+                  <SubjectDescription >Deposits &amp; Withdrawals</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1003</SubjectId> 
+                        <TopicId >2010</TopicId> 
+                        <TopicDescription >Account Transfer</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1003</SubjectId> 
+                        <TopicId >2011</TopicId> 
+                        <TopicDescription >Funds Transfer</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1003</SubjectId> 
+                        <TopicId >2012</TopicId> 
+                        <TopicDescription >Status of a Deposit</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1003</SubjectId> 
+                        <TopicId >2216</TopicId> 
+                        <TopicDescription >Stock Certificates</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >2287</SubjectId> 
+                  <CsmsgTopicCount >5</CsmsgTopicCount> 
+                  <SubjectDescription >Dividends</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >2287</SubjectId> 
+                        <TopicId >3434</TopicId> 
+                        <TopicDescription >Dividend Inquiry</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >2287</SubjectId> 
+                        <TopicId >3430</TopicId> 
+                        <TopicDescription >DRIP Enrollment</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >2287</SubjectId> 
+                        <TopicId >3432</TopicId> 
+                        <TopicDescription >DRIP Inquiry</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >2287</SubjectId> 
+                        <TopicId >3431</TopicId> 
+                        <TopicDescription >DRIP Withdrawal</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >2287</SubjectId> 
+                        <TopicId >3433</TopicId> 
+                        <TopicDescription >Optional Dividend Election</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1044</SubjectId> 
+                  <CsmsgTopicCount >2</CsmsgTopicCount> 
+                  <SubjectDescription >Mobile</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1044</SubjectId> 
+                        <TopicId >2278</TopicId> 
+                        <TopicDescription >Feature Request</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1044</SubjectId> 
+                        <TopicId >2279</TopicId> 
+                        <TopicDescription >Product Assistance</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1005</SubjectId> 
+                  <CsmsgTopicCount >2</CsmsgTopicCount> 
+                  <SubjectDescription >Portfolio</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1005</SubjectId> 
+                        <TopicId >2015</TopicId> 
+                        <TopicDescription >Account Balance</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1005</SubjectId> 
+                        <TopicId >2016</TopicId> 
+                        <TopicDescription >Account Positions</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1035</SubjectId> 
+                  <CsmsgTopicCount >3</CsmsgTopicCount> 
+                  <SubjectDescription >Reorganizations</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1035</SubjectId> 
+                        <TopicId >2135</TopicId> 
+                        <TopicDescription >Rights/Warrants</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1035</SubjectId> 
+                        <TopicId >2138</TopicId> 
+                        <TopicDescription >Stock Splits/Spin Offs</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1035</SubjectId> 
+                        <TopicId >2132</TopicId> 
+                        <TopicDescription >Tender/Merger Elections</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1006</SubjectId> 
+                  <CsmsgTopicCount >7</CsmsgTopicCount> 
+                  <SubjectDescription >Tax &amp; Retirement</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1006</SubjectId> 
+                        <TopicId >2020</TopicId> 
+                        <TopicDescription >401K Rollover</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1006</SubjectId> 
+                        <TopicId >2170</TopicId> 
+                        <TopicDescription >Beneficiary/Estate Issues</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1006</SubjectId> 
+                        <TopicId >2021</TopicId> 
+                        <TopicDescription >Contributions/Distributions</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1006</SubjectId> 
+                        <TopicId >2174</TopicId> 
+                        <TopicDescription >Recharacterization/Excess Removal</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1006</SubjectId> 
+                        <TopicId >2175</TopicId> 
+                        <TopicDescription >Roth Conversion</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1006</SubjectId> 
+                        <TopicId >2023</TopicId> 
+                        <TopicDescription >Tax Records</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1006</SubjectId> 
+                        <TopicId >2177</TopicId> 
+                        <TopicDescription >W-8BEN or W-9 Inquiry</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1008</SubjectId> 
+                  <CsmsgTopicCount >5</CsmsgTopicCount> 
+                  <SubjectDescription >Technical Issues</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1008</SubjectId> 
+                        <TopicId >2274</TopicId> 
+                        <TopicDescription >Beta Digital Token App Request</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1008</SubjectId> 
+                        <TopicId >2242</TopicId> 
+                        <TopicDescription >E*TRADE API</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1008</SubjectId> 
+                        <TopicId >2028</TopicId> 
+                        <TopicDescription >ET Pro</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1008</SubjectId> 
+                        <TopicId >2031</TopicId> 
+                        <TopicDescription >Quicken/MSMoney/TurboTax</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1008</SubjectId> 
+                        <TopicId >2117</TopicId> 
+                        <TopicDescription >Website</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >3317</SubjectId> 
+                  <CsmsgTopicCount >2</CsmsgTopicCount> 
+                  <SubjectDescription >test</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >3317</SubjectId> 
+                        <TopicId >4977</TopicId> 
+                        <TopicDescription >test</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >3317</SubjectId> 
+                        <TopicId >4978</TopicId> 
+                        <TopicDescription >test</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+               <Subject > 
+                  <SubjectId >1007</SubjectId> 
+                  <CsmsgTopicCount >5</CsmsgTopicCount> 
+                  <SubjectDescription >Trading &amp; Investing</SubjectDescription> 
+                  <IsActiveFlag >1</IsActiveFlag> 
+                     <Topic > 
+                        <SubjectId >1007</SubjectId> 
+                        <TopicId >2222</TopicId> 
+                        <TopicDescription >Balance Updates/Buying Power</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1007</SubjectId> 
+                        <TopicId >2225</TopicId> 
+                        <TopicDescription >Placing a Trade</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1007</SubjectId> 
+                        <TopicId >2147</TopicId> 
+                        <TopicDescription >Trade Inquiry</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1007</SubjectId> 
+                        <TopicId >2230</TopicId> 
+                        <TopicDescription >Trade Settlement</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+                     <Topic > 
+                        <SubjectId >1007</SubjectId> 
+                        <TopicId >2027</TopicId> 
+                        <TopicDescription >Trading History</TopicDescription> 
+                        <IsActiveFlag >1</IsActiveFlag> 
+                     </Topic> 
+               </Subject> 
+         </subjecttopic> 
+      </result> 
+      <errMsgBuffer > 
+         <errMsg ></errMsg> 
+      </errMsgBuffer> 
+      <validation_time > 
+         <servicecenter.getcsmsgdata.validation_duration >53</servicecenter.getcsmsgdata.validation_duration> 
+      </validation_time> 
+   </root> 
+

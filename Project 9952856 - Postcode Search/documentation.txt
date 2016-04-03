@@ -1,0 +1,155 @@
+Installation:
+1. Extract zip folder I sent
+2. Create MySQL database
+3. Change the values in the 'databasedetails.php' file in the PHP folder to the ones you just set
+4. Create tables by importing the 'import.sql' file into phpMyAdmin (or whatever software you use)
+5. Upload files in unzipped folder to your webhost
+5. Create cron task to run the 'logintimechecker.php' file either on web host or crondash.com
+6. Test to make sure everything is working
+
+Changelog:
+- Added user login
+- Added user registration
+- Hide menu items that didn't relate to current page
+- Added ability for warehouse users to check for available delivery users that operate in certain postcodes
+- Added ability for warehouse users to start a conversation with delivery users from the 'Check Availability' page
+- Added ability for users to check their messages in the 'Messages' page
+- User list in 'Messages' page updates every 20 seconds
+- Added ability to view a conversation by clicking/tapping users name in 'Messages' page user list
+- Added ability to send more messages from inside the conversation
+- User list and messages are displayed newest first
+- Added user logout
+- Added ability for warehouse to change their basecamp postcode
+- Added ability for delivery users to change their availability
+- Added ability to add multiple non consecutive postcodes for delivery users
+- When delivery users log out then their availability is set to 'n'
+- Added the 'Maybe' availability
+- If a delivery user is set as available but hasn't been on the website for 30-60 minutes their availability is set to 'p' (Maybe) and 'n' (No) if been away for more than 60 minutes
+- Added ability for delivery users to change their postcodes
+
+Database and PHP script descriptions
+  Database Tables:
+    Users:
+      - id int (primary auto-increment)
+      - username varchar(100) (unique)
+      - password varchar(100) NOTE: plaintext
+      - name varchar(100)
+      - basecamp varchar(100)
+      - postcode1 varchar(500) NOTE: json array of postcodes
+      - url varchar(2000)
+      - email varchar(100)
+      - type varchar(50)
+      - available varchar(5) NOTE: 'n' for No and 'y' for Yes. Maybe hasn't been added yet.
+      - lastTimeLoggedIn varchar(50)
+
+    Messages
+      - id int (primary auto-increment)
+      - sender varchar(100)
+      - receiver varchar(100)
+      - message text
+      - timeSent varchar(50) NOTE: format is yyyy-mm-dd hh:mm:ss
+
+PHP scripts: 
+NOTE: all php scripts return "Failed to connect to MySQL: " + mysqli_connect_error() if can connect with database
+NOTE: all input variables are POST
+  changepostcode: 
+    Purpose: Change postcode of warehouse user
+    Input variables:
+      username - username of warehouse
+      postcode - array of postcodes as ints
+    Outputs:
+      'success' - if postcodes are updated
+      'fail' + SQL query - if postcode isn't updated (SQL query syntax was wrong)
+   
+  checkavailable:
+    Purpose: Return array of available users in warehouse and destination postcodes
+    Input variables:
+      warehouse - postcode of warehouse
+      destination - postcode of destination
+    Outputs:
+      json array with all available delivery users in correct postcodes - if SQL query syntax is correct
+      json encode of 'Select query failed' - if SQL query syntax is incorrect
+
+  createnewuser
+    Purpose: Create a new user
+    Input variables:
+      username - username of new user
+      password - password of new user
+      type - account type (warehouse/delivery)
+      name - name of person or warehouse
+      basecamp - address of basecamp
+      postcode1 - json array of postcodes
+      url - nothing
+      email - email address of user
+    Outputs:
+      'success' - if new user added to database
+      'fail' - if new user not added to database (SQL query syntax is incorrect)
+
+  databasedetails:
+    Purpose: Hold the login details of the datasbase
+
+  getallmessages:
+    Purpose: Return array of messages that user was involved in
+    Input variables:
+      username - username of user
+    Outputs:
+      json array with all messages user was involved in - if SQL query syntax is correct
+      json encode of 'Select query failed' - if SQL query syntax is incorrect
+
+  getconversation:
+    Purpose: Return array of messages between 2 users
+    Input variables:
+      username - username of user
+      otherUser - username of other user
+    Outputs:
+      json array with all messages between both users - if SQL query syntax is correct
+      json encode of 'Select query failed' - if SQL query syntax is incorrect
+
+  login:
+    Purpose: Check if user exists. If yes, check password. If no, return 'usernamenotfound'.
+    Input variables:
+      username - username of user
+      password - password of user
+    Outputs:
+      json array with 'correct', accountType and postcode1 - if username found and password correct
+      json array with 'incorrect' - if username found but password incorrect
+      json array with 'usernamenotfound' - if username not found
+      json array with 'Select query failed' - if SQL query syntax is incorrect
+
+  sendmessage:
+    Purpose: Add a message to Messages table in database
+    Input variables:
+      sender - username of sender
+      receiver - username of receiver
+      message - message to be uploaded
+    Outputs:
+      'success' - if message uploaded
+      'fail' + SQL query - if message not uploaded (SQL query syntax incorrect)
+
+  setavailable:
+    Purpose: Set the availability of a delivery user
+    Input variables:
+      username - username of user
+      available - 'n' for No and 'y' for Yes
+    Outputs:
+      'success' - if availability changed
+      'fail' - if availability not changed (SQL query syntax incorrect)
+
+  logintimechecker:
+    Purpose: Check the last login times for all the users and change availability
+    Output: 
+       'success' + number of games changed - if all MySQL queries were successful
+       'fail' + SQL query that failed - if a MySQL query failed
+
+  setavailable:
+    Purpose: Update the time in database to show user is still logged in
+    Input variables:
+      username - username of user
+    Outputs:
+      'success' - if availability changed
+      'fail' + SQL query - if availability not changed (SQL query syntax incorrect)
+
+Dependencies:
+Bootstrap - included in files
+jQuery - included in files
+

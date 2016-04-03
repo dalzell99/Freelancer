@@ -1,0 +1,12 @@
+I will:
+- Create a MySQL database with 2 tables (Users and Messages)
+- I will write PHP scripts that:
+    - Check login details
+    - Create a new user if they aren't already in database
+    - Searchs the postcodes of the users to find which ones operate in postcode entered by warehouse
+    - Change availibility of delivery user
+    - Sends chat messages
+    - Retrieves all chat messages for that user
+- Make chat auto update every 20 seconds
+- Display chat using Freelancer format with newest messages first and chats with different users kept separate
+- Create documentation

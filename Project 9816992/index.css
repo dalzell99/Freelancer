@@ -1,0 +1,47 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+#tableContainer {
+  display: none;
+}
+
+#menuTable {
+  text-align: center;
+  border-collapse: collapse;
+  background-color: white;
+  margin: 10px;
+}
+
+#menuTable th {
+  border: 1px black solid;
+  background-color: #33b5e5;
+  color: snow;
+  padding: 10px;
+  text-align: center;
+}
+
+#menuTable td {
+  border: 1px black solid;
+  padding: 5px;
+}
+
+.label {
+  width: 10%;
+  float: left;
+}
+
+button {
+  background-color: #33bdef;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 6px 24px;
+  border: 0;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #019ad2;
+}

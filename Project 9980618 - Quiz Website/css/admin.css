@@ -1,0 +1,43 @@
+#userContainer, #quizContainer,
+#testimonialContainer, #promotionContainer,
+#createQuizContainer, #createQuizUpdateButton,
+#createTestimonialContainer {
+  display: none;
+}
+
+.databaseTable {
+  text-align: center;
+  border-collapse: collapse;
+  background-color: white;
+  margin: 0 1px;
+}
+
+.databaseTable th {
+  border: 1px black solid;
+  background-color: #33b5e5;
+  color: snow;
+  padding: 10px;
+  text-align: center;
+}
+
+.databaseTable td {
+  border: 1px black solid;
+  padding: 5px;
+}
+
+.rowfix {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+body {
+  padding-bottom: 10px;
+}
+
+.selectedAnswer {
+  background-color: #ffffc0;
+}
+
+.promotionImages {
+  width: 500px;
+}

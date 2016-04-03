@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    </head>
+    <body>
+        <select id='accountDropdown' onchange='loadSubjects()'>
+            <option value='account0'></option>
+            <option value='account1'>Account 1</option>
+            <option value='account2'>Account 2</option>
+            <option value='account3'>Account 3</option>
+            <option value='account4'>Account 4</option>
+            <option value='account5'>Account 5</option>
+        </select>
+        
+        <select id='subjectDropdown' onchange='loadTopics()'></select>
+        
+        <select id='topicDropdown'></select>
+        
+        <script type='application/javascript'>
+            var parsedXML = [];
+            function loadSubjects() {
+                var html = '';
+                for (var i = 0; i < parsedXML.length; i += 1) {
+                    html += "<option value='" + parsedXML[i][0].textContent + "'>" + parsedXML[i][1].textContent + "</option>";
+                }
+                document.getElementById("subjectDropdown").innerHTML = html;
+            }
+
+            function loadTopics() {
+                var html = '';
+                var topics = parsedXML[document.getElementById("subjectDropdown").selectedIndex][2];
+                for (var i = 0; i < topics.length; i += 1) {
+                    html += "<option value='" + topics[i][0].textContent + "'>" + topics[i][1].textContent + "</option>";
+                }
+                document.getElementById("topicDropdown").innerHTML = html;
+            }
+
+            window.onload = function() {
+                // loadDoc();
+                $.get('getcsmsgdata.xml?selAccountId=acctItem&instName=instName&instNum=instNum', function(data) {
+                    //var xmlDoc = data.responseXML;
+                    var subjects = data.getElementsByTagName("Subject");
+                    for (var i = 0; i < subjects.length; i += 1) {
+                        var subject = subjects[i].children;
+                        // Add subject id and description
+                        var tempArray = [subject[0], subject[2], []];
+                        for (var j = 4; j < subject.length; j += 1) {
+                            var topic = subject[j].children;
+                            tempArray[2].push([topic[1], topic[2]])
+                        }
+
+                        parsedXML.push(tempArray);
+                    }
+                });
+            }
+
+            function loadDoc() {
+                /*
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        var xmlDoc = xhttp.responseXML;
+                        var subjects = xmlDoc.getElementsByTagName("Subject");
+                        for (var i = 0; i < subjects.length; i += 1) {
+                            var subject = subjects[i].children;
+                            // Add subject id and description
+                            var tempArray = [subject[0], subject[2], []];
+                            for (var j = 4; j < subject.length; j += 1) {
+                                var topic = subject[j].children;
+                                tempArray[2].push([topic[1], topic[2]])
+                            }
+                            
+                            parsedXML.push(tempArray);
+                        }
+                    }
+                };
+                xhttp.open("GET", "getmsgdata.xml", true);
+                xhttp.send();
+                
+                
+                $.get('getcsmsgdata.xml?selAccountId=acctItem&instName=instName&instNum=instNum', function(data) {
+                    //var xmlDoc = data.responseXML;
+                    var subjects = data.getElementsByTagName("Subject");
+                    for (var i = 0; i < subjects.length; i += 1) {
+                        var subject = subjects[i].children;
+                        // Add subject id and description
+                        var tempArray = [subject[0], subject[2], []];
+                        for (var j = 4; j < subject.length; j += 1) {
+                            var topic = subject[j].children;
+                            tempArray[2].push([topic[1], topic[2]])
+                        }
+
+                        parsedXML.push(tempArray);
+                    }
+                });
+                */
+            }
+        </script>
+    </body>
+</html>

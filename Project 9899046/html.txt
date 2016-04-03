@@ -1,0 +1,12 @@
+<select id='accountDropdown' onchange='loadSubjects()'>
+            <option value='account0'></option>
+            <option value='account1'>Account 1</option>
+            <option value='account2'>Account 2</option>
+            <option value='account3'>Account 3</option>
+            <option value='account4'>Account 4</option>
+            <option value='account5'>Account 5</option>
+        </select>
+        
+        <select id='subjectDropdown' onchange='loadTopics()'></select>
+        
+        <select id='topicDropdown'></select>

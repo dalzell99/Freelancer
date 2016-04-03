@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Bootstrap 3, from LayoutIt!</title>
+
+        <meta name="description" content="Source code generated using layoutit.com">
+        <meta name="author" content="LayoutIt!">
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
+    </head>
+    <body>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills">
+                        <li id='home'>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li id='change'>
+                            <a href="change.html">Change Availability</a>
+                        </li>
+                        <li id='check'>
+				            <a href="check.html">Check Availability</a>
+                        </li>
+                        <li id='messages'>
+                            <a href="messages.html">Messages</a>
+                        </li>
+                        <li id='login' class="active">
+                            <a href="login.html">Login</a>
+                        </li>
+                        <li id='logout'>
+                            <a onclick='logout()'>Logout</a>
+                        </li>
+                        <li class="dropdown pull-right">
+                             <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#">Action</a>
+                                </li>
+                                <li>
+                                    <a href="#">Another action</a>
+                                </li>
+                                <li>
+                                    <a href="#">Something else here</a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                    <a href="#">Separated link</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <form role="form" lpformnum="3">
+                        <div class="form-group">
+                            <label for="username">User name</label>
+                            <input type="text" id="username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="form-control">
+                        </div>
+                        <button id='loginButton' type="button" class="btn btn-default" onclick='login()'>Submit</button>
+                        <div id='buttonContainer'>
+                            <button type="button" class="btn btn-default" onclick='warehouse()'>I am in warehouse</button>
+                            <button type="button" class="btn btn-default" onclick='delivery()'>I am on the road</button>
+                        </div>
+                        <div id='nameContainer' class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" class="form-control">
+                        </div>
+                        <div id='basecampContainer' class="form-group">
+                            <label for="basecamp">Basecamp Address</label>
+                            <input type="text" id="basecamp" class="form-control">
+                        </div>
+                        <div id='postcodeContainer' class="form-group">
+                            <label for="postcode1">Postcodes I cover (format: Use '-' to create a range and ',' to add more non consecutive postcodes and no spaces eg 1000-1002,1010)</label>
+                            <input type="text" id="postcode1" class="form-control">
+                        </div>
+                        <div id='warehousePostcodeContainer' class="form-group">
+                            <label for="warehousePostcode">Basecamp Postcode</label>
+                            <input type="number" id="warehousePostcode" class="form-control">
+                        </div>
+                        <div id='urlContainer' class="form-group">
+                            <label for="url">URL</label>
+                            <input type="text" id="url" class="form-control">
+                        </div>
+                        <div id='emailContainer' class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" id="email" class="form-control">
+                        </div>
+                        <button id='createUserButton' type="button" class="btn btn-default" onclick='createNewUser()'>Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
