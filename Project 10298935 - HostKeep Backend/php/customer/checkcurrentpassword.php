@@ -9,12 +9,13 @@ if (mysqli_connect_errno()) {
 }
 
 $username = $_POST['username'];
+$password = hashPassword($con, $_POST['password']);
 
-if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$username'")) {
-    if (mysqli_num_rows($result) > 0) {
-        echo 'exists';
+if ($result = mysqli_query($con, "SELECT password FROM Customer WHERE username = '$username'")) {
+    if (mysqli_fetch_assoc($result)['password'] == $password) {
+        echo 'correct';
     } else {
-        echo 'doesntexist';
+        echo 'incorrect';
     }
 } else {
     echo 'fail';

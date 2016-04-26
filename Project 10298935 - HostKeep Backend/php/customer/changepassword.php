@@ -9,13 +9,10 @@ if (mysqli_connect_errno()) {
 }
 
 $username = $_POST['username'];
+$password = hashPassword($con, $_POST['password']);
 
-if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$username'")) {
-    if (mysqli_num_rows($result) > 0) {
-        echo 'exists';
-    } else {
-        echo 'doesntexist';
-    }
+if (mysqli_query($con, "UPDATE Customer SET password = '$password' WHERE username = '$username'")) {
+    echo 'success';
 } else {
     echo 'fail';
 }

@@ -4,9 +4,10 @@
         <meta charset="utf-8">
         <title>Change Password</title>
 
-        <?php include('head.php'); ?>
-
-        <script src="./js/first-time.js"></script>
+        <?php
+        include('head.php');
+        echo '<script type="text/javascript" src="js/first-time.js?' . filemtime('js/first-time.js') . '"></script>';
+        ?>
     </head>
     <body>
         <div class='.container-fluid'>
@@ -24,6 +25,10 @@
                             <td>
                                 <input id='firsttimeCurrentPasswordInput' type='password' />
                             </td>
+                            <td>
+                                <i id='firsttimeCurrentPasswordCheck' class="fa fa-check fa-15x" aria-hidden="true"></i>
+                                <i id='firsttimeCurrentPasswordCross' class="fa fa-times fa-15x" aria-hidden="true"></i>
+                            </td>
                         </tr>
 
                         <tr>
@@ -40,7 +45,11 @@
                                 <label for='#firsttimeConfirmPasswordInput'>Confirm Password</label>
                             </td>
                             <td>
-                                <input id='firsttimeConfirmPasswordConfirmInput' type='password' />
+                                <input id='firsttimeConfirmPasswordInput' type='password' />
+                            </td>
+                            <td>
+                                <i id='firsttimeConfirmPasswordCheck' class="fa fa-check fa-15x" aria-hidden="true"></i>
+                                <i id='firsttimeConfirmPasswordCross' class="fa fa-times fa-15x" aria-hidden="true"></i>
                             </td>
                         </tr>
 

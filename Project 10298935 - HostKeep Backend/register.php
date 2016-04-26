@@ -4,8 +4,10 @@
         <meta charset="utf-8">
         <title>Register</title>
 
-        <?php include('head.php'); ?>
-        <script src="./js/register.js"></script>
+        <?php
+        include('head.php');
+        echo '<script type="text/javascript" src="js/register.js?' . filemtime('js/register.js') . '"></script>';
+        ?>
 
     </head>
     <body>

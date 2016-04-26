@@ -33,7 +33,7 @@ $(function() {
         }
     });
 
-    $("#firsttimeConfirmPasswordInput").on({
+    $("#firsttimeNewPasswordInput, #firsttimeConfirmPasswordInput").on({
         input: function () {
             confirmPasswordTimer = setTimeout(doPasswordsMatch, 500);
         }
@@ -47,12 +47,18 @@ function checkCurrentPassword() {
     }, function(response) {
         if (response == 'correct') {
             currentPasswordCorrect = true;
+            $("#firsttimeCurrentPasswordCross").hide();
+            $("#firsttimeCurrentPasswordCheck").show();
         } else if (response == 'incorrect') {
             displayMessage('error', "The current password entered doesn't match the temporary password sent to you.");
             currentPasswordCorrect = false;
+            $("#firsttimeCurrentPasswordCheck").hide();
+            $("#firsttimeCurrentPasswordCross").show();
         } else {
             displayMessage('error', "Something went wrong checking your current password. The web admin has been notified and will fix the problem as soon as possible.");
             currentPasswordCorrect = false;
+            $("#firsttimeCurrentPasswordCheck").hide();
+            $("#firsttimeCurrentPasswordCross").show();
         }
     }).fail(function (request, textStatus, errorThrown) {
         displayMessage('error', "Error: Something went wrong with  AJAX POST");
@@ -65,8 +71,12 @@ function doPasswordsMatch() {
     if (newPassword != '' && confirmPassword != '') {
         if (newPassword == confirmPassword) {
             passwordsMatch = true;
+            $("#firsttimeConfirmPasswordCross").hide();
+            $("#firsttimeConfirmPasswordCheck").show();
         } else {
             passwordsMatch = false;
+            $("#firsttimeConfirmPasswordCheck").hide();
+            $("#firsttimeConfirmPasswordCross").show();
             displayMessage('error', "The passwords don't match.");
         }
     }

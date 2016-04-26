@@ -9,6 +9,8 @@ echo '
 
 <link href="css/external/bootstrap.min.css" rel="stylesheet"/>
 <link href="css/external/toastr.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 <link href="css/global.css?' . filemtime('css/global.css') . '" rel="stylesheet"/>
+
 '
 ?>

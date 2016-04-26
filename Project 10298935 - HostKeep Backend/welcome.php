@@ -35,6 +35,4 @@
     <a href='www.imf.com.au'>www.imf.com.au</a>
 </p>
 
-<p>
-    <small>[Last login: 24/04/2016 1:11:07 PM (UTC+10:00)]</small>
-</p>
+<p id='welcomeLastLogin'></p>

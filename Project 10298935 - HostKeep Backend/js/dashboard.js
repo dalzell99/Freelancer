@@ -33,7 +33,9 @@ $(function() {
             }
         })
 
-        $("#headerCustomerInfo").html(sessionStorage.username + "<br />" + sessionStorage.lastLogin + " [" + sessionStorage.lastLoginIP + "]");
+        if (sessionStorage.lastLogin != '') {
+            $("#headerCustomerInfo").html(sessionStorage.username + "<br />" + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + " [" + sessionStorage.lastLoginIP + "]");
+        }
     } else {
         window.location = 'index.php';
     }
@@ -73,6 +75,7 @@ function welcome() {
     $("div#headerTitle").text("Welcome");
     $("nav .active").removeClass("active");
     $("nav .welcome").addClass("active");
+    $("#welcomeLastLogin").text("[Last login: " + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + "]")
     $("div#welcome").show();
 }
 
