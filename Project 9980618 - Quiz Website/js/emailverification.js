@@ -13,10 +13,12 @@ window.onload = function() {
     function(response) {
         if (response == 'success') {
             $("#confirmed").show();
-        } else {
+        } else if (response == 'incorrect') {
             $("#notConfirmed").show();
+        } else {
+            alert("Error setting your email as verified. Please contact the web admin.");
         }
     }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with window.onLoad function");
+        //alert("Error: Something went wrong with window.onLoad function");
     });
 }

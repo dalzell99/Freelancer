@@ -1,5 +1,6 @@
 <?php
 require('../database.php');
+require('../sendemail.php');
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
@@ -78,14 +79,10 @@ $message.= "
 </html>
 ";
 
-$from = 'quizzes@ccrscoring.co.nz';
-$subject = "Quizzes starting today on Quizetos.com";
-$headers = "MIME-Version: 1.0" . "\r\n";
-$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-$headers .= "From: " . $from . "\r\n";
-
-foreach ($userEmailArray as $to) {
-    if (!mail($to, $subject, $message, $headers)) {
+$from = $databasephpNoReplyEmail;
+if (count($quizArray) > 0) {
+    $sendEmailResult = sendEmail($userEmailArray, $from, $subject, $message);
+    if ($sendEmailResult != 'success') {
         echo 'mailfail';
     }
 }

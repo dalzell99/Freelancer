@@ -18,5 +18,9 @@
 <!-- Countdown Timer -->
 <script src='js/external/countdowntimer.js' type='application/javascript'></script>
 
+<!-- Phone Number Validation -->
+<link rel="stylesheet" type="text/css" href="css/external/intlTelInput.css" />
+<script type="text/javascript" src="js/external/intlTelInput.min.js"></script>
+
 <?php echo '<link rel="stylesheet" type="text/css" href="css/global.css?' . filemtime('css/global.css') . '" />'; ?>
 <?php echo '<script type="text/javascript" src="js/global.js?' . filemtime('js/global.js') . '"></script>'; ?>

@@ -9,16 +9,17 @@ if (mysqli_connect_errno()) {
 
 $userID = $_POST['userID'];
 $points = $_POST['freePoints'];
-$rate = $_POST['rate'];
 
 $sql = "SELECT freeConvertablePointsBalance FROM Users WHERE userID = '$userID'";
+$resultRate = mysqli_query($con, "SELECT rate FROM ConversionRate");
+$rate = mysqli_fetch_assoc($resultRate)['rate'];
 
 if ($result = mysqli_query($con, $sql)) {
     $row = mysqli_fetch_assoc($result);
     if ($row['freeConvertablePointsBalance'] >= $points) {
         $sqlConvert = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . ($points / $rate) . ", freeConvertablePointsBalance = freeConvertablePointsBalance - " . $points . " WHERE userID = '$userID'";
         if (mysqli_query($con, $sqlConvert)) {
-            echo 'success';
+            echo 'success'. ($points / $rate);
         } else {
             echo 'sql fail. ' . $sqlConvert;
         }

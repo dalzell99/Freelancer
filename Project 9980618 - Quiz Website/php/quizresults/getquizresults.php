@@ -10,6 +10,7 @@ if (mysqli_connect_errno()) {
 $id = $_POST['quizID'];
 
 $sql = "SELECT * FROM QuizResults WHERE quizID = '$id' ORDER BY correctPercent DESC, timeTaken ASC";
+$response = [];
 
 if ($result = mysqli_query($con, $sql)) {
     

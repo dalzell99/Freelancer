@@ -1,0 +1,8 @@
+main > div {
+  display: none;
+}
+
+nav,
+header > :first-child button {
+  display: block;
+}

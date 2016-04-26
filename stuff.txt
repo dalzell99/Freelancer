@@ -1,3 +1,13 @@
 I have recently finished overhauling the scoring system for Canterbury Country Rugby (New Zealand). As part of that I used a MySQL database to store the game information and then retrieved and displaying that information for the general public. You can check it out at ccrscoring.co.nz. I would love to discuss this project with you so please don't hesitate to message me.
 
-I am available to create a form for you now. If you want to discuss this project or any others you may have, please message me.
+I have recently finished creating a paid quiz site for a freelance client which allows users to signup and take either free or paid quizzes which they could win monetary prizes for doing well. I also created a custom backend to allow to a site admin to add/edit/delete quizzes as well as monitor user information. I would love to discuss this project with you so please don't hesitate to message me.
+
+I am available now to make any changes you want. If you want to discuss this project or any others you may have, please message me.
+
+
+
+I have recently finished overhauling the scoring system for Canterbury Country Rugby (New Zealand). As part of that I used a MySQL database to store the game information and then retrieved and displaying that information for the general public. You can check it out at ccrscoring.co.nz. 
+
+I have also recently finished creating a paid quiz site for a freelance client which allows users to signup and take either free or paid quizzes which they could win monetary prizes for doing well. I also created a custom backend to allow to a site admin to add/edit/delete quizzes as well as monitor user information. 
+
+I would love to discuss this project with you so please don't hesitate to message me.

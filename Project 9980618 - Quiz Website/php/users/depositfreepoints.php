@@ -13,10 +13,10 @@ $correctPercent = $_POST['correctPercent'];
 
 if ($correctPercent == '100') {
     $numCorrect += 5;
-} else if ($correctPercent >= '90') {
-    $numCorrect += 4;
-} else if ($correctPercent >= '80') {
+} else if ($correctPercent >= '95') {
     $numCorrect += 3;
+} else if ($correctPercent >= '90') {
+    $numCorrect += 1;
 }
 
 $sql = "UPDATE Users SET freeConvertablePointsBalance = freeConvertablePointsBalance + '$numCorrect' WHERE userID = '$userID'";

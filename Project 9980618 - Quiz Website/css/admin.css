@@ -1,7 +1,8 @@
 #userContainer, #quizContainer,
 #testimonialContainer, #promotionContainer,
 #createQuizContainer, #createQuizUpdateButton,
-#createTestimonialContainer {
+#createTestimonialContainer, #withdrawalContainer,
+#rewardContainer, #createPromotionContainer {
   display: none;
 }
 
@@ -38,6 +39,6 @@ body {
   background-color: #ffffc0;
 }
 
-.promotionImages {
-  width: 500px;
+.promotionImages, .testimonialImages {
+  width: 300px;
 }

@@ -11,7 +11,19 @@
             <div class="container-fluid no-padding">
                 <ul class="nav navbar-nav">
                     <li id='indexMenuItem' class="col-xs-3 active"><a href="index.php"><img id='homeIcon' src='./images/HOME.png' alt='Home'><br>Home</a></li>
-                    <li id='quizzesMenuItem' class="col-xs-3"><a href="quizzes.php"><img id='quizzesIcon' src='./images/QUIZ.png' alt='Quizzes'><br>Quizzes</a></li>
+                    <li id='quizzesMenuItem' class="col-xs-3">
+                        <div class="dropdown">
+                            <button class="dropbtn">
+                                <img id='quizzesIcon' src='./images/QUIZ.png' alt='Quizzes'>
+                                <br>
+                                Quizzes
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="letsplayfree.php">Free Quizzes</a>
+                                <a href="letsplaypaid.php">Real Quizzes</a>
+                            </div>
+                        </div>
+                    </li>
                     <li id='myAccountMenuItem' class="col-xs-3"><a href="myaccount.php"><img id='myAccountIcon' src='./images/MYACCOUNT.png' alt='My Account'><br>My Account</a></li>
                     <li id='faqMenuItem' class="col-xs-3"><a href="faq.php"><img id='faqIcon' src='./images/FAQ.png' alt='FAQ'><br>FAQ</a></li>
                 </ul>
@@ -20,20 +32,20 @@
     </div><!-- End Navigation -->
 
     <div class='col-sm-4 no-padding'><!-- Start Login and Navigation -->
-        <div id='loginRow' class='row'><!-- Start Login -->
+        <div id='loginRow' class='row rowfix'><!-- Start Login -->
             <div class='col-xs-12 no-padding'>
                 <div id='loginNotLoggedIn'>
-                    <div class="row">
-                        <div class="col-xs-4 headerLogin no-padding">
-                            <input id='loginUsername' type='text' class='form-control' placeholder="Username">
+                    <div class="row rowfix">
+                        <div class="col-xs-4 col-sm-6 col-lg-4 headerLogin no-padding">
+                            <input id='loginUsername' type='text' class='form-control' placeholder="Username/Email">
                         </div>
-                        <div class="col-xs-4 headerLogin no-padding">
+                        <div class="col-xs-4 col-sm-6 col-lg-4 headerLogin no-padding">
                             <input id='loginPassword' type='password' class='form-control' placeholder="Password">
                         </div>
-                        <div class="col-xs-2 headerLogin no-padding">
+                        <div class="col-xs-2 col-sm-6 col-lg-2 headerLogin no-padding">
                             <button class="btn btn-default" id='loginLoginButton' onclick='login()'>Login</button>
                         </div>
-                        <div class="col-xs-2 headerLogin no-padding">
+                        <div class="col-xs-2 col-sm-6 col-lg-2 headerLogin no-padding">
                             <button class="btn btn-default" id='loginSignupButton'><a href='signup.php'>Signup</a></button>
                         </div>
                     </div>

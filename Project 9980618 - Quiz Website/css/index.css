@@ -23,7 +23,7 @@ input[type="radio"].styled:checked label:after,
 #liveStats {
   font-size: 2em;
   text-align: center;
-  padding-top: 40px;
+  padding: 40px 0;
 }
 
 #liveStats > .row > .liveStatUser {
@@ -42,10 +42,54 @@ input[type="radio"].styled:checked label:after,
   color: green;
 }
 
-#howToVideo {
+#howItWorksTitle {
+  font-size: 1.5em;
+  font-weight: bold;
   text-align: center;
 }
 
-promotions, #websiteDescription, #howToVideo, #testimonials {
+.howtoImage {
+  width: 100px;
+  margin: 15px auto;
+  display: block;
+}
+
+.howtoTitle {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+#promotions, #websiteDescription, #howto, #testimonials {
   padding: 40px 0;
+}
+
+.mainContainer {
+  height: initial;
+}
+
+.carousel-inner > .item > a > img, .carousel-inner > .item > img {
+  height: 200px;
+  display: block;
+  margin: 0 auto;
+}
+
+.testimonialImages {
+  width: 80px;
+}
+
+#signupLabel {
+  font-size: 1.7em;
+}
+
+#signupForm, #promotions, #howto, #websiteDescription, #testimonials {
+  background-color: #1D1D1D;
+  border-radius: 10px;
+  padding: 30px;
+  margin: 10px 0;
+  box-shadow: 0 0 19px #000 inset;
+}
+
+#userRegisterPhoneExplanation {
+  display: none;
 }

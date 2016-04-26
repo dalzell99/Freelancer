@@ -8,11 +8,12 @@ if (mysqli_connect_errno()) {
 }
 
 $password = mysqli_real_escape_string($con, $_POST['password']);
+$username = mysqli_real_escape_string($con, $_POST['username']);
 $sql = "SELECT * FROM Admin";
 
 if ($result = mysqli_query($con, $sql)) {
     while ($row = mysqli_fetch_assoc($result)) {
-        if ($row['password'] == $password) {
+        if ($row['password'] == $password && $row['username'] == $username) {
             echo 'correct';
         } else {
             echo 'incorrect';

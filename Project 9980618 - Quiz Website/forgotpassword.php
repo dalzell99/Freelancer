@@ -28,7 +28,7 @@
                         <input id='forgotPasswordEmail' class='form-control' type='text'>
                     </div>
                     <div class='form-group'>
-                        <button onclick='forgotPassword()'>Get new password</button>
+                        <button class='btn btn-default' onclick='createNewPassword()'>Get new password</button>
                     </div>
                 </div>
 

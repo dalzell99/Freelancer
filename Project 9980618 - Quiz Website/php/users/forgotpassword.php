@@ -1,5 +1,6 @@
 <?php
 require('../database.php');
+require('../sendemail.php');
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
@@ -11,34 +12,35 @@ $username = mysqli_real_escape_string($con, $_POST['username']);
 $email = mysqli_real_escape_string($con, $_POST['email']);
 $password = $_POST['newPassword'];
 $sql = "UPDATE Users SET password = '$password' WHERE username = '$username' AND email = '$email'";
+$resultUser = mysqli_query($con, "SELECT userID FROM Users WHERE username = '$username' AND email = '$email'");
 
-$to = $email;
-$from = 'forgotpassword@ccrscoring.co.nz';
-$subject = "Forgot Password";
-$message = "
-<html>
-    <body>
-        <p>Dear " . $username . ",<br>Click the link below to change your password:</p>
-        <p><a href='http://ccrscoring.co.nz/9980618/forgotpassword.php?username=" . $username . "&password=" . $password . "'>Click here to change your password</a></p>
-        <p>You can also copy and paste the above link in the address bar of your browser to change your password.</p>
-        <p>Thanks & Regards,<br>Team Quizetos.com</p>
-    </body>
-</html>
-";
-$headers = "MIME-Version: 1.0" . "\r\n";
-$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+if (mysqli_num_rows($resultUser) > 0) {
+    $to = array($email);
+    $from = $databasephpNoReplyEmail;
+    $subject = "Forgot Password";
+    $message = "
+    <html>
+        <body>
+            <p>Dear " . $username . ",<br>Click the link below to change your password:</p>
+            <p><a href='http://quizeto.com/forgotpassword.php?username=" . $username . "&password=" . $password . "'>http://quizeto.com/forgotpassword.php?username=" . $username . "&password=" . $password . "</a></p>
+            <p>You can also copy and paste the above link in the address bar of your browser to change your password.</p>
+            <p>Thanks & Regards,<br>Team Quizetos.com</p>
+        </body>
+    </html>
+    ";
 
-// More headers
-$headers .= "From: " . $from . "\r\n";
-
-if (mysqli_query($con, $sql)) {
-    if (mail($to, $subject, $message, $headers)) {
-        echo 'success';
+    if (mysqli_query($con, $sql)) {
+        $sendEmailResult = sendEmail($to, $from, $subject, $message);
+        if ($sendEmailResult == 'success') {
+            echo 'success';
+        } else {
+            echo 'email fail.';
+        }
     } else {
-        echo 'email fail.';
+        echo 'fail' . $sql;
     }
 } else {
-    echo 'fail' . $sql;
+    echo 'incorrect';
 }
 
 mysqli_close($con);

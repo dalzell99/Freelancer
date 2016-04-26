@@ -34,7 +34,7 @@ if (($resultUser = mysqli_query($con, $sqlUsers)) && ($resultQuiz = mysqli_query
         }
     }
     
-    echo json_encode([$numRegisteredUsers, $daysOnline, $totalPrizePool, $numLiveQuizzes]);
+    echo json_encode(array($numRegisteredUsers, $daysOnline, $totalPrizePool, $numLiveQuizzes));
 } else {
     echo json_encode(array('fail', $sqlUsers . ", " . $sqlQuizzes));
 }

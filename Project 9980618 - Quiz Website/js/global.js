@@ -2,6 +2,10 @@ var place = ['st', 'nd', 'rd', 'th'];
 var red = '2px #ff4c4c solid';
 var green = '2px #3eb73e solid';
 
+var isMobileNumberValid = false;
+var isUsernameValid = false;
+var isEmailAddressValid = false;
+
 window.onload = global;
 
 function global() {
@@ -30,22 +34,25 @@ function login() {
     function(response) {
         if (response[0] == 'correct') {
             sessionStorage.userID = response[1].userID;
-            sessionStorage.username = username;
+            sessionStorage.username = response[1].username;
             sessionStorage.paidPointsBalance = response[1].paidPointsBalance;
             sessionStorage.freeConvertablePointsBalance = response[1].freeConvertablePointsBalance;
             sessionStorage.freeUnconvertablePointsBalance = response[1].freeUnconvertablePointsBalance;
             sessionStorage.email = response[1].email;
+            sessionStorage.emailVerified = response[1].emailConfirmed;
             sessionStorage.notifications = response[1].notificationsArray;
             sessionStorage.notificationsViewed = response[1].timeNotificationsViewed;
             sessionStorage.loggedIn = 'true';
             location.reload();
         } else if (response[0] == 'incorrect') {
             alert('Incorrect password');
+        } else if (response[0] == 'usernamedoesntexist') {
+            alert("An account with that username doesn't exist. Please create an account or user a different username");
         } else {
             alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with login function");
+        //alert("Error: Something went wrong with login function");
     });
 }
 
@@ -61,30 +68,72 @@ function logout() {
 }
 
 function createNewUser() {
-    if($("#userRegisterTerms").prop('checked')) {
+    var valid = areInputsValidSignUp();
+    if(valid[0]) {
         var username = $("#userRegisterUsername").val();
         var password = $("#userRegisterPassword").val();
         var email = $("#userRegisterEmail").val();
+        var mobile = $("#userRegisterPhone").intlTelInput("getNumber");
         var emailCode = createEmailCode();
         
         $.post('./php/users/createnewuser.php', {
             username: username,
             password: password,
             email: email,
+            mobile: mobile,
             emailCode: emailCode
         },
         function(response) {
             if (response == 'success') {
                 window.location = 'successfulregistration.php';
+            } else if (response == 'exists') {
+                alert("Username already exists or email address is attached to another account");
             } else {
                 alert('Error: ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            alert("Error: Something went wrong with checkPassword function");
+            //alert("Error: Something went wrong with checkPassword function");
         });
     } else {
-        alert('You must agree to the terms of use before proceeding.');
+        alert(valid[1]);
     }
+}
+
+function areInputsValidSignUp() {
+    if (!$("#userRegisterTerms").prop('checked')) {
+        return [false, 'You must agree to the terms of use before proceeding.'];
+    }
+    
+    if ($("#userRegisterEmail").val().length == 0) {
+        return [false, 'You need to enter an email address'];
+    }
+    
+    if ($("#userRegisterUsername").val().length == 0) {
+        return [false, 'You need to enter a username'];
+    }
+    
+    if ($("#userRegisterPhone").val().length == 0) {
+        return [false, 'You need to enter a phone number'];
+    }
+    
+    if ($("#userRegisterEmail").val().indexOf('@') == -1 || $("#userRegisterEmail").val().lastIndexOf('.') == -1 ||
+        $("#userRegisterEmail").val().lastIndexOf('.') < $("#userRegisterEmail").val().indexOf('@')) {
+        return [false, 'Your email address needs to include an @ and a . in it'];
+    }
+    
+    if (!isMobileNumberValid) {
+        return [false, 'The mobile number you entered is invalid'];
+    }
+    
+    if (!isEmailAddressValid) {
+        return [false, 'The email address you entered is already being used'];
+    }
+    
+    if (!isUsernameValid) {
+        return [false, 'The username you entered is already being used'];
+    }
+    
+    return [true];
 }
 
 function createEmailCode() {
@@ -106,7 +155,7 @@ function getUrlVars() {
     return vars;
 }
 
-// Return string with number padding with leadng zeros to certain length
+// Return string with number padding with leading zeros to certain length
 function pad(value, length) {
     // Convert to string
     value = '' + value;
@@ -137,7 +186,7 @@ function updatePoints() {
                 alert('Error: ' + response[1]);
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
-            alert("Error: Something went wrong with login function");
+            //alert("Error: Something went wrong with login function");
         });
     }
 }
@@ -180,4 +229,10 @@ function getCountdownString(secondsToStart, secondsToEnd) {
     }
     
     return timerString;
+}
+
+function isInt(value) {
+  return !isNaN(value) && 
+         parseInt(Number(value)) == value && 
+         !isNaN(parseInt(value, 10));
 }

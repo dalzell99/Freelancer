@@ -1,4 +1,6 @@
 var checkUsernameTimer;
+var checkMobileTimer;
+var checkEmailTimer;
 
 window.onload = function() {
     global();
@@ -22,6 +24,36 @@ window.onload = function() {
         }
     });
     
+    $("#userRegisterPhone").intlTelInput({
+        initialCountry: "auto",
+        geoIpLookup: function(callback) {
+            $.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
+    });
+    
+    $("#userRegisterPhone").on({
+        input: function() {
+            checkMobileTimer = setTimeout(checkMobile, 500);
+        },
+        
+        focus: function() {
+            $("#userRegisterPhoneExplanation").show();
+            setTimeout(function() {
+                $("#userRegisterPhoneExplanation").hide();
+            }, 6000);
+        }
+    });
+    
+    $("#userRegisterEmail").on({
+        input: function() {
+            checkEmailTimer = setTimeout(checkEmail, 500);
+        }
+    });
+    
     updateLiveStats();
     setTimeout(updateLiveStats, 5000);
     addPromotions();
@@ -29,19 +61,73 @@ window.onload = function() {
 }
 
 function checkUsername() {
-    $.post('./php/users/checkusername.php', {
-        username: $("#userRegisterUsername").val()
-    }, function(response) {
-        if (response == 'exists') {
-            $("#userRegisterUsername").css('border', red);
-        } else if (response == 'notexists') {
-            $("#userRegisterUsername").css('border', green);
-        } else {
-            alert('Error checking if username exists');
-        }
-    }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with checkusername function");
+    if ($("#userRegisterUsername").val().length == 0) {
+        $("#userRegisterUsername").css('border', red).attr('title', "You need to enter a username");
+        $("#usernameValidation").removeClass().addClass('fa fa-times').css('color', 'red').show();
+        isEmailAddressValid = false;
+    } else {
+        $.post('./php/users/checkusername.php', {
+            username: $("#userRegisterUsername").val()
+        }, function(response) {
+            if (response == 'exists') {
+                $("#userRegisterUsername").css('border', red).attr('title', "Username already exists");
+                $("#usernameValidation").removeClass().addClass('fa fa-times').css('color', 'red').show();
+                isUsernameValid = false;
+            } else if (response == 'notexists') {
+                $("#userRegisterUsername").css('border', green).attr('title', "Username doesn't already exist");
+                $("#usernameValidation").removeClass().addClass('fa fa-check').css('color', 'green').show();
+
+                isUsernameValid = true;
+            } else {
+                alert('Error checking if username exists');
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+        //alert("Error: Something went wrong with checkusername function");
     });
+    }
+}
+
+function checkMobile() {
+    if (!$('#userRegisterPhone').intlTelInput("isValidNumber")) {
+        $("#userRegisterPhone").css('border', red).attr('title', "This phone number is invalid");
+        $("#phoneValidation").removeClass().addClass('fa fa-times').css('color', 'red').show();
+        isMobileNumberValid = false;
+    } else {
+        $("#userRegisterPhone").css('border', green).attr('title', "This is a valid phone number");
+        $("#phoneValidation").removeClass().addClass('fa fa-check').css('color', 'green').show();
+        isMobileNumberValid = true;
+    }
+}
+
+function checkEmail() {
+    if ($("#userRegisterEmail").val().length == 0) {
+        $("#userRegisterEmail").css('border', red).attr('title', "You need to enter an email address");
+        $("#emailValidation").removeClass().addClass('fa fa-times').css('color', 'red').show();
+        isEmailAddressValid = false;
+    } else if ($("#userRegisterEmail").val().indexOf('@') == -1 || $("#userRegisterEmail").val().lastIndexOf('.') == -1 ||
+               $("#userRegisterEmail").val().lastIndexOf('.') < $("#userRegisterEmail").val().indexOf('@')) {
+        $("#userRegisterEmail").css('border', red).attr('title', "Your email address needs to include an @ and a . in it");
+        $("#emailValidation").removeClass().addClass('fa fa-times').css('color', 'red').show();
+        isEmailAddressValid = false;
+    } else {
+        $.post('./php/users/checkemail.php', {
+            email: $("#userRegisterEmail").val()
+        }, function(response) {
+            if (response == 'exists') {
+                $("#userRegisterEmail").css('border', red).attr('title', "This email is already associated with an account");
+                $("#emailValidation").removeClass().addClass('fa fa-times').css('color', 'red').show();
+                isEmailAddressValid = false;
+            } else if (response == 'notexists') {
+                $("#userRegisterEmail").css('border', green).attr('title', "This email isn't associated with an account");
+                $("#emailValidation").removeClass().addClass('fa fa-check').css('color', 'green').show();
+                isEmailAddressValid = true;
+            } else {
+                alert('Error checking if email exists');
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //alert("Error: Something went wrong with checkusername function");
+        });
+    }
 }
 
 function updateLiveStats() {
@@ -62,7 +148,7 @@ function updateLiveStats() {
         $("#liveStatsTournamentPrizeValue").text('₹' + response[2]);
         $("#liveStatsLiveQuizzesValue").text(response[3]);
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with updateLiveStats function");
+        //alert("Error: Something went wrong with updateLiveStats function");
     });
 }
 
@@ -75,9 +161,13 @@ function addPromotions() {
             html += '<div class="carousel-inner" role="listbox">';
 
             for (var i = 0; response[1] != null && i < response[1].length; i += 1) {
-                html += '    <div class="item active">';
-                html += '        <a href="quizinfo.php?id=' + response[1][i].quizID + '">';
-                html += '            <img src="./php/promotions/uploads/' + response[1][i].imageURL + '" class="img-responsive">';
+                html += '    <div class="item">';
+                if (sessionStorage.loggedIn == 'true') {
+                    html += '        <a href="quizinfo.php?id=' + response[1][i].quizID + '">';
+                } else {
+                    html += '        <a href="letsplayfree.php?id=' + response[1][i].quizID + '">';
+                }
+                html += '            <img class="promotionImage" src="./php/promotions/uploads/' + response[1][i].imageURL + '">';
                 html += '        </a>';
                 html += '    </div>';
             }
@@ -85,13 +175,14 @@ function addPromotions() {
             html += '</div>';
 
             $("#promotionCarousel").empty().append(html);
+            $("#promotionCarousel > div > :nth-child(1)").addClass('active');
 
             if (response.length == 0) { $("#promotions").hide(); }
         } else {
             alert("Promotions failed to load.")
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with addPromotions function");
+        //alert("Error: Something went wrong with addPromotions function");
     });
 }
 
@@ -106,6 +197,7 @@ function addTestimonials() {
             for (var i = 0; response[1] != null && i < response[1].length; i += 1) {
                 html += '<div class="item">';
                 html += '    <blockquote>';
+                html += '        <img class="testimonialImages" src="./php/testimonials/uploads/' + response[1][i].imageURL + '">';
                 html += '        <p>' + response[1][i].message + '</p>';
                 html += '        <footer>' + response[1][i].username + '</footer>';
                 html += '    </blockquote>';
@@ -122,6 +214,6 @@ function addTestimonials() {
             alert("Testimonials failed to load.")
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with addPromotions function");
+        //alert("Error: Something went wrong with addPromotions function");
     });
 }

@@ -22,7 +22,7 @@ window.onload = function() {
             alert("Error: " + response[1])
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with startQuiz function");
+        //alert("Error: Something went wrong with startQuiz function");
     });
     
     disableCopying();
@@ -154,7 +154,7 @@ function endQuiz() {
                 alert('Error uploading your results. Contact the web admin for details on what to do. ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            alert("Error: Something went wrong with endQuiz function");
+            //alert("Error: Something went wrong with endQuiz function");
         });
     }
 }
@@ -188,7 +188,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");
                 }
             }).fail(function (request, textStatus, errorThrown) {
-                alert("Error: Something went wrong with showResultsPage function");
+                //alert("Error: Something went wrong with showResultsPage function");
             });
         } else {
             $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");
@@ -223,7 +223,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                 $("#resultsLeaderboard").empty().append(html);
 
                 if (userInTop10 != -1) {
-                    $(".leaderboard." + userInTop10).css('backgroundColor', '#ffffc0');
+                    $(".leaderboard." + userInTop10).css('backgroundColor', 'rgba(255, 255, 192, 0.44)');
                 } else {
                     var usersRank = -1;
                     for (var k = 10; k < users.length && usersRank == -1; k += 1) {
@@ -237,7 +237,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                             htmlUserRank += "         <td>" + (users[i].timeTaken / 1000) + "</td>";
                             htmlUserRank += "    </tr>";
                             $("#quizResultTable").append(htmlUserRank);
-                            $(".leaderboard.user").css('backgroundColor', '#ffffc0');
+                            $(".leaderboard.user").css('backgroundColor', 'rgba(255, 255, 192, 0.44)');
                         }
                     }
                 }
@@ -245,7 +245,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                 alert('Error retrieving leaderboard. ' + response[1]);
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
-            alert("Error: Something went wrong with showResultsPage function");
+            //alert("Error: Something went wrong with showResultsPage function");
         });
     }
     

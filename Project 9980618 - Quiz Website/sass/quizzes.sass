@@ -13,16 +13,17 @@
     &.active
         font-weight: bold
     
-#quizTable
-    border: 1px double white
-    border-collapse: separate
-    border-spacing: 2px
-    
 #quizTable th, #quizTable td
     text-align: center
     padding: 5px
     font-size: 1.1em
-    border: 1px double white
+    
+.quizRow
+    background-color: papayawhip
+    border-radius: 20px
+    color: black
+    padding: 10px
+    margin: 15px 0
     
 #quizTable th
     background-color: #286090
@@ -38,3 +39,16 @@
 @media (max-width: 768px)
     #quizTable th, #quizTable td, .btn-primary
         font-size: .75em
+    
+.quizName
+    font-size: 1.5em
+    
+.viewButtonContainer
+    height: 100px
+    
+.viewButton
+    display: block
+    margin: 25px auto 0
+    height: 50px
+    width: 100px
+    font-size: 1.5em

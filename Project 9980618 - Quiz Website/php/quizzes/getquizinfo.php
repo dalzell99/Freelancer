@@ -11,9 +11,8 @@ $id = $_POST['id'];
 
 $sql = "SELECT * FROM Quizzes WHERE quizID = '$id'";
 if ($result = mysqli_query($con, $sql)) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo json_encode(array('success', $row));
-    }
+    $row = mysqli_fetch_assoc($result);
+    echo json_encode(array('success', $row));
 } else {
     echo json_encode(array('fail', $sql));
 }

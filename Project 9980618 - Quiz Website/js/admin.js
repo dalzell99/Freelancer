@@ -13,6 +13,7 @@ window.onload = function() {
             case 'quizzes': quizzes(); break;
             case 'testimonials': testimonials(); break;
             case 'promotions': promotions(); break;
+            case 'withdrawal': withdrawal(); break;
             default: users();
         }
     }
@@ -20,7 +21,17 @@ window.onload = function() {
     if (sessionStorage.page == 'promotions') { 
         if (sessionStorage.fileUploaded == 'success') {
             alert("Promotion successfully added.");
-        } else if (sessionStorage.fileUploaded == 'sqlfail') {
+        } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
+            alert("Error adding promotions to database. Please try again later.");
+        } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
+            alert("File upload failed. Please try again later.");
+        }
+        
+        sessionStorage.fileUploaded = '';
+    } else if (sessionStorage.page == 'testimonials') { 
+        if (sessionStorage.fileUploaded == 'success') {
+            alert("Testimonial successfully added.");
+        } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
             alert("Error adding promotions to database. Please try again later.");
         } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
             alert("File upload failed. Please try again later.");
@@ -38,6 +49,7 @@ function hideAllContainers() {
     $("#quizContainer").hide();
     $("#testimonialContainer").hide();
     $("#promotionContainer").hide();
+    $("#withdrawalContainer").hide();
 }
 
 function setActivePage(page) {
@@ -46,8 +58,15 @@ function setActivePage(page) {
     sessionStorage.page = page;
 }
 
+function isInt(value) {
+  return !isNaN(value) && 
+         parseInt(Number(value)) == value && 
+         !isNaN(parseInt(value, 10));
+}
+
 function checkPassword() {
     $.post('./php/admin/checkpassword.php', {
+        username: $("#usernameInput").val(),
         password: $("#passwordInput").val()
     }, function(response) {
         if (response == 'correct') {
@@ -60,12 +79,12 @@ function checkPassword() {
             }
         } else if (response == 'incorrect') {
             $("#password").val('');
-            alert("Incorrect password");
+            alert("Incorrect password or username");
         } else {
             alert('Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with checkPassword function");
+        //alert("Error: Something went wrong with checkPassword function");
     });
 }
 
@@ -74,6 +93,7 @@ function populateTables() {
     populateQuizzes();
     populateTestimonials();
     populatePromotions();
+    populateWithdrawal();
 }
 
 /* -------------------------------------------------------------
@@ -113,6 +133,8 @@ function populateQuizzes() {
             html += '        <th>Start Time</th>';
             html += '        <th>End Time</th>';
             html += '        <th>Rules</th>';
+            html += '        <th></th>';
+            html += '        <th></th>';
             html += '        <th></th>';
             html += '        <th></th>';
             html += '    </tr>';
@@ -158,7 +180,9 @@ function populateQuizzes() {
                 html += '    <td>' + endTime + '</td>';
                 html += '    <td>' + rules + '</td>';
                 html += '    <td><button class="btn btn-default" onclick="editQuiz(' + quizzesArray[i].quizID + ')">Edit</button></td>';
+                html += '    <td><button class="btn btn-default" onclick="copyQuiz(' + quizzesArray[i].quizID + ')">Copy</button></td>';
                 html += '    <td><button class="btn btn-default" onclick="deleteQuiz(' + quizzesArray[i].quizID + ')">Delete</button></td>';
+                html += '    <td><button class="btn btn-default" onclick="addPromotionForQuiz(' + quizzesArray[i].quizID + ', \'' + quizzesArray[i].category + '\')">Add Promotion</button></td>';
                 html += '</tr>';
             }
             html += '</tbody>';
@@ -166,11 +190,21 @@ function populateQuizzes() {
             $("#quizTable").empty().append(html);
             var newTableObject = document.getElementById('quizTable')
             sorttable.makeSortable(newTableObject);
+            
+            $("#createQuizType").on({
+                change: function() {
+                    if ($(this).val() == 'paid') {
+                        $("#rewardContainer").show();
+                    } else {
+                        $("#rewardContainer").hide();
+                    }
+                }
+            });
         } else {
             alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with populateQuizzes function");
+        //alert("Error: Something went wrong with populateQuizzes function");
     });
 }
 
@@ -345,8 +379,8 @@ function refreshRuleTable() {
 }
 
 function uploadQuiz() {
-    // Get the ISO8601 formatted start and end datetimes with timezone set to UTC 
-    if (areAllQuestionsAnswered()) { 
+    var valid = areInputsValidQuizzes();
+    if (valid[0]) { 
         var start = startTimePicker.data("DateTimePicker").date().utc().format();
         var end = endTimePicker.data("DateTimePicker").date().utc().format();
         $.post('./php/quizzes/createnewquiz.php', {
@@ -367,10 +401,10 @@ function uploadQuiz() {
                 alert('Error: ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            alert("Error: Something went wrong with uploadQuiz function");
+            //alert("Error: Something went wrong with uploadQuiz function");
         });
     } else {
-        alert('Please select an answer for all questions.');
+        alert(valid[1]);
     }
 }
 
@@ -399,6 +433,31 @@ function editQuiz(id) {
     showEditQuiz();
 }
 
+function copyQuiz(id) {
+    for (var i = 0; i < quizzesArray.length; i += 1) {
+        if (quizzesArray[i].quizID == id) {
+            var q = quizzesArray[i];
+            $("#createQuizType").val(q.type);
+            $("#createQuizCategory").val(q.category);
+            $("#createQuizPointsCost").val(q.pointsCost);
+            startTimePicker.data("DateTimePicker").date(moment(q.startTime));
+            endTimePicker.data("DateTimePicker").date(moment(q.endTime));
+            
+            rules = JSON.parse(q.rules);
+            questions = JSON.parse(q.questions);
+            rewards = JSON.parse(q.pointsRewards);
+            
+            refreshQuestionTable();
+            refreshRewardTable();
+            refreshRuleTable();
+            
+            updateQuizID = id;
+        }
+    }
+    
+    showCreateQuiz();
+}
+
 function deleteQuiz(id) {
     $.post('./php/quizzes/deletequiz.php', {
         quizID: id
@@ -410,12 +469,13 @@ function deleteQuiz(id) {
             alert('Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with uploadQuiz function");
+        //alert("Error: Something went wrong with uploadQuiz function");
     });
 }
 
 function updateQuiz() {
-    if (areAllQuestionsAnswered()) { 
+    var valid = areInputsValidQuizzes();
+    if (valid[0]) {
         // Get the ISO8601 formatted start and end datetimes with timezone set to UTC 
         var start = startTimePicker.data("DateTimePicker").date().utc().format();
         var end = endTimePicker.data("DateTimePicker").date().utc().format();
@@ -438,21 +498,40 @@ function updateQuiz() {
                 alert('Error: ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with uploadQuiz function");
-    });
+            //alert("Error: Something went wrong with uploadQuiz function");
+        });
     } else {
-        alert('Please select an answer for all questions.');
+        alert(valid[1]);
     }
 }
 
-function areAllQuestionsAnswered() {
+function areInputsValidQuizzes() {
+    if ($("#createQuizCategory").val() == '') {
+        return [false, "Please enter a quiz name"];
+    }
+    
+    if (rewards.length < 3 && $("#createQuizType").val() == 'paid') {
+        return [false, "Please add at least 3 rewards"];
+    }
+    
+    if ($("#createQuizPointsCost").val() == '') {
+        return [false, "Please ebter a registration fee"];
+    }
+    
     for (var i = 0; i < questions.length; i += 1) {
         if (questions[i][2] == undefined) {
-            return false;
+            return [false, "Some questions don't have answers"];
         }
     }
     
-    return true;
+    return [true];
+}
+
+function addPromotionForQuiz(id, name) {
+    $("#createPromotionQuizID").val(id);
+    $("#createPromotionQuizName").val(name);
+    promotions();
+    $("#createPromotionContainer").show();
 }
 
 /* -------------------------------------------------------------
@@ -480,6 +559,7 @@ function populateTestimonials() {
             html += '        <th>Username</th>';
             html += '        <th>Message</th>';
             html += '        <th></th>';
+            html += '        <th></th>';
             html += '    </tr>';
             html += '</thead>';
             
@@ -489,6 +569,7 @@ function populateTestimonials() {
                 html += '    <td>' + testimonialsArray[i].testimonialID + '</td>';
                 html += '    <td contenteditable="true">' + testimonialsArray[i].username + '</td>';
                 html += '    <td contenteditable="true">' + testimonialsArray[i].message + '</td>';
+                html += '    <td><img class="testimonialImages" src="./php/testimonials/uploads/' + testimonialsArray[i].imageURL + '"></td>';
                 html += '    <td><button onclick="deleteTestimonial(' + testimonialsArray[i].testimonialID + ')">Delete</button></td>';
                 html += '</tr>';
             }
@@ -512,7 +593,7 @@ function populateTestimonials() {
                                 alert('Error: ' + response);
                             }
                         }).fail(function (request, textStatus, errorThrown) {
-                            alert("Error: Something went wrong with uploadQuiz function");
+                            //alert("Error: Something went wrong with uploadQuiz function");
                         });
                     }
                 },
@@ -525,7 +606,7 @@ function populateTestimonials() {
             alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with populateTestimonials function");
+        //alert("Error: Something went wrong with populateTestimonials function");
     });
 }
 
@@ -545,7 +626,7 @@ function uploadTestimonial() {
             alert('Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with uploadQuiz function");
+        //alert("Error: Something went wrong with uploadQuiz function");
     });
 }
 
@@ -560,7 +641,7 @@ function deleteTestimonial(id) {
             alert('Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with uploadQuiz function");
+        //alert("Error: Something went wrong with uploadQuiz function");
     });
 }
 
@@ -617,17 +698,19 @@ function populateUsers() {
             
             $("#convertRate").on({
                 blur: function() {
-                    $.post('./php/conversionrate/change.php', {
-                        rate: $(this).val()
-                    }, function(response) {
-                        if (response == 'success') {
-                            alert("Conversion rate changed");
-                        } else {
-                            alert("Error changing conversion rate. Contact the web admin to inform them of this error.")
-                        }
-                    }).fail(function (request, textStatus, errorThrown) {
-                        alert("Error: Something went wrong with conversion rate change function");
-                    });
+                    if (isInt($(this).val())) {
+                        $.post('./php/conversionrate/change.php', {
+                            rate: $(this).val()
+                        }, function(response) {
+                            if (response == 'success') {
+                                alert("Conversion rate changed");
+                            } else {
+                                alert("Error changing conversion rate. Contact the web admin to inform them of this error.")
+                            }
+                        }).fail(function (request, textStatus, errorThrown) {
+                            //alert("Error: Something went wrong with conversion rate change function");
+                        });
+                    }
                 }
             });
             
@@ -649,7 +732,7 @@ function populateUsers() {
                                 alert('Error updating user info.');
                             }
                         }).fail(function (request, textStatus, errorThrown) {
-                            alert("Error: Something went wrong with usertable contenteditable blur function");
+                            //alert("Error: Something went wrong with usertable contenteditable blur function");
                         });
                     }
                 },
@@ -662,7 +745,7 @@ function populateUsers() {
             alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with populateUsers function");
+        //alert("Error: Something went wrong with populateUsers function");
     });
 }
 
@@ -712,7 +795,7 @@ function populatePromotions() {
             alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with populateTestimonials function");
+        //alert("Error: Something went wrong with populateTestimonials function");
     });
 }
 
@@ -727,6 +810,92 @@ function deletePromotion(id) {
             alert("Error deleting promotion. Try again later or contact web admin");
         }
     }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with deletePromotion function");
+        //alert("Error: Something went wrong with deletePromotion function");
+    });
+}
+
+/* -------------------------------------------------------------
+---------------------- Withdrawals Page ------------------------
+---------------------------------------------------------------*/
+
+function withdrawal() {
+    if (sessionStorage.loggedIn == 'true') { 
+        hideAllContainers();
+        setActivePage('withdrawal');
+        $("#withdrawalContainer").show();
+    }
+}
+
+function populateWithdrawal() {
+    $.post('./php/withdrawals/getallwithdrawals.php', {}, 
+    function(response) {
+        if (response[0] == 'success') {
+            withdrawalArray = response[1];
+            var html = '';
+            
+            html += '<thead>';
+            html += '    <tr>';
+            html += '        <th>Withdrawal ID</th>';
+            html += '        <th>Username</th>';
+            html += '        <th>Amount</th>';
+            html += '        <th>Method</th>';
+            html += '        <th>Phone</th>';
+            html += '        <th>Email</th>';
+            html += '        <th>Address</th>';
+            html += '        <th>Account Num</th>';
+            html += '        <th>IFSC Code</th>';
+            html += '        <th>Time Withdrawn</th>';
+            html += '        <th></th>';
+            html += '    </tr>';
+            html += '</thead>';
+            
+            html += '<tbody>';
+            for (var i = 0; withdrawalArray != null && i < withdrawalArray.length; i += 1) {
+                html += '<tr>';
+                html += '    <td>' + withdrawalArray[i].withdrawalID + '</td>';
+                html += '    <td>' + withdrawalArray[i].username + '</td>';
+                html += '    <td>' + withdrawalArray[i].amount + '</td>';
+                html += '    <td>' + withdrawalArray[i].method + '</td>';
+                html += '    <td>' + withdrawalArray[i].phone + '</td>';
+                html += '    <td>' + withdrawalArray[i].email + '</td>';
+                html += '    <td>' + withdrawalArray[i].address + '</td>';
+                html += '    <td>' + withdrawalArray[i].accountNum + '</td>';
+                html += '    <td>' + withdrawalArray[i].code + '</td>';
+                html += '    <td>' + moment(withdrawalArray[i].time).format("ddd Do MMM YYYY h:mm a") + '</td>';
+                if (withdrawalArray[i].done == 'n') {
+                    html += '    <td sorttable_customkey="n"><button class="btn btn-default" onclick="setWithdrawalDone(' + withdrawalArray[i].withdrawalID + ', \'y\', \'' + withdrawalArray[i].username + '\', \'' + withdrawalArray[i].amount + '\')">Unprocessed</button></td>';
+                } else {
+                    html += '    <td sorttable_customkey="y"><button class="btn btn-default" disabled>Processed</button></td>';
+                }
+                html += '</tr>';
+            }
+            html += '</tbody>';
+            
+            $("#withdrawalTable").empty().append(html);
+            var newTableObject = document.getElementById('withdrawalTable');
+            sorttable.makeSortable(newTableObject);
+        } else {
+            alert('Error: ' + response[1]);
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //alert("Error: Something went wrong with populateWithdrawal function");
+    });
+}
+
+function setWithdrawalDone(id, done, username, amount) {
+    $.post('./php/withdrawals/setwithdrawaldone.php', {
+        withdrawalID: id,
+        done: done,
+        username: username,
+        amount: amount
+    }, function(response) {
+        if (response == 'success') {
+            alert("Withdrawal has been marked as done");
+            populateWithdrawal();
+        } else {
+            alert("Error deleting withdrawal. Try again later or contact web admin");
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+       //alert("Error: Something went wrong with markWithdrawalDone function");
     });
 }

@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {
 }
 
 $username = mysqli_real_escape_string($con, $_POST['username']);
-$password = md5($_POST['newPassword'] . $username);
+$password = md5(md5($_POST['newPassword'] . strtolower($username)) . $salt);
 
 $sql = "UPDATE Users SET password = '$password' WHERE username = '$username'";
 

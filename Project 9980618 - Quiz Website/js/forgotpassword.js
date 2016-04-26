@@ -1,42 +1,44 @@
 window.onload = function() {
+    global();
     $('li.active').removeClass('active');
     
     if (sessionStorage.passwordChanged == 'true') {
+        sessionStorage.passwordChanged = 'false';
         window.location = 'index.php';
-    }
-    
-    var username = getUrlVars()['username'];
-    var password = getUrlVars()['password'];
-    if (password != undefined) {
-        $("#forgotPassword").hide();
-        checkTempPassword(username, password);
-        $("#confirmPassword").on({
-            blur: areSamePassword
-        });
-
-        $("#newPassword").on({
-            blur: areSamePassword
-        });
     } else {
-        $("#createNewPassword").hide();
+        var username = getUrlVars()['username'];
+        var password = getUrlVars()['password'];
+        if (password != undefined) {
+            $("#forgotPassword").hide();
+            checkTempPassword(username, password);
+            $("#confirmPassword").on({
+                blur: areSamePassword
+            });
+
+            $("#newPassword").on({
+                blur: areSamePassword
+            });
+        } else {
+            $("#createNewPassword").hide();
+        }
     }
-    
-    sessionStorage.passwordChanged = 'true';
 }
 
-function forgotPassword() {
+function createNewPassword() {
     $.post('./php/users/forgotpassword.php', {
         username: $("#forgotPasswordUsername").val(),
         email: $("#forgotPasswordEmail").val(),
         newPassword: createEmailCode()
     }, function(response) {
         if (response == 'success') {
-            alert("Your new password has been sent to your email");
+            alert("Your password has been reset. Check your emails for the link to set your new password.");
+        } else if (response == 'incorrect') {
+            alert("The username or email entered is incorrect")
         } else {
             alert("Error sending the new password. Please contact the web admin to inform them of this error.")
         }
     }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with login function");
+        //alert("Error: Something went wrong with login function");
     });
 }
 
@@ -50,7 +52,7 @@ function checkTempPassword(username, password) {
             $("#createNewPassword").hide();
         }
     }).fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with checkTempPassword function");
+        //alert("Error: Something went wrong with checkTempPassword function");
     });
 }
 
@@ -62,11 +64,12 @@ function changePassword() {
         }, function(response) {
             if (response == 'success') {
                 alert("Your new password has been set. You can now log in with the new password.");
+                sessionStorage.passwordChanged = 'true';
             } else {
                 alert("Error setting the new password. Please contact the web admin to inform them of this error.")
             }
         }).fail(function (request, textStatus, errorThrown) {
-            alert("Error: Something went wrong with changePassword function");
+            //alert("Error: Something went wrong with changePassword function");
         });
     }
 }

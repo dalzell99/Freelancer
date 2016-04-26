@@ -1,5 +1,11 @@
 <?php
-$dbusername = 'ccrsc638_test';
-$dbpassword = 'freelancer9808082';
-$dbname = 'ccrsc638_9980618';
+$dbusername = 'quizetoc_admin';
+$dbpassword = 'sonu12@@##';
+$dbname = 'quizetoc_quizeto';
+$databasephpPrizeEmail = 'rewards@quizeto.com';
+$databasephpNoReplyEmail = 'noreply@quizeto.com';
+$databasephpQueryEmail = 'query@quizeto.com';
+$databasephpInfoEmail = 'info@quizeto.com';
+$databasephpWithdrawalEmail = 'redeem@quizeto.com';
+$salt = '$&%&^sf65g41fg65fds1GSGDvbedghGGRGSDGDGsdY^#(*&#^*&^f1gf';
 ?>

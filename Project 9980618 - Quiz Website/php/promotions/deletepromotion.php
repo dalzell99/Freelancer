@@ -8,13 +8,23 @@ if (mysqli_connect_errno()) {
 }
 
 $id = $_POST['promotionID'];
-
 $sql = "DELETE FROM Promotions WHERE promotionID = '$id'";
 
-if (mysqli_query($con, $sql)) {
-    echo 'success';
+if ($result = mysqli_query($con, "SELECT imageURL FROM Promotions WHERE promotionID = '$id'")) {
+    $filename = "././uploads/" . mysqli_fetch_assoc($result)['imageURL'];
 } else {
-    echo 'fail';
+    $filename = '';
+    echo 'select sql fail';
+}
+
+if (mysqli_query($con, $sql)) {
+    if ($filename != '' && $filename != "././uploads/" && file_exists($filename) && unlink($filename)) {
+        echo 'success';
+    } else {
+        echo 'delete file fail.';
+    }
+} else {
+    echo 'delete sql fail';
 }
 
 mysqli_close($con);

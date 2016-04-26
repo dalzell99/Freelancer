@@ -1,5 +1,6 @@
 <?php
 require('../database.php');
+require('../sendemail.php');
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
@@ -29,6 +30,7 @@ foreach ($quizArray as $quiz) {
     // Get the prize list
     $prizes = json_decode($quiz['pointsRewards']);
     $userRank = 0;
+    $winningUserID = -1;
     // Get the userID of the users who will receive prizes ordered by percent correct then time taken
     $sqlResults = "SELECT userID FROM QuizResults WHERE quizID = '" . $quiz['quizID'] . "' 
     ORDER BY correctPercent DESC, timeTaken ASC";
@@ -61,24 +63,45 @@ foreach ($quizArray as $quiz) {
             
             // Send prize winner an email
             $rowUser = mysqli_fetch_assoc($resultUser);
-            $to = $rowUser['email'];
-            $from = 'prizes@ccrscoring.co.nz';
+            $to = array($rowUser['email']);
+            $from = $databasephpPrizeEmail;
             $subject = "You won a prize on Quizetos.com";
             $message = "
             <html>
                 <body>
                     <p>Dear " . $rowUser['username'] . ",<br>You were ranked " . ($userRank + 1) . " in the " . $quiz['category'] . " quiz. " . $prizeMessage . "</p>
+                    
+                    <div class='container'>
+                        <img src='placehold.it/300' /><p>
+                        <h1>Quizeto.com</h1><br>
+                        <h4>congratulates</h4>
+                        <h3>" . $rowUser['username'] . "</h3>
+                        <h2>on finishing ranked<h2>
+                        <h4>" . ($userRank + 1) . "</h4><br>
+                        <h5>in the " . $quiz['category'] . " quiz.</h5>
+                    </div>
+                    
                     <p>Thanks & Regards,<br>Team Quizetos.com</p>
+                    <style>
+                        .container{
+                            border: 6px double black;
+                            height: 544px;
+                            box-sizing: border-box;
+                            padding: 100px 20px 0;
+                            font-family:san serif;
+                            text-align:center;
+                            font-weight:bold;
+                            font-size: 2em;
+                        }
+                        h1,h2,h3,h4,h5{margin:0 0 0.25em}
+                        body,html{padding:0;margin:0}
+                    </style>
                 </body>
             </html>
             ";
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-            // More headers
-            $headers .= "From: " . $from . "\r\n";
             
-            if (!mail($to, $subject, $message, $headers)) {
+            $sendEmailResult = sendEmail($to, $from, $subject, $message);
+            if ($sendEmailResult != 'success') {
                 echo 'mailfail';
             }
             

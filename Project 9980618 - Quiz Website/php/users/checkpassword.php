@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {
 }
 
 $username = mysqli_real_escape_string($con, $_POST['username']);
-$password = md5($_POST['currentPassword'] . $username);
+$password = md5(md5($_POST['currentPassword'] . strtolower($username)) . $salt);
 
 $sql = "SELECT password FROM Users WHERE username = '$username'";
 

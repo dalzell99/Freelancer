@@ -1,5 +1,6 @@
 <?php
 require('database.php');
+require('sendemail.php');
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
@@ -32,24 +33,20 @@ if ($payment['status'] == 'captured') {
     $sql2 = "SELECT email, username FROM Users WHERE userID = '$userID'";
     if (mysqli_query($con, $sql) && ($result = mysqli_query($con, $sql2))) {
         $row = mysqli_fetch_assoc($result);
-        $to = $row['email'];
-        $from = 'vipquizetos@ccrscoring.co.nz';
-        $subject = "VIP Quizeto Purchase Completed";
+        $to = array($row['email']);
+        $from = $databasephpNoReplyEmail;
+        $subject = "Real Quizeto Purchase Completed";
         $message = "
         <html>
             <body>
-                <p>Dear " . $row['username'] . ",<br>Thank you for your purchase on Quizetos.com! " . $paymentAmount / 100 . " VIP Quizetos have been added to your account and are ready to be used.</p>
+                <p>Dear " . $row['username'] . ",<br>Thank you for your purchase on Quizetos.com! " . $paymentAmount / 100 . " Real Quizetos have been added to your account and are ready to be used.</p>
                 <p>Thanks & Regards,<br>Team Quizetos.com</p>
             </body>
         </html>
         ";
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-        // More headers
-        $headers .= "From: " . $from . "\r\n";
-        if (mail($to, $subject, $message, $headers)) {
-            //echo response
+        
+        $sendEmailResult = sendEmail($to, $from, $subject, $message);
+        if ($sendEmailResult == 'success') {
             echo json_encode([$payment->toArray(), 'success']);
         } else {
             echo json_encode([$payment->toArray(), 'emailfail']);

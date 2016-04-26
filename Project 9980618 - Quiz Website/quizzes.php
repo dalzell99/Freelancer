@@ -15,15 +15,7 @@
 
             <!-- Start Quizzes -->
             <div class='row'>
-                <!--<div id='freeButton' class='col-xs-6 quizzesButton' onclick='showFreeQuizzes()'>Free Quizzes</div>
-                <div id='paidButton' class='col-xs-6 quizzesButton' onclick='showPaidQuizzes()'>Real Quizzes</div>-->
-                <div style="text-align: center">
-                    <select id='quizTypeSelect' onchange="showQuizzes()">
-                        <option value="free">Free</option>
-                        <option value="paid">Paid</option>
-                    </select>
-                </div>
-                <table id='quizTable' class='table'></table>
+                <div id="quizTable"></div>
             </div>
             <!-- End Quizzes -->
 

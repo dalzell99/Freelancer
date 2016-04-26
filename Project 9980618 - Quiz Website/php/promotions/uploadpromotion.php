@@ -65,11 +65,11 @@ if ($uploadOk == 0) {
 
         mysqli_close($con);
     } else {
-        /*echo "
+        echo "
         <script>
             sessionStorage.fileUploaded = 'fileuploadfail';
             window.history.back();
-        </script>";*/
+        </script>";
     }
 }
 ?>

@@ -9,6 +9,7 @@ if (mysqli_connect_errno()) {
 
 $sql = "SELECT userID, username, paidPointsBalance, freeConvertablePointsBalance, freeUnconvertablePointsBalance, email, homeAddress FROM Users";
 $sql2 = "SELECT * FROM ConversionRate";
+$response = [];
 
 if (($result = mysqli_query($con, $sql)) && ($result2 = mysqli_query($con, $sql2))) {
     

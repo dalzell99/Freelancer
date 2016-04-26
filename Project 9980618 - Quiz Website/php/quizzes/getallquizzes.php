@@ -8,6 +8,7 @@ if (mysqli_connect_errno()) {
 }
 
 $sql = "SELECT quizID, type, questions, category, pointsRewards, pointsCost, startTime, endTime, rules, userRegistered FROM Quizzes";
+$response = [];
 
 if ($result = mysqli_query($con, $sql)) {
     

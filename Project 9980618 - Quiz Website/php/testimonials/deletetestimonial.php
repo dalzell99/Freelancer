@@ -8,8 +8,14 @@ if (mysqli_connect_errno()) {
 }
 
 $testimonialID = $_POST['testimonialID'];
-
 $sql = "DELETE FROM Testimonials WHERE testimonialID = $testimonialID";
+
+if ($result = mysqli_query($con, "SELECT imageURL FROM Testimonials WHERE testimonialID = $testimonialID")) {
+    $filename = "././uploads/" . mysqli_fetch_assoc($result)['imageURL'];
+} else {
+    $filename = '';
+    echo 'select sql fail';
+}
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';

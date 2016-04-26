@@ -8,6 +8,7 @@ if (mysqli_connect_errno()) {
 }
 
 $sql = "SELECT * FROM Testimonials";
+$response = [];
 
 if ($result = mysqli_query($con, $sql)) {
     
