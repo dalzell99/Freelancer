@@ -12,7 +12,8 @@ $(function() {
                     password: $("#firsttimeNewPasswordInput").val()
                 }, function(response) {
                     if (response == 'success') {
-                        window.location = "dashboard.php";
+                        sessionStorage.firstTime = 'true';
+                        window.location = "dashboard.php#my-profile";
                     } else {
                         displayMessage('error', 'Something went wrong changing your password. The web admin has been notified.');
                     }

@@ -36,9 +36,13 @@ function setUserInfo(response, index) {
     sessionStorage.salutation = userInfo['salutation'];
     sessionStorage.firstName = userInfo['firstName'];
     sessionStorage.lastName = userInfo['lastName'];
+    sessionStorage.propertyIDs = userInfo['propertyIDs'];
     sessionStorage.company = userInfo['company'];
     sessionStorage.phoneNumber = userInfo['phoneNumber'];
     sessionStorage.mobileNumber = userInfo['mobileNumber'];
+    sessionStorage.bankName = userInfo['bankName'];
+    sessionStorage.bsb = userInfo['bsb'];
+    sessionStorage.accountNumber = userInfo['accountNumber'];
     sessionStorage.postalAddress = userInfo['postalAddress'];
     sessionStorage.suburb = userInfo['suburb'];
     sessionStorage.state = userInfo['state'];
@@ -47,5 +51,4 @@ function setUserInfo(response, index) {
     sessionStorage.lastModified = userInfo['lastModified'];
     sessionStorage.lastLogin = userInfo['lastLogin'];
     sessionStorage.lastLoginIP = userInfo['lastLoginIP'];
-    sessionStorage.timeZone = userInfo['timeZone'];
 }

@@ -20,8 +20,8 @@
     </tr>
     <tr>
         <td>
-            <select>
-                <option value=""></option>
+            <select id='profileSalutation'>
+                <option value="" selected></option>
                 <option value="Mr">Mr</option>
                 <option value="Mrs">Mrs</option>
                 <option value="Ms">Ms</option>
@@ -53,7 +53,7 @@
     </tr>
     <tr>
         <td colspan="3">
-            <input id='profileEmail' type='email' />
+            <input id='profileEmail' type='email' disabled="true" />
         </td>
     </tr>
     <tr>
@@ -70,6 +70,28 @@
         </td>
         <td>
             <input id='profileMobile' type='text' />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Bank Name
+        </td>
+        <td>
+            BSB
+        </td>
+        <td>
+            Account Number
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input id='profileBankName' type='text' />
+        </td>
+        <td>
+            <input id='profileBSB' type='text' />
+        </td>
+        <td>
+            <input id='profileAccountNumber' type='text' />
         </td>
     </tr>
     <tr>
@@ -367,6 +389,4 @@
 
 <button id='profileButton'>Save Changes</button>
 
-<p>
-    <small>[Last modified: 21/04/2016 5:06:43 PM (UTC+10:00)]</small>
-</p>
+<p id='profileLastModified'></p>

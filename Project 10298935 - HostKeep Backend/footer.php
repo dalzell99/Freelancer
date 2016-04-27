@@ -1,4 +1,4 @@
 <div id='footer'>
-    © 2014 IMF Bentham Limited. All rights reserved.<br />
-    ABN: 45 067 298 088
+    © 2016 HostKeep Property Management Pty. Ltd. All rights reserved.<br />
+    ABN: 20 606 153 646
 </div>

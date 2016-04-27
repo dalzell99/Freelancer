@@ -1,8 +1,84 @@
+header nav {
+  display: block;
+}
+
+header > :first-child button {
+  display: block;
+}
+
+header > :first-child select {
+  color: initial;
+  margin-top: 5px;
+  padding: 5px;
+  width: 50%;
+}
+
 main > div {
   display: none;
 }
 
-nav,
-header > :first-child button {
-  display: block;
+main > div:nth-child(3) #propertiesAdd {
+  margin-top: 10px;
+}
+
+main > div:nth-child(3) #propertiesAdd,
+main > div:nth-child(3) #propertiesAddNewProperty {
+  display: none;
+}
+
+main > div:nth-child(3) table {
+  width: 100%;
+}
+
+main > div:nth-child(3) th {
+  font-size: 1.2em;
+}
+
+main > div:nth-child(3) th,
+main > div:nth-child(3) td {
+  padding: 5px;
+  text-align: center;
+}
+
+main > div:nth-child(3) th:nth-child(2), main > div:nth-child(3) th:nth-child(3),
+main > div:nth-child(3) td:nth-child(2),
+main > div:nth-child(3) td:nth-child(3) {
+  width: 30%;
+}
+
+main > div:nth-child(3) th:nth-child(1), main > div:nth-child(3) th:nth-child(4),
+main > div:nth-child(3) td:nth-child(1),
+main > div:nth-child(3) td:nth-child(4) {
+  width: 20%;
+}
+
+main > div:nth-child(4) table {
+  width: 100%;
+}
+
+main > div:nth-child(4) th {
+  font-size: 1.2em;
+}
+
+main > div:nth-child(4) th,
+main > div:nth-child(4) td {
+  padding: 5px;
+  text-align: center;
+}
+
+main > div:nth-child(4) th:nth-child(1), main > div:nth-child(4) th:nth-child(2), main > div:nth-child(4) th:nth-child(3),
+main > div:nth-child(4) td:nth-child(1),
+main > div:nth-child(4) td:nth-child(2),
+main > div:nth-child(4) td:nth-child(3) {
+  width: 15%;
+}
+
+main > div:nth-child(4) th:nth-child(4),
+main > div:nth-child(4) td:nth-child(4) {
+  width: 18%;
+}
+
+main > div:nth-child(4) th:nth-child(5),
+main > div:nth-child(4) td:nth-child(5) {
+  width: 37%;
 }

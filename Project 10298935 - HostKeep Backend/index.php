@@ -18,19 +18,15 @@
 
                 <main>
                     <p>
-                        Welcome to IMF's secure online tool for clients – <strong>Portal</strong>.
+                        Welcome to HostKeep’s secure online owners portal.
                     </p>
 
                     <p>
-                        Login here to update your details, view important notifications, and download key documents relating to actions being funded by IMF.
+                        Login here to view monthly property reports, update personal details, and view important notifications.
                     </p>
 
                     <p>
-                        If you have not already registered for our Client Portal please click the <a href="./register.php">Register</a> link. Then use your email address registered with IMF to create your new Portal account and a temporary password will be emailed to you.
-                    </p>
-
-                    <p>
-                        If you need further assistance, please call IMF on 1800 016 464 or +61 8 9225 2322 or email us on <a href='mailto:portal@imf.com.au'>portal@imf.com.au</a>
+                        If you need further assistance please contact us on <a href='hello@hostkeep.com.au'>hello@hostkeep.com.au</a>
                     </p>
 
                     <table>
