@@ -11,7 +11,9 @@ if (mysqli_connect_errno()) {
 $username = mysqli_real_escape_string($con, $_POST['username']);
 $password = hashPassword($con, $_POST['password']);
 
-if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$username'")) {
+$sql = "SELECT * FROM Customer WHERE username = '$username'";
+
+if ($result = mysqli_query($con, $sql)) {
     if (mysqli_num_rows($result) == 0) {
         echo 'incorrectusername';
     } else {
@@ -27,6 +29,10 @@ if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$user
         }
     }
 } else {
+    sendErrorEmail("
+    login.php<br />
+    sql: $sql
+    ");
     echo 'fail';
 }
 

@@ -10,9 +10,15 @@ if (mysqli_connect_errno()) {
 
 $username = $_POST['username'];
 
-if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$username'")) {
+$sql = "SELECT * FROM Customer WHERE username = '$username'";
+
+if ($result = mysqli_query($con, $sql)) {
     echo json_encode(mysqli_fetch_assoc($result));
 } else {
+    sendErrorEmail("
+    getuserinfo.php<br />
+    sql: $sql
+    ");
     echo 'fail';
 }
 

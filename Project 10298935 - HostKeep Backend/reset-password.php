@@ -18,7 +18,7 @@
 
                 <main>
                     <p>
-                        IMF’s Portal is always open for you to keep your details up to date or view important documents relating to your claim.
+                        HostKeep's user dashboard is always open for you to keep your details up to date or view important documents relating to your claim.
                     </p>
                     <div id='resetpasswordGetTempPassword'>
                         <p>

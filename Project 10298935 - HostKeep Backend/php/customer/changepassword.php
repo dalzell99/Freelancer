@@ -11,9 +11,15 @@ if (mysqli_connect_errno()) {
 $username = $_POST['username'];
 $password = hashPassword($con, $_POST['password']);
 
-if (mysqli_query($con, "UPDATE Customer SET password = '$password' WHERE username = '$username'")) {
+$sql = "UPDATE Customer SET password = '$password' WHERE username = '$username'";
+
+if (mysqli_query($con, $sql)) {
     echo 'success';
 } else {
+    sendErrorEmail("
+    changepassword.php<br />
+    sql: $sql
+    ");
     echo 'fail';
 }
 

@@ -3,7 +3,7 @@
 </p>
 
 <p>
-    IMF's preferred method of correspondence is email.
+    HostKeep's preferred method of correspondence is email.
 </p>
 
 <table>
@@ -133,7 +133,7 @@
     </tr>
     <tr>
         <td colspan="3">
-            <select>
+            <select id='profileCountry'>
                 <option value="Australia">Australia</option>
                 <option value="Canada">Canada</option>
                 <option value="Germany">Germany</option>

@@ -11,9 +11,12 @@ if (mysqli_connect_errno()) {
 $username = mysqli_real_escape_string($con, $_POST['username']);
 $password = mt_rand(1000000, 9999999);
 
-if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$username'")) {
+$sql = "SELECT * FROM Customer WHERE username = '$username'";
+$sql1 = "UPDATE Customer SET password = '" . hashPassword($con, $password) . "' WHERE username = '$username'";
+
+if ($result = mysqli_query($con, $sql)) {
     if (mysqli_num_rows($result) > 0) {
-        if (mysqli_query($con, "UPDATE Customer SET password = '" . hashPassword($con, $password) . "' WHERE username = '$username'")) {
+        if (mysqli_query($con, $sql1)) {
             $message = "
             <p>
                 <strong>Hi, welcome to HostKeep</strong>
@@ -28,11 +31,11 @@ if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$user
             </p>
 
             <p>
-                If you have any questions about your PORTAL account or any other matter, please contact us at <a href='mailto:portal@imf.com.au'>portal@imf.com.au</a> or by phone on 08 9225 2322 or Freecall 1800 016 464
+                If you have any questions about your account or any other matter, please contact us at <a href='$hostkeepEmail'>$hostkeepEmail</a>
             </p>
 
             <p>
-                <strong>If this email was sent to you in error, please call IMF on 1800 016 464</strong>
+                <strong>If this email was sent to you in error, please call HostKeep on $hostkeepPhoneNumber</strong>
             </p>
 
             <p>
@@ -44,18 +47,30 @@ if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$user
             </p>
             ";
 
-            if (sendEmail($username, 'noreply@hostkeep.com.au', 'Reset HostKeep Password', $message)) {
+            if (sendEmail($username, $noReplyEmail, 'Reset HostKeep Password', $message)) {
                 echo 'success';
             } else {
+                sendErrorEmail("
+                resetpassword.php<br />
+                Email Fail
+                ");
                 echo 'failmail';
             }
         } else {
-            echo "failsql INSERT INTO Customer(username, password) VALUES ('$username', '" . hashPassword($password) . "')";
+            sendErrorEmail("
+            resetpassword.php<br />
+            sql: $sql1
+            ");
+            echo "fail";
         }
     } else {
         echo 'doesntexist';
     }
 } else {
+    sendErrorEmail("
+    resetpassword.php<br />
+    sql: $sql
+    ");
     echo 'failselectsql';
 }
 

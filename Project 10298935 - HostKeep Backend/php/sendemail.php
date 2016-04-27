@@ -1,6 +1,10 @@
 <?php
 require_once "phpmailer/class.phpmailer.php";
 
+function sendErrorEmail($message) {
+    sendEmail($webAdminEmail, $noReplyEmail, 'HostKeep Error', $message);
+}
+
 function sendEmail($to, $from, $subject, $message) {
     $mail = new PHPMailer;
 

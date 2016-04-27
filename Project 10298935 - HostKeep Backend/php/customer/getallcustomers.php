@@ -8,13 +8,19 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-if ($result = mysqli_query($con, "SELECT username FROM Customer")) {
+$sql = "SELECT username FROM Customer";
+
+if ($result = mysqli_query($con, $sql)) {
     $response = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $response[] = $row;
     }
     echo json_encode($response);
 } else {
+    sendErrorEmail("
+    getallcustomers.php<br />
+    sql: $sql
+    ");
     echo 'fail';
 }
 

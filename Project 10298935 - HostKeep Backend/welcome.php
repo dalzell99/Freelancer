@@ -1,5 +1,5 @@
 <p>
-    Welcome to <strong>Portal</strong> – IMF's secure online tool.
+    Welcome to the dashboard – HostKeep's secure online tool.
 </p>
 
 <p>
@@ -10,29 +10,25 @@
     - update your contact details (click <a href='#my-profile'>Profile</a>)<br />
     - view your properties (click <a href='#my-properties'>Properties</a>)<br />
     - view important documents (click <a href='#documents'>Documents</a>)<br />
-    - change your password or username (click <a href='#change-password'>Change Password</a>)<br />
+    - change your password (click <a href='#change-password'>Change Password</a>)<br />
 </p>
 
 <p>
-    Soon you will also be able to view important updates relating to your claim(s) being funded by IMF.
+    Soon you will also be able to view important updates relating to your properties being managed by HostKeep.
 </p>
 
 <p>
-    For the Conflicts Policy document, click here or go to the <a href='#documents'>Documents</a> section via the link above.
+    If you have any feedback about the dashboard, please email <a href='mailto:hello@hostkeep.com.au'>hello@hostkeep.com.au</a>.
 </p>
 
 <p>
-    If you have any feedback about the <strong>Portal</strong>, please email <a href='mailto:portal@imf.com.au'>portal@imf.com.au</a>.
-</p>
-
-<p>
-    <strong>IMF Bentham Limited</strong>
+    <strong>HostKeep</strong>
 </p>
 
 <p>
     FREECALL 1800 016 464<br />
     T +61 8 9225 2322 F +61 8 9225 2399<br />
-    <a href='www.imf.com.au'>www.imf.com.au</a>
+    <a href='www.hostkeep.com.au'>www.hostkeep.com.au</a>
 </p>
 
 <p id='welcomeLastLogin'></p>

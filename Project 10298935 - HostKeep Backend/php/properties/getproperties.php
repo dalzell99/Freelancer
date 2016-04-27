@@ -19,20 +19,29 @@ foreach ($propertyIDs as $id) {
 
 // Remove the last OR
 $whereStatement = substr($whereStatement, 0, -4);
+$sql = "SELECT * FROM Properties WHERE " . $whereStatement;
 
 // Execute query
-if ($result = mysqli_query($con, "SELECT * FROM Properties WHERE " . $whereStatement)) {
-    $response = [];
-    
-    // Add results to an array
-    while ($row = mysqli_fetch_assoc($result)) {
-        $response[] = $row;
-    }
+if ($whereStatement != '') {
+    if ($result = mysqli_query($con, $sql)) {
+        $response = [];
 
-    // Echo array as json
-    echo json_encode($response);
+        // Add results to an array
+        while ($row = mysqli_fetch_assoc($result)) {
+            $response[] = $row;
+        }
+
+        // Echo array as json
+        echo json_encode($response);
+    } else {
+        sendErrorEmail("
+        getproperties.php<br />
+        sql: $sql
+        ");
+        echo 'fail';
+    }
 } else {
-    echo 'fail';
+    echo json_encode([]);
 }
 
 mysqli_close($con);

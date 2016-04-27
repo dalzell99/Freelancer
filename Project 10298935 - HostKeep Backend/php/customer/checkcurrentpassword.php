@@ -11,13 +11,19 @@ if (mysqli_connect_errno()) {
 $username = $_POST['username'];
 $password = hashPassword($con, $_POST['password']);
 
-if ($result = mysqli_query($con, "SELECT password FROM Customer WHERE username = '$username'")) {
+$sql = "SELECT password FROM Customer WHERE username = '$username'";
+
+if ($result = mysqli_query($con, $sql)) {
     if (mysqli_fetch_assoc($result)['password'] == $password) {
         echo 'correct';
     } else {
         echo 'incorrect';
     }
 } else {
+    sendErrorEmail("
+    checkcurrentpassword.php<br />
+    sql: $sql
+    ");
     echo 'fail';
 }
 

@@ -11,18 +11,20 @@ if (mysqli_connect_errno()) {
 $email = mysqli_real_escape_string($con, $_POST['email']);
 $password = mt_rand(1000000, 9999999);
 
-if ($result = mysqli_query($con, "INSERT INTO Customer(username, password, propertyIDs) VALUES ('$email', '" . hashPassword($con, $password) . "', '[]')")) {
+$sql = "INSERT INTO Customer(username, password, propertyIDs) VALUES ('$email', '" . hashPassword($con, $password) . "', '[]')";
+
+if ($result = mysqli_query($con, $sql)) {
     $message = "
     <p>
         <strong>Hi, welcome to HostKeep</strong>
     </p>
 
     <p>
-        Bentham IMF Limited's Online Client Access tool, PORTAL, has been designed to keep you up to date with your IMF participation.
+        Hostkeep's Online Client Access tool has been designed to keep you up to date with your Hostkeep participation.
     </p>
 
     <p>
-        You can always login at <a href='https://www.imf.com.au/portal'>https://www.imf.com.au/portal</a> using the details below.
+        You can always login at <a href='$dashboardWebaddress'>$dashboardWebaddress</a> using the details below.
     </p>
 
     <table style='width: 90%; background-color: #e4e4e4'>
@@ -31,7 +33,7 @@ if ($result = mysqli_query($con, "INSERT INTO Customer(username, password, prope
                 Link
             </td>
             <td>
-                <a href='https://www.imf.com.au/portal'>https://www.imf.com.au/portal</a>
+                <a href='$dashboardWebaddress'>$dashboardWebaddress</a>
             </td>
         </tr>
         <tr>
@@ -72,11 +74,11 @@ if ($result = mysqli_query($con, "INSERT INTO Customer(username, password, prope
     </p>
 
     <p>
-        If you have any questions about your PORTAL account or any other matter, please contact us at <a href='mailto:portal@imf.com.au'>portal@imf.com.au</a> or by phone on 08 9225 2322 or Freecall 1800 016 464
+        If you have any questions about your account or any other matter, please contact us at <a href='$hostkeepEmail'>$hostkeepEmail</a>
     </p>
 
     <p>
-        <strong>If this email was sent to you in error, please call IMF on 1800 016 464</strong>
+        <strong>If this email was sent to you in error, please call HostKeep on $hostkeepPhoneNumber</strong>
     </p>
 
     <p>
@@ -88,13 +90,21 @@ if ($result = mysqli_query($con, "INSERT INTO Customer(username, password, prope
     </p>
     ";
 
-    if (sendEmail($email, 'noreply@hostkeep.com.au', 'Welcome to HostKeep', $message)) {
+    if (sendEmail($email, $noReplyEmail, 'Welcome to HostKeep', $message)) {
         echo 'success';
     } else {
+        sendErrorEmail("
+        createnewcustomer.php<br />
+        Mail Fail
+        ");
         echo 'failmail';
     }
 } else {
-    echo "failsql INSERT INTO Customer(username, password) VALUES ('$email', '" . hashPassword($password) . "')";
+    sendErrorEmail("
+    createnewcustomer.php<br />
+    sql: $sql
+    ");
+    echo "fail";
 }
 
 mysqli_close($con);

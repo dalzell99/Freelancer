@@ -29,6 +29,10 @@ $sql = "UPDATE Customer SET
 if (mysqli_query($con, $sql)) {
     echo 'success';
 } else {
+    sendErrorEmail("
+    saveprofilechanges.php<br />
+    sql: $sql
+    ");
     echo 'fail' . $sql;
 }
 

@@ -10,13 +10,19 @@ if (mysqli_connect_errno()) {
 
 $username = $_POST['username'];
 
-if ($result = mysqli_query($con, "SELECT * FROM Customer WHERE username = '$username'")) {
+$sql = "SELECT * FROM Customer WHERE username = '$username'";
+
+if ($result = mysqli_query($con, $sql)) {
     if (mysqli_num_rows($result) > 0) {
         echo 'exists';
     } else {
         echo 'doesntexist';
     }
 } else {
+    sendErrorEmail("
+    checkusername.php<br />
+    sql: $sql
+    ");
     echo 'fail';
 }
 

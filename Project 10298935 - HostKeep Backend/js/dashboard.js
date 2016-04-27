@@ -31,10 +31,6 @@ $(function() {
             }
         });
 
-        // Since the event is only triggered when the hash changes, we need to trigger
-        // the event now, to handle the hash the page may have loaded with.
-        $(window).hashchange();
-
         $("#headerLogoutButton").on({
             click: function () {
                 logout();
@@ -86,19 +82,20 @@ $(function() {
             });
         }
 
-        /* TODO: UNCOMMENT WHEN PROPERTIES CAN BE ADDED TO CUSTOMERS
-        $.post("./php/customer/getproperties.php", {
+        $.post("./php/properties/getproperties.php", {
             propertyIDs: sessionStorage.propertyIDs
         }, function(response) {
             if (response == 'fail') {
                 displayMessage('error', 'Error retrieving property list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
                 propertyList = JSON.parse(response);
+                // Since the event is only triggered when the hash changes, we need to trigger
+                // the event now, to handle the hash the page may have loaded with.
+                $(window).hashchange();
             }
         }).fail(function (request, textStatus, errorThrown) {
             displayMessage('error', "Error: Something went wrong with getproperties AJAX POST");
         });
-        */
     } else {
         window.location = 'index.php';
     }
@@ -237,12 +234,13 @@ function properties() {
     var html = '';
 
     propertyList.forEach(function(value, index, array) {
+        var a = (sessionStorage.admin == 'true' ? true : false);
         html += "<tr>";
-        html += "    <td>" + value.name + "</td>";
-        html += "    <td>" + value.description + "</td>";
-        html += "    <td>" + value.address + "</td>";
-        html += "    <td contenteditable=true>" + value.minimumNightlyPrice + "</td>";
-        html += "    <td style='display=\'none\''>" + value.propertyID + "</td>";
+        html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
+        html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + value.description + "</td>";
+        html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + value.address + "</td>";
+        html += "    <td class='minimumNightlyPrice' contenteditable=true>" + value.minimumNightlyPrice + "</td>";
+        html += "    <td class='hidden'>" + value.propertyID + "</td>";
         html += "</tr>";
     });
 
@@ -250,18 +248,22 @@ function properties() {
 
     $("[contenteditable=true]").on({
         blur: function () {
-            $.post("./php/properties/changepropertyprice.php", {
-                propertyID: $(this).parent().child(':nth-child(5)').text(),
-                price: $(this).text()
-            }, function(response) {
-                if (response == 'success') {
-                    displayMessage('info', 'The property price has been updated');
-                } else {
-                    displayMessage('error', 'Something went wrong updating the property price');
-                }
-            }).fail(function (request, textStatus, errorThrown) {
-                displayMessage('error', "Error: Something went wrong with  AJAX POST");
-            });
+            if ($(this).text != sessionStorage.contenteditable) {
+                var column = this.classList[0];
+                $.post("./php/properties/changepropertyinfo.php", {
+                    propertyID: $(this).parent().children(':nth-child(5)').text(),
+                    column: column,
+                    value: $(this).text()
+                }, function(response) {
+                    if (response == 'success') {
+                        displayMessage('info', 'The property ' + column + ' has been updated');
+                    } else {
+                        displayMessage('error', 'Something went wrong updating the property price');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                });
+            }
         },
 
         focus: function () {
@@ -294,8 +296,27 @@ function properties() {
                 address: $("#propertiesAddAddress").val(),
                 price: $("#propertiesAddPrice").val()
             }, function(response) {
-                if (response == 'success') {
+                if (response.substr(0, 7) == 'success') {
                     displayMessage('info', 'The property has been added to the current customer');
+
+                    // Add new property to table
+                    var html = '';
+                    var a = (sessionStorage.admin == 'true' ? true : false);
+                    html += "<tr>";
+                    html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddName").val() + "</td>";
+                    html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddDescription").val() + "</td>";
+                    html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddAddress").val() + "</td>";
+                    html += "    <td class='minimumNightlyPrice' contenteditable=true>" + $("#propertiesAddPrice").val() + "</td>";
+                    html += "    <td class='hidden'>" + response.substr(7) + "</td>";
+                    html += "</tr>";
+
+                    $("#properties tbody").append(html);
+
+                    // Clear inputs
+                    $("#propertiesAddName").val('');
+                    $("#propertiesAddDescription").val('');
+                    $("#propertiesAddAddress").val('');
+                    $("#propertiesAddPrice").val('');
                 } else {
                     displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
                 }

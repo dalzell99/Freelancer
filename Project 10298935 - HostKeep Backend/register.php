@@ -19,7 +19,7 @@
 
                 <main>
                     <p>
-                        IMF’s <strong>Portal</strong> is always open for you to keep your details up to date or view important documents relating to your claim. Before you can access the <strong>Portal</strong>, you need to register your email address below. Login details will be sent to your inbox.
+                        HostKeep's user dashboard is always open for you to keep your details up to date or view important documents relating to your claim. Before you can access the dashboard, you need to register your email address below. Login details will be sent to your inbox.
                     </p>
 
                     <table>

@@ -9,11 +9,18 @@ if (mysqli_connect_errno()) {
 }
 
 $propertyID = $_POST['propertyID'];
-$price = $_POST['price'];
+$column = $_POST['column'];
+$value = $_POST['value'];
 
-if ($result = mysqli_query($con, "UPDATE Properties SET minimumNightlyPrice = '$price' WHERE propertyID = '$propertyID'")) {
+$sql = "UPDATE Properties SET $column = '$value' WHERE propertyID = '$propertyID'";
+
+if ($result = mysqli_query($con, $sql)) {
     echo 'success';
 } else {
+    sendErrorEmail("
+    changepropertyinfo.php<br />
+    sql: $sql
+    ");
     echo 'fail';
 }
 
