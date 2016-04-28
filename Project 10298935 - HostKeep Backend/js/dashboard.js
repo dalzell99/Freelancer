@@ -8,6 +8,7 @@ var passwordsMatch = false;
 
 $(function() {
     if (sessionStorage.loggedIn == 'true') {
+        // Change the displayed section based on the url hash
         $(window).on({
             hashchange: function() {
                 switch(window.location.hash.substr(1)) {
@@ -37,12 +38,15 @@ $(function() {
             }
         })
 
+        // Set the admin sessionStorage vaiable to true if the admin account is used.
         if (sessionStorage.username == adminUsername) {
             sessionStorage.admin = 'true';
         } else if (sessionStorage.lastLogin != '') {
+            // If the user isn't admin, show username and last login time and IP address
             $("#headerCustomerInfo").html(sessionStorage.username + "<br />" + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + " [" + sessionStorage.lastLoginIP + "]");
         }
 
+        // Get customer list if admin logged in
         if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
             $.post("./php/customer/getallcustomers.php", {
 
@@ -50,6 +54,7 @@ $(function() {
                 if (response == 'fail') {
                     displayMessage('error', 'Something went wrong getting the customer list. The web admin has been notified and will fix the problem as soon as possible.');
                 } else {
+                    // Dynamically create customer dropdown
                     var html = '<select id="headerUserSelect">';
                     var users = JSON.parse(response);
                     users.forEach(function(value, index, array) {
@@ -61,6 +66,7 @@ $(function() {
 
                     $("#headerUserSelect").val(sessionStorage.username);
 
+                    // When a different user is selected change, get user info and call changeUser function
                     $("#headerUserSelect").on({
                         change: function () {
                             $.post("./php/customer/getuserinfo.php", {
@@ -82,6 +88,7 @@ $(function() {
             });
         }
 
+        // Get the properties for the logged in user
         $.post("./php/properties/getproperties.php", {
             propertyIDs: sessionStorage.propertyIDs
         }, function(response) {
@@ -97,10 +104,12 @@ $(function() {
             displayMessage('error', "Error: Something went wrong with getproperties AJAX POST");
         });
     } else {
+        // If user came to page without logging in redirect to login page
         window.location = 'index.php';
     }
 });
 
+// Set sessionStorage variables and reload page
 function changeUser(userInfo) {
     sessionStorage.username = userInfo['username'];
     sessionStorage.salutation = userInfo['salutation'];
@@ -125,8 +134,10 @@ function changeUser(userInfo) {
     location.reload();
 }
 
+// Set sessionStorage variables to empty and redirect to login page
 function logout() {
     sessionStorage.loggedIn = 'false';
+    sessionStorage.admin = 'false';
     sessionStorage.username = '';
     sessionStorage.salutation = '';
     sessionStorage.firstName = '';
@@ -146,6 +157,7 @@ function logout() {
     window.location = 'index.php';
 }
 
+// Hide all the section containers
 function hideAllContainers() {
     $("div#welcome").hide();
     $("div#profile").hide();
@@ -154,6 +166,7 @@ function hideAllContainers() {
     $("div#password").hide();
 }
 
+// Show welcome container, set title, and active nav item and add last login time to bottom of page
 function welcome() {
     hideAllContainers();
     $("div#headerTitle").text("Welcome");
@@ -163,6 +176,7 @@ function welcome() {
     $("div#welcome").show();
 }
 
+// Show profile container, set title, and active nav item and populate the input fields
 function profile() {
     $("div#headerTitle").text("My Profile");
     $("nav .active").removeClass("active");
@@ -191,6 +205,7 @@ function profile() {
     $("#profileCountry").val(sessionStorage.country);
     $("#profileLastModified").text("[Last modified: " + moment(sessionStorage.lastModified).format("ddd Do MMM YYYY h:mm a") + "]");
 
+    // Save profile changes on button click
     $("#profileButton").on({
         click: function () {
             $.post("./php/customer/saveprofilechanges.php", {
@@ -212,6 +227,7 @@ function profile() {
             }, function(response) {
                 if (response == 'success') {
                     displayMessage('info', 'Your profile changes have been saved.');
+                    // Change last modified text to the current time
                     $("#profileLastModified").text("[Last modified: " + moment().format("ddd Do MMM YYYY h:mm a") + "]");
                 } else {
                     displayMessage('error', 'Something went wrong while saving your profile changes. The web admin has been notified and will fix the problem as soon as possible.');
@@ -226,13 +242,14 @@ function profile() {
     $("div#profile").show();
 }
 
+// Show properties container, set title, and active nav item, dynamically create property table
 function properties() {
     $("div#headerTitle").text("My Properties");
     $("nav .active").removeClass("active");
     $("nav .properties").addClass("active");
 
+    // Create property table
     var html = '';
-
     propertyList.forEach(function(value, index, array) {
         var a = (sessionStorage.admin == 'true' ? true : false);
         html += "<tr>";
@@ -246,35 +263,15 @@ function properties() {
 
     $("#properties tbody").empty().append(html);
 
-    $("[contenteditable=true]").on({
-        blur: function () {
-            if ($(this).text != sessionStorage.contenteditable) {
-                var column = this.classList[0];
-                $.post("./php/properties/changepropertyinfo.php", {
-                    propertyID: $(this).parent().children(':nth-child(5)').text(),
-                    column: column,
-                    value: $(this).text()
-                }, function(response) {
-                    if (response == 'success') {
-                        displayMessage('info', 'The property ' + column + ' has been updated');
-                    } else {
-                        displayMessage('error', 'Something went wrong updating the property price');
-                    }
-                }).fail(function (request, textStatus, errorThrown) {
-                    displayMessage('error', "Error: Something went wrong with  AJAX POST");
-                });
-            }
-        },
+    // Add contenteditable change events
+    addPropertyChangeEvent();
 
-        focus: function () {
-            sessionStorage.contenteditable = $(this).text();
-        }
-    });
-
+    // Show add property button if user is admin
     if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
         $("#propertiesAdd").show();
     }
 
+    // Toggle add property section
     $("#propertiesShowAdd").on({
         click: function () {
             if ($("#propertiesAddNewProperty").css('display') == 'none') {
@@ -287,6 +284,7 @@ function properties() {
         }
     });
 
+    // Add property to the current user
     $("#propertiesAddButton").on({
         click: function () {
             $.post("./php/properties/addproperty.php", {
@@ -317,6 +315,9 @@ function properties() {
                     $("#propertiesAddDescription").val('');
                     $("#propertiesAddAddress").val('');
                     $("#propertiesAddPrice").val('');
+
+                    // Add contenteditable change event to the just added table row
+                    addPropertyChangeEvent();
                 } else {
                     displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
                 }
@@ -330,6 +331,7 @@ function properties() {
     $("div#properties").show();
 }
 
+// Show documents container, set title, and active nav item
 function documents() {
     hideAllContainers();
     $("div#headerTitle").text("Documents");
@@ -338,44 +340,55 @@ function documents() {
     $("div#documents").show();
 }
 
+// Show change password container, set title, and active nav item
 function password() {
     $("div#headerTitle").text("Change Password");
     $("nav .active").removeClass("active");
     $("nav .password").addClass("active");
 
+    // Set timer to check current password
     $("#changepasswordCurrentPassword").on({
         input: function () {
-            currentPasswordTimer = setTimeout(checkCurrentPassword, 500);
+            currentPasswordTimer = setTimeout(checkCurrentPassword, 1000);
         }
     });
 
+    // Set timer to check if passwords match
     $("#changepasswordConfirmPassword").on({
         input: function () {
-            confirmPasswordTimer = setTimeout(doPasswordsMatch, 500);
+            confirmPasswordTimer = setTimeout(doPasswordsMatch, 1000);
         }
     });
 
+    // Change the password for the current user
     $("#changepasswordButton").on({
         click: function () {
-            $.post("./php/customer/changepassword.php", {
-                username: sessionStorage.username,
-                password: $("#changepasswordNewPassword").val()
-            }, function(response) {
-                if (response == 'success') {
-                    displayMessage('info', 'Your password has been changed');
-                } else {
-                    displayMessage('error', 'Error while changing your password. The web admin has been notified and will fix the problem as soon as possible.');
-                }
-            }).fail(function (request, textStatus, errorThrown) {
-                displayMessage('error', "Error: Something went wrong with changepassword AJAX POST");
-            });
+            if (currentPasswordCorrect && passwordsMatch) {
+                $.post("./php/customer/changepassword.php", {
+                    username: sessionStorage.username,
+                    password: $("#changepasswordNewPassword").val()
+                }, function(response) {
+                    if (response == 'success') {
+                        displayMessage('info', 'Your password has been changed');
+                    } else {
+                        displayMessage('error', 'Error while changing your password. The web admin has been notified and will fix the problem as soon as possible.');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    displayMessage('error', "Error: Something went wrong with changepassword AJAX POST");
+                });
+            } else if (!currentPasswordCorrect) {
+                displayMessage('error', "The current password entered doesn't match the temporary password sent to you.");
+            } else if (!passwordsMatch) {
+                displayMessage('error', "The passwords don't match.");
+            }
         }
-    })
+    });
 
     hideAllContainers();
     $("div#password").show();
 }
 
+// Check the current password against the database and show tick or cross based on response
 function checkCurrentPassword() {
     $.post("./php/customer/checkcurrentpassword.php", {
         username: sessionStorage.username,
@@ -401,6 +414,7 @@ function checkCurrentPassword() {
     });
 }
 
+// Check if passwords match
 function doPasswordsMatch() {
     var newPassword = $("#changepasswordNewPassword").val();
     var confirmPassword = $("#changepasswordConfirmPassword").val();
@@ -416,4 +430,33 @@ function doPasswordsMatch() {
             displayMessage('error', "The passwords don't match.");
         }
     }
+}
+
+// Add focus and blur events to the contenteditable elements
+function addPropertyChangeEvent() {
+    $("[contenteditable=true]").on({
+        blur: function() {
+            if ($(this).text != sessionStorage.contenteditable) {
+                var column = this.classList[0];
+                $.post("./php/properties/changepropertyinfo.php", {
+                    propertyID: $(this).parent().children(':nth-child(5)').text(),
+                    column: column,
+                    value: $(this).text()
+                }, function(response) {
+                    if (response == 'success') {
+                        displayMessage('info', 'The property ' + column + ' has been updated');
+                    } else {
+                        displayMessage('error', 'Something went wrong updating the property price');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                });
+            }
+        },
+
+        focus: function () {
+            sessionStorage.contenteditable = $(this).text();
+        }
+    });
+
 }

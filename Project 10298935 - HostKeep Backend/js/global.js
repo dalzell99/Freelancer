@@ -1,3 +1,4 @@
+// Set toastr notification options
 $(function () {
     toastr.options = {
         "closeButton": true,
@@ -18,11 +19,12 @@ $(function () {
     };
 });
 
-
+// Display a notification message with bootstrap message types
 function displayMessage(type, message) {
     toastr[type](message);
 }
 
+// Retrieve the GET variables from url
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {

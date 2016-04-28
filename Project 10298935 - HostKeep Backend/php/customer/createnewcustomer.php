@@ -9,18 +9,23 @@ if (mysqli_connect_errno()) {
 }
 
 $email = mysqli_real_escape_string($con, $_POST['email']);
-$password = mt_rand(1000000, 9999999);
+$password = mt_rand(1000000, 9999999); // Create random 7 digit password
 
 $sql = "INSERT INTO Customer(username, password, propertyIDs) VALUES ('$email', '" . hashPassword($con, $password) . "', '[]')";
 
+// Insert new customer
 if ($result = mysqli_query($con, $sql)) {
     $message = "
     <p>
-        <strong>Hi, welcome to HostKeep</strong>
+        <h1>Welcome to HostKeep!</h1>
     </p>
 
     <p>
-        Hostkeep's Online Client Access tool has been designed to keep you up to date with your Hostkeep participation.
+        <strong>Welcome to HostKeep Property Management</strong>
+    </p>
+
+    <p>
+        The Hostkeep owners portal helps you update your personal and property details, and access your owner reporting.
     </p>
 
     <p>
@@ -62,13 +67,13 @@ if ($result = mysqli_query($con, $sql)) {
         When in your profile, you will be able to do the following:
         <ul>
             <li>
-                Make changes to your contact details
+                Add or make changes to your contact details
             </li>
             <li>
                 Change your password
             </li>
             <li>
-                Access recent documents and important information that is sent to you.
+                Access monthly property reports
             </li>
         </ul>
     </p>
@@ -78,18 +83,19 @@ if ($result = mysqli_query($con, $sql)) {
     </p>
 
     <p>
-        <strong>If this email was sent to you in error, please call HostKeep on $hostkeepPhoneNumber</strong>
+        Cheers,
     </p>
 
     <p>
-        Regards,
+        Alana, Stephen & Daniel
     </p>
 
-    <p style='color: #5cd65c; font-weight: bold;'>
-        Client Liaison Team
+    <p style='color: #00b7a6; font-weight: bold;'>
+        HostKeep Team
     </p>
     ";
 
+    // Send welcome email with login details
     if (sendEmail($email, $noReplyEmail, 'Welcome to HostKeep', $message)) {
         echo 'success';
     } else {

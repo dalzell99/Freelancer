@@ -13,18 +13,23 @@ $password = hashPassword($con, $_POST['password']);
 
 $sql = "SELECT * FROM Customer WHERE username = '$username'";
 
+// Get customer info
 if ($result = mysqli_query($con, $sql)) {
     if (mysqli_num_rows($result) == 0) {
+        // If username doesn't exist in database, then respond with incorrectusername
         echo 'incorrectusername';
     } else {
         $assoc = mysqli_fetch_assoc($result);
         if ($assoc['lastLogin'] == '') {
+            // If the customer hasn't logged in yet then update last login database info and send firsttime and json array of customer info
             mysqli_query($con, "UPDATE Customer SET lastLoginIP = '" . $_SERVER['REMOTE_ADDR'] . "', lastLogin = '" . date('c') . "' WHERE username = '$username'");
             echo 'firsttime' . json_encode($assoc);
         } else if ($assoc['password'] == $password) {
+            // If the customer has logged in before then update last login database info and send correct and json array of customer info
             mysqli_query($con, "UPDATE Customer SET lastLoginIP = '" . $_SERVER['REMOTE_ADDR'] . "', lastLogin = '" . date('c') . "' WHERE username = '$username'");
             echo 'correct' . json_encode($assoc);
         } else {
+            // If password is incorrect then respond with incorrectpassword
             echo 'incorrectpassword';
         }
     }

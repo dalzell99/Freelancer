@@ -18,12 +18,17 @@ $sql = "INSERT INTO Properties VALUES (DEFAULT, '$username', '$name', '$descript
 $sql1 = "SELECT propertyIDs FROM Customer WHERE username = '$username'";
 $sql2 = "UPDATE Customer SET propertyIDs = '$propertyIDs' WHERE username = '$username'";
 
+// Insert property into database
 if (mysqli_query($con, $sql)) {
+    // Get auto increment ID of last insert query
     $id = mysqli_insert_id($con);
+    // Get the json array of propertyIDs for this username
     if ($result = mysqli_query($con, $sql1)) {
+        // Add inserted propertyID into array
         $propertyIDs = json_decode(mysqli_fetch_assoc($result)['propertyIDs']);
         array_push($propertyIDs, $id);
         $propertyIDs = json_encode($propertyIDs);
+        // Update customer record with updated propertyIDs json array and send propertyID back with response
         if (mysqli_query($con, $sql2)) {
             echo 'success' . $id;
         } else {

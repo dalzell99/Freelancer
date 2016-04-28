@@ -12,7 +12,6 @@ $(function() {
                     password: $("#firsttimeNewPasswordInput").val()
                 }, function(response) {
                     if (response == 'success') {
-                        sessionStorage.firstTime = 'true';
                         window.location = "dashboard.php#my-profile";
                     } else {
                         displayMessage('error', 'Something went wrong changing your password. The web admin has been notified.');
@@ -28,19 +27,22 @@ $(function() {
         }
     });
 
+    // Set timer to check current password
     $("#firsttimeCurrentPasswordInput").on({
         input: function () {
-            currentPasswordTimer = setTimeout(checkCurrentPassword, 500);
+            currentPasswordTimer = setTimeout(checkCurrentPassword, 1000);
         }
     });
-
+    
+    // Set timer to check if passwords match
     $("#firsttimeNewPasswordInput, #firsttimeConfirmPasswordInput").on({
         input: function () {
-            confirmPasswordTimer = setTimeout(doPasswordsMatch, 500);
+            confirmPasswordTimer = setTimeout(doPasswordsMatch, 1000);
         }
     });
 });
 
+// Show change password container, set title, and active nav item
 function checkCurrentPassword() {
     $.post("./php/customer/checkcurrentpassword.php", {
         username: sessionStorage.username,
@@ -66,6 +68,7 @@ function checkCurrentPassword() {
     });
 }
 
+// Check if passwords match
 function doPasswordsMatch() {
     var newPassword = $("#firsttimeNewPasswordInput").val();
     var confirmPassword = $("#firsttimeConfirmPasswordInput").val();
