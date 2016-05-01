@@ -1,5 +1,7 @@
 #myAccountBuy, #myAccountConversion, #myAccountWithdraw,
-#withdrawChequeAddress, #withdrawBankTransferDetails {
+#withdrawChequeAddress, #withdrawBankTransferDetails,
+#myAccountQuizzes, #myAccountChangePassword,
+#myAccountProfileImage, #myAccountProfileImageForm {
   display: none;
 }
 
@@ -9,4 +11,8 @@
   color: black;
   padding: 8px 18px;
   border-radius: 7px;
+}
+
+#myAccountProfileImage {
+  width: 150px;
 }

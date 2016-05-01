@@ -4,6 +4,11 @@ var checkMobileTimer;
 var rzp1;
 var conversionRate;
 
+var userInfo = [];
+var quizResults = [];
+var withdrawals = [];
+var purchaseHistory = [];
+
 var options = {
     "key": "rzp_test_DMtkjnzZPVHfJI",
     "amount": "100", // 100 paise = INR 1
@@ -18,7 +23,8 @@ var options = {
         $.post('./php/charge.php', {
             razorpay_payment_id: response.razorpay_payment_id,
             paymentAmount: options.amount,
-            userID: sessionStorage.userID
+            userID: sessionStorage.userID,
+            username: sessionStorage.username
         }, function(response2) {
             if (response2[1] == 'success') {
                 updatePoints();
@@ -45,15 +51,15 @@ var options = {
 
 window.onload = function() {
     global();
-    
+
     if (sessionStorage.buypoints == 'true') {
         showDeposit();
         sessionStorage.buypoints = 'false';
     }
-    
+
     $('li.active').removeClass('active');
     $("#myAccountMenuItem").addClass('active');
-    
+
     $("#currentPassword").on({
         blur: function() {
             $.post('./php/users/checkpassword.php', {
@@ -78,21 +84,21 @@ window.onload = function() {
             });
         }
     });
-    
+
     $("#confirmPassword").on({
         blur: areSamePassword
     });
-    
+
     $("#newPassword").on({
         blur: areSamePassword
     });
-    
+
     $("#numQuizetos").on({
         input: function() {
             $("#costQuizetos").text($("#numQuizetos").val());
         }
     });
-    
+
     $("#purchaseButton").click(function(e) {
         options.amount = parseInt($("#numQuizetos").val()) * 100;
         options.notes.userID = sessionStorage.userID;
@@ -101,19 +107,19 @@ window.onload = function() {
         rzp1.open();
         e.preventDefault();
     });
-    
+
     $("#numFreeQuizetos").on({
         input: function() {
             $("#numRealQuizetos").text(Math.floor($("#numFreeQuizetos").val() / conversionRate));
         }
     });
-    
+
     $("#numRealRedeemQuizetos").on({
         input: function() {
             $("#cashAmount").text('₹' + $("#numRealRedeemQuizetos").val());
         }
     });
-    
+
     $("#withdrawChequePhone").intlTelInput({
         initialCountry: "auto",
         geoIpLookup: function(callback) {
@@ -124,7 +130,7 @@ window.onload = function() {
         },
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
     });
-    
+
     $("#withdrawBankTransferPhone").intlTelInput({
         initialCountry: "auto",
         geoIpLookup: function(callback) {
@@ -135,21 +141,21 @@ window.onload = function() {
         },
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
     });
-    
+
     $("#withdrawChequePhone").on({
         input: function() {
             checkMobileTimer = setTimeout(checkMobileCheque, 500);
         }
     });
-    
+
     $("#withdrawBankTransferPhone").on({
         input: function() {
             checkMobileTimer = setTimeout(checkMobileBankTransfer, 500);
         }
     });
-    
+
     $.post('./php/conversionrate/getconversionrate.php', {
-        
+
     }, function(response) {
         if (response[0] == 'success') {
             conversionRate = parseInt(response[1]);
@@ -159,13 +165,134 @@ window.onload = function() {
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //alert("Error: Something went wrong with capturing payment");
     });
+
+    $.post("./php/users/getmyaccountinfo.php", {
+        username: sessionStorage.username
+    }, function(response) {
+        if (response[0] == 'success') {
+            userInfo = response[1][0][0];
+
+            if (response[1][1].length > 0) {
+                quizResults = response[1][1];
+            }
+
+            if (response[1][2].length > 0) {
+                withdrawals = response[1][2];
+            }
+
+            if (response[1][3].length > 0) {
+                purchaseHistory = response[1][3];
+            }
+
+            populateProfile();
+            populateQuizzes();
+            populateWithdrawals();
+            populatePurchases();
+        } else {
+            alert('Error');
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+function populateProfile() {
+    $("#myAccountProfileImageUsername").val(userInfo.username);
+    // Check to see if users image exists
+    $.get("./images/users/" + userInfo.imageURL).done(function() {
+        // Show image if it exists on server
+        $("#myAccountProfileImage").prop('src', "./images/users/" + userInfo.imageURL);
+        $("#myAccountProfileImage").show();
+        $("#myAccountProfileImageForm").hide();
+    }).fail(function() {
+        // If it doesn't exist, allow user to upload an image
+        $("#myAccountProfileImage").hide();
+        $("#myAccountProfileImageForm").show();
+    });
+    $("#myAccountProfileFirstName").text(userInfo.firstName);
+    $("#myAccountProfileLastName").text(userInfo.lastName);
+    $("#myAccountProfileEmail").text(userInfo.email);
+    $("#myAccountProfileGender").text(userInfo.gender);
+    $("#myAccountProfileDOB").text(userInfo.DOB);
+    $("#myAccountProfileMobile").text(userInfo.mobile);
+    $("#myAccountProfileMobileAlt").text(userInfo.mobileAlt);
+    $("#myAccountProfileAddress").text(userInfo.homeAddress);
+    $("#myAccountProfileCity").text(userInfo.city);
+    $("#myAccountProfilePincode").text(userInfo.pincode);
+    $("#myAccountProfileState").text(userInfo.state);
+    $("#myAccountProfileCountry").text(userInfo.country);
+}
+
+function populateQuizzes() {
+    var html = "";
+    html += "<table>";
+    html += "    <tr>";
+    html += "        <th>Quiz Name</th>";
+    html += "        <th>Percent of Questions Correct</th>";
+    html += "        <th>Time Taken</th>";
+    html += "    </tr>";
+
+    quizResults.forEach(function (resultObject) {
+        html += "    <tr>";
+        html += "        <td>" + resultObject.quizID + "</td>";
+        html += "        <td>" + resultObject.correctPercent + "%</td>";
+        html += "        <td>" + resultObject.timeTaken + "</td>";
+        html += "    </tr>";
+    });
+
+    html += "</table>";
+    $("#myAccountQuizzes").empty().append(html);
+}
+
+function populateWithdrawals() {
+    var html = "";
+    html += "<table>";
+    html += "    <tr>";
+    html += "        <th>Date</th>";
+    html += "        <th>Amount</th>";
+    html += "        <th>Method</th>";
+    html += "        <th>Done</th>";
+    html += "    </tr>";
+
+    withdrawals.forEach(function (resultObject) {
+        html += "    <tr>";
+        html += "        <td>" + moment(resultObject.time).format("Do MMM YYYY h:mm a") + "</td>";
+        html += "        <td>₹" + resultObject.amount + "</td>";
+        html += "        <td>" + resultObject.method + "</td>";
+        html += "        <td>" + resultObject.done + "</td>";
+        html += "    </tr>";
+    });
+
+    html += "</table>";
+    $("#myAccountWithdrawHistory").empty().append(html);
+}
+
+function populatePurchases() {
+    var html = "";
+    html += "<table>";
+    html += "    <tr>";
+    html += "        <th>Date</th>";
+    html += "        <th>Amount</th>";
+    html += "    </tr>";
+
+    purchaseHistory.forEach(function (resultObject) {
+        html += "    <tr>";
+        html += "        <td>" + moment(resultObject.datePurchased).format("Do MMM YYYY h:mm a") + "</td>";
+        html += "        <td>₹" + resultObject.amount + "</td>";
+        html += "    </tr>";
+    });
+
+    html += "</table>";
+    $("#myAccountPurchaseHistory").empty().append(html);
 }
 
 function hideAllContainers() {
+    $("#myAccountProfile").hide();
     $("#myAccountBuy").hide();
-    $("#myAccountMain").hide();
+    $("#myAccountChangePassword").hide();
     $("#myAccountConversion").hide();
     $("#myAccountWithdraw").hide();
+    $("#myAccountQuizzes").hide();
 }
 
 function areSamePassword() {
@@ -221,6 +348,21 @@ function changeEmail() {
     });
 }
 
+function showProfile() {
+    hideAllContainers();
+    $("#myAccountProfile").show();
+}
+
+function showChangePassword() {
+    hideAllContainers();
+    $("#myAccountChangePassword").show();
+}
+
+function showQuizzes() {
+    hideAllContainers();
+    $("#myAccountQuizzes").show();
+}
+
 function showDeposit() {
     hideAllContainers();
     $("#myAccountBuy").show();
@@ -237,7 +379,7 @@ function showWithdraw() {
         $("#myAccountWithdraw").show();
     } else {
         var result = prompt("You haven't verified your email. You can either enter your email below or click the link in the welcome email you received.");
-        
+
         if (result != null) {
             $.post('./php/users/checkemailredeem.php', {
                 userID: sessionStorage.userID,
@@ -267,12 +409,7 @@ function showWithdraw() {
             });
         }
     }
-    
-}
 
-function backToMyAccount() {
-    hideAllContainers();
-    $("#myAccountMain").show();
 }
 
 function convertFreePoints() {
@@ -380,16 +517,16 @@ function areInputsValidCheque() {
     if(!isMobileNumberCorrect) {
         return [false, "The phone number you entered doesn't match the number with your account."];
     }
-    
+
     if($("#numRealRedeemQuizetos").val() == '') {
         return [false, "Please enter an amount of Quizetos you want to redeem."];
     }
-    
-    if($("#withdrawChequeAddress1").val() == '' && $("#withdrawChequeAddress2").val() == '' && 
+
+    if($("#withdrawChequeAddress1").val() == '' && $("#withdrawChequeAddress2").val() == '' &&
        $("#withdrawChequeAddress3").val() == '' && $("#withdrawChequeAddress3").val() == '') {
         return [false, "Please enter an address to send the cheque to."];
     }
-    
+
     return [true];
 }
 
@@ -397,23 +534,23 @@ function areInputsValidBankTransfer() {
     if(!isMobileNumberCorrect) {
         return [false, "The phone number you entered doesn't match the number with your account."];
     }
-    
+
     if($("#numRealRedeemQuizetos").val() == '') {
         return [false, "Please enter an amount of Quizetos you want to redeem."];
     }
-    
+
     if($("#withdrawBankTransferCode").val().length != 11) {
         return [false, "The IFSC code you entered is invalid."];
     }
-    
+
     if($("#withdrawBankTransferName").val() == '') {
         return [false, "Please enter your name."];
     }
-    
+
     if($("#withdrawBankTransferAccountNumber").val() == '') {
         return [false, "Please enter a bank account number."];
     }
-    
+
     return [true];
 }
 

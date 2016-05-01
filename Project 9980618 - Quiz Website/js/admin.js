@@ -5,20 +5,22 @@ var userArray;
 var place = ['st', 'nd', 'rd', 'th'];
 
 window.onload = function() {
-    if (sessionStorage.loggedIn == null) { 
-        sessionStorage.loggedIn = 'false'; 
+    if (sessionStorage.loggedIn == null) {
+        sessionStorage.loggedIn = 'false';
     } else if (sessionStorage.loggedIn == 'true') {
         switch (sessionStorage.page) {
             case 'users': users(); break;
             case 'quizzes': quizzes(); break;
+            case 'questions': questions(); break;
             case 'testimonials': testimonials(); break;
             case 'promotions': promotions(); break;
             case 'withdrawal': withdrawal(); break;
+            case 'distribution': distribution(); break;
             default: users();
         }
     }
     if (sessionStorage.page == null) { sessionStorage.page = 'users'; }
-    if (sessionStorage.page == 'promotions') { 
+    if (sessionStorage.page == 'promotions') {
         if (sessionStorage.fileUploaded == 'success') {
             alert("Promotion successfully added.");
         } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
@@ -26,9 +28,9 @@ window.onload = function() {
         } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
             alert("File upload failed. Please try again later.");
         }
-        
+
         sessionStorage.fileUploaded = '';
-    } else if (sessionStorage.page == 'testimonials') { 
+    } else if (sessionStorage.page == 'testimonials') {
         if (sessionStorage.fileUploaded == 'success') {
             alert("Testimonial successfully added.");
         } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
@@ -36,7 +38,7 @@ window.onload = function() {
         } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
             alert("File upload failed. Please try again later.");
         }
-        
+
         sessionStorage.fileUploaded = '';
     }
     populateTables();
@@ -47,9 +49,11 @@ function hideAllContainers() {
     $("#passwordContainer").hide();
     $("#userContainer").hide();
     $("#quizContainer").hide();
+    $("#questionsContainer").hide();
     $("#testimonialContainer").hide();
     $("#promotionContainer").hide();
     $("#withdrawalContainer").hide();
+    $("#distributionContainer").hide();
 }
 
 function setActivePage(page) {
@@ -59,8 +63,8 @@ function setActivePage(page) {
 }
 
 function isInt(value) {
-  return !isNaN(value) && 
-         parseInt(Number(value)) == value && 
+  return !isNaN(value) &&
+         parseInt(Number(value)) == value &&
          !isNaN(parseInt(value, 10));
 }
 
@@ -91,16 +95,18 @@ function checkPassword() {
 function populateTables() {
     populateUsers();
     populateQuizzes();
+    populateQuestions();
     populateTestimonials();
     populatePromotions();
     populateWithdrawal();
+    populateDistribution();
 }
 
 /* -------------------------------------------------------------
 ------------------------- Quiz Page ----------------------------
 ---------------------------------------------------------------*/
 
-var questions = [];
+var questionsArray = [];
 var rewards = [];
 var rules = [];
 var startTimePicker;
@@ -108,7 +114,7 @@ var endTimePicker;
 var updateQuizID;
 
 function quizzes() {
-    if (sessionStorage.loggedIn == 'true') { 
+    if (sessionStorage.loggedIn == 'true') {
         hideAllContainers();
         setActivePage('quizzes');
         $("#quizContainer").show();
@@ -116,12 +122,12 @@ function quizzes() {
 }
 
 function populateQuizzes() {
-    $.post('./php/quizzes/getallquizzes.php', {}, 
+    $.post('./php/quizzes/getallquizzes.php', {},
     function(response) {
         if (response[0] == 'success') {
             quizzesArray = response[1];
             var html = '';
-            
+
             html += '<thead>';
             html += '    <tr>';
             html += '        <th>Quiz ID</th>';
@@ -133,13 +139,14 @@ function populateQuizzes() {
             html += '        <th>Start Time</th>';
             html += '        <th>End Time</th>';
             html += '        <th>Rules</th>';
+            html += '        <th>Min Num Players</th>'
             html += '        <th></th>';
             html += '        <th></th>';
             html += '        <th></th>';
             html += '        <th></th>';
             html += '    </tr>';
             html += '</thead>';
-            
+
             html += '<tbody>';
             for (var i = 0; quizzesArray != null && i < quizzesArray.length; i += 1) {
                 var questionsString = '';
@@ -148,12 +155,12 @@ function populateQuizzes() {
                 var pointsRewardsArray = JSON.parse(quizzesArray[i].pointsRewards);
                 var rules = '';
                 var rulesArray = JSON.parse(quizzesArray[i].rules);
-                
+
                 for (var j = 0; j < questionsArray.length; j += 1) {
                     var answers = questionsArray[j][1];
                     questionsString += 'Question: ' + questionsArray[j][0] + '<br>Answers: ' + answers[0] + ', ' + answers[1] + ', ' + answers[2] + ', ' + answers[3] + '<br>Answer: ' + answers[parseInt(questionsArray[j][2])] + '<br>-------------<br>';
                 }
-                
+
                 if (quizzesArray[i].type == 'paid') {
                     for (var k = 0; k < pointsRewardsArray.length; k += 1) {
                         pointsRewards += (k + 1) + place[(k > 3 ? 3 : k)] + ') ' + pointsRewardsArray[k] + '<br>';
@@ -161,14 +168,14 @@ function populateQuizzes() {
                 } else {
                     pointsRewards = pointsRewardsArray[0];
                 }
-                
+
                 for (var l = 0; l < rulesArray.length; l += 1) {
                     rules += (l + 1) + ') ' + rulesArray[l] + '<br>';
                 }
-                
+
                 var startTime = moment(quizzesArray[i].startTime).format("ddd Do MMM YYYY h:mm a");
                 var endTime = moment(quizzesArray[i].endTime).format("ddd Do MMM YYYY h:mm a");
-                
+
                 html += '<tr>';
                 html += '    <td>' + quizzesArray[i].quizID + '</td>';
                 html += '    <td>' + quizzesArray[i].type + '</td>';
@@ -179,6 +186,7 @@ function populateQuizzes() {
                 html += '    <td>' + startTime + '</td>';
                 html += '    <td>' + endTime + '</td>';
                 html += '    <td>' + rules + '</td>';
+                html += '    <td>' + quizzesArray[i].minPlayers + '</td>';
                 html += '    <td><button class="btn btn-default" onclick="editQuiz(' + quizzesArray[i].quizID + ')">Edit</button></td>';
                 html += '    <td><button class="btn btn-default" onclick="copyQuiz(' + quizzesArray[i].quizID + ')">Copy</button></td>';
                 html += '    <td><button class="btn btn-default" onclick="deleteQuiz(' + quizzesArray[i].quizID + ')">Delete</button></td>';
@@ -186,11 +194,11 @@ function populateQuizzes() {
                 html += '</tr>';
             }
             html += '</tbody>';
-            
+
             $("#quizTable").empty().append(html);
             var newTableObject = document.getElementById('quizTable')
             sorttable.makeSortable(newTableObject);
-            
+
             $("#createQuizType").on({
                 change: function() {
                     if ($(this).val() == 'paid') {
@@ -212,12 +220,24 @@ function showCreateQuiz() {
     $("#createQuizContainer").slideDown();
     $("#createQuizUpdateButton").hide();
     $("#createQuizUploadButton").show();
+    $("#createQuizQuestionsRandom").hide();
+    $("#createQuizQuestionsManual").show();
 }
 
 function showEditQuiz() {
     $("#createQuizContainer").slideDown();
     $("#createQuizUpdateButton").show();
     $("#createQuizUploadButton").hide();
+    $("#createQuizQuestionsRandom").hide();
+    $("#createQuizQuestionsManual").show();
+}
+
+function showCreateRandomQuiz() {
+    $("#createQuizContainer").slideDown();
+    $("#createQuizUpdateButton").hide();
+    $("#createQuizUploadButton").show();
+    $("#createQuizQuestionsRandom").show();
+    $("#createQuizQuestionsManual").hide();
 }
 
 function addDateTimePickers() {
@@ -229,7 +249,7 @@ function addDateTimePickers() {
         showClose: true,
         showTodayButton: true
     });
-    
+
     endTimePicker = $("#createQuizEndTime").datetimepicker({
         sideBySide: true,
         format: 'ddd Do MMM YYYY h:mm a',
@@ -241,11 +261,11 @@ function addDateTimePickers() {
 }
 
 function addNewQuestion() {
-    var answers = [$("#createQuizAnswer1Input").val(), $("#createQuizAnswer2Input").val(), 
+    var answers = [$("#createQuizAnswer1Input").val(), $("#createQuizAnswer2Input").val(),
                    $("#createQuizAnswer3Input").val(), $("#createQuizAnswer4Input").val()]
-    questions.push([$("#createQuizQuestionInput").val(), answers]);
+    questionsArray.push([$("#createQuizQuestionInput").val(), answers]);
     refreshQuestionTable();
-    
+
     $("#createQuizQuestionInput").val('')
     $("#createQuizAnswer1Input").val('');
     $("#createQuizAnswer1Input").val('');
@@ -254,13 +274,13 @@ function addNewQuestion() {
 }
 
 function addAnswer(q, a) {
-    questions[q][2] = a;
+    questionsArray[q][2] = a;
     $(".questions." + q + " .selectedAnswer").removeClass('selectedAnswer');
     $(".questions." + q + " .answer." + a).addClass('selectedAnswer');
 }
 
 function deleteQuestion(index) {
-    questions.splice(index, 1);
+    questionsArray.splice(index, 1);
     refreshQuestionTable();
 }
 
@@ -274,10 +294,10 @@ function refreshQuestionTable() {
     html += '    <th>Answer4</th>';
     html += '    <th></th>';
     html += '</tr>';
-    for (var i = 0; i < questions.length; i += 1) {
-        var answers = questions[i][1];
+    for (var i = 0; i < questionsArray.length; i += 1) {
+        var answers = questionsArray[i][1];
         html += '<tr class="questions ' + i + '">';
-        html += '    <td class="question ' + i + '"contenteditable="true">' + questions[i][0] + '</td>';
+        html += '    <td class="question ' + i + '"contenteditable="true">' + questionsArray[i][0] + '</td>';
         html += '    <td class="answer 0" contenteditable="true" onclick="addAnswer(' + i + ', 0)">' + answers[0] + '</td>';
         html += '    <td class="answer 1" contenteditable="true" onclick="addAnswer(' + i + ', 1)">' + answers[1] + '</td>';
         html += '    <td class="answer 2" contenteditable="true" onclick="addAnswer(' + i + ', 2)">' + answers[2] + '</td>';
@@ -285,23 +305,23 @@ function refreshQuestionTable() {
         html += '    <td><button class="btn btn-default" onclick="deleteQuestion(' + i + ')">Delete</button></td>';
         html += '</tr>';
     }
-    
+
     $("#createQuizQuestions").empty().append(html);
-    
-    for (var k = 0; k < questions.length; k += 1) {
-        $(".questions." + k + " .answer." + questions[k][2]).addClass('selectedAnswer');
+
+    for (var k = 0; k < questionsArray.length; k += 1) {
+        $(".questions." + k + " .answer." + parseInt(questionsArray[k][2])).addClass('selectedAnswer');
     }
-    
+
     $('.questions > [contenteditable=true]').on({
         blur: function() {
             var className = this.classList[0];
             var questionIndex = parseInt(this.parentElement.classList[1]);
             var index = parseInt(this.classList[1]);
-            
+
             if (className == 'question') {
-                questions[questionIndex][0] = $(this).text();
+                questionsArray[questionIndex][0] = $(this).text();
             } else {
-                questions[questionIndex][1][index] = $(this).text();
+                questionsArray[questionIndex][1][index] = $(this).text();
             }
         }
     });
@@ -326,16 +346,16 @@ function refreshRewardTable() {
     html += '    <th></th>';
     html += '</tr>';
     for (var i = 0; i < rewards.length; i += 1) {
-        
+
         html += '<tr class="rewards ' + i + '">';
         html += '    <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
         html += '    <td contenteditable="true">' + rewards[i] + '</td>';
         html += '    <td><button class="btn btn-default" onclick="deleteReward(' + i + ')">Delete</button></td>';
         html += '</tr>';
     }
-    
+
     $("#createQuizPointRewards").empty().append(html);
-    
+
     $('.rewards > [contenteditable=true]').on({
         blur: function() {
             var index = parseInt(this.parentElement.classList[1]);
@@ -367,9 +387,9 @@ function refreshRuleTable() {
         html += '    <td><button class="btn btn-default" onclick="deleteRule(' + i + ')">Delete</button></td>';
         html += '</tr>';
     }
-    
+
     $("#createQuizRules").empty().append(html);
-    
+
     $('.rules > [contenteditable=true]').on({
         blur: function() {
             var index = parseInt(this.parentElement.classList[1]);
@@ -380,18 +400,36 @@ function refreshRuleTable() {
 
 function uploadQuiz() {
     var valid = areInputsValidQuizzes();
-    if (valid[0]) { 
+    if (valid[0]) {
         var start = startTimePicker.data("DateTimePicker").date().utc().format();
         var end = endTimePicker.data("DateTimePicker").date().utc().format();
+
+        if ($("#createQuizType").val() == 'free') {
+            rules.push("User need free quizeto balance to register in this quiz");
+            rules.push("User can unregister from the quiz until 10 minutes before the start of the quiz");
+            rules.push("No minimum participant required to start this quiz");
+            rules.push("Prize pool contains bonus quzeto which can be redemed after conversting to real quizeto");
+            rules.push("Winning criteria: 100% correct answer = 5 Bonus Quizeto, 95-99% correct answer = 3 Bonus Quizeto, 90-94% correct answer = 1 Bonus Quizeto");
+        } else {
+            rules.push("User need real quizeto balance to register in this quiz");
+            rules.push("User can unregister from the quiz until 10 minutes before the start of the quiz");
+            rules.push("Minimum 10 participant required to start this quiz");
+            rules.push("Incase of less number of participant, quiz will be automatically cancelled");
+            rules.push("Quizeto will be refunded to respective user account if quiz gets cancelled");
+            rules.push("Prize pool contains redeemable real quizeto");
+            rules.push("Winners will be decided based on maximum number of correct answer given in minimum time");
+        }
+
         $.post('./php/quizzes/createnewquiz.php', {
             type: $("#createQuizType").val(),
-            questions: JSON.stringify(questions),
+            questions: JSON.stringify(questionsArray),
             category: $("#createQuizCategory").val(),
             pointsRewards: JSON.stringify(rewards),
             pointsCost: $("#createQuizPointsCost").val(),
             startTime: start,
             endTime: end,
-            rules: JSON.stringify(rules)
+            rules: JSON.stringify(rules),
+            numPlayers: $("#createQuizNumPlayer").val()
         }, function(response) {
             if (response == 'success') {
                 $("#createQuizContainer").slideUp();
@@ -415,21 +453,22 @@ function editQuiz(id) {
             $("#createQuizType").val(q.type);
             $("#createQuizCategory").val(q.category);
             $("#createQuizPointsCost").val(q.pointsCost);
+            $("#createQuizNumPlayer").val(q.minPlayers);
             startTimePicker.data("DateTimePicker").date(moment(q.startTime));
             endTimePicker.data("DateTimePicker").date(moment(q.endTime));
-            
+
             rules = JSON.parse(q.rules);
-            questions = JSON.parse(q.questions);
+            questionsArray = JSON.parse(q.questions);
             rewards = JSON.parse(q.pointsRewards);
-            
+
             refreshQuestionTable();
             refreshRewardTable();
             refreshRuleTable();
-            
+
             updateQuizID = id;
         }
     }
-    
+
     showEditQuiz();
 }
 
@@ -442,19 +481,19 @@ function copyQuiz(id) {
             $("#createQuizPointsCost").val(q.pointsCost);
             startTimePicker.data("DateTimePicker").date(moment(q.startTime));
             endTimePicker.data("DateTimePicker").date(moment(q.endTime));
-            
+
             rules = JSON.parse(q.rules);
-            questions = JSON.parse(q.questions);
+            questionsArray = JSON.parse(q.questions);
             rewards = JSON.parse(q.pointsRewards);
-            
+
             refreshQuestionTable();
             refreshRewardTable();
             refreshRuleTable();
-            
+
             updateQuizID = id;
         }
     }
-    
+
     showCreateQuiz();
 }
 
@@ -476,19 +515,20 @@ function deleteQuiz(id) {
 function updateQuiz() {
     var valid = areInputsValidQuizzes();
     if (valid[0]) {
-        // Get the ISO8601 formatted start and end datetimes with timezone set to UTC 
+        // Get the ISO8601 formatted start and end datetimes with timezone set to UTC
         var start = startTimePicker.data("DateTimePicker").date().utc().format();
         var end = endTimePicker.data("DateTimePicker").date().utc().format();
         $.post('./php/quizzes/updatequiz.php', {
             quizID: updateQuizID,
             type: $("#createQuizType").val(),
-            questions: JSON.stringify(questions),
+            questions: JSON.stringify(questionsArray),
             category: $("#createQuizCategory").val(),
             pointsRewards: JSON.stringify(rewards),
             pointsCost: $("#createQuizPointsCost").val(),
             startTime: start,
             endTime: end,
-            rules: JSON.stringify(rules)
+            rules: JSON.stringify(rules),
+            numPlayers: $("#createQuizNumPlayer").val()
         }, function(response) {
             if (response == 'success') {
                 populateQuizzes();
@@ -509,21 +549,21 @@ function areInputsValidQuizzes() {
     if ($("#createQuizCategory").val() == '') {
         return [false, "Please enter a quiz name"];
     }
-    
+
     if (rewards.length < 3 && $("#createQuizType").val() == 'paid') {
         return [false, "Please add at least 3 rewards"];
     }
-    
+
     if ($("#createQuizPointsCost").val() == '') {
         return [false, "Please ebter a registration fee"];
     }
-    
-    for (var i = 0; i < questions.length; i += 1) {
-        if (questions[i][2] == undefined) {
+
+    for (var i = 0; i < questionsArray.length; i += 1) {
+        if (questionsArray[i][2] == undefined) {
             return [false, "Some questions don't have answers"];
         }
     }
-    
+
     return [true];
 }
 
@@ -534,12 +574,234 @@ function addPromotionForQuiz(id, name) {
     $("#createPromotionContainer").show();
 }
 
+function addRandomQuestions() {
+    $.post("./php/questions/getrandomquestions.php", {
+        numQuestions: $("#createQuizQuestionsRandomNum").val(),
+        category: $("#createQuizQuestionsRandomCategory").val()
+    }, function(response) {
+        if (response[0] == 'success') {
+            questionsArray = response[1];
+            questionsArray.forEach(function (value) {
+                value[1] = JSON.parse(value[1]);
+            });
+            refreshQuestionTable();
+        } else {
+            alert('Error: ' + response[1]);
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+/* -------------------------------------------------------------
+------------------------- Questions Page ----------------------------
+---------------------------------------------------------------*/
+
+var selectedQAnswer = -1;
+var updateQuestionID;
+var allQuestionsArray;
+
+function questions() {
+    if (sessionStorage.loggedIn == 'true') {
+        hideAllContainers();
+        setActivePage('questions');
+        $("#questionsContainer").show();
+    }
+}
+
+function populateQuestions() {
+    $.post('./php/questions/getallquestions.php', {},
+    function(response) {
+        if (response[0] == 'success') {
+            allQuestionsArray = response[1];
+            var html = '';
+
+            html += '<thead>';
+            html += '    <tr>';
+            html += '        <th>Question ID</th>';
+            html += '        <th>Questions</th>';
+            html += '        <th>Answers</th>';
+            html += '        <th>Category</th>';
+            html += '        <th></th>';
+            html += '        <th></th>';
+            html += '    </tr>';
+            html += '</thead>';
+
+            html += '<tbody>';
+            for (var i = 0; allQuestionsArray != null && i < allQuestionsArray.length; i += 1) {
+                var answersArray = JSON.parse(allQuestionsArray[i].answers);
+                var answerString = 'Answers: ' + answersArray[0] + ', ' + answersArray[1] + ', ' + answersArray[2] + ', ' + answersArray[3] + '<br>Correct Answer: ' + answersArray[parseInt(allQuestionsArray[i].correctAnswer)];
+
+                html += '<tr>';
+                html += '    <td>' + allQuestionsArray[i].questionID + '</td>';
+                html += '    <td>' + allQuestionsArray[i].question + '</td>';
+                html += '    <td>' + answerString + '</td>';
+                html += '    <td>' + allQuestionsArray[i].category + '</td>';
+                html += '    <td><button class="btn btn-default" onclick="editQuestion(' + allQuestionsArray[i].questionID + ')">Edit</button></td>';
+                html += '    <td><button class="btn btn-default" onclick="deleteQuestion(' + allQuestionsArray[i].questionID + ')">Delete</button></td>';
+                html += '</tr>';
+            }
+            html += '</tbody>';
+
+            $("#questionsTable").empty().append(html);
+            var newTableObject = document.getElementById('questionsTable')
+            sorttable.makeSortable(newTableObject);
+
+            $("input[type='radio']").on({
+                click: function () {
+                    $("input[type='radio']").prop('checked', false);
+                    $(this).prop('checked', true);
+                    selectedQAnswer = this.classList[0].substr(5);
+                }
+            });
+        } else {
+            alert('Error');
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //alert("Error: Something went wrong with populateQuizzes function");
+    });
+}
+
+function showCreateQuestion() {
+    $("#createQuestionContainer").slideToggle();
+    $("#createQuestionUploadButton").show();
+    $("#createQuestionUpdateButton").hide();
+}
+
+function showEditQuestion() {
+    $("#createQuestionContainer").slideToggle();
+    $("#createQuestionUploadButton").hide();
+    $("#createQuestionUpdateButton").show();
+}
+
+function editQuestion(id) {
+    for (var i = 0; i < allQuestionsArray.length; i += 1) {
+        if (allQuestionsArray[i].questionID == id) {
+            var q = allQuestionsArray[i];
+            $("#createQuestionQuestion").val(q.question);
+            $("#createQuestionCategory").val(q.category);
+            JSON.parse(q.answers).forEach(function (value, index) {
+                $("#createQuestionAnswer" + (index + 1)).val(value);
+            });
+
+            $(".radio" + q.correctAnswer).prop('checked', true);
+
+            updateQuestionID = id;
+        }
+    }
+
+    showEditQuestion();
+}
+
+function uploadQuestion() {
+    var valid = areInputsValidQuestion();
+    if (valid[0]) {
+        var answers = JSON.stringify([$("#createQuestionAnswer1").val(), $("#createQuestionAnswer2").val(), $("#createQuestionAnswer3").val(), $("#createQuestionAnswer4").val()]);
+        $.post('./php/questions/createnewquestion.php', {
+            question: $("#createQuestionQuestion").val(),
+            answers: answers,
+            correctAnswer: selectedQAnswer,
+            category: $("#createQuestionCategory").val()
+        }, function(response) {
+            if (response == 'success') {
+                populateQuestions();
+                alert('Question has been created.');
+                $("#createQuestionAnswer1").val('');
+                $("#createQuestionAnswer2").val('');
+                $("#createQuestionAnswer3").val('');
+                $("#createQuestionAnswer4").val('');
+                $("#createQuestionQuestion").val('');
+                $("#createQuestionCategory").val('');
+            } else {
+                alert('Error:');
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //alert("Error: Something went wrong with uploadQuiz function");
+        });
+    } else {
+        alert(valid[1]);
+    }
+}
+
+function updateQuestion() {
+    var valid = areInputsValidQuestion();
+    if (valid[0]) {
+        var answers = JSON.stringify([$("#createQuestionAnswer1").val(), $("#createQuestionAnswer2").val(), $("#createQuestionAnswer3").val(), $("#createQuestionAnswer4").val()]);
+        $.post('./php/questions/updatequestion.php', {
+            questionID: updateQuestionID,
+            question: $("#createQuestionQuestion").val(),
+            answers: answers,
+            correctAnswer: selectedQAnswer,
+            category: $("#createQuestionCategory").val()
+        }, function(response) {
+            if (response == 'success') {
+                populateQuizzes();
+                $("#createQuestionContainer").slideUp();
+                alert('Question has been updated.');
+            } else {
+                alert('Error: ');
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //alert("Error: Something went wrong with uploadQuiz function");
+        });
+    } else {
+        alert(valid[1]);
+    }
+}
+
+function deleteQuestion(id) {
+    $.post('./php/questions/deletequestion.php', {
+        questionID: id
+    }, function(response) {
+        if (response == 'success') {
+            populateQuestions();
+            alert('Question has been deleted.');
+        } else {
+            alert('Error');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //alert("Error: Something went wrong with uploadQuiz function");
+    });
+}
+
+function areInputsValidQuestion() {
+    if ($("#createQuestionCategory").val() == '') {
+        return [false, "Please enter a question category"];
+    }
+
+    if ($("#createQuestionQuestion").val() == '') {
+        return [false, "Please enter a question"];
+    }
+
+    if ($("#createQuestionAnswer1").val() == '') {
+        return [false, "Please enter answer 1"];
+    }
+
+    if ($("#createQuestionAnswer2").val() == '') {
+        return [false, "Please enter answer 2"];
+    }
+
+    if ($("#createQuestionAnswer3").val() == '') {
+        return [false, "Please enter answer 3"];
+    }
+
+    if ($("#createQuestionAnswer4").val() == '') {
+        return [false, "Please enter answer 4"];
+    }
+
+    if (selectedQAnswer == -1) {
+        return [false, "Please select an answer radio button"];
+    }
+
+    return [true];
+}
+
 /* -------------------------------------------------------------
 ---------------------- Testimonal Page -------------------------
 ---------------------------------------------------------------*/
 
 function testimonials() {
-    if (sessionStorage.loggedIn == 'true') { 
+    if (sessionStorage.loggedIn == 'true') {
         hideAllContainers();
         setActivePage('testimonials');
         $("#testimonialContainer").show();
@@ -547,12 +809,12 @@ function testimonials() {
 }
 
 function populateTestimonials() {
-    $.post('./php/testimonials/getalltestimonials.php', {}, 
+    $.post('./php/testimonials/getalltestimonials.php', {},
     function(response) {
         if (response[0] == 'success') {
             testimonialsArray = response[1];
             var html = '';
-            
+
             html += '<thead>';
             html += '    <tr>';
             html += '        <th>Testimonial ID</th>';
@@ -562,7 +824,7 @@ function populateTestimonials() {
             html += '        <th></th>';
             html += '    </tr>';
             html += '</thead>';
-            
+
             html += '<tbody>';
             for (var i = 0; testimonialsArray != null && i < testimonialsArray.length; i += 1) {
                 html += '<tr>';
@@ -574,11 +836,11 @@ function populateTestimonials() {
                 html += '</tr>';
             }
             html += '</tbody>';
-            
+
             $("#testimonialTable").empty().append(html);
             var newTableObject = document.getElementById('testimonialTable')
             sorttable.makeSortable(newTableObject);
-            
+
             $("#testimonialTable td").on({
                 blur: function() {
                     if ($(this).text() != sessionStorage.contentEditable) {
@@ -597,7 +859,7 @@ function populateTestimonials() {
                         });
                     }
                 },
-                
+
                 focus: function() {
                     sessionStorage.contentEditable = $(this).text();
                 }
@@ -658,13 +920,13 @@ function users() {
 }
 
 function populateUsers() {
-    $.post('./php/users/getallusers.php', {}, 
+    $.post('./php/users/getallusers.php', {},
     function(response) {
         if (response[0] == 'success') {
             userArray = response[1];
             var html = '';
-            
-            html += '<thead>'; 
+
+            html += '<thead>';
             html += '    <tr>';
             html += '        <th>User ID</th>';
             html += '        <th>Username</th>';
@@ -675,7 +937,7 @@ function populateUsers() {
             html += '        <th>Home Address</th>';
             html += '    </tr>';
             html += '</thead>';
-            
+
             html += '<tbody>';
             for (var i = 0; userArray != null && i < userArray.length; i += 1) {
                 html += '<tr>';
@@ -689,13 +951,13 @@ function populateUsers() {
                 html += '</tr>';
             }
             html += '</tbody>';
-            
+
             $("#userTable").empty().append(html);
             var newTableObject = document.getElementById('userTable')
             sorttable.makeSortable(newTableObject);
-            
+
             $("#convertRate").val(response[2].rate);
-            
+
             $("#convertRate").on({
                 blur: function() {
                     if (isInt($(this).val())) {
@@ -713,7 +975,7 @@ function populateUsers() {
                     }
                 }
             });
-            
+
             $("#userTable [contenteditable='true']").on({
                 blur: function() {
                     var t = $(this);
@@ -736,7 +998,7 @@ function populateUsers() {
                         });
                     }
                 },
-                
+
                 focus: function() {
                     sessionStorage.contentEditable = $(this).text();
                 }
@@ -754,7 +1016,7 @@ function populateUsers() {
 ---------------------------------------------------------------*/
 
 function promotions() {
-    if (sessionStorage.loggedIn == 'true') { 
+    if (sessionStorage.loggedIn == 'true') {
         hideAllContainers();
         setActivePage('promotions');
         $("#promotionContainer").show();
@@ -762,12 +1024,12 @@ function promotions() {
 }
 
 function populatePromotions() {
-    $.post('./php/promotions/getallpromotions.php', {}, 
+    $.post('./php/promotions/getallpromotions.php', {},
     function(response) {
         if (response[0] == 'success') {
             promotionArray = response[1];
             var html = '';
-            
+
             html += '<thead>';
             html += '    <tr>';
             html += '        <th>Promotion ID</th>';
@@ -776,7 +1038,7 @@ function populatePromotions() {
             html += '        <th></th>';
             html += '    </tr>';
             html += '</thead>';
-            
+
             html += '<tbody>';
             for (var i = 0; promotionArray != null && i < promotionArray.length; i += 1) {
                 html += '<tr>';
@@ -787,7 +1049,7 @@ function populatePromotions() {
                 html += '</tr>';
             }
             html += '</tbody>';
-            
+
             $("#promotionTable").empty().append(html);
             var newTableObject = document.getElementById('promotionTable')
             sorttable.makeSortable(newTableObject);
@@ -819,7 +1081,7 @@ function deletePromotion(id) {
 ---------------------------------------------------------------*/
 
 function withdrawal() {
-    if (sessionStorage.loggedIn == 'true') { 
+    if (sessionStorage.loggedIn == 'true') {
         hideAllContainers();
         setActivePage('withdrawal');
         $("#withdrawalContainer").show();
@@ -827,12 +1089,12 @@ function withdrawal() {
 }
 
 function populateWithdrawal() {
-    $.post('./php/withdrawals/getallwithdrawals.php', {}, 
+    $.post('./php/withdrawals/getallwithdrawals.php', {},
     function(response) {
         if (response[0] == 'success') {
             withdrawalArray = response[1];
             var html = '';
-            
+
             html += '<thead>';
             html += '    <tr>';
             html += '        <th>Withdrawal ID</th>';
@@ -848,7 +1110,7 @@ function populateWithdrawal() {
             html += '        <th></th>';
             html += '    </tr>';
             html += '</thead>';
-            
+
             html += '<tbody>';
             for (var i = 0; withdrawalArray != null && i < withdrawalArray.length; i += 1) {
                 html += '<tr>';
@@ -870,7 +1132,7 @@ function populateWithdrawal() {
                 html += '</tr>';
             }
             html += '</tbody>';
-            
+
             $("#withdrawalTable").empty().append(html);
             var newTableObject = document.getElementById('withdrawalTable');
             sorttable.makeSortable(newTableObject);
@@ -897,5 +1159,60 @@ function setWithdrawalDone(id, done, username, amount) {
         }
     }).fail(function (request, textStatus, errorThrown) {
        //alert("Error: Something went wrong with markWithdrawalDone function");
+    });
+}
+
+/* -------------------------------------------------------------
+---------------------- Distribution Page -----------------------
+---------------------------------------------------------------*/
+
+function distribution() {
+    if (sessionStorage.loggedIn == 'true') {
+        hideAllContainers();
+        setActivePage('distribution');
+        $("#distributionContainer").show();
+    }
+}
+
+function populateDistribution() {
+    $.post("./php/distribution/getdistributionpercentages.php", {
+
+    }, function(response) {
+        if (response[0] == 'success') {
+            var percentages = response[1];
+            $("#distribution1").val(percentages.first);
+            $("#distribution2").val(percentages.second);
+            $("#distribution3").val(percentages.third);
+
+            $("#distributionButton").on({
+                click: function () {
+                    var first = parseInt($("#distribution1").val());
+                    var second = parseInt($("#distribution2").val());
+                    var third = parseInt($("#distribution3").val());
+
+                    if (first + second + third == 90) {
+                        $.post("./php/distribution/changepercentages.php", {
+                            first: first,
+                            second: second,
+                            third: third
+                        }, function(response) {
+                            if (response == 'success') {
+                                alert('Changes have been saved');
+                            } else {
+                                alert('Error');
+                            }
+                        }).fail(function (request, textStatus, errorThrown) {
+                            //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                        });
+                    } else {
+                        alert("The percentages must add up to 100");
+                    }
+                }
+            });
+        } else {
+            alert('Error');
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
 }

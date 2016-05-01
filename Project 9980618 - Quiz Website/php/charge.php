@@ -24,6 +24,7 @@ if (isset($_POST['razorpay_payment_id']) === false) {
 $id = $_POST['razorpay_payment_id'];
 $paymentAmount = $_POST['paymentAmount'];
 $userID = $_POST['userID'];
+$username = $_POST['username'];
 
 //capture payment amount
 $payment = $api->payment->fetch($id)->capture(array('amount'=>$paymentAmount));
@@ -31,7 +32,8 @@ $payment = $api->payment->fetch($id)->capture(array('amount'=>$paymentAmount));
 if ($payment['status'] == 'captured') {
     $sql = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . ($paymentAmount / 100) . " WHERE userID = '$userID'";
     $sql2 = "SELECT email, username FROM Users WHERE userID = '$userID'";
-    if (mysqli_query($con, $sql) && ($result = mysqli_query($con, $sql2))) {
+    $sql3 = "INSERT INTO Purchases VALUES (default, '$userID', '$username', '" . ($paymentAmount / 100) . "', '" . date('c') . "')";
+    if (mysqli_query($con, $sql) && ($result = mysqli_query($con, $sql2)) && mysqli_query($con, $sql3)) {
         $row = mysqli_fetch_assoc($result);
         $to = array($row['email']);
         $from = $databasephpNoReplyEmail;
@@ -44,7 +46,7 @@ if ($payment['status'] == 'captured') {
             </body>
         </html>
         ";
-        
+
         $sendEmailResult = sendEmail($to, $from, $subject, $message);
         if ($sendEmailResult == 'success') {
             echo json_encode([$payment->toArray(), 'success']);

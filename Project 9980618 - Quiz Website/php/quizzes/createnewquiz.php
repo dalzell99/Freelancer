@@ -16,7 +16,7 @@ $startTime = $_POST['startTime'];
 $endTime = $_POST['endTime'];
 $rules = mysqli_real_escape_string($con, $_POST['rules']);
 
-$sql = "INSERT INTO Quizzes VALUES (DEFAULT, '$type', '$questions', '$category', '$pointsRewards', $pointsCost, '$startTime', '$endTime', -1, '[]', '$rules', 'n')";
+$sql = "INSERT INTO Quizzes VALUES (DEFAULT, '$type', '$questions', '$category', '$pointsRewards', $pointsCost, '$startTime', '$endTime', -1, '[]', '$rules', 'n', 'n')";
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';

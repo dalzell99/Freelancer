@@ -13,7 +13,7 @@ $password = md5(md5($_POST['password'] . strtolower($username)) . $salt);
 $email = mysqli_real_escape_string($con, $_POST['email']);
 $mobile = mysqli_real_escape_string($con, $_POST['mobile']);
 $emailCode = $_POST['emailCode'];
-$sql = "INSERT INTO Users VALUES (DEFAULT, '$username', '$password', 0, 0, 20, '$email', '$emailCode', '[]', '', '[]', '', 'y', '$mobile')";
+$sql = "INSERT INTO Users VALUES (DEFAULT, '$username', '$password', 0, 0, 20, '$email', '$emailCode', '[]', '', '[]', '', 'y', '$mobile', '', '', '', '', '', '', '', '', '', '')";
 
 $to = array($email);
 $from = $databasephpNoReplyEmail;
@@ -22,13 +22,13 @@ $message = "
 <html>
     <body>
         <img id='logo' src='http://ccrscoring.co.nz/9980618/images/logo.png'>
-    
+
         <p><b>Greetings $username,</b></p>
 
         <p><b>Welcome to Quizeto</b></p>
 
         <p><b>Thanks so much for joining us. You’re on your way to Hot Seat</b></p>
-        
+
         <p><a href='http://quizeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
 
         <p>Every one of us always wanted to participate in ‘<i>Kaun Banega crorepati </i>’ and ‘<i>Who wants to be a millionaire’</i> the two most famous TV reality show from India and US. But very few of us would have made it to the Hot seat. We brings you an online platform where everyone will be on hot seat everyday making their dreams come true of becoming a crorepati or a millionaire</p>
@@ -59,7 +59,7 @@ $message = "
         <p><b>Regards</b></p>
 
         <p><b>Team Quizeto</b> </p>
-        
+
         <div id='footer'>
             <img class='footerImages' src='http://quizeto.com/images/QUIZ.png'>
             <img class='footerImages' src='http://quizeto.com/images/howtoquizzes.png'>
@@ -71,23 +71,23 @@ $message = "
             p {
                 color: #800000;
             }
-            
+
             #logo {
                 height: 100px;
                 display: block;
                 margin: 0 auto;
             }
-            
+
             .footerImages {
                 width: 11%;
                 margin: 2%;
             }
-            
+
             #footer {
                 text-align: center;
             }
         </style>
-        
+
     </body>
 </html>
 ";

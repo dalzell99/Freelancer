@@ -2,7 +2,10 @@
 #testimonialContainer, #promotionContainer,
 #createQuizContainer, #createQuizUpdateButton,
 #createTestimonialContainer, #withdrawalContainer,
-#rewardContainer, #createPromotionContainer {
+#rewardContainer, #createPromotionContainer,
+#questionsContainer, #createQuestionContainer,
+#createQuestionUpdateButton, #createQuizQuestionsRandom,
+#distributionContainer {
   display: none;
 }
 
