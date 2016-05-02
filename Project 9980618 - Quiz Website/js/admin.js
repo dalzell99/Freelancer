@@ -134,10 +134,11 @@ function populateQuizzes() {
             var htmlPage = '';
 
             for (var l = 0; quizzesArray.length > 20 && l < quizzesArray.length / 20; l += 1) {
-                htmlPage += "<button onclick='changeQuizPage(" + l + ")'>" + (l + 1) + "</button>";
+                htmlPage += "<button class='paginationButton" + l + "' onclick='changeQuizPage(" + l + ")'>" + (l + 1) + "</button>";
             }
 
             $("#createQuizPagination").empty().append(htmlPage);
+            $("#createQuizPagination .paginationButton" + tablePages.questions).addClass('active');
 
             // Fill table with quiz data
             var html = '';
@@ -194,12 +195,12 @@ function populateQuizzes() {
                 html += '    <td>' + quizzesArray[i].quizID + '</td>';
                 html += '    <td>' + quizzesArray[i].type + '</td>';
                 html += '    <td>' + quizzesArray[i].category + '</td>';
-                html += '    <td>' + questionsString + '</td>';
+                html += '    <td class="collapsable"><div>' + questionsString + '</div></td>';
                 html += '    <td>' + pointsRewards + '</td>';
                 html += '    <td>' + quizzesArray[i].pointsCost + '</td>';
                 html += '    <td>' + startTime + '</td>';
                 html += '    <td>' + endTime + '</td>';
-                html += '    <td>' + rules + '</td>';
+                html += '    <td class="collapsable"><div>' + rules + '</div></td>';
                 html += '    <td>' + quizzesArray[i].minPlayers + '</td>';
                 html += '    <td><button class="btn btn-default" onclick="editQuiz(' + quizzesArray[i].quizID + ')">Edit</button></td>';
                 html += '    <td><button class="btn btn-default" onclick="copyQuiz(' + quizzesArray[i].quizID + ')">Copy</button></td>';
@@ -222,6 +223,14 @@ function populateQuizzes() {
                     }
                 }
             });
+
+            $(".collapsable").on({
+                click: function () {
+                    $(this).children('div').toggle();
+                }
+            });
+
+            $(".collapsable > div").hide();
         } else {
             alert('Error: ' + response[1]);
         }
@@ -232,8 +241,6 @@ function populateQuizzes() {
 
 function changeQuizPage(page) {
     tablePages.quizzes = page;
-    $("#createQuizPagination .active").removeClass('active');
-    $("#createQuizPagination .paginationButton" + page).addClass("active");
     populateQuizzes();
 }
 
@@ -596,10 +603,11 @@ function populateQuestions() {
             var htmlPage = '';
 
             for (var m = 0; allQuestionsArray.length > 20 && m < allQuestionsArray.length / 20; m += 1) {
-                htmlPage += "<button onclick='changeQuestionPage(" + m + ")'>" + (m + 1) + "</button>";
+                htmlPage += "<button class='paginationButton" + m + "' onclick='changeQuestionPage(" + m + ")'>" + (m + 1) + "</button>";
             }
 
             $("#createQuestionPagination").empty().append(htmlPage);
+            $("#createQuestionPagination .paginationButton" + tablePages.questions).addClass('active');
 
             var html = '';
 
@@ -669,8 +677,6 @@ function populateQuestions() {
 
 function changeQuestionPage(page) {
     tablePages.questions = page;
-    $("#createQuestionPagination .active").removeClass('active');
-    $("#createQuestionPagination .paginationButton" + page).addClass("active");
     populateQuestions();
 }
 

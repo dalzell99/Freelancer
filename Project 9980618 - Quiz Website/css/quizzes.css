@@ -67,3 +67,12 @@
   width: 100px;
   font-size: 1.5em;
 }
+
+#quizListPagination button {
+  margin: 5px;
+  padding: 3px 30px;
+}
+
+#quizListPagination button.active {
+  background-color: #193c5a;
+}

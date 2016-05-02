@@ -14,15 +14,13 @@ $percentages = mysqli_fetch_assoc($resultDistribution);
 
 $sqlQuizzes = "SELECT * FROM Quizzes WHERE checked = 'n' AND type = 'paid'";
 $resultQuizzes = mysqli_query($con, $sqlQuizzes);
-$quizzes = mysqli_fetch_assoc($resultQuizzes);
-
-foreach ($quizzes as $quiz) {
+while ($quiz = mysqli_fetch_assoc($resultQuizzes)) {
     // Check if there is less than 10 minutes to start of quiz
     $startTime = strtotime($quiz['startTime']);
     $now = time();
 
-    if ($quizEndTime - $now < 600) {
-        // If quiz starts within 10 minutes (600 seconds) then check if $minRegisteredUsers or more users registered
+    if ($startTime - $now < 600) {
+        // If quiz starts within 10 minutes (600 seconds) then check if 10 or more users registered
         if (count($quiz['userRegistered']) >= $minRegisteredUsers) {
             // If 10 or more registered then distribute prizes based on above percentages
             $totalRegistrationFees = count($quiz['userRegistered']) * $quiz['pointsCost'];
@@ -35,7 +33,7 @@ foreach ($quizzes as $quiz) {
             mysqli_query($con, "UPDATE Quizzes SET checked = 'y' WHERE quizID = " . $quiz['quizID']);
         } else {
             // If less than 10 registered, refund registered users plus 1 bonus quizeto and cancel quiz and send them an email
-            foreach ($quiz['userRegistered'] as $userID) {
+            foreach (json_decode($quiz['userRegistered']) as $userID) {
                 mysqli_query($con, "UPDATE Users SET paidPointsBalance = paidPointsBalance + 1 + " . $quiz['pointsCost'] . " WHERE userID = '$userID'");
                 $resultUser = mysqli_query($con, "SELECT email FROM Users WHERE userID = '$userID'");
                 sendEmail(mysqli_fetch_assoc($resultUser)['email'], $databasephpInfoEmail, "Cancelled Quiz",
