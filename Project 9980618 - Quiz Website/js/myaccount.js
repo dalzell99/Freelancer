@@ -209,34 +209,152 @@ function populateProfile() {
         $("#myAccountProfileImage").hide();
         $("#myAccountProfileImageForm").show();
     });
-    $("#myAccountProfileFirstName").text(userInfo.firstName);
-    $("#myAccountProfileLastName").text(userInfo.lastName);
+
+    if (userInfo.firstName == '') {
+        $("#myAccountProfileFirstName").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileFirstName").text(userInfo.firstName);
+    }
+
+    if (userInfo.lastName == '') {
+        $("#myAccountProfileLastName").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileLastName").text(userInfo.lastName);
+    }
+
     $("#myAccountProfileEmail").text(userInfo.email);
-    $("#myAccountProfileGender").text(userInfo.gender);
-    $("#myAccountProfileDOB").text(userInfo.DOB);
+
+    if (userInfo.gender == '') {
+        $("#myAccountProfileGender").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileGender").text(userInfo.gender);
+    }
+
+    if (userInfo.DOB == '') {
+        $("#myAccountProfileDOB").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileDOB").text(userInfo.DOB);
+    }
+
     $("#myAccountProfileMobile").text(userInfo.mobile);
-    $("#myAccountProfileMobileAlt").text(userInfo.mobileAlt);
-    $("#myAccountProfileAddress").text(userInfo.homeAddress);
-    $("#myAccountProfileCity").text(userInfo.city);
-    $("#myAccountProfilePincode").text(userInfo.pincode);
-    $("#myAccountProfileState").text(userInfo.state);
-    $("#myAccountProfileCountry").text(userInfo.country);
+
+    if (userInfo.mobileAlt == '') {
+        $("#myAccountProfileMobileAlt").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileMobileAlt").text(userInfo.mobileAlt);
+    }
+
+    if (userInfo.homeAddress == '') {
+        $("#myAccountProfileAddress").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileAddress").text(userInfo.homeAddress);
+    }
+
+    if (userInfo.city == '') {
+        $("#myAccountProfileCity").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileCity").text(userInfo.city);
+    }
+
+    if (userInfo.pincode == '') {
+        $("#myAccountProfilePincode").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfilePincode").text(userInfo.pincode);
+    }
+
+    if (userInfo.state == '') {
+        $("#myAccountProfileState").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileState").text(userInfo.state);
+    }
+
+    if (userInfo.country == '') {
+        $("#myAccountProfileCountry").prop('contenteditable', true);
+    } else {
+        $("#myAccountProfileCountry").text(userInfo.country);
+    }
+
+    $("#myAccountProfile [contenteditable=true]").on({
+        blur: function () {
+            if ($(this).is('div')) {
+                var value = $(this).text();
+            } else {
+                var value = $(this).val();
+            }
+
+            if (value != sessionStorage.contenteditable) {
+                var column = this.classList[1];
+                var $this = $(this);
+                $.post("./php/users/updateuserprofile.php", {
+                    username: sessionStorage.username,
+                    column: column,
+                    value: value
+                }, function(response) {
+                    if (response == 'success') {
+                        alert('Your ' + tidyColumnName(column) + ' has been updated');
+
+                        // Once the user has entered a value in their profile, it can not be changed unless it's their home address
+                        if (column != 'homeAddress') {
+                            $this.prop('contenteditable', false);
+                        }
+                    } else {
+                        alert('Error profile upload change');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                });
+            }
+        },
+
+        focus: function () {
+            if ($(this).is('div')) {
+                sessionStorage.contenteditable = $(this).text();
+            } else {
+                sessionStorage.contenteditable = $(this).val();
+            }
+        }
+    })
+}
+
+function tidyColumnName(column) {
+    switch (column) {
+        case 'firstName':
+            return 'first name';
+        case 'lastName':
+            return 'last name';
+        case 'homeAddress':
+            return 'home address';
+        case 'mobileAlt':
+            return 'alternate mobile number';
+        case 'gender':
+            return 'gender';
+        case 'DOB':
+            return 'date of birth';
+        case 'city':
+            return 'city';
+        case 'pincode':
+            return 'pincode';
+        case 'state':
+            return 'state';
+        case 'country':
+            return 'country';
+    }
 }
 
 function populateQuizzes() {
     var html = "";
-    html += "<table>";
+    html += "<table id='quizzesHistory'>";
     html += "    <tr>";
     html += "        <th>Quiz Name</th>";
-    html += "        <th>Percent of Questions Correct</th>";
-    html += "        <th>Time Taken</th>";
+    html += "        <th>Registration Fee</th>";
+    html += "        <th>Rank</th>";
     html += "    </tr>";
 
     quizResults.forEach(function (resultObject) {
         html += "    <tr>";
-        html += "        <td>" + resultObject.quizID + "</td>";
-        html += "        <td>" + resultObject.correctPercent + "%</td>";
-        html += "        <td>" + resultObject.timeTaken + "</td>";
+        html += "        <td>" + resultObject.name + "</td>";
+        html += "        <td>" + resultObject.fee + "</td>";
+        html += "        <td>" + (resultObject.userRank == '' ? "Quiz hasn't finished" : resultObject.userRank) + "</td>";
         html += "    </tr>";
     });
 
@@ -246,7 +364,7 @@ function populateQuizzes() {
 
 function populateWithdrawals() {
     var html = "";
-    html += "<table>";
+    html += "<table id='withdrawalHistory'>";
     html += "    <tr>";
     html += "        <th>Date</th>";
     html += "        <th>Amount</th>";
@@ -269,7 +387,7 @@ function populateWithdrawals() {
 
 function populatePurchases() {
     var html = "";
-    html += "<table>";
+    html += "<table id='purchasesHistory'>";
     html += "    <tr>";
     html += "        <th>Date</th>";
     html += "        <th>Amount</th>";

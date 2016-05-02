@@ -22,8 +22,8 @@ foreach ($quizzes as $quiz) {
     $now = time();
 
     if ($quizEndTime - $now < 600) {
-        // If quiz starts within 10 minutes (600 seconds) then check if 10+ users registered
-        if (count($quiz['userRegistered']) >= 10) {
+        // If quiz starts within 10 minutes (600 seconds) then check if $minRegisteredUsers or more users registered
+        if (count($quiz['userRegistered']) >= $minRegisteredUsers) {
             // If 10 or more registered then distribute prizes based on above percentages
             $totalRegistrationFees = count($quiz['userRegistered']) * $quiz['pointsCost'];
             $rewards = json_encode(array(

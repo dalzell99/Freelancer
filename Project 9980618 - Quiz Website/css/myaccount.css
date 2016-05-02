@@ -16,3 +16,23 @@
 #myAccountProfileImage {
   width: 150px;
 }
+
+#quizzesHistory,
+#purchasesHistory,
+#withdrawalHistory {
+  width: 100%;
+  font-size: 1.5em;
+  border-collapse: separate;
+  border-spacing: 3px;
+}
+
+#quizzesHistory td,
+#quizzesHistory th,
+#purchasesHistory td,
+#purchasesHistory th,
+#withdrawalHistory td,
+#withdrawalHistory th {
+  border: 1px solid white;
+  text-align: center;
+  padding: 10px;
+}

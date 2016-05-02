@@ -9,8 +9,8 @@ var isEmailAddressValid = false;
 window.onload = global;
 
 function global() {
-    if (sessionStorage.loggedIn == null) { 
-        sessionStorage.loggedIn = 'false'; 
+    if (sessionStorage.loggedIn == null) {
+        sessionStorage.loggedIn = 'false';
     } else if (sessionStorage.loggedIn == 'true') {
         $("#accountInfoUsername").text(sessionStorage.username);
         $("#accountInfoFreeConvertablePoints").text(sessionStorage.freeConvertablePointsBalance);
@@ -26,7 +26,7 @@ function global() {
 function login() {
     var username = $("#loginUsername").val();
     var password = $("#loginPassword").val();
-    
+
     $.post('./php/users/login.php', {
         username: username,
         password: password
@@ -42,6 +42,7 @@ function login() {
             sessionStorage.emailVerified = response[1].emailConfirmed;
             sessionStorage.notifications = response[1].notificationsArray;
             sessionStorage.notificationsViewed = response[1].timeNotificationsViewed;
+            sessionStorage.profileImageURL = response[1].imageURL;
             sessionStorage.loggedIn = 'true';
             location.reload();
         } else if (response[0] == 'incorrect') {
@@ -75,7 +76,7 @@ function createNewUser() {
         var email = $("#userRegisterEmail").val();
         var mobile = $("#userRegisterPhone").intlTelInput("getNumber");
         var emailCode = createEmailCode();
-        
+
         $.post('./php/users/createnewuser.php', {
             username: username,
             password: password,
@@ -103,36 +104,36 @@ function areInputsValidSignUp() {
     if (!$("#userRegisterTerms").prop('checked')) {
         return [false, 'You must agree to the terms of use before proceeding.'];
     }
-    
+
     if ($("#userRegisterEmail").val().length == 0) {
         return [false, 'You need to enter an email address'];
     }
-    
+
     if ($("#userRegisterUsername").val().length == 0) {
         return [false, 'You need to enter a username'];
     }
-    
+
     if ($("#userRegisterPhone").val().length == 0) {
         return [false, 'You need to enter a phone number'];
     }
-    
+
     if ($("#userRegisterEmail").val().indexOf('@') == -1 || $("#userRegisterEmail").val().lastIndexOf('.') == -1 ||
         $("#userRegisterEmail").val().lastIndexOf('.') < $("#userRegisterEmail").val().indexOf('@')) {
         return [false, 'Your email address needs to include an @ and a . in it'];
     }
-    
+
     if (!isMobileNumberValid) {
         return [false, 'The mobile number you entered is invalid'];
     }
-    
+
     if (!isEmailAddressValid) {
         return [false, 'The email address you entered is already being used'];
     }
-    
+
     if (!isUsernameValid) {
         return [false, 'The username you entered is already being used'];
     }
-    
+
     return [true];
 }
 
@@ -159,12 +160,12 @@ function getUrlVars() {
 function pad(value, length) {
     // Convert to string
     value = '' + value;
-    
+
     // Add zeros to front until the desired length
     while (value.length < length) {
         value = "0" + value;
     }
-    
+
     // return padded value as string
     return value;
 }
@@ -198,7 +199,7 @@ function showBuyPoints() {
 
 function getCountdownString(secondsToStart, secondsToEnd) {
     var secsInMinute = 60;
-    var secsInHour = 60 * 60; 
+    var secsInHour = 60 * 60;
     var secsInDay = 60 * 60 * 24;
     var timerString = '';
 
@@ -211,9 +212,9 @@ function getCountdownString(secondsToStart, secondsToEnd) {
         timerString += 'Starts in ';
         if (days > 0) {
             timerString += days + (days == 1 ? ' day ' : ' days ');
-        } 
+        }
         timerString += hours + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
-    } else if (secondsToEnd > 0) { 
+    } else if (secondsToEnd > 0) {
         var days = Math.floor(secondsToEnd / secsInDay);
         var hours = Math.floor((secondsToEnd - days * secsInDay) / secsInHour);
         var minutes = Math.floor((secondsToEnd - (hours * secsInHour + days * secsInDay)) / secsInMinute);
@@ -222,17 +223,17 @@ function getCountdownString(secondsToStart, secondsToEnd) {
         timerString += 'Ends in ';
         if (days > 0) {
             timerString += days + (days == 1 ? ' day ' : ' days ');
-        } 
+        }
         timerString += hours + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
     } else {
         timerString = 'Ended';
     }
-    
+
     return timerString;
 }
 
 function isInt(value) {
-  return !isNaN(value) && 
-         parseInt(Number(value)) == value && 
+  return !isNaN(value) &&
+         parseInt(Number(value)) == value &&
          !isNaN(parseInt(value, 10));
 }

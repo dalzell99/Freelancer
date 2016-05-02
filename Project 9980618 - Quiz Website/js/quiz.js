@@ -24,7 +24,7 @@ window.onload = function() {
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //alert("Error: Something went wrong with startQuiz function");
     });
-    
+
     disableCopying();
 }
 
@@ -33,7 +33,7 @@ function disableCopying() {
         contextmenu: function() {
             return false;
         },
-        
+
         copy: function() {
             return false;
         }
@@ -44,7 +44,7 @@ function createQuestions() {
     var htmlQuestions = '';
     var htmlFooter = '';
     var questions = JSON.parse(quiz.questions);
-    
+
     for (var i = 0; i < questions.length; i += 1) {
         htmlQuestions += "<div class='questionContainer " + i + "'>";
         htmlQuestions += "    <div class='question'>" + questions[i][0] + "</div>";
@@ -57,12 +57,12 @@ function createQuestions() {
         htmlQuestions += "        <button class='btn btn-default btn-lg submitButton' onclick='nextQuestion(" + i + ")'>Next Question</button>";
         htmlQuestions += "    </div>";
         htmlQuestions += "</div>";
-        
+
         htmlFooter += "<button class='btn btn-default questionButton " + i + " col-xs-2 col-sm-1' onclick='goToQuestion(" + i + ")'>" + (i + 1) + "</button>";
     }
-    
+
     htmlFooter += "<button class='btn btn-default submitAnswersButton' onclick='submitAnswers()'>End Quiz and Submit Answers</button>";
-    
+
     $("#questionsContainer").empty().append(htmlQuestions);
     $("#quizFooter").empty().append(htmlFooter);
 }
@@ -95,19 +95,19 @@ function startQuiz() {
 
 function submitAnswers() {
     var unansweredQuestions = [];
-    
+
     for (var i = 0; i < answersGiven.length; i += 1) {
         if (answersGiven[i] == -1) {
             unansweredQuestions.push(i + 1);
         }
     }
-    
+
     if (unansweredQuestions.length > 0) {
-        if (confirm("You haven't answered questions " + unansweredQuestions.join(', ') + 
+        if (confirm("You haven't answered questions " + unansweredQuestions.join(', ') +
                     '. Do you still want to end the quiz and submit your answers?')) {
             endQuiz();
         } else {
-            // Do nothing    
+            // Do nothing
         }
     } else {
         endQuiz();
@@ -121,7 +121,7 @@ function endQuiz() {
     clearTimeout(timeLeftTimer);
     endQuizTime = moment();
     var correctAnswers = 0;
-    
+
     var questions = JSON.parse(quiz.questions);
     var questionsArray = [];
     for (var i = 0; i < questions.length; i += 1) {
@@ -134,7 +134,7 @@ function endQuiz() {
         }
         questionsArray.push(tempArray);
     }
-    
+
     var timeTaken = Math.ceil(endQuizTime.diff(startQuizTime));
     var correctPercent = Math.ceil(100 * correctAnswers / questions.length);
     if (quiz.quizID == 1 || quiz.quizID == 2) {
@@ -146,7 +146,7 @@ function endQuiz() {
             username: sessionStorage.username,
             timeTaken: timeTaken,
             questions: questionsArray,
-            correctPercent: correctPercent 
+            correctPercent: correctPercent
         }, function(response) {
             if (response == 'success') {
                 showResultsPage(correctAnswers, correctPercent, timeTaken, questions.length);
@@ -162,7 +162,7 @@ function endQuiz() {
 function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions) {
     $("#quizFooter").hide();
     var html = '';
-    
+
     if (quiz.quizID == 1 || quiz.quizID == 2) {
         $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");
     } else {
@@ -203,6 +203,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                 html += "<table id='quizResultTable'>";
                 html += "    <tr>";
                 html += "         <th>Rank</th>";
+                html += "         <th></th>";
                 html += "         <th>Username</th>";
                 html += "         <th>Percent Correct</th>";
                 html += "         <th>Time Taken<br><small>secs</small></th>";
@@ -213,6 +214,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     }
                     html += "    <tr class='leaderboard " + i + "'>";
                     html += "         <td>" + (i + 1) + place[(i > 3 ? 3 : i)] + "</td>";
+                    html += '        <td><img class="leaderboardUserImage" src="../images/users/' + results[i].imageURL + '" /></td>';
                     html += "         <td>" + users[i].username + "</td>";
                     html += "         <td>" + users[i].correctPercent + "</td>";
                     html += "         <td>" + (users[i].timeTaken / 1000) + "</td>";
@@ -248,7 +250,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
             //alert("Error: Something went wrong with showResultsPage function");
         });
     }
-    
+
     $("#quizResults").show();
 }
 
@@ -265,7 +267,7 @@ function nextQuestion(n) {
     $(".questionContainer." + n).removeClass('currentQuestion');
     $(".questionContainer." + (n + 1)).addClass('currentQuestion');
     currentQuestion += 1;
-    
+
     updateQuizFooterQuestionColours();
 }
 
@@ -275,7 +277,7 @@ function skipQuestion(n) {
     $(".questionContainer." + n).removeClass('currentQuestion');
     $(".questionContainer." + (n + 1)).addClass('currentQuestion');
     currentQuestion += 1;
-    
+
     updateQuizFooterQuestionColours();
 }
 
@@ -293,7 +295,7 @@ function goToQuestion(n) {
 function updateQuizFooterQuestionColours() {
     var redBackground = '#ffbbbb';
     var greenBackground = '#bbffc0';
-    
+
     answersGiven.forEach(function(element, index, array) {
         if (index < currentQuestion) {
             if (element == -1) {

@@ -19,10 +19,18 @@ if ($resultUsers = mysqli_query($con, $sql1)) {
     }
     array_push($response, $quizUsers);
 
+    // Get all quiz results for this user
     $sql2 = "SELECT * FROM QuizResults WHERE username = '$username'";
     if ($resultResults = mysqli_query($con, $sql2)) {
         $quizResults = [];
         while ($rowResults = mysqli_fetch_assoc($resultResults)) {
+            // For each quiz result, get the quiz fee and name (category)
+            $sqlQuizzes = "SELECT category, pointsCost FROM Quizzes WHERE quizID = '" . $rowResults['quizID'] . "'";
+            $resultQuizzes = mysqli_query($con, $sqlQuizzes);
+            $rowQuizzes = mysqli_fetch_assoc($resultQuizzes);
+            $rowResults['fee'] = $rowQuizzes['pointsCost'];
+            $rowResults['name'] = $rowQuizzes['category'];
+
             $quizResults[] = $rowResults;
         }
         array_push($response, $quizResults);

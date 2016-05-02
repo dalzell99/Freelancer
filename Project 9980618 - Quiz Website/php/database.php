@@ -8,4 +8,5 @@ $databasephpQueryEmail = 'query@quizeto.com';
 $databasephpInfoEmail = 'info@quizeto.com';
 $databasephpWithdrawalEmail = 'redeem@quizeto.com';
 $salt = '$&%&^sf65g41fg65fds1GSGDvbedghGGRGSDGDGsdY^#(*&#^*&^f1gf';
+$minRegisteredUsers = 10;
 ?>

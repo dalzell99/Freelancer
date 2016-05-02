@@ -6,12 +6,12 @@ var endQuizTimer;
 
 window.onload = function() {
     global();
-    
+
     $('li.active').removeClass('active');
     $("#quizzesMenuItem").addClass('active');
-    
+
     var quizID = getUrlVars()['id'];
-    
+
     $.post('./php/quizzes/getquizinfo.php', {
         id: quizID
     },
@@ -22,13 +22,12 @@ window.onload = function() {
             populateInfo();
             populatePrizes();
             populateLeaders();
-            
+            populateRules();
+
             if (moment(quiz.endTime).diff(moment()) < 0) {
                 populateQuestions();
-            } else {
-                populateRules();
             }
-            
+
             startQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 2000); // show start quiz button when timer hits zero
             registrationQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 600000); // Stop registration 10 minutes before start of quiz
             endQuizTimer = setTimeout(populateTitle, moment(quiz.endTime).diff(moment())); // Don't allow people to start quiz after it has ended
@@ -98,7 +97,7 @@ function populateTitle() {
             }
 
             $("#quizTitle").empty().append(html);
-            
+
             setInterval(updateCountdownsTimer, 500);
 
             if (sessionStorage.loggedIn == 'false') {
@@ -113,7 +112,7 @@ function populateTitle() {
 
 function populateInfo() {
     var html = '';
-    
+
     html += '<div class="quizToggle" onclick="toggleQuizInfo()">Quiz Info</div>';
     html += '<table id="quizInfoTable" class="table">';
     html += '    <tr>';
@@ -137,13 +136,13 @@ function populateInfo() {
     html += '        <td>' + quiz.pointsCost + '</td>';
     html += '    </tr>';
     html += '</table>';
-    
+
     $("#quizInfo").empty().append(html);
 }
 
 function populatePrizes() {
     var html = '';
-    
+
     html += '<div class="quizToggle" onclick="toggleQuizPrizes()">Quiz Prizes</div>';
     html += '<table id="quizPrizesTable" class="table">';
     if (quiz.type == 'paid') {
@@ -162,7 +161,7 @@ function populatePrizes() {
         html += '        <td>Number of Places</td>';
         html += '        <td>' + prizes.length + '</td>';
         html += '    </tr>';
-        
+
         for (var i = 0; i < prizes.length; i += 1) {
             html += '    <tr>';
             html += '        <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
@@ -176,14 +175,14 @@ function populatePrizes() {
         html += '    </tr>';
     }
     html += '</table>';
-    
+
     $("#quizPrizes").empty().append(html);
 }
 
 function populateRules() {
     var html = '';
     var rules = JSON.parse(quiz.rules);
-    
+
     html += '<div class="quizToggle" onclick="toggleQuizRules()">Quiz Rules</div>';
     html += '<table id="quizRulesTable" class="table">';
     for (var i = 0; i < rules.length; i += 1) {
@@ -193,9 +192,8 @@ function populateRules() {
         html += '    </tr>';
     }
     html += '</table>';
-    
+
     $("#quizRules").empty().append(html).show();
-    $("#quizQuestions").hide();
 }
 
 function populateLeaders() {
@@ -210,9 +208,10 @@ function populateLeaders() {
 
                 html += '<div class="quizToggle" onclick="toggleQuizLeaders()">Quiz Leaders</div>';
                 html += '<table id="quizLeadersTable" class="table">';
-                for (var i = 0; results != null && i < results.length; i += 1) {
+                for (var i = 0; results != null && i < 15 && i < results.length; i += 1) {
                     html += '    <tr>';
                     html += '        <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
+                    html += '        <td><img class="leaderboardUserImage" src="./images/users/' + results[i].imageURL + '" /></td>';
                     html += '        <td>' + results[i].username + '</td>';
                     html += '        <td>' + results[i].correctPercent + '%</td>';
                     html += '        <td>' + (results[i].timeTaken / 1000) + ' secs</td>';
@@ -246,7 +245,6 @@ function populateQuestions() {
     html += '</table>';
 
     $("#quizQuestions").empty().append(html).show();
-    $("#quizRules").hide();
 }
 
 function registerQuiz(id, type) {

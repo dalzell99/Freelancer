@@ -35,3 +35,7 @@ body {
   margin-left: 20px;
   font-weight: bold;
 }
+
+.leaderboardUserImage {
+  max-height: 30px;
+}

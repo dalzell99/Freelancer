@@ -1,0 +1,281 @@
+<html>
+    <head>
+        <style>
+            body {
+                font-family: sans-serif;
+            }
+
+            #title {
+                text-align: center;
+                color: white;
+                background: black;
+                padding: 10px;
+                font-size: 1.5em;
+                border-radius: 10px 10px 0 0;
+            }
+
+            #navContainer {
+                border-left: 1px solid black;
+                border-right: 1px solid black;
+            }
+
+            #nav {
+                width: 100%;
+                text-align: center;
+                font-size: 1.3em;
+            }
+
+            #nav td > div {
+                border: 1px solid black;
+                border-radius: 5px;
+                padding: 10px;
+                background-color: #5cb85c
+            }
+
+            @media (max-width: 992px) {
+                #nav {
+                    font-size: 1em;
+                }
+
+                #nav td > div {
+                    padding: 5px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                #nav {
+                    font-size: 1em;
+                }
+            }
+
+            @media (max-width: 480px) {
+                #nav {
+                    font-size: .6em;
+                }
+            }
+
+            #calculatorContainer {
+                text-align: center;
+                border-left: 1px solid black;
+                border-right: 1px solid black;
+                border-bottom: 1px solid black;
+                border-radius: 0 0 10px 10px;
+            }
+
+            #calculatorContainer > * {
+                margin: 10px;
+            }
+
+            #weightLiftedLabel {
+                font-size: 1.2em;
+            }
+
+            #weightLifted {
+                font-size: 1.2em;
+                margin-left: 10px;
+                border-radius: 5px;
+                border: 1px solid black;
+                max-width: 200px;
+            }
+
+            #calculateButton {
+                border: 0;
+                background-color: #428bca;
+                color: white;
+                padding: 10px 30px;
+                font-size: 1em;
+                border-radius: 5px;
+            }
+
+            #resultsTable {
+                width: 100%;
+                text-align: center;
+                border: 1px solid #428bca;
+                margin-top: 20px;
+                border-collapse: collapse;
+            }
+
+            #resultsTable td, #resultsTable th {
+                border-left: 1px solid #428bca;
+                border-right: 1px solid #428bca;
+            }
+
+            #resultsTable th {
+                background-color: #428bca;
+                color: white;
+                padding: 10px;
+                font-size: 1.3em;
+            }
+
+            #resultsTable td {
+                padding: 5px 0;
+            }
+
+            #resultsTable tbody tr:nth-child(2n) {
+                background-color: lightgrey;
+            }
+
+            @media (max-width: 480px) {
+                #resultsTable th {
+                    padding: 5px;
+                    font-size: .8em;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id='repCalcContainer'>
+            <div id='title'>
+                ONE-REP MAX (ONE-RM) CALCULATOR
+            </div>
+            <div id='navContainer'>
+                <table id='nav'>
+                    <tr>
+                        <td>
+                            <div id='navStandard' class='active'>
+                                Standard
+                            </div>
+                        </td>
+                        <td>
+                            <div id='navLeg'>
+                                Leg Press &amp; Ext
+                            </div>
+                        </td>
+                        <td>
+                            <div id='navBack'>
+                                Back &amp; Bis
+                            </div>
+                        </td>
+                        <td>
+                            <div id='navRack'>
+                                Rack Dead
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id='calculatorContainer'>
+                <label id='weightLiftedLabel' for='#weightLifted'>WEIGHT LIFTED</label>
+                <input id='weightLifted' type='number' />
+                <button id='calculateButton'>CALCULATE</button>
+            </div>
+            <table id='resultsTable'>
+                <thead>
+                    <tr>
+                        <th>Reps</th>
+                        <th>Percentage</th>
+                        <th>One-RM</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            var currentType = 'Standard';
+            var standard = {
+                num: 30,
+                values: [1, .965, .93, .9, .875, .85, .825, .8, .785, .77, .76, .75, .735, .72, .71, .7, .69, .68, .67, .66, .65, .6433, .6366, .63, .6233, .6166, .61, .605, .6, .6]
+            };
+
+            var leg = {
+                num: 50,
+                values: [1, .975, .96, .95, .938, .925, .913, .9, .888, .875, .863, .850, .843, .835, .828, .820, .813, .8, .793, .786, .779, .771, .764, .757, .75, .743, .736, .729, .721, .714, .707, .7, .694, .688, .681, .675, .669, .663, .656, .65, .645, .64, .635, .63, .625, .62, .615, .61, .605, .6]
+            };
+
+            var back = {
+                num: 30,
+                values: [1, 1, 1, .985, .965, .95, .938, .925, .913, .9, .89, .88, .87, .86, .85, .84, .83, .82, .81, .80, .783, .767, .75, .733, .717, .7, .688, .675, .663, .65]
+            };
+
+            var rack = {
+                num: 30,
+                values: [1, .983, .967, .95, .917, .883, .85, .84, .83, .82, .81, .8, .794, .788, .781, .775, .769, .763, .756, .75, .74, .73, .72, .71, .7, .69, .68, .67, .66, .65]
+            };
+
+            window.onload = function() {
+                populateTable();
+
+                document.getElementById('calculateButton').addEventListener("click", calculate);
+                document.getElementById('navStandard').addEventListener("click", function() { changeCalculator('Standard'); });
+                document.getElementById('navLeg').addEventListener("click", function() { changeCalculator('Leg'); });
+                document.getElementById('navBack').addEventListener("click", function() { changeCalculator('Back'); });
+                document.getElementById('navRack').addEventListener("click", function() { changeCalculator('Rack'); });
+            };
+
+            function changeCalculator(type) {
+                currentType = type;
+                populateTable();
+                // Remove active class from previous active calculator nav
+                document.getElementById('nav' + type).className =
+    document.getElementById('nav' + type).className.replace(/\bactiveCalc\b/,'');
+                // Add active class to new active calculator nav
+                document.getElementById('nav' + type).className += 'activeCalc';
+            }
+
+            function calculate() {
+                var weight = parseInt(document.getElementById("weightLifted").value);
+
+                if (weight != 0) {
+                    // Get rep percentages for the current calculator type
+                    switch (currentType) {
+                        case 'Standard':
+                            var values = standard.values;
+                            break;
+                        case 'Leg':
+                            var values = leg.values;
+                            break;
+                        case 'Back':
+                            var values = back.values;
+                            break;
+                        case 'Rack':
+                            var values = rack.values;
+                            break;
+                    }
+
+                    // Get all the td elements on the 3rd column from results table
+                    var tableElementNode = document.querySelectorAll("#resultsTable td:nth-child(3)");
+
+                    for (var j = 0; j < values.length; j += 1) {
+                        tableElementNode[j].innerHTML = Math.floor(weight / values[j]);
+                    }
+                } else {
+                    alert("Please enter a weight before clicking 'Calculate' button");
+                }
+            }
+
+            function populateTable() {
+                var html = "";
+
+                // Get rep percentages for the current calculator type
+                switch (currentType) {
+                    case 'Standard':
+                        var values = standard.values;
+                        break;
+                    case 'Leg':
+                        var values = leg.values;
+                        break;
+                    case 'Back':
+                        var values = back.values;
+                        break;
+                    case 'Rack':
+                        var values = rack.values;
+                        break;
+                }
+
+                for (var i = 0; i < values.length; i += 1) {
+                    html += "<tr>";
+                    html += "    <td>" + (i + 1) + "</td>";
+                    html += "    <td>" + (Math.round(values[i] * 10000) / 100) + "%</td>";
+                    html += "    <td></td>";
+                    html += "</tr>";
+                }
+
+                // Add html to resultsTable
+                document.querySelector("#resultsTable tbody").innerHTML = html;
+            }
+        </script>
+    </body>
+</html>

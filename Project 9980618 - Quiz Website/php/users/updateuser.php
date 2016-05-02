@@ -12,9 +12,9 @@ $paidPoints = $_POST['paidPoints'];
 $freeConvertablePoints = $_POST['freeConvertablePoints'];
 $freeUnconvertablePoints = $_POST['freeUnconvertablePoints'];
 $email = $_POST['email'];
-$homeAddress = $_POST['homeAddress'];
+$mobile = $_POST['mobile'];
 
-$sql = "UPDATE Users SET paidPointsBalance = '$paidPoints', freeConvertablePointsBalance = '$freeConvertablePoints', freeUnconvertablePointsBalance = '$freeUnconvertablePoints', email = '$email', homeAddress = '$homeAddress' WHERE userID = '$userID'";
+$sql = "UPDATE Users SET paidPointsBalance = '$paidPoints', freeConvertablePointsBalance = '$freeConvertablePoints', freeUnconvertablePointsBalance = '$freeUnconvertablePoints', email = '$email', mobile = '$mobile' WHERE userID = '$userID'";
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';

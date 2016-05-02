@@ -3,6 +3,10 @@ var testimonialsArray;
 var quizzesArray;
 var userArray;
 var place = ['st', 'nd', 'rd', 'th'];
+var tablePages = {
+    quizzes: 0,
+    questions: 0
+};
 
 window.onload = function() {
     if (sessionStorage.loggedIn == null) {
@@ -126,6 +130,16 @@ function populateQuizzes() {
     function(response) {
         if (response[0] == 'success') {
             quizzesArray = response[1];
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var l = 0; quizzesArray.length > 20 && l < quizzesArray.length / 20; l += 1) {
+                htmlPage += "<button onclick='changeQuizPage(" + l + ")'>" + (l + 1) + "</button>";
+            }
+
+            $("#createQuizPagination").empty().append(htmlPage);
+
+            // Fill table with quiz data
             var html = '';
 
             html += '<thead>';
@@ -148,7 +162,7 @@ function populateQuizzes() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 0; quizzesArray != null && i < quizzesArray.length; i += 1) {
+            for (var i = 20 * tablePages.quizzes; quizzesArray != null && i < quizzesArray.length && i < 20 * (tablePages.quizzes + 1); i += 1) {
                 var questionsString = '';
                 var questionsArray = JSON.parse(quizzesArray[i].questions);
                 var pointsRewards = '';
@@ -214,6 +228,13 @@ function populateQuizzes() {
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //alert("Error: Something went wrong with populateQuizzes function");
     });
+}
+
+function changeQuizPage(page) {
+    tablePages.quizzes = page;
+    $("#createQuizPagination .active").removeClass('active');
+    $("#createQuizPagination .paginationButton" + page).addClass("active");
+    populateQuizzes();
 }
 
 function showCreateQuiz() {
@@ -327,43 +348,6 @@ function refreshQuestionTable() {
     });
 }
 
-function addNewReward() {
-    rewards.push($("#createQuizNewReward").val());
-    refreshRewardTable();
-    $("#createQuizNewReward").val('')
-}
-
-function deleteReward(index) {
-    rewards.splice(index, 1);
-    refreshRewardTable();
-}
-
-function refreshRewardTable() {
-    var html = '';
-    html += '<tr>';
-    html += '    <th>Place</th>';
-    html += '    <th>Reward</th>';
-    html += '    <th></th>';
-    html += '</tr>';
-    for (var i = 0; i < rewards.length; i += 1) {
-
-        html += '<tr class="rewards ' + i + '">';
-        html += '    <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
-        html += '    <td contenteditable="true">' + rewards[i] + '</td>';
-        html += '    <td><button class="btn btn-default" onclick="deleteReward(' + i + ')">Delete</button></td>';
-        html += '</tr>';
-    }
-
-    $("#createQuizPointRewards").empty().append(html);
-
-    $('.rewards > [contenteditable=true]').on({
-        blur: function() {
-            var index = parseInt(this.parentElement.classList[1]);
-            rewards[index] = $(this).text();
-        }
-    });
-}
-
 function addNewRule() {
     rules.push($("#createQuizRuleInput").val());
     refreshRuleTable();
@@ -424,12 +408,10 @@ function uploadQuiz() {
             type: $("#createQuizType").val(),
             questions: JSON.stringify(questionsArray),
             category: $("#createQuizCategory").val(),
-            pointsRewards: JSON.stringify(rewards),
             pointsCost: $("#createQuizPointsCost").val(),
             startTime: start,
             endTime: end,
-            rules: JSON.stringify(rules),
-            numPlayers: $("#createQuizNumPlayer").val()
+            rules: JSON.stringify(rules)
         }, function(response) {
             if (response == 'success') {
                 $("#createQuizContainer").slideUp();
@@ -453,16 +435,13 @@ function editQuiz(id) {
             $("#createQuizType").val(q.type);
             $("#createQuizCategory").val(q.category);
             $("#createQuizPointsCost").val(q.pointsCost);
-            $("#createQuizNumPlayer").val(q.minPlayers);
             startTimePicker.data("DateTimePicker").date(moment(q.startTime));
             endTimePicker.data("DateTimePicker").date(moment(q.endTime));
 
             rules = JSON.parse(q.rules);
             questionsArray = JSON.parse(q.questions);
-            rewards = JSON.parse(q.pointsRewards);
 
             refreshQuestionTable();
-            refreshRewardTable();
             refreshRuleTable();
 
             updateQuizID = id;
@@ -484,10 +463,8 @@ function copyQuiz(id) {
 
             rules = JSON.parse(q.rules);
             questionsArray = JSON.parse(q.questions);
-            rewards = JSON.parse(q.pointsRewards);
 
             refreshQuestionTable();
-            refreshRewardTable();
             refreshRuleTable();
 
             updateQuizID = id;
@@ -523,12 +500,10 @@ function updateQuiz() {
             type: $("#createQuizType").val(),
             questions: JSON.stringify(questionsArray),
             category: $("#createQuizCategory").val(),
-            pointsRewards: JSON.stringify(rewards),
             pointsCost: $("#createQuizPointsCost").val(),
             startTime: start,
             endTime: end,
-            rules: JSON.stringify(rules),
-            numPlayers: $("#createQuizNumPlayer").val()
+            rules: JSON.stringify(rules)
         }, function(response) {
             if (response == 'success') {
                 populateQuizzes();
@@ -548,10 +523,6 @@ function updateQuiz() {
 function areInputsValidQuizzes() {
     if ($("#createQuizCategory").val() == '') {
         return [false, "Please enter a quiz name"];
-    }
-
-    if (rewards.length < 3 && $("#createQuizType").val() == 'paid') {
-        return [false, "Please add at least 3 rewards"];
     }
 
     if ($("#createQuizPointsCost").val() == '') {
@@ -575,22 +546,28 @@ function addPromotionForQuiz(id, name) {
 }
 
 function addRandomQuestions() {
-    $.post("./php/questions/getrandomquestions.php", {
-        numQuestions: $("#createQuizQuestionsRandomNum").val(),
-        category: $("#createQuizQuestionsRandomCategory").val()
-    }, function(response) {
-        if (response[0] == 'success') {
-            questionsArray = response[1];
-            questionsArray.forEach(function (value) {
-                value[1] = JSON.parse(value[1]);
-            });
-            refreshQuestionTable();
-        } else {
-            alert('Error: ' + response[1]);
-        }
-    }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
-    });
+    if ($("#createQuizQuestionsRandomNum").val() != '' && $("#createQuizQuestionsRandomCategory").val() != '') {
+        $.post("./php/questions/getrandomquestions.php", {
+            numQuestions: $("#createQuizQuestionsRandomNum").val(),
+            category: $("#createQuizQuestionsRandomCategory").val()
+        }, function(response) {
+            if (response[0] == 'success') {
+                var tempArray = [];
+                response[1].forEach(function (value) {
+                    tempArray.push([value.question, JSON.parse(value.answers), parseInt(value.correctAnswer)]);
+                })
+
+                questionsArray = tempArray;
+                refreshQuestionTable();
+            } else {
+                alert('Error: ' + response[1]);
+            }
+        }, 'json').fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+        });
+    } else {
+        alert("Make sure you enter the number of questions and category then try again");
+    }
 }
 
 /* -------------------------------------------------------------
@@ -614,6 +591,16 @@ function populateQuestions() {
     function(response) {
         if (response[0] == 'success') {
             allQuestionsArray = response[1];
+
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var m = 0; allQuestionsArray.length > 20 && m < allQuestionsArray.length / 20; m += 1) {
+                htmlPage += "<button onclick='changeQuestionPage(" + m + ")'>" + (m + 1) + "</button>";
+            }
+
+            $("#createQuestionPagination").empty().append(htmlPage);
+
             var html = '';
 
             html += '<thead>';
@@ -628,7 +615,7 @@ function populateQuestions() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 0; allQuestionsArray != null && i < allQuestionsArray.length; i += 1) {
+            for (var i = 20 * tablePages.questions; allQuestionsArray != null && i < allQuestionsArray.length && i < 20 * (tablePages.questions + 1); i += 1) {
                 var answersArray = JSON.parse(allQuestionsArray[i].answers);
                 var answerString = 'Answers: ' + answersArray[0] + ', ' + answersArray[1] + ', ' + answersArray[2] + ', ' + answersArray[3] + '<br>Correct Answer: ' + answersArray[parseInt(allQuestionsArray[i].correctAnswer)];
 
@@ -660,6 +647,31 @@ function populateQuestions() {
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //alert("Error: Something went wrong with populateQuizzes function");
     });
+
+    $.post("./php/questions/getcategories.php", {
+
+    }, function(response) {
+        if (response[0] == 'success') {
+            var categories = response[1];
+            var html = "<option value=''></option>";
+
+            for (var i = 0; i < categories.length; i += 1) {
+                html += "<option value='" + categories[i].category + "'>" + categories[i].category + "</option>";
+            }
+            $("#createQuestionCategorySelect").empty().append(html);
+        } else {
+            alert('Error');
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+function changeQuestionPage(page) {
+    tablePages.questions = page;
+    $("#createQuestionPagination .active").removeClass('active');
+    $("#createQuestionPagination .paginationButton" + page).addClass("active");
+    populateQuestions();
 }
 
 function showCreateQuestion() {
@@ -697,11 +709,16 @@ function uploadQuestion() {
     var valid = areInputsValidQuestion();
     if (valid[0]) {
         var answers = JSON.stringify([$("#createQuestionAnswer1").val(), $("#createQuestionAnswer2").val(), $("#createQuestionAnswer3").val(), $("#createQuestionAnswer4").val()]);
+        if ($("#createQuestionCategory").val() != '') {
+            var category = $("#createQuestionCategory").val();
+        } else {
+            var category = $("#createQuestionCategorySelect").val();
+        }
         $.post('./php/questions/createnewquestion.php', {
             question: $("#createQuestionQuestion").val(),
             answers: answers,
             correctAnswer: selectedQAnswer,
-            category: $("#createQuestionCategory").val()
+            category: category
         }, function(response) {
             if (response == 'success') {
                 populateQuestions();
@@ -727,12 +744,17 @@ function updateQuestion() {
     var valid = areInputsValidQuestion();
     if (valid[0]) {
         var answers = JSON.stringify([$("#createQuestionAnswer1").val(), $("#createQuestionAnswer2").val(), $("#createQuestionAnswer3").val(), $("#createQuestionAnswer4").val()]);
+        if ($("#createQuestionCategory").val() != '') {
+            var category = $("#createQuestionCategory").val();
+        } else {
+            var category = $("#createQuestionCategorySelect").val();
+        }
         $.post('./php/questions/updatequestion.php', {
             questionID: updateQuestionID,
             question: $("#createQuestionQuestion").val(),
             answers: answers,
             correctAnswer: selectedQAnswer,
-            category: $("#createQuestionCategory").val()
+            category: category
         }, function(response) {
             if (response == 'success') {
                 populateQuizzes();
@@ -765,7 +787,7 @@ function deleteQuestion(id) {
 }
 
 function areInputsValidQuestion() {
-    if ($("#createQuestionCategory").val() == '') {
+    if ($("#createQuestionCategory").val() == '' && $("#createQuestionCategorySelect").val() == '') {
         return [false, "Please enter a question category"];
     }
 
@@ -928,26 +950,43 @@ function populateUsers() {
 
             html += '<thead>';
             html += '    <tr>';
-            html += '        <th>User ID</th>';
             html += '        <th>Username</th>';
-            html += '        <th>Paid Points Balance</th>';
-            html += '        <th>Free Convertable Points Balance</th>';
-            html += '        <th>Free Unconvertable Points Balance</th>';
+            html += '        <th>Real Quizetos</th>';
+            html += '        <th>Bonus Quizetos</th>';
+            html += '        <th>Free Quizetos</th>';
             html += '        <th>Email</th>';
-            html += '        <th>Home Address</th>';
+            html += '        <th>Mobile</th>';
+            html += '        <th>First Name</th>';
+            html += '        <th>Last Name</th>';
+            html += '        <th>Gender</th>';
+            html += '        <th>DOB</th>';
+            html += '        <th>City</th>';
+            html += '        <th>Pincode</th>';
+            html += '        <th>State</th>';
+            html += '        <th>Country</th>';
+            html += '        <th>Profile Image</th>';
             html += '    </tr>';
             html += '</thead>';
 
             html += '<tbody>';
             for (var i = 0; userArray != null && i < userArray.length; i += 1) {
                 html += '<tr>';
-                html += '    <td>' + userArray[i].userID + '</td>';
+                html += '    <td style="display: none">' + userArray[i].userID + '</td>';
                 html += '    <td>' + userArray[i].username + '</td>';
                 html += '    <td contenteditable="true">' + userArray[i].paidPointsBalance + '</td>';
                 html += '    <td contenteditable="true">' + userArray[i].freeConvertablePointsBalance + '</td>';
                 html += '    <td contenteditable="true">' + userArray[i].freeUnconvertablePointsBalance + '</td>';
                 html += '    <td contenteditable="true">' + userArray[i].email + '</td>';
-                html += '    <td contenteditable="true">' + userArray[i].homeAddress + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].mobile + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].firstName + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].lastName + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].gender + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].DOB + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].city + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].pincode + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].state + '</td>';
+                html += '    <td contenteditable="true">' + userArray[i].country + '</td>';
+                html += '    <td><img class="userProfileImages" src="./images/users/' + (userArray[i].imageURL == '' ? 'missing.png' : userArray[i].imageURL) + '" alt="" /></td>';
                 html += '</tr>';
             }
             html += '</tbody>';
@@ -986,7 +1025,7 @@ function populateUsers() {
                             freeConvertablePoints: t.parent().children(':nth-child(4)').text(),
                             freeUnconvertablePoints: t.parent().children(':nth-child(5)').text(),
                             email: t.parent().children(':nth-child(6)').text(),
-                            homeAddress: t.parent().children(':nth-child(7)').text()
+                            mobile: t.parent().children(':nth-child(7)').text()
                         }, function(response) {
                             if (response == 'success') {
                                 alert('User info updated for ' + t.parent().children(':nth-child(2)').text());

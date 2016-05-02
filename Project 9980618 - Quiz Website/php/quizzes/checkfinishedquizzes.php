@@ -14,7 +14,7 @@ $quizArray = [];
 
 // Get all paid quizzes
 if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
-    
+
     while ($rowQuiz = mysqli_fetch_assoc($resultQuiz)) {
         $quizEndTime = strtotime($rowQuiz['endTime']);
         if ($now - $quizEndTime > 300 && $rowQuiz['paidOut'] == 'n') { // If the quiz finished more than 5 minutes ago and hasn't been paid out then add to quiz to $quizArray
@@ -32,7 +32,7 @@ foreach ($quizArray as $quiz) {
     $userRank = 0;
     $winningUserID = -1;
     // Get the userID of the users who will receive prizes ordered by percent correct then time taken
-    $sqlResults = "SELECT userID FROM QuizResults WHERE quizID = '" . $quiz['quizID'] . "' 
+    $sqlResults = "SELECT userID, quizID FROM QuizResults WHERE quizID = '" . $quiz['quizID'] . "'
     ORDER BY correctPercent DESC, timeTaken ASC";
 
     if ($resultResults = mysqli_query($con, $sqlResults)) {
@@ -43,16 +43,16 @@ foreach ($quizArray as $quiz) {
                 if ($userRank == 0) {
                     $winningUserID = $rowResults['userID'];
                 }
-                
+
                 if (!mysqli_query($con, $sqlUserUpdated)) {
                     echo 'fail3. ' . $sqlUserUpdated;
                 }
-                
+
                 $prizeMessage = "Congratulations, you won " . $prizes[$userRank] . " Real Quizetos which have been added to your account.";
             } else {
                 $prizeMessage = "";
             }
-            
+
             // Then retrieve the info for each prize winner
             $sqlUser = "SELECT * FROM Users WHERE userID = '" . $rowResults['userID'] . "'";
             if ($resultUser = mysqli_query($con, $sqlUser)) {
@@ -60,7 +60,15 @@ foreach ($quizArray as $quiz) {
             } else {
                 echo 'fail4. ' . $sqlUser;
             }
-            
+
+            // Add users rank to their quiz result from this quiz
+            $sqlRank = "UPDATE QuizResults SET userRank = '" . ($userRank + 1) . "' WHERE quizID = '" . $rowResults['quizID'] . "' AND userID = '" . $rowResults['userID'] . "'";
+            if (mysqli_query($con, $sqlRank)) {
+                // do nothing
+            } else {
+                echo 'fail5. ' . $sqlRank;
+            }
+
             // Send prize winner an email
             $rowUser = mysqli_fetch_assoc($resultUser);
             $to = array($rowUser['email']);
@@ -70,7 +78,7 @@ foreach ($quizArray as $quiz) {
             <html>
                 <body>
                     <p>Dear " . $rowUser['username'] . ",<br>You were ranked " . ($userRank + 1) . " in the " . $quiz['category'] . " quiz. " . $prizeMessage . "</p>
-                    
+
                     <div class='container'>
                         <img src='placehold.it/300' /><p>
                         <h1>Quizeto.com</h1><br>
@@ -80,7 +88,7 @@ foreach ($quizArray as $quiz) {
                         <h4>" . ($userRank + 1) . "</h4><br>
                         <h5>in the " . $quiz['category'] . " quiz.</h5>
                     </div>
-                    
+
                     <p>Thanks & Regards,<br>Team Quizetos.com</p>
                     <style>
                         .container{
@@ -99,18 +107,18 @@ foreach ($quizArray as $quiz) {
                 </body>
             </html>
             ";
-            
+
             $sendEmailResult = sendEmail($to, $from, $subject, $message);
             if ($sendEmailResult != 'success') {
                 echo 'mailfail';
             }
-            
+
             $userRank += 1;
         }
     } else {
         echo 'fail2. ' . $sqlResults;
     }
-    
+
     // Mark quiz as paid out
     $sqlQuizPaidOut = "UPDATE Quizzes SET paidOut = 'y', winningUserID = '$winningUserID' WHERE quizID = '" . $quiz['quizID'] . "'";
     if (!mysqli_query($con, $sqlQuizPaidOut)) {

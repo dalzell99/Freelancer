@@ -16,7 +16,7 @@
         <?php echo '<script type="text/javascript" src="js/admin.js?' . filemtime('js/admin.js') . '"></script>'; ?>
     </head>
     <body>
-       <header>
+        <header>
            <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -73,10 +73,6 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for='#createQuizNumPlayer'>Minimum Number of Registered Players:</label>
-                            <input type="number" id="createQuizNumPlayer" class="form-control">
-                        </div>
-                        <div class="form-group">
                             <table class="table table-bordered" id="createQuizQuestions">
                             </table>
                             <div id='createQuizQuestionsManual'>
@@ -98,12 +94,6 @@
                                 </div>
                                 <button class="btn btn-default" onclick='addRandomQuestions()'>Add Random Questions</button>
                             </div>
-                        </div>
-                        <div id='rewardContainer' class="form-group">
-                            <table class="table table-bordered" id="createQuizPointRewards">
-                            </table>
-                            <label for='#createQuizNewReward'>Reward:</label><input type="text" id="createQuizNewReward" class="form-control">
-                            <button class="btn btn-default" onclick="addNewReward()">Add Reward</button>
                         </div>
                         <div class="form-group">
                             <label for='#createQuizPointsCost'>Registration Fee:</label><input type="number" id="createQuizPointsCost" class="form-control">
@@ -138,6 +128,7 @@
                         </div>
                     </div>
                 </div>
+                <div class='tablePaginationContainer' id='createQuizPagination'></div>
                 <table class='databaseTable' id='quizTable'></table>
             </div>
 
@@ -172,6 +163,8 @@
                         <div class="form-group">
                             <label for='#createQuestionCategory'>Category:</label>
                             <input type="text" id="createQuestionCategory" class="form-control">
+                            OR<br />
+                            <select id='createQuestionCategorySelect' class="form-control"></select>
                         </div>
                         <div class="form-group">
                             <button id='createQuestionUploadButton' class="btn btn-default" onclick='uploadQuestion()'>Upload Question</button>
@@ -179,6 +172,7 @@
                         </div>
                     </div>
                 </div>
+                <div class='tablePaginationContainer' id='createQuestionPagination'></div>
                 <table id="questionsTable" class="databaseTable"></table>
             </div>
 

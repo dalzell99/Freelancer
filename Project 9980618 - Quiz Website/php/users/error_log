@@ -1,0 +1,1 @@
+[02-May-2016 14:37:02 Australia/Sydney] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/ccrsc638/public_html/9980618/php/users/getmyaccountinfo.php on line 39

@@ -73,6 +73,7 @@ if ($uploadOk == 0) {
         if ($result = mysqli_query($con, $sql)) {
             echo "
             <script>
+                sessionStorage.profileImageURL = $fileName;
                 window.location = '../../myaccount.php';
             </script>";
         } else {

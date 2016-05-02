@@ -13,11 +13,19 @@ $sql = "SELECT * FROM QuizResults WHERE quizID = '$id' ORDER BY correctPercent D
 $response = [];
 
 if ($result = mysqli_query($con, $sql)) {
-    
     while ($row = mysqli_fetch_assoc($result)) {
+        // Get the users profile image url and add to results
+        $resultUser = mysqli_query($con, "SELECT imageURL FROM Users WHERE username = '" . $row['username'] . "'");
+        $image = mysqli_fetch_assoc($resultUser)['imageURL'];
+        if ($image == '') {
+            // If the user doesn't have a profile image, show the default missing image
+            $row['imageURL'] = 'missing.png';
+        } else {
+            $row['imageURL'] = $image;
+        }
         $response[] = $row;
     }
-    
+
     echo json_encode(array('success', $response));
 } else {
     echo json_encode(array('fail', $sql));

@@ -38,11 +38,11 @@
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileFirstName'>First Name:</label>
-                        <div id='myAccountProfileFirstName' class='form-control'></div>
+                        <div id='myAccountProfileFirstName' class='form-control firstName'></div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileLastName'>Last Name</label>
-                        <div id='myAccountProfileLastName' class='form-control'></div>
+                        <div id='myAccountProfileLastName' class='form-control lastName'></div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileEmail'>Email</label>
@@ -50,11 +50,11 @@
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileGender'>Gender</label>
-                        <div id='myAccountProfileGender' class='form-control'></div>
+                        <div id='myAccountProfileGender' class='form-control gender'></div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileDOB'>Date of Birth</label>
-                        <div id='myAccountProfileDOB' class='form-control'></div>
+                        <div id='myAccountProfileDOB' class='form-control DOB'></div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileMobile'>Mobile No.</label>
@@ -62,27 +62,27 @@
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileMobileAlt'>Alternate Mobile No.</label>
-                        <div id='myAccountProfileMobileAlt' class='form-control'></div>
+                        <div id='myAccountProfileMobileAlt' class='form-control mobileAlt'></div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileAddress'>Address</label>
-                        <textarea id='myAccountProfileAddress' class='form-control'></textarea>
+                        <textarea id='myAccountProfileAddress' class='form-control homeAddress' lines='4'></textarea>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileCity'>City</label>
-                        <div id='myAccountProfileCity' class='form-control'></div>
+                        <div id='myAccountProfileCity' class='form-control city'></div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfilePincode'>Pincode</label>
-                        <div id='myAccountProfilePincode' class='form-control'></div>
+                        <div id='myAccountProfilePincode' class='form-control pincode'></div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileState'>State</label>
-                        <div id='myAccountProfileState' class='form-control'></div>
+                        <div id='myAccountProfileState' class='form-control state'></div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileCountry'>Country</label>
-                        <div id='myAccountProfileCountry' class='form-control'></div>
+                        <div id='myAccountProfileCountry' class='form-control country'></div>
                     </div>
                 </div>
 
