@@ -10,19 +10,19 @@ if (mysqli_connect_errno()) {
 
 $sql = "UPDATE Customer SET
         salutation = '" . $_POST['salutation'] . "',
-        firstName = '" . $_POST['firstName'] . "',
-        lastName = '" . $_POST['lastName'] . "',
-        company = '" . $_POST['company'] . "',
-        phoneNumber = '" . $_POST['telephone'] . "',
-        mobileNumber = '" . $_POST['mobile'] . "',
-        bankName = '" . $_POST['bankName'] . "',
-        bsb = '" . $_POST['bsb'] . "',
-        accountNumber = '" . $_POST['accountNumber'] . "',
-        postalAddress = '" . $_POST['address'] . "',
-        suburb = '" . $_POST['suburb'] . "',
-        state = '" . $_POST['state'] . "',
-        postcode = '" . $_POST['postcode'] . "',
-        country = '" . $_POST['country'] . "',
+        firstName = '" . mysqli_real_escape_string($con, $_POST['firstName']) . "',
+        lastName = '" . mysqli_real_escape_string($con, $_POST['lastName']) . "',
+        company = '" . mysqli_real_escape_string($con, $_POST['company']) . "',
+        phoneNumber = '" . mysqli_real_escape_string($con, $_POST['telephone']) . "',
+        mobileNumber = '" . mysqli_real_escape_string($con, $_POST['mobile']) . "',
+        bankName = '" . mysqli_real_escape_string($con, $_POST['bankName']) . "',
+        bsb = '" . mysqli_real_escape_string($con, $_POST['bsb']) . "',
+        accountNumber = '" . mysqli_real_escape_string($con, $_POST['accountNumber']) . "',
+        postalAddress = '" . mysqli_real_escape_string($con, $_POST['address']) . "',
+        suburb = '" . mysqli_real_escape_string($con, $_POST['suburb']) . "',
+        state = '" . mysqli_real_escape_string($con, $_POST['state']) . "',
+        postcode = '" . mysqli_real_escape_string($con, $_POST['postcode']) . "',
+        country = '" . mysqli_real_escape_string($con, $_POST['country']) . "',
         lastModified = '" . date('c') . "'
         WHERE username = '" . $_POST['username'] . "'";
 

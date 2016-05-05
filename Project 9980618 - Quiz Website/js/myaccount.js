@@ -199,16 +199,16 @@ window.onload = function() {
 function populateProfile() {
     $("#myAccountProfileImageUsername").val(userInfo.username);
     // Check to see if users image exists
-    $.get("./images/users/" + userInfo.imageURL).done(function() {
+    if (userInfo.imageURL != '') {
         // Show image if it exists on server
         $("#myAccountProfileImage").prop('src', "./images/users/" + userInfo.imageURL);
         $("#myAccountProfileImage").show();
         $("#myAccountProfileImageForm").hide();
-    }).fail(function() {
+    } else {
         // If it doesn't exist, allow user to upload an image
         $("#myAccountProfileImage").hide();
         $("#myAccountProfileImageForm").show();
-    });
+    };
 
     if (userInfo.firstName == '') {
         $("#myAccountProfileFirstName").prop('contenteditable', true);
@@ -369,7 +369,7 @@ function populateWithdrawals() {
     html += "        <th>Date</th>";
     html += "        <th>Amount</th>";
     html += "        <th>Method</th>";
-    html += "        <th>Done</th>";
+    html += "        <th>Processed</th>";
     html += "    </tr>";
 
     withdrawals.forEach(function (resultObject) {
@@ -377,7 +377,7 @@ function populateWithdrawals() {
         html += "        <td>" + moment(resultObject.time).format("Do MMM YYYY h:mm a") + "</td>";
         html += "        <td>₹" + resultObject.amount + "</td>";
         html += "        <td>" + resultObject.method + "</td>";
-        html += "        <td>" + resultObject.done + "</td>";
+        html += "        <td>" + (resultObject.done == 'y' ? 'Yes' : 'No') + "</td>";
         html += "    </tr>";
     });
 

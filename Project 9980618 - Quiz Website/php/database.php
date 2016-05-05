@@ -1,7 +1,7 @@
 <?php
-$dbusername = 'ccrsc638_test';
-$dbpassword = 'freelancer9808082';
-$dbname = 'ccrsc638_9980618';
+$dbusername = 'quizetoc_admin';
+$dbpassword = 'falcon@123';
+$dbname = 'quizetoc_quizeto';
 $databasephpPrizeEmail = 'rewards@quizeto.com';
 $databasephpNoReplyEmail = 'noreply@quizeto.com';
 $databasephpQueryEmail = 'query@quizeto.com';

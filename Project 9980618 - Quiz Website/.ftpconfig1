@@ -1,8 +1,8 @@
 {
     "protocol": "ftp",
-    "host": "ftp.quizeto.com",
+    "host": "ftp.ccrscoring.co.nz",
     "port": 21,
-    "user": "chris@quizeto.com",
+    "user": "quizeto@ccrscoring.co.nz",
     "pass": "12345",
     "promptForPass": false,
     "remote": "/",

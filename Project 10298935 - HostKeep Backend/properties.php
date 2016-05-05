@@ -2,6 +2,10 @@
     <button id='propertiesShowAdd'>Show Add New Property</button>
     <div id='propertiesAddNewProperty'>
         <div>
+            <label for="#propertiesAddID">Property ID</label>
+            <input id='propertiesAddID' type='text' />
+        </div>
+        <div>
             <label for="#propertiesAddName">Name</label>
             <input id='propertiesAddName' type='text' />
         </div>
@@ -26,6 +30,9 @@
 <table>
     <thead>
         <tr>
+            <th>
+                Property ID
+            </th>
             <th>
                 Name
             </th>

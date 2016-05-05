@@ -1,9 +1,4 @@
-<html>
-    <head>
-
-    </head>
-    <body>
-        <style>
+<style>
             body {
                 font-family: sans-serif;
             }
@@ -279,5 +274,3 @@
                 document.querySelector("#resultsTable tbody").innerHTML = html;
             }
         </script>
-    </body>
-</html>

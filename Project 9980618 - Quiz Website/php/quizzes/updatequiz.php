@@ -11,13 +11,12 @@ $quizID = $_POST['quizID'];
 $type = $_POST['type'];
 $questions = mysqli_real_escape_string($con, $_POST['questions']);
 $category = mysqli_real_escape_string($con, $_POST['category']);
-$pointsRewards = $_POST['pointsRewards'];
 $pointsCost = $_POST['pointsCost'];
 $startTime = $_POST['startTime'];
 $endTime = $_POST['endTime'];
 $rules = mysqli_real_escape_string($con, $_POST['rules']);
 
-$sql = "UPDATE Quizzes SET type = '$type', questions = '$questions', category = '$category', pointsRewards = '$pointsRewards', pointsCost = $pointsCost, startTime = '$startTime', endTime = '$endTime', rules = '$rules' WHERE quizID = $quizID";
+$sql = "UPDATE Quizzes SET type = '$type', questions = '$questions', category = '$category',  pointsCost = $pointsCost, startTime = '$startTime', endTime = '$endTime', rules = '$rules' WHERE quizID = $quizID";
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';
