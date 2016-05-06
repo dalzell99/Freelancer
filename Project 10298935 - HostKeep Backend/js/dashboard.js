@@ -6,6 +6,7 @@ var currentPasswordTimer;
 var confirmPasswordTimer;
 var currentPasswordCorrect = false;
 var passwordsMatch = false;
+var done = false;
 
 $(function() {
     if (sessionStorage.loggedIn == 'true') {
@@ -97,6 +98,15 @@ $(function() {
                 displayMessage('error', 'Error retrieving property list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
                 propertyList = JSON.parse(response);
+
+                if (done == true) {
+                    // Run hashchange is the get documents has finished
+                    done = false;
+                    $(window).hashchange();
+                } else {
+                    // If get documents hasn't finished then set done to true
+                    done = true;
+                }
             }
         }).fail(function (request, textStatus, errorThrown) {
             //displayMessage('error', "Error: Something went wrong with getproperties AJAX POST");
@@ -109,6 +119,15 @@ $(function() {
                 displayMessage('error', 'Error retrieving document list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
                 documentList = JSON.parse(response);
+
+                if (done == true) {
+                    // Run hashchange is the get properties has finished
+                    done = false;
+                    $(window).hashchange();
+                } else {
+                    // If get properties hasn't finished then set done to true
+                    done = true;
+                }
             }
         }).fail(function (request, textStatus, errorThrown) {
             //displayMessage('error', "Error: Something went wrong with  AJAX POST");
@@ -342,7 +361,7 @@ function properties() {
                     displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
                 }
             }).fail(function (request, textStatus, errorThrown) {
-                displayMessage('error', "Error: Something went wrong with addproperty AJAX POST");
+                //displayMessage('error', "Error: Something went wrong with addproperty AJAX POST");
             });
         }
     });
@@ -395,57 +414,75 @@ function documents() {
         }
     });
 
-    // Add property to the current user
     $("#documentsAddButton").on({
         click: function () {
-            $.post("./php/documents/addproperty.php", {
-                username: sessionStorage.username,
-                propertyID: $("#documentsAddID").val(),
-                name: $("#documentsAddName").val(),
-                description: $("#documentsAddDescription").val(),
-                address: $("#documentsAddAddress").val(),
-                price: $("#documentsAddPrice").val()
-            }, function(response) {
-                if (response.substr(0, 7) == 'success') {
-                    displayMessage('info', 'The property has been added to the current customer');
+            // Get the filename value from the span child of the first dz-filename (DropZone)
+            var filename = $("#documentsDropzone").children(".dz-filename:first > *").text();
 
-                    // Add new property to table
-                    var html = '';
-                    var a = (sessionStorage.admin == 'true' ? true : false);
-                    html += "<tr>";
-                    html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddID").val() + "</td>";
-                    html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
-                    html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddDescription").val() + "</td>";
-                    html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddAddress").val() + "</td>";
-                    html += "    <td class='minimumNightlyPrice' contenteditable=true>" + $("#documentsAddPrice").val() + "</td>";
-                    html += "</tr>";
+            if (filename != '') {
+                $.post("./php/documents/adddocument.php.php", {
+                    username: sessionStorage.username,
+                    name: $("#documentsAddName").val(),
+                    propertyID: $("#documentsAddPropertyID").val(),
+                    month: $("#documentsAddMonth").val(),
+                    notes: $("#documentsAddNotes").text(),
+                    filename: filename
+                }, function(response) {
+                    if (response.substr(0, 7) == 'success') {
+                        displayMessage('info', 'The document has been added to the current customer');
 
-                    $("#documents tbody").append(html);
+                        // Add new document to table
+                        var html = '';
+                        var a = (sessionStorage.admin == 'true' ? true : false);
+                        html += "<tr>";
+                        html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
+                        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
+                        html += "    <td class='month' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
+                        html += "    <td class='dateUploaded' " + (a ? 'contenteditable=true' : '') + ">" + moment().format("Do MMM YYYY") + "</td>";
+                        html += "    <td class='notes' contenteditable=true>" + $("#documentsAddName").val() + "</td>";
+                        html += "    <td><button onclick='viewDocument(" + response.substr(7) + ")'>View</button></td>"
+                        html += "    <td style='display:none'>" + response.substr(7) + "</td>";
+                        html += "</tr>";
 
-                    propertyList.push({
-                        'propertyID': $("#documentsAddID").val(),
-                        'name': $("#documentsAddName").val(),
-                        'description': $("#documentsAddDescription").val(),
-                        'address': $("#documentsAddAddress").val(),
-                        'minimumNightlyPrice': $("#documentsAddPrice").val()
-                    });
+                        $("#documents tbody").append(html);
 
-                    // Clear inputs
-                    $("#documentsAddID").val('');
-                    $("#documentsAddName").val('');
-                    $("#documentsAddDescription").val('');
-                    $("#documentsAddAddress").val('');
-                    $("#documentsAddPrice").val('');
+                        documentList.push({
+                            'documentID': response.substr(7),
+                            'name': $("#documentsAddName").val(),
+                            'propertyID': $("#documentsAddPropertyID").val(),
+                            'month': $("#propertiesAddDescription").val(),
+                            'dateUploaded': moment(),
+                            'notes': $("#propertiesAddPrice").val(),
+                            'documentFilename': filename
+                        });
 
-                    // Add contenteditable change event to the just added table row
-                    addPropertyChangeEvent();
-                } else {
-                    displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
-                }
-            }).fail(function (request, textStatus, errorThrown) {
-                displayMessage('error', "Error: Something went wrong with addproperty AJAX POST");
-            });
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                        // Clear inputs
+                        $("#propertiesAddID").val('');
+                        $("#propertiesAddName").val('');
+                        $("#propertiesAddDescription").val('');
+                        $("#propertiesAddAddress").val('');
+                        $("#propertiesAddPrice").val('');
+
+                        // Add contenteditable change event to the just added table row
+                        addPropertyChangeEvent();
+                    } else {
+                        displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                });
+            } else {
+                displayMessage('error', 'Please upload a document below before continuing');
+            }
         }
+    })
+
+    // Empty property dropdown and rebuild it
+    $("#documentsAddPropertyID").empty();
+    propertyList.forEach(function (value) {
+        $("#documentsAddPropertyID").append("<option value='" + value.propertyID + "'>" + value.name + "</option>");
     });
 
     hideAllContainers();

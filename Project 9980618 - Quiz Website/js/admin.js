@@ -5,7 +5,10 @@ var userArray;
 var place = ['st', 'nd', 'rd', 'th'];
 var tablePages = {
     quizzes: 0,
-    questions: 0
+    questions: 0,
+    users: 0,
+    testimonials: 0,
+    promotions: 0
 };
 
 window.onload = function() {
@@ -24,26 +27,28 @@ window.onload = function() {
         }
     }
     if (sessionStorage.page == null) { sessionStorage.page = 'users'; }
-    if (sessionStorage.page == 'promotions') {
-        if (sessionStorage.fileUploaded == 'success') {
-            alert("Promotion successfully added.");
-        } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
-            alert("Error adding promotions to database. Please try again later.");
-        } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
-            alert("File upload failed. Please try again later.");
-        }
+    if (sessionStorage.fileUploaded != undefined) {
+        if (sessionStorage.page == 'promotions') {
+            if (sessionStorage.fileUploaded == 'success') {
+                alert("Promotion successfully added.");
+            } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
+                alert("Error adding promotions to database. Please try again later.");
+            } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
+                alert("File upload failed. Please try again later.");
+            }
 
-        sessionStorage.fileUploaded = '';
-    } else if (sessionStorage.page == 'testimonials') {
-        if (sessionStorage.fileUploaded == 'success') {
-            alert("Testimonial successfully added.");
-        } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
-            alert("Error adding promotions to database. Please try again later.");
-        } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
-            alert("File upload failed. Please try again later.");
-        }
+            sessionStorage.fileUploaded = '';
+        } else if (sessionStorage.page == 'testimonials') {
+            if (sessionStorage.fileUploaded == 'success') {
+                alert("Testimonial successfully added.");
+            } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
+                alert("Error adding promotions to database. Please try again later.");
+            } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
+                alert("File upload failed. Please try again later.");
+            }
 
-        sessionStorage.fileUploaded = '';
+            sessionStorage.fileUploaded = '';
+        }
     }
     populateTables();
     addDateTimePickers();
@@ -231,6 +236,25 @@ function populateQuizzes() {
             });
 
             $(".collapsable > div").hide();
+
+            // Add categories to dropdown
+            $.post("./php/questions/getcategories.php", {
+
+            }, function(response) {
+                if (response[0] == 'success') {
+                    var categories = response[1];
+                    var html = "<option value=''></option>";
+
+                    for (var i = 0; i < categories.length; i += 1) {
+                        html += "<option value='" + categories[i].category + "'>" + categories[i].category + "</option>";
+                    }
+                    $("#createQuizQuestionsRandomCategory").empty().append(html);
+                } else {
+                    alert('Error');
+                }
+            }, 'json').fail(function (request, textStatus, errorThrown) {
+                //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+            });
         } else {
             alert('Error: ' + response[1]);
         }
@@ -841,6 +865,17 @@ function populateTestimonials() {
     function(response) {
         if (response[0] == 'success') {
             testimonialsArray = response[1];
+
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var m = 0; testimonialsArray.length > 20 && m < testimonialsArray.length / 20; m += 1) {
+                htmlPage += "<button class='paginationButton" + m + "' onclick='changeTestimonialPage(" + m + ")'>" + (m + 1) + "</button>";
+            }
+
+            $("#createTestimonialPagination").empty().append(htmlPage);
+            $("#createTestimonialPagination .paginationButton" + tablePages.testimonial).addClass('active');
+
             var html = '';
 
             html += '<thead>';
@@ -854,7 +889,7 @@ function populateTestimonials() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 0; testimonialsArray != null && i < testimonialsArray.length; i += 1) {
+            for (var i = 20 * tablePages.testimonial; testimonialsArray != null && i < testimonialsArray.length && i < 20 * (tablePages.testimonial + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td>' + testimonialsArray[i].testimonialID + '</td>';
                 html += '    <td contenteditable="true">' + testimonialsArray[i].username + '</td>';
@@ -898,6 +933,11 @@ function populateTestimonials() {
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //alert("Error: Something went wrong with populateTestimonials function");
     });
+}
+
+function changeTestominalPage(page) {
+    tablePages.testimonials = page;
+    populateTestimonials();
 }
 
 function showCreateTestimonial() {
@@ -952,6 +992,16 @@ function populateUsers() {
     function(response) {
         if (response[0] == 'success') {
             userArray = response[1];
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var l = 0; userArray.length > 20 && l < userArray.length / 20; l += 1) {
+                htmlPage += "<button class='paginationButton" + l + "' onclick='changeUserPage(" + l + ")'>" + (l + 1) + "</button>";
+            }
+
+            $("#createUserPagination").empty().append(htmlPage);
+            $("#createUserPagination .paginationButton" + tablePages.users).addClass('active');
+
             var html = '';
 
             html += '<thead>';
@@ -975,7 +1025,7 @@ function populateUsers() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 0; userArray != null && i < userArray.length; i += 1) {
+            for (var i = 20 * tablePages.users; userArray != null && i < userArray.length && i < 20 * (tablePages.users + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td style="display: none">' + userArray[i].userID + '</td>';
                 html += '    <td>' + userArray[i].username + '</td>';
@@ -1056,6 +1106,13 @@ function populateUsers() {
     });
 }
 
+function changeUserPage(page) {
+    tablePages.users = page;
+    populateUsers();
+}
+
+
+
 /* -------------------------------------------------------------
 ---------------------- Promotions Page -------------------------
 ---------------------------------------------------------------*/
@@ -1073,6 +1130,17 @@ function populatePromotions() {
     function(response) {
         if (response[0] == 'success') {
             promotionArray = response[1];
+
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var m = 0; promotionArray.length > 20 && m < promotionArray.length / 20; m += 1) {
+                htmlPage += "<button class='paginationButton" + m + "' onclick='changePromotionPage(" + m + ")'>" + (m + 1) + "</button>";
+            }
+
+            $("#createPromotionPagination").empty().append(htmlPage);
+            $("#createPromotionPagination .paginationButton" + tablePages.promotions).addClass('active');
+
             var html = '';
 
             html += '<thead>';
@@ -1085,7 +1153,7 @@ function populatePromotions() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 0; promotionArray != null && i < promotionArray.length; i += 1) {
+            for (var i = 20 * tablePages.promotions; promotionArray != null && i < promotionArray.length && i < 20 * (tablePages.promotions + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td>' + promotionArray[i].promotionID + '</td>';
                 html += '    <td>' + promotionArray[i].quizID + '</td>';
@@ -1104,6 +1172,11 @@ function populatePromotions() {
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //alert("Error: Something went wrong with populateTestimonials function");
     });
+}
+
+function changePromotionPage(page) {
+    tablePages.promotions = page;
+    populatePromotions();
 }
 
 function deletePromotion(id) {
@@ -1138,6 +1211,17 @@ function populateWithdrawal() {
     function(response) {
         if (response[0] == 'success') {
             withdrawalArray = response[1];
+
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var m = 0; withdrawalArray.length > 20 && m < withdrawalArray.length / 20; m += 1) {
+                htmlPage += "<button class='paginationButton" + m + "' onclick='changeWithdrawalPage(" + m + ")'>" + (m + 1) + "</button>";
+            }
+
+            $("#createWithdrawalPagination").empty().append(htmlPage);
+            $("#createWithdrawalPagination .paginationButton" + tablePages.withdrawals).addClass('active');
+
             var html = '';
 
             html += '<thead>';
@@ -1157,7 +1241,7 @@ function populateWithdrawal() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 0; withdrawalArray != null && i < withdrawalArray.length; i += 1) {
+            for (var i = 20 * tablePages.withdrawals; withdrawalArray != null && i < withdrawalArray.length && i < 20 * (tablePages.withdrawals + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td>' + withdrawalArray[i].withdrawalID + '</td>';
                 html += '    <td>' + withdrawalArray[i].username + '</td>';
@@ -1187,6 +1271,11 @@ function populateWithdrawal() {
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //alert("Error: Something went wrong with populateWithdrawal function");
     });
+}
+
+function changeWithdrawalPage(page) {
+    tablePages.withdrawals = page;
+    populateWithdrawal();
 }
 
 function setWithdrawalDone(id, done, username, amount) {

@@ -54,6 +54,7 @@
                     <label for="#convertRate">Number of Free Quizetos required for 1 Real Quizeto</label>
                     <input type="number" contenteditable="true" id='convertRate' class='form-control'>
                 </div>
+                <div class='tablePaginationContainer' id='createUserPagination'></div>
                 <table class='databaseTable' id='userTable'></table>
             </div>
 
@@ -89,8 +90,8 @@
                                     <input type="text" id="createQuizQuestionsRandomNum" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for='#createQuizQuestionsRandomCategory'>Quiz Category:</label>
-                                    <input type="text" id="createQuizQuestionsRandomCategory" class="form-control">
+                                    <label for='#createQuizQuestionsRandomCategory'>Question Category:</label>
+                                    <select id="createQuizQuestionsRandomCategory" class="form-control"></select>
                                 </div>
                                 <button class="btn btn-default" onclick='addRandomQuestions()'>Add Random Questions</button>
                             </div>
@@ -199,6 +200,7 @@
                         </form>
                     </div>
                 </div>
+                <div class='tablePaginationContainer' id='createTestimoinalPagination'></div>
                 <table class='databaseTable' id='testimonialTable'></table>
             </div>
 
@@ -224,10 +226,12 @@
                         </form>
                     </div>
                 </div>
+                <div class='tablePaginationContainer' id='createPromotionPagination'></div>
                 <table class='databaseTable' id='promotionTable'></table>
             </div>
 
             <div id='withdrawalContainer'>
+                <div class='tablePaginationContainer' id='createWithdrawalPagination'></div>
                 <table class='databaseTable' id='withdrawalTable'></table>
             </div>
 

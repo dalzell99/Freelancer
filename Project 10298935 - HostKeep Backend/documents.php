@@ -5,10 +5,12 @@
             <label for="#documentsAddName">Name</label>
             <input id='documentsAddName' type='text' />
         </div>
+
         <div>
             <label for="#documentsAddPropertyID">Property</label>
             <select id='documentsAddPropertyID'></select>
         </div>
+
         <div>
             <label for="#documentsAddMonth">Month</label>
             <select id='documentsAddMonth'>
@@ -26,14 +28,22 @@
                 <option value="December">December</option>
             </select>
         </div>
+
         <div>
             <label for="#documentsAddNotes">Notes</label>
             <textarea id='documentsAddNotes' lines='4'></textarea>
         </div>
+
         <div>
-            <button id='documentsAddButton'>Add New Document</button>
+            <button type='submit' id='documentsAddButton'>Add New Document</button>
         </div>
     </div>
+
+    <form id='documentsDropzone' class='dropzone' action='php/documents/uploaddocument.php'>
+        <div class="fallback">
+            <input name="file" type="file" />
+        </div>
+    </form>
 </div>
 
 <table>
