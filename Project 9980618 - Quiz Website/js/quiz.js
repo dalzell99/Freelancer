@@ -169,7 +169,6 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
         if (quiz.type == 'free') {
             $.post('./php/users/depositfreepoints.php', {
                 userID: sessionStorage.userID,
-                numCorrect: correctAnswers,
                 correctPercent: correctPercent
             }, function(response) {
                 if (response == 'success') {
@@ -182,7 +181,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     } else {
                         var extra = 0;
                     }
-                    $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct. " + (parseInt(correctAnswers) + extra) + " bonus quizetos have been added to your account.");
+                    $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
                 } else {
                     alert('Error depositing your bonus quizetos in your account.');
                     $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");

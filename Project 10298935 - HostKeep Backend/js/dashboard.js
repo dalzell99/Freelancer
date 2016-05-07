@@ -92,7 +92,7 @@ $(function() {
 
         // Get the properties for the logged in user
         $.post("./php/properties/getproperties.php", {
-            propertyIDs: sessionStorage.propertyIDs
+            username: sessionStorage.username
         }, function(response) {
             if (response == 'fail') {
                 displayMessage('error', 'Error retrieving property list. The web admin has been notified and will fix the problem as soon as possible.');
@@ -113,7 +113,7 @@ $(function() {
         });
 
         $.post("./php/documents/getdocuments.php", {
-
+            username: sessionStorage.username
         }, function(response) {
             if (response == 'fail') {
                 displayMessage('error', 'Error retrieving document list. The web admin has been notified and will fix the problem as soon as possible.');
@@ -383,11 +383,12 @@ function documents() {
         var a = (sessionStorage.admin == 'true' ? true : false);
         html += "<tr>";
         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
-        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + value.propertyID + "</td>";
+        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + value.propertyName + "</td>";
         html += "    <td class='month' " + (a ? 'contenteditable=true' : '') + ">" + value.month + "</td>";
         html += "    <td class='dateUploaded' " + (a ? 'contenteditable=true' : '') + ">" + value.dateUploaded + "</td>";
         html += "    <td class='notes' contenteditable=true>" + value.notes + "</td>";
-        html += "    <td><button onclick='viewDocument(" + value.documentID + ")'>View</button></td>"
+        html += "    <td><button onclick='viewDocument(" + value.documentFilename + ")'>View</button></td>";
+        html += "    <td><button onclick='deleteDocument(" + value.documentID + ")'>Delete</button></td>";
         html += "    <td style='display:none'>" + value.documentID + "</td>";
         html += "</tr>";
     });
@@ -437,11 +438,12 @@ function documents() {
                         var a = (sessionStorage.admin == 'true' ? true : false);
                         html += "<tr>";
                         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
-                        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
-                        html += "    <td class='month' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
+                        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddPropertyID option:selected").text() + "</td>";
+                        html += "    <td class='month' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddMonth").val() + "</td>";
                         html += "    <td class='dateUploaded' " + (a ? 'contenteditable=true' : '') + ">" + moment().format("Do MMM YYYY") + "</td>";
-                        html += "    <td class='notes' contenteditable=true>" + $("#documentsAddName").val() + "</td>";
-                        html += "    <td><button onclick='viewDocument(\"" + filename + "\")'>View</button></td>"
+                        html += "    <td class='notes' contenteditable=true>" + $("#documentsAddNotes").val() + "</td>";
+                        html += "    <td><button onclick='viewDocument(\"" + filename + "\")'>View</button></td>";
+                        html += "    <td><button onclick='deleteDocument(" + response.substr(7) + ")'>Delete</button></td>";
                         html += "    <td style='display:none'>" + response.substr(7) + "</td>";
                         html += "</tr>";
 
@@ -465,6 +467,9 @@ function documents() {
 
                         // Add contenteditable change event to the just added table row
                         addPropertyChangeEvent();
+
+                        // Remove document from upload box
+                        $("#documentsDropzone > .dz-preview").remove();
                     } else {
                         displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
                     }
@@ -489,6 +494,21 @@ function documents() {
 
 function viewDocument(filename) {
     window.open("./documents/" + filename);
+}
+
+function deleteDocument(id) {
+    $.post("./php/documents/deletedocument.php", {
+        documentID: id
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('info', 'Document has been deleted.');
+            location.reload();
+        } else {
+            displayMessage('error', 'Something went wrong trying to delete the document. The web admin has been notified and will fix the problem as soon as possible.');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
 }
 
 // Show change password container, set title, and active nav item

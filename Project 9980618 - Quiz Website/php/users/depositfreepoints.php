@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {
 }
 
 $userID = $_POST['userID'];
-$numCorrect = $_POST['numCorrect'];
+$numCorrect = 0;
 $correctPercent = $_POST['correctPercent'];
 
 if ($correctPercent == '100') {

@@ -37,13 +37,13 @@
         <div>
             <button type='submit' id='documentsAddButton'>Add New Document</button>
         </div>
-    </div>
 
-    <form id='documentsDropzone' class='dropzone' action='php/documents/uploaddocument.php'>
-        <div class="fallback">
-            <input name="file" type="file" />
-        </div>
-    </form>
+        <form id='documentsDropzone' class='dropzone' action='php/documents/uploaddocument.php'>
+            <div class="fallback">
+                <input name="file" type="file" />
+            </div>
+        </form>
+    </div>
 </div>
 
 <table>

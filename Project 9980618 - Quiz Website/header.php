@@ -5,7 +5,7 @@
         <img id='logo' src="./images/logo2.png" class="img-responsive">
     </div>
     <!-- End Logo -->
-    
+
     <div class='col-sm-6 no-padding'><!-- Start Navigation -->
         <nav class="navbar navbar-default">
             <div class="container-fluid no-padding">
@@ -25,7 +25,7 @@
                         </div>
                     </li>
                     <li id='myAccountMenuItem' class="col-xs-3"><a href="myaccount.php"><img id='myAccountIcon' src='./images/MYACCOUNT.png' alt='My Account'><br>My Account</a></li>
-                    <li id='faqMenuItem' class="col-xs-3"><a href="faq.php"><img id='faqIcon' src='./images/FAQ.png' alt='FAQ'><br>FAQ</a></li>
+                    <li id='faqMenuItem' class="col-xs-3"><a href="faq.php"><img id='faqIcon' src='./images/FAQ1.png' alt='FAQ'><br>FAQ</a></li>
                 </ul>
             </div>
         </nav>
@@ -87,4 +87,3 @@
     </div><!-- End Login and Navigation -->
 </div>
 <!-- End Header -->
-

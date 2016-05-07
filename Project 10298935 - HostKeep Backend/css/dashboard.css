@@ -52,6 +52,15 @@ main > div:nth-child(3) td:nth-child(4) {
   width: 20%;
 }
 
+main > div:nth-child(4) #documentsAdd {
+  margin-top: 10px;
+}
+
+main > div:nth-child(4) #documentsAdd,
+main > div:nth-child(4) #documentsAddNewDocument {
+  display: none;
+}
+
 main > div:nth-child(4) table {
   width: 100%;
 }

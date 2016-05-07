@@ -428,12 +428,11 @@ function uploadQuiz() {
             rules.push("Winning criteria: 100% correct answer = 5 Bonus Quizeto, 95-99% correct answer = 3 Bonus Quizeto, 90-94% correct answer = 1 Bonus Quizeto");
         } else {
             rules.push("User need real quizeto balance to register in this quiz");
-            rules.push("User can unregister from the quiz until 10 minutes before the start of the quiz");
-            rules.push("Minimum 10 participant required to start this quiz");
-            rules.push("Incase of less number of participant, quiz will be automatically cancelled");
-            rules.push("Quizeto will be refunded to respective user account if quiz gets cancelled");
             rules.push("Prize pool contains redeemable real quizeto");
             rules.push("Winners will be decided based on maximum number of correct answer given in minimum time");
+            rules.push("User can unregister from the quiz until 10 minutes before the start of the quiz");
+            rules.push("Incase of less number of participant, quiz will be automatically cancelled");
+            rules.push("Quizeto will be refunded to respective user account if quiz gets cancelled");
         }
 
         $.post('./php/quizzes/createnewquiz.php', {

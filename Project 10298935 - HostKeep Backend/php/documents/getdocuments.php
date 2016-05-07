@@ -8,40 +8,27 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-// Get json array of propertyIDs
-$documentIDs = json_decode($_POST['documentIDs']);
-$whereStatement = '';
+$sql = "SELECT * FROM Documents WHERE username = '" . $_POST['username'] . "'";
 
-// Add propertyIDs to whereStatement
-foreach ($documentIDs as $id) {
-    $whereStatement .= "documentID = '" . $id . "' OR ";
-}
+if ($result = mysqli_query($con, $sql)) {
+    $response = [];
 
-// Remove the last OR
-$whereStatement = substr($whereStatement, 0, -4);
-$sql = "SELECT * FROM Documents WHERE " . $whereStatement;
+    // Add results to an array
+    while ($row = mysqli_fetch_assoc($result)) {
+        $resultProp = mysqli_query($con, "SELECT name FROM Properties WHERE propertyID = '" . $row["propertyID"] . "'");
+        $row['propertyName'] = mysqli_fetch_assoc($resultProp)['name'];
 
-// Execute query
-if ($whereStatement != '') {
-    if ($result = mysqli_query($con, $sql)) {
-        $response = [];
-
-        // Add results to an array
-        while ($row = mysqli_fetch_assoc($result)) {
-            $response[] = $row;
-        }
-
-        // Echo array as json
-        echo json_encode($response);
-    } else {
-        sendErrorEmail("
-        getdocuments.php<br />
-        sql: $sql
-        ");
-        echo json_encode('fail');
+        $response[] = $row;
     }
+
+    // Echo array as json
+    echo json_encode($response);
 } else {
-    echo json_encode([]);
+    sendErrorEmail("
+    getdocuments.php<br />
+    sql: $sql
+    ");
+    echo json_encode('fail');
 }
 
 mysqli_close($con);
