@@ -214,7 +214,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     }
                     html += "    <tr class='leaderboard " + i + "'>";
                     html += "         <td>" + (i + 1) + place[(i > 3 ? 3 : i)] + "</td>";
-                    html += '        <td><img class="leaderboardUserImage" src="../images/users/' + results[i].imageURL + '" /></td>';
+                    html += '        <td><img class="leaderboardUserImage" src="../images/users/' + users[i].imageURL + '" /></td>';
                     html += "         <td>" + users[i].username + "</td>";
                     html += "         <td>" + users[i].correctPercent + "</td>";
                     html += "         <td>" + (users[i].timeTaken / 1000) + "</td>";

@@ -145,6 +145,7 @@ function changeUser(userInfo) {
     sessionStorage.firstName = userInfo['firstName'];
     sessionStorage.lastName = userInfo['lastName'];
     sessionStorage.propertyIDs = userInfo['propertyIDs'];
+    sessionStorage.documentIDs = userInfo['documentIDs'];
     sessionStorage.company = userInfo['company'];
     sessionStorage.phoneNumber = userInfo['phoneNumber'];
     sessionStorage.mobileNumber = userInfo['mobileNumber'];
@@ -417,15 +418,15 @@ function documents() {
     $("#documentsAddButton").on({
         click: function () {
             // Get the filename value from the span child of the first dz-filename (DropZone)
-            var filename = $("#documentsDropzone").children(".dz-filename:first > *").text();
+            var filename = $("#documentsDropzone").find(".dz-filename:first > *").text();
 
             if (filename != '') {
-                $.post("./php/documents/adddocument.php.php", {
+                $.post("./php/documents/adddocument.php", {
                     username: sessionStorage.username,
                     name: $("#documentsAddName").val(),
                     propertyID: $("#documentsAddPropertyID").val(),
                     month: $("#documentsAddMonth").val(),
-                    notes: $("#documentsAddNotes").text(),
+                    notes: $("#documentsAddNotes").val(),
                     filename: filename
                 }, function(response) {
                     if (response.substr(0, 7) == 'success') {
@@ -440,7 +441,7 @@ function documents() {
                         html += "    <td class='month' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
                         html += "    <td class='dateUploaded' " + (a ? 'contenteditable=true' : '') + ">" + moment().format("Do MMM YYYY") + "</td>";
                         html += "    <td class='notes' contenteditable=true>" + $("#documentsAddName").val() + "</td>";
-                        html += "    <td><button onclick='viewDocument(" + response.substr(7) + ")'>View</button></td>"
+                        html += "    <td><button onclick='viewDocument(\"" + filename + "\")'>View</button></td>"
                         html += "    <td style='display:none'>" + response.substr(7) + "</td>";
                         html += "</tr>";
 
@@ -450,20 +451,17 @@ function documents() {
                             'documentID': response.substr(7),
                             'name': $("#documentsAddName").val(),
                             'propertyID': $("#documentsAddPropertyID").val(),
-                            'month': $("#propertiesAddDescription").val(),
+                            'month': $("#documentsAddMonth").val(),
                             'dateUploaded': moment(),
-                            'notes': $("#propertiesAddPrice").val(),
+                            'notes': $("#documentsAddNotes").val(),
                             'documentFilename': filename
                         });
 
-// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
                         // Clear inputs
-                        $("#propertiesAddID").val('');
-                        $("#propertiesAddName").val('');
-                        $("#propertiesAddDescription").val('');
-                        $("#propertiesAddAddress").val('');
-                        $("#propertiesAddPrice").val('');
+                        $("#documentsAddName").val('');
+                        $("#documentsAddPropertyID").val('');
+                        $("#documentsAddMonth").val('');
+                        $("#documentsAddNotes").val('');
 
                         // Add contenteditable change event to the just added table row
                         addPropertyChangeEvent();
@@ -487,6 +485,10 @@ function documents() {
 
     hideAllContainers();
     $("div#documents").show();
+}
+
+function viewDocument(filename) {
+    window.open("./documents/" + filename);
 }
 
 // Show change password container, set title, and active nav item

@@ -15,8 +15,9 @@ $pointsCost = $_POST['pointsCost'];
 $startTime = $_POST['startTime'];
 $endTime = $_POST['endTime'];
 $rules = mysqli_real_escape_string($con, $_POST['rules']);
+$minPlayers = $_POST['minPlayers'];
 
-$sql = "UPDATE Quizzes SET type = '$type', questions = '$questions', category = '$category',  pointsCost = $pointsCost, startTime = '$startTime', endTime = '$endTime', rules = '$rules' WHERE quizID = $quizID";
+$sql = "UPDATE Quizzes SET type = '$type', questions = '$questions', category = '$category',  pointsCost = $pointsCost, startTime = '$startTime', endTime = '$endTime', rules = '$rules', minPlayers = $minPlayers WHERE quizID = $quizID";
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';

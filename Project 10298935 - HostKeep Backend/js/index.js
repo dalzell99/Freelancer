@@ -41,6 +41,7 @@ function setUserInfo(response, index) {
     sessionStorage.firstName = userInfo['firstName'];
     sessionStorage.lastName = userInfo['lastName'];
     sessionStorage.propertyIDs = userInfo['propertyIDs'];
+    sessionStorage.documentIDs = userInfo['documentIDs'];
     sessionStorage.company = userInfo['company'];
     sessionStorage.phoneNumber = userInfo['phoneNumber'];
     sessionStorage.mobileNumber = userInfo['mobileNumber'];

@@ -122,3 +122,7 @@ body {
 #resultText {
   font-size: 1.3em;
 }
+
+.leaderboardUserImage {
+  width: 70px;
+}

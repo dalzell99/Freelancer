@@ -8,7 +8,8 @@ var tablePages = {
     questions: 0,
     users: 0,
     testimonials: 0,
-    promotions: 0
+    promotions: 0,
+    withdrawals: 0
 };
 
 window.onload = function() {
@@ -186,7 +187,7 @@ function populateQuizzes() {
                         pointsRewards += (k + 1) + place[(k > 3 ? 3 : k)] + ') ' + pointsRewardsArray[k] + '<br>';
                     }
                 } else {
-                    pointsRewards = pointsRewardsArray[0];
+                    pointsRewards = "5 quizeto = 100%<br />3 quizeto = 95-99%<br />1 quizeto = 90-94%";
                 }
 
                 for (var l = 0; l < rulesArray.length; l += 1) {
@@ -331,7 +332,7 @@ function addAnswer(q, a) {
     $(".questions." + q + " .answer." + a).addClass('selectedAnswer');
 }
 
-function deleteQuestion(index) {
+function removeQuestion(index) {
     questionsArray.splice(index, 1);
     refreshQuestionTable();
 }
@@ -354,7 +355,7 @@ function refreshQuestionTable() {
         html += '    <td class="answer 1" contenteditable="true" onclick="addAnswer(' + i + ', 1)">' + answers[1] + '</td>';
         html += '    <td class="answer 2" contenteditable="true" onclick="addAnswer(' + i + ', 2)">' + answers[2] + '</td>';
         html += '    <td class="answer 3" contenteditable="true" onclick="addAnswer(' + i + ', 3)">' + answers[3] + '</td>';
-        html += '    <td><button class="btn btn-default" onclick="deleteQuestion(' + i + ')">Delete</button></td>';
+        html += '    <td><button class="btn btn-default" onclick="removeQuestion(' + i + ')">Delete</button></td>';
         html += '</tr>';
     }
 
@@ -442,9 +443,11 @@ function uploadQuiz() {
             pointsCost: $("#createQuizPointsCost").val(),
             startTime: start,
             endTime: end,
-            rules: JSON.stringify(rules)
+            rules: JSON.stringify(rules),
+            minPlayers: $("#createQuizMinPlayers").val()
         }, function(response) {
             if (response == 'success') {
+                sessionStorage.copiedQuiz = false;
                 $("#createQuizContainer").slideUp();
                 populateQuizzes();
                 alert('Quiz has been created.');
@@ -466,6 +469,7 @@ function editQuiz(id) {
             $("#createQuizType").val(q.type);
             $("#createQuizCategory").val(q.category);
             $("#createQuizPointsCost").val(q.pointsCost);
+            $("#createQuizMinPlayers").val(q.minPlayers);
             startTimePicker.data("DateTimePicker").date(moment(q.startTime));
             endTimePicker.data("DateTimePicker").date(moment(q.endTime));
 
@@ -489,16 +493,18 @@ function copyQuiz(id) {
             $("#createQuizType").val(q.type);
             $("#createQuizCategory").val(q.category);
             $("#createQuizPointsCost").val(q.pointsCost);
+            $("#createQuizMinPlayers").val(q.minPlayers);
             startTimePicker.data("DateTimePicker").date(moment(q.startTime));
             endTimePicker.data("DateTimePicker").date(moment(q.endTime));
 
-            rules = JSON.parse(q.rules);
+            rules = [];
             questionsArray = JSON.parse(q.questions);
 
             refreshQuestionTable();
             refreshRuleTable();
 
             updateQuizID = id;
+            sessionStorage.copiedQuiz = 'true';
         }
     }
 
@@ -534,7 +540,8 @@ function updateQuiz() {
             pointsCost: $("#createQuizPointsCost").val(),
             startTime: start,
             endTime: end,
-            rules: JSON.stringify(rules)
+            rules: JSON.stringify(rules),
+            minPlayers: $("#createQuizMinPlayers").val()
         }, function(response) {
             if (response == 'success') {
                 populateQuizzes();
@@ -557,13 +564,17 @@ function areInputsValidQuizzes() {
     }
 
     if ($("#createQuizPointsCost").val() == '') {
-        return [false, "Please ebter a registration fee"];
+        return [false, "Please enter a registration fee"];
     }
 
     for (var i = 0; i < questionsArray.length; i += 1) {
         if (questionsArray[i][2] == undefined) {
             return [false, "Some questions don't have answers"];
         }
+    }
+
+    if ($("#createQuizMinPlayers").val() == '') {
+        return [false, "Please enter the minimum number of users needed"];
     }
 
     return [true];
@@ -585,8 +596,14 @@ function addRandomQuestions() {
             if (response[0] == 'success') {
                 var tempArray = [];
                 response[1].forEach(function (value) {
-                    tempArray.push([value.question, JSON.parse(value.answers), parseInt(value.correctAnswer)]);
-                })
+                    if (value != null){
+                        tempArray.push([value.question, JSON.parse(value.answers), parseInt(value.correctAnswer)]);
+                    }
+                });
+
+                if (tempArray.length < $("#createQuizQuestionsRandomNum").val()) {
+                    alert("There are only " + tempArray.length + " questions with in the " + $("#createQuizQuestionsRandomCategory").val() + " category");
+                }
 
                 questionsArray = tempArray;
                 refreshQuestionTable();
@@ -874,7 +891,7 @@ function populateTestimonials() {
             }
 
             $("#createTestimonialPagination").empty().append(htmlPage);
-            $("#createTestimonialPagination .paginationButton" + tablePages.testimonial).addClass('active');
+            $("#createTestimonialPagination .paginationButton" + tablePages.testimonials).addClass('active');
 
             var html = '';
 
@@ -889,7 +906,7 @@ function populateTestimonials() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.testimonial; testimonialsArray != null && i < testimonialsArray.length && i < 20 * (tablePages.testimonial + 1); i += 1) {
+            for (var i = 20 * tablePages.testimonials; testimonialsArray != null && i < testimonialsArray.length && i < 20 * (tablePages.testimonials + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td>' + testimonialsArray[i].testimonialID + '</td>';
                 html += '    <td contenteditable="true">' + testimonialsArray[i].username + '</td>';
@@ -935,7 +952,7 @@ function populateTestimonials() {
     });
 }
 
-function changeTestominalPage(page) {
+function changeTestimonialPage(page) {
     tablePages.testimonials = page;
     populateTestimonials();
 }
@@ -1110,8 +1127,6 @@ function changeUserPage(page) {
     tablePages.users = page;
     populateUsers();
 }
-
-
 
 /* -------------------------------------------------------------
 ---------------------- Promotions Page -------------------------

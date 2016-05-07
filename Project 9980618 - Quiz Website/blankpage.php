@@ -74,6 +74,10 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for='#createQuizMinPlayers'>Minimum number of users needed:</label>
+                            <input type="number" id="createQuizMinPlayers" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <table class="table table-bordered" id="createQuizQuestions">
                             </table>
                             <div id='createQuizQuestionsManual'>
@@ -200,7 +204,7 @@
                         </form>
                     </div>
                 </div>
-                <div class='tablePaginationContainer' id='createTestimoinalPagination'></div>
+                <div class='tablePaginationContainer' id='createTestimonialPagination'></div>
                 <table class='databaseTable' id='testimonialTable'></table>
             </div>
 

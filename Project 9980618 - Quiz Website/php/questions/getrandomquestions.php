@@ -10,7 +10,7 @@ if (mysqli_connect_errno()) {
 $numQuestions = $_POST['numQuestions'];
 $category = $_POST['category'];
 
-$sql = "SELECT question, answers, correctAnswer FROM Questions WHERE category = 'Test' OR category = 'Miscellaneous'";
+$sql = "SELECT question, answers, correctAnswer FROM Questions WHERE category = '$category' OR category = 'Miscellaneous'";
 if ($result = mysqli_query($con, $sql)) {
     $response = [];
     while ($row = mysqli_fetch_array($result)) {

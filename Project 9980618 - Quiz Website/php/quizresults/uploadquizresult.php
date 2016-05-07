@@ -14,7 +14,7 @@ $timeTaken = $_POST['timeTaken'];
 $questions = mysqli_real_escape_string($con, json_encode($_POST['questions']));
 $correctPercent = $_POST['correctPercent'];
 
-$sql = "INSERT INTO QuizResults VALUES ('$userID', '$quizID', '$username', '$timeTaken', '$questions', '$correctPercent')";
+$sql = "INSERT INTO QuizResults VALUES ('$userID', '$quizID', '$username', '$timeTaken', '$questions', '$correctPercent', '')";
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';

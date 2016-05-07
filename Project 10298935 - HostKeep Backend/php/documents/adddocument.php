@@ -20,15 +20,6 @@ $sql = "INSERT INTO Documents VALUES (DEFAULT, '$username', '$name', '$propertyI
 $sql1 = "SELECT documentIDs FROM Customer WHERE username = '$username'";
 $sql2 = "UPDATE Customer SET documentIDs = '$documentIDs' WHERE username = '$username'";
 
-echo $username . '<br />';
-echo $name . '<br />';
-echo $propertyID . '<br />';
-echo $month . '<br />';
-echo $dateUploaded . '<br />';
-echo $notes . '<br />';
-echo $filename . '<br />';
-
-/*
 // Insert document into database
 if (mysqli_query($con, $sql)) {
     // Get documentID of last insert document
@@ -64,6 +55,6 @@ if (mysqli_query($con, $sql)) {
     ");
     echo 'fail insert sql';
 }
-*/
+
 mysqli_close($con);
 ?>

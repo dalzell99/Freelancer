@@ -21,7 +21,7 @@ while ($quiz = mysqli_fetch_assoc($resultQuizzes)) {
 
     if ($startTime - $now < 600) {
         // If quiz starts within 10 minutes (600 seconds) then check if 10 or more users registered
-        if (count(json_decode($quiz['userRegistered'])) >= $minRegisteredUsers) {
+        if (count(json_decode($quiz['userRegistered'])) >= $quiz['minPlayers']) {
             // If 10 or more registered then distribute prizes based on above percentages
             $totalRegistrationFees = count(json_decode($quiz['userRegistered'])) * $quiz['pointsCost'];
             $rewards = json_encode(array(
