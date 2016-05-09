@@ -20,25 +20,17 @@ if(isset($_POST["submit"])) {
         $uploadOk = 0;
     }
 }
-// Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
+
+// Check file size (500000 = 500KB)
+if ($_FILES["file"]["size"] > 500000) {
     echo "
     <script>
         window.location = '../../myaccount.php';
-        alert('Sorry, file already exists. Please contact the web admin to notify them of your profile image is not being displayed');
+        alert('Sorry, your file is too large. The max is 500KB.');
     </script>";
     $uploadOk = 0;
 }
-// Check file size (1500000 = 1.5MB)
-if ($_FILES["file"]["size"] > 1500000) {
-    echo "
-    <script>
-        window.location = '../../myaccount.php';
-        alert('Sorry, your file is too large. The max is 1.5MB.');
-    </script>";
-    $uploadOk = 0;
-}
+
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
@@ -49,6 +41,7 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
     </script>";
     $uploadOk = 0;
 }
+
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
     echo "
@@ -73,7 +66,7 @@ if ($uploadOk == 0) {
         if ($result = mysqli_query($con, $sql)) {
             echo "
             <script>
-                sessionStorage.profileImageURL = $fileName;
+                sessionStorage.profileImageURL = '$fileName';
                 window.location = '../../myaccount.php';
             </script>";
         } else {

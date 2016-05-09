@@ -7,7 +7,7 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$sql = "SELECT userID, username, paidPointsBalance, freeConvertablePointsBalance, freeUnconvertablePointsBalance, email, mobile, firstName, lastName, imageURL, gender, DOB, city, pincode, state, country FROM Users";
+$sql = "SELECT userID, username, paidPointsBalance, freeConvertablePointsBalance, freeUnconvertablePointsBalance, email, mobile, firstName, lastName, imageURL, gender, DOB, city, pincode, state, country, pancard FROM Users";
 $sql2 = "SELECT * FROM ConversionRate";
 $response = [];
 

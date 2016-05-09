@@ -9,7 +9,8 @@ var tablePages = {
     users: 0,
     testimonials: 0,
     promotions: 0,
-    withdrawals: 0
+    withdrawals: 0,
+    taxation: 0
 };
 
 window.onload = function() {
@@ -110,6 +111,7 @@ function populateTables() {
     populatePromotions();
     populateWithdrawal();
     populateDistribution();
+    populateTaxation();
 }
 
 /* -------------------------------------------------------------
@@ -1359,6 +1361,75 @@ function populateDistribution() {
             });
         } else {
             alert('Error');
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+/* -------------------------------------------------------------
+------------------------ Taxation Page -------------------------
+---------------------------------------------------------------*/
+
+function taxation() {
+    if (sessionStorage.loggedIn == 'true') {
+        hideAllContainers();
+        setActivePage('taxation');
+        $("#taxationContainer").show();
+    }
+}
+
+function populateTaxation() {
+    $.post("./php/taxation/getalltaxations.php", {
+
+    }, function(response) {
+        if (response == 'fail') {
+            alert("Error getting taxations")
+        } else {
+            taxationArray = response[1];
+
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var m = 0; taxationArray.length > 20 && m < taxationArray.length / 20; m += 1) {
+                htmlPage += "<button class='paginationButton" + m + "' onclick='changeTaxationPage(" + m + ")'>" + (m + 1) + "</button>";
+            }
+
+            $("#createTaxationPagination").empty().append(htmlPage);
+            $("#createTaxationPagination .paginationButton" + tablePages.taxation).addClass('active');
+
+            var html = '';
+
+            html += '<thead>';
+            html += '    <tr>';
+            html += '        <th>Username</th>';
+            html += '        <th>Quizetos Won</th>';
+            html += '        <th>Tax Amount</th>';
+            html += '        <th>Net Quizetos</th>';
+            html += '        <th>Mobile</th>';
+            html += '        <th>Email</th>';
+            html += '        <th>Pancard</th>';
+            html += '    </tr>';
+            html += '</thead>';
+
+            html += '<tbody>';
+            for (var i = 20 * tablePages.taxation; taxationArray != null && i < taxationArray.length && i < 20 * (tablePages.taxation + 1); i += 1) {
+                html += '<tr>';
+                html += '    <td>' + taxationArray[i].taxationID + '</td>';
+                html += '    <td>' + taxationArray[i].username + '</td>';
+                html += '    <td>' + taxationArray[i].grossQuizetos + '</td>';
+                html += '    <td>' + taxationArray[i].taxAmount + '</td>';
+                html += '    <td>' + taxationArray[i].netQuizetos + '</td>';
+                html += '    <td>' + taxationArray[i].mobile + '</td>';
+                html += '    <td>' + taxationArray[i].email + '</td>';
+                html += '    <td>' + taxationArray[i].pancard + '</td>';
+                html += '</tr>';
+            }
+            html += '</tbody>';
+
+            $("#taxationTable").empty().append(html);
+            var newTableObject = document.getElementById('taxationTable');
+            sorttable.makeSortable(newTableObject);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', "Error: Something went wrong with  AJAX POST");

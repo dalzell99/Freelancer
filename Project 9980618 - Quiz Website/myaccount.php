@@ -24,6 +24,7 @@
                     <button id='myAccountConversionButton' class='btn btn-primary' onclick='showConversion()' disabled>Convert</button>
                     <button class='btn btn-primary' onclick='showDeposit()'>Purchase</button>
                     <button class='btn btn-primary' onclick='showWithdraw()'>Redeem</button>
+                    <button class='btn btn-primary' onclick='showTaxation()'>Taxations</button>
                 </div>
 
                 <div id='myAccountProfile' class="col-xs-12">
@@ -33,56 +34,66 @@
                             <label for="myAccountProfileImageUpload">Upload Image</label>
                             <input id='myAccountProfileImageUpload' type="file" name="file" />
                             <input id='myAccountProfileImageUsername' type='text' name='username' style="display: none"/>
-                            <button class='btn btn-default' type='submit'>Upload Image</button>
+                            <button class='btn btn-primary' type='submit'>Upload Image</button>
                         </form>
+                        <div>
+                            <button id='myAccountRemoveProfileImageButton' onclick='removeProfilePicture()' class='btn btn-primary'>Remove Profile Picture</button>
+                        </div>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileFirstName'>First Name:</label>
-                        <div id='myAccountProfileFirstName' class='form-control firstName'></div>
+                        <input id='myAccountProfileFirstName' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileLastName'>Last Name</label>
-                        <div id='myAccountProfileLastName' class='form-control lastName'></div>
+                        <input id='myAccountProfileLastName' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileEmail'>Email</label>
-                        <div id='myAccountProfileEmail' class='form-control'></div>
+                        <input id='myAccountProfileEmail' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileGender'>Gender</label>
-                        <div id='myAccountProfileGender' class='form-control gender'></div>
+                        <input id='myAccountProfileGender' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileDOB'>Date of Birth</label>
-                        <div id='myAccountProfileDOB' class='form-control DOB'></div>
+                        <input id='myAccountProfileDOB' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileMobile'>Mobile No.</label>
-                        <div id='myAccountProfileMobile' class='form-control'></div>
+                        <input id='myAccountProfileMobile' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileMobileAlt'>Alternate Mobile No.</label>
-                        <div id='myAccountProfileMobileAlt' class='form-control mobileAlt'></div>
+                        <input id='myAccountProfileMobileAlt' class='form-control'></input>
+                    </div>
+                    <div class='form-group'>
+                        <label for='#myAccountProfilePancard'>Pancard</label>
+                        <input id='myAccountProfilePancard' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileAddress'>Address</label>
-                        <textarea id='myAccountProfileAddress' class='form-control homeAddress' lines='4'></textarea>
+                        <textarea id='myAccountProfileAddress' class='form-control' lines='4'></textarea>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileCity'>City</label>
-                        <div id='myAccountProfileCity' class='form-control city'></div>
+                        <input id='myAccountProfileCity' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfilePincode'>Pincode</label>
-                        <div id='myAccountProfilePincode' class='form-control pincode'></div>
+                        <input id='myAccountProfilePincode' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileState'>State</label>
-                        <div id='myAccountProfileState' class='form-control state'></div>
+                        <input id='myAccountProfileState' class='form-control'></input>
                     </div>
                     <div class='form-group'>
                         <label for='#myAccountProfileCountry'>Country</label>
-                        <div id='myAccountProfileCountry' class='form-control country'></div>
+                        <input id='myAccountProfileCountry' class='form-control'></input>
+                    </div>
+                    <div>
+                        <button id='profileSaveButton' class='btn btn-primary'>Save Changes</button>
                     </div>
                 </div>
 
@@ -185,6 +196,10 @@
                                 <input id='withdrawChequePhone' class='form-control' type='tel'>
                             </div>
                             <div class='form-group'>
+                                <label for='#withdrawChequePancard'>Pancard</label>
+                                <input id='withdrawChequePancard' class='form-control' type='text'>
+                            </div>
+                            <div class='form-group'>
                                 <button id='withdrawChequeSubmit' class='btn btn-default' onclick='submitCheque()'>Redeem Cheque</button>
                             </div>
                         </div>
@@ -209,6 +224,10 @@
                                 <input id='withdrawBankTransferPhone' class='form-control' type='tel'>
                             </div>
                             <div class='form-group'>
+                                <label for='#withdrawBankTransferPancard'>Pancard</label>
+                                <input id='withdrawBankTransferPancard' class='form-control' type='text'>
+                            </div>
+                            <div class='form-group'>
                                 <button id='withdrawBankTransferSubmit' class='btn btn-default' onclick='submitBankTransfer()'>Redeem Bank Transfer</button>
                             </div>
                         </div>
@@ -217,6 +236,8 @@
 
                     </div>
                 </div>
+
+                <div id="myAccountTaxation" class="col-xs-12"></div>
 
             </div>
             <!-- End User Register and Live Stats -->

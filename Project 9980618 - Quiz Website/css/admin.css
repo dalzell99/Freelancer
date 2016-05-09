@@ -5,7 +5,8 @@
 #rewardContainer, #createPromotionContainer,
 #questionsContainer, #createQuestionContainer,
 #createQuestionUpdateButton, #createQuizQuestionsRandom,
-#distributionContainer {
+#distributionContainer, #taxationContainer,
+#myAccountRemoveProfileImageButton {
   display: none;
 }
 

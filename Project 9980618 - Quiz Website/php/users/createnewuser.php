@@ -13,7 +13,7 @@ $password = md5(md5($_POST['password'] . strtolower($username)) . $salt);
 $email = mysqli_real_escape_string($con, $_POST['email']);
 $mobile = mysqli_real_escape_string($con, $_POST['mobile']);
 $emailCode = $_POST['emailCode'];
-$sql = "INSERT INTO Users VALUES (DEFAULT, '$username', '$password', 0, 0, 20, '$email', '$emailCode', '[]', '', '[]', '', 'y', '$mobile', '', '', '', '', '', '', '', '', '', '')";
+$sql = "INSERT INTO Users VALUES (DEFAULT, '$username', '$password', 0, 0, 20, '$email', '$emailCode', '[]', '', '[]', '', 'y', '$mobile', '', '', '', '', '', '', '', '', '', '', '')";
 
 $to = array($email);
 $from = $databasephpNoReplyEmail;

@@ -51,7 +51,18 @@ if ($resultUsers = mysqli_query($con, $sql1)) {
                 }
                 array_push($response, $quizPurchases);
 
-                echo json_encode(array('success', $response));
+                $sql5 = "SELECT * FROM Taxation WHERE username = '$username'";
+                if ($resultTaxation = mysqli_query($con, $sql5)) {
+                    $quizTaxation = [];
+                    while ($rowTaxation = mysqli_fetch_assoc($resultTaxation)) {
+                        $quizTaxation[] = $rowTaxation;
+                    }
+                    array_push($response, $quizTaxation);
+
+                    echo json_encode(array('success', $response));
+                } else {
+                    echo 'fail Taxation' . $sql5;
+                }
             } else {
                 echo 'fail Purchases' . $sql4;
             }

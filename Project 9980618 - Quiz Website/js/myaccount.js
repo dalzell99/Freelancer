@@ -1,6 +1,8 @@
 var currentPasswordCorrect = false;
 var isMobileNumberCorrect = false;
+var isPancardCorrect = false;
 var checkMobileTimer;
+var checkPancardTimer;
 var rzp1;
 var conversionRate;
 
@@ -8,6 +10,7 @@ var userInfo = [];
 var quizResults = [];
 var withdrawals = [];
 var purchaseHistory = [];
+var taxations = [];
 
 var options = {
     "key": "rzp_test_DMtkjnzZPVHfJI",
@@ -144,13 +147,25 @@ window.onload = function() {
 
     $("#withdrawChequePhone").on({
         input: function() {
-            checkMobileTimer = setTimeout(checkMobileCheque, 500);
+            checkMobileTimer = setTimeout(checkMobileCheque, 1000);
         }
     });
 
     $("#withdrawBankTransferPhone").on({
         input: function() {
-            checkMobileTimer = setTimeout(checkMobileBankTransfer, 500);
+            checkMobileTimer = setTimeout(checkMobileBankTransfer, 1000);
+        }
+    });
+
+    $("#withdrawChequePancard").on({
+        input: function() {
+            checkPancardTimer = setTimeout(checkPancardCheque, 1000);
+        }
+    });
+
+    $("#withdrawBankTransferPancard").on({
+        input: function() {
+            checkPancardTimer = setTimeout(checkPancardBankTransfer, 1000);
         }
     });
 
@@ -184,15 +199,20 @@ window.onload = function() {
                 purchaseHistory = response[1][3];
             }
 
+            if (response[1][4].length > 0) {
+                taxations = response[1][4];
+            }
+
             populateProfile();
             populateQuizzes();
             populateWithdrawals();
             populatePurchases();
+            populateTaxations();
         } else {
-            alert('Error');
+            alert('Error getting account info');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+        //alert('error', "Error: Something went wrong with  AJAX POST");
     });
 }
 
@@ -203,117 +223,58 @@ function populateProfile() {
         // Show image if it exists on server
         $("#myAccountProfileImage").prop('src', "./images/users/" + userInfo.imageURL);
         $("#myAccountProfileImage").show();
-        $("#myAccountProfileImageForm").hide();
+        $("#myAccountProfileImageForm").show();
+        $("#myAccountRemoveProfileImageButton").show();
     } else {
         // If it doesn't exist, allow user to upload an image
-        $("#myAccountProfileImage").hide();
+        $("#myAccountProfileImage").prop('src', "./images/users/missing.png");
+        $("#myAccountProfileImage").show();
         $("#myAccountProfileImageForm").show();
+        $("#myAccountRemoveProfileImageButton").hide();
     };
 
-    if (userInfo.firstName == '') {
-        $("#myAccountProfileFirstName").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileFirstName").text(userInfo.firstName);
-    }
+    $("#myAccountProfileFirstName").val(userInfo.firstName);
+    $("#myAccountProfileLastName").val(userInfo.lastName);
+    $("#myAccountProfileEmail").val(userInfo.email);
+    $("#myAccountProfileGender").val(userInfo.gender);
+    $("#myAccountProfileDOB").val(userInfo.DOB);
+    $("#myAccountProfileMobile").val(userInfo.mobile);
+    $("#myAccountProfileMobileAlt").val(userInfo.mobileAlt);
+    $("#myAccountProfileAddress").text(userInfo.homeAddress);
+    $("#myAccountProfileCity").val(userInfo.city);
+    $("#myAccountProfilePincode").val(userInfo.pincode);
+    $("#myAccountProfileState").val(userInfo.state);
+    $("#myAccountProfileCountry").val(userInfo.country);
+    $("#myAccountProfilePancard").val(userInfo.pancard);
 
-    if (userInfo.lastName == '') {
-        $("#myAccountProfileLastName").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileLastName").text(userInfo.lastName);
-    }
+    $("#myAccountProfileEmail").prop('disabled', true);
+    $("#myAccountProfileMobile").prop('disabled', true);
+    $("#myAccountProfilePancard").prop('disabled', true);
 
-    $("#myAccountProfileEmail").text(userInfo.email);
-
-    if (userInfo.gender == '') {
-        $("#myAccountProfileGender").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileGender").text(userInfo.gender);
-    }
-
-    if (userInfo.DOB == '') {
-        $("#myAccountProfileDOB").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileDOB").text(userInfo.DOB);
-    }
-
-    $("#myAccountProfileMobile").text(userInfo.mobile);
-
-    if (userInfo.mobileAlt == '') {
-        $("#myAccountProfileMobileAlt").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileMobileAlt").text(userInfo.mobileAlt);
-    }
-
-    if (userInfo.homeAddress == '') {
-        $("#myAccountProfileAddress").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileAddress").text(userInfo.homeAddress);
-    }
-
-    if (userInfo.city == '') {
-        $("#myAccountProfileCity").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileCity").text(userInfo.city);
-    }
-
-    if (userInfo.pincode == '') {
-        $("#myAccountProfilePincode").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfilePincode").text(userInfo.pincode);
-    }
-
-    if (userInfo.state == '') {
-        $("#myAccountProfileState").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileState").text(userInfo.state);
-    }
-
-    if (userInfo.country == '') {
-        $("#myAccountProfileCountry").prop('contenteditable', true);
-    } else {
-        $("#myAccountProfileCountry").text(userInfo.country);
-    }
-
-    $("#myAccountProfile [contenteditable=true]").on({
-        blur: function () {
-            if ($(this).is('div')) {
-                var value = $(this).text();
-            } else {
-                var value = $(this).val();
-            }
-
-            if (value != sessionStorage.contenteditable) {
-                var column = this.classList[1];
-                var $this = $(this);
-                $.post("./php/users/updateuserprofile.php", {
-                    username: sessionStorage.username,
-                    column: column,
-                    value: value
-                }, function(response) {
-                    if (response == 'success') {
-                        alert('Your ' + tidyColumnName(column) + ' has been updated');
-
-                        // Once the user has entered a value in their profile, it can not be changed unless it's their home address
-                        if (column != 'homeAddress') {
-                            $this.prop('contenteditable', false);
-                        }
-                    } else {
-                        alert('Error profile upload change');
-                    }
-                }).fail(function (request, textStatus, errorThrown) {
-                    //displayMessage('error', "Error: Something went wrong with  AJAX POST");
-                });
-            }
-        },
-
-        focus: function () {
-            if ($(this).is('div')) {
-                sessionStorage.contenteditable = $(this).text();
-            } else {
-                sessionStorage.contenteditable = $(this).val();
-            }
+    $("#profileSaveButton").on({
+        click: function () {
+            $.post("./php/users/updateuserprofile.php", {
+                firstName: $("#myAccountProfileFirstName").val(userInfo.firstName),
+                lastName: $("#myAccountProfileLastName").val(userInfo.lastName),
+                gender: $("#myAccountProfileGender").val(userInfo.gender),
+                DOB: $("#myAccountProfileDOB").val(userInfo.DOB),
+                mobileAlt: $("#myAccountProfileMobileAlt").val(userInfo.mobileAlt),
+                address: $("#myAccountProfileAddress").text(userInfo.homeAddress),
+                city: $("#myAccountProfileCity").val(userInfo.city),
+                pincode: $("#myAccountProfilePincode").val(userInfo.pincode),
+                state: $("#myAccountProfileState").val(userInfo.state),
+                country: $("#myAccountProfileCountry").val(userInfo.country)
+            }, function(response) {
+                if (response == 'success') {
+                    alert('Your profile has been saved');
+                } else {
+                    alert('Error saving your profile changes. Please contact the web admin to notify them of this problem');
+                }
+            }).fail(function (request, textStatus, errorThrown) {
+                //alert('error', "Error: Something went wrong with  AJAX POST");
+            });
         }
-    })
+    });
 }
 
 function tidyColumnName(column) {
@@ -339,6 +300,21 @@ function tidyColumnName(column) {
         case 'country':
             return 'country';
     }
+}
+
+function removeProfilePicture() {
+    $.post("./php/users/removeprofilepicture.php", {
+        username: sessionStorage.username
+    }, function(response) {
+        if (response == 'success') {
+            $("#myAccountProfileImage").prop('src', "./images/users/missing.png");
+            alert('Your profile picture has been removed');
+        } else {
+            alert('There was a problem removing your profile picture. Please contact the web admin to inform them of this problem');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //alert('error', "Error: Something went wrong with  AJAX POST");
+    });
 }
 
 function populateQuizzes() {
@@ -404,6 +380,27 @@ function populatePurchases() {
     $("#myAccountPurchaseHistory").empty().append(html);
 }
 
+function populateTaxations() {
+    var html = "";
+    html += "<table id='myAccountTaxationTable'>";
+    html += "    <tr>";
+    html += "        <th>Quizetos Won</th>";
+    html += "        <th>Tax Amount</th>";
+    html += "        <th>Net Quizetos</th>";
+    html += "    </tr>";
+
+    taxations.forEach(function (resultObject) {
+        html += "    <tr>";
+        html += "        <td>" + resultObject.grossQuizetos + "</td>";
+        html += "        <td>" + resultObject.taxAmount + "</td>";
+        html += "        <td>" + resultObject.netQuizetos + "</td>";
+        html += "    </tr>";
+    });
+
+    html += "</table>";
+    $("#myAccountTaxation").empty().append(html);
+}
+
 function hideAllContainers() {
     $("#myAccountProfile").hide();
     $("#myAccountBuy").hide();
@@ -411,6 +408,7 @@ function hideAllContainers() {
     $("#myAccountConversion").hide();
     $("#myAccountWithdraw").hide();
     $("#myAccountQuizzes").hide();
+    $("#myAccountTaxation").hide();
 }
 
 function areSamePassword() {
@@ -530,6 +528,11 @@ function showWithdraw() {
 
 }
 
+function showTaxation() {
+    hideAllContainers();
+    $("#myAccountTaxation").show();
+}
+
 function convertFreePoints() {
     $.post('./php/users/convertpoints.php', {
         userID: sessionStorage.userID,
@@ -632,6 +635,10 @@ function submitBankTransfer() {
 }
 
 function areInputsValidCheque() {
+    if(!isPancardCorrect) {
+        return [false, "The pancard you entered doesn't match the pancard with your account."];
+    }
+
     if(!isMobileNumberCorrect) {
         return [false, "The phone number you entered doesn't match the number with your account."];
     }
@@ -649,6 +656,10 @@ function areInputsValidCheque() {
 }
 
 function areInputsValidBankTransfer() {
+    if(!isPancardCorrect) {
+        return [false, "The pancard you entered doesn't match the pancard with your account."];
+    }
+
     if(!isMobileNumberCorrect) {
         return [false, "The phone number you entered doesn't match the number with your account."];
     }
@@ -700,4 +711,33 @@ function checkMobileBankTransfer() {
             isMobileNumberCorrect = false;
         }
     });
+}
+
+function checkPancardCheque() {
+    if (userInfo.pancard != '' && $("#withdrawChequePancard").val() != userInfo.pancard && isPancardValid($("#withdrawChequePancard").val())) {
+        $("#withdrawChequePancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
+        isPancardCorrect = false;
+    } else {
+        $("#withdrawChequePancard").css('border', green).attr('title', 'This pancard matches the number associated with your account.');
+        isPancardCorrect = true;
+    }
+}
+
+function checkPancardBankTransfer() {
+    if (userInfo.pancard != '' && $("#withdrawBankTransferPancard").val() != userInfo.pancard && isPancardValid($("#withdrawBankTransferPancard").val())) {
+        $("#withdrawBankTransferPancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
+        isPancardCorrect = false;
+    } else {
+        $("#withdrawBankTransferPancard").css('border', green).attr('title', 'This pancard matches the number associated with your account.');
+        isPancardCorrect = true;
+    }
+}
+
+function isPancardValid(pancard) {
+    // Check if pancard is 10 charaters long and the format is AAAAANNNNA where A is letter and N is number
+    if (pancard.length == 10 && pancard.substr(0, 5).search(/[a-zA-Z]/) != -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[a-zA-Z]/) != -1) {
+        return true;
+    } else {
+        return false;
+    }
 }

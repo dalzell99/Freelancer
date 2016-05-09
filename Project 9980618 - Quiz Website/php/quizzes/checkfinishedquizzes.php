@@ -38,8 +38,31 @@ foreach ($quizArray as $quiz) {
     if ($resultResults = mysqli_query($con, $sqlResults)) {
         while ($rowResults = mysqli_fetch_assoc($resultResults)) {
             if ($userRank < count($prizes)) {
+                if ($prizes[$userRank] >= 10000) {
+                    // Get User info for taxation element
+                    $resultsUser = mysqli_query($con, "SELECT mobile, email, username FROM Users WHERE userID = '" . $rowResults['userID'] . "'");
+                    $username = $_POST['username'];
+                    $mobile = mysqli_fetch_assoc($resultsUser)['mobile'];
+                    $email = mysqli_fetch_assoc($resultsUser)['email'];
+
+                    // Calculate tax of 30.9% if value is above 9999
+                    $grossQuizetos = $prizes[$userRank];
+                    $taxAmount = ceil($grossQuizetos * .309);
+                    $netQuizetos = $grossQuizetos - $taxAmount;
+
+                    // Insert into taxation table
+                    $sql7 = "INSERT INTO Taxation VALUES (DEFAULT, '$username', '$mobile', '$email', '$grossQuizetos', '$taxAmount', '$netQuizetos')";
+                    if (mysqli_query($con, $sql7)) {
+                        // do nothing
+                    } else {
+                        echo "fail7" . $sql7;
+                    }
+                } else {
+                    $netQuizetos = $prizes[$userRank];
+                }
+
                 // Add prize to users paid points balance
-                $sqlUserUpdated = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . $prizes[$userRank] . " WHERE userID = '" . $rowResults['userID'] . "'";
+                $sqlUserUpdated = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . $netQuizetos . " WHERE userID = '" . $rowResults['userID'] . "'";
                 if ($userRank == 0) {
                     $winningUserID = $rowResults['userID'];
                 }
@@ -48,7 +71,7 @@ foreach ($quizArray as $quiz) {
                     echo 'fail3. ' . $sqlUserUpdated;
                 }
 
-                $prizeMessage = "Congratulations, you won " . $prizes[$userRank] . " Real Quizetos which have been added to your account.";
+                $prizeMessage = "Congratulations, you won " . $netQuizetos . " Real Quizetos which have been added to your account.";
             } else {
                 $prizeMessage = "";
             }
@@ -122,7 +145,7 @@ foreach ($quizArray as $quiz) {
     // Mark quiz as paid out
     $sqlQuizPaidOut = "UPDATE Quizzes SET paidOut = 'y', winningUserID = '$winningUserID' WHERE quizID = '" . $quiz['quizID'] . "'";
     if (!mysqli_query($con, $sqlQuizPaidOut)) {
-        echo 'fail5. ' . $sqlQuizPaidOut;
+        echo 'fail6. ' . $sqlQuizPaidOut;
     }
 }
 

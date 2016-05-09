@@ -36,6 +36,7 @@
                             <li class="promotions" onclick='promotions()'><a>Promotions</a></li>
                             <li class="withdrawal" onclick='withdrawal()'><a>Withdrawal</a></li>
                             <li class="distribution" onclick='distribution()'><a>Distribution Percentages</a></li>
+                            <li class="taxation" onclick='taxation()'><a>Taxation</a></li>
                         </ul>
                     </div>
                 </div>
@@ -264,6 +265,11 @@
                     </div>
                     <button id='distributionButton' class='btn btn-default'>Save Changes</button>
                 </div>
+            </div>
+
+            <div id="taxationContainer">
+                <div class='tablePaginationContainer' id='createTaxationPagination'></div>
+                <table class='databaseTable' id="taxationTable"></table>
             </div>
         </main>
 
