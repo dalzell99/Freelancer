@@ -118,7 +118,8 @@ $(function() {
             if (response == 'fail') {
                 displayMessage('error', 'Error retrieving document list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
-                documentList = JSON.parse(response);
+                documentList = response[0];
+                filenameList = response[1];
 
                 if (done == true) {
                     // Run hashchange is the get properties has finished
@@ -129,7 +130,7 @@ $(function() {
                     done = true;
                 }
             }
-        }).fail(function (request, textStatus, errorThrown) {
+        }, 'json').fail(function (request, textStatus, errorThrown) {
             //displayMessage('error', "Error: Something went wrong with  AJAX POST");
         });
     } else {
@@ -293,6 +294,10 @@ function properties() {
 
     $("#properties tbody").empty().append(html);
 
+    // Make table sortable
+    var newTableObject = $("#properties table")[0];
+    sorttable.makeSortable(newTableObject);
+
     // Add contenteditable change events
     addPropertyChangeEvent();
 
@@ -377,23 +382,49 @@ function documents() {
     $("nav .active").removeClass("active");
     $("nav .documents").addClass("active");
 
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
     // Create property table
     var html = '';
     documentList.forEach(function(value, index, array) {
         var a = (sessionStorage.admin == 'true' ? true : false);
+
+
         html += "<tr>";
-        html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
-        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + value.propertyName + "</td>";
-        html += "    <td class='month' " + (a ? 'contenteditable=true' : '') + ">" + value.month + "</td>";
-        html += "    <td class='dateUploaded' " + (a ? 'contenteditable=true' : '') + ">" + value.dateUploaded + "</td>";
+        html += "    <td class='name'>" + value.name + "</td>";
+        html += "    <td class='propertyID'>" + value.propertyName + "</td>";
+        html += "    <td class='month' sorttable_customkey='" + months.indexOf(value.month) + "'>" + value.month + "</td>";
+        html += "    <td class='dateUploaded'>" + moment(value.dateUploaded).format("Do MMM YYYY") + "</td>";
         html += "    <td class='notes' contenteditable=true>" + value.notes + "</td>";
-        html += "    <td><button onclick='viewDocument(" + value.documentFilename + ")'>View</button></td>";
-        html += "    <td><button onclick='deleteDocument(" + value.documentID + ")'>Delete</button></td>";
+        html += "    <td><button onclick='viewDocument(\"" + value.documentFilename + "\")'>View</button></td>";
+        if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
+            html += "    <td><button onclick='deleteDocument(" + value.documentID + ")'>Delete</button></td>";
+        }
         html += "    <td style='display:none'>" + value.documentID + "</td>";
         html += "</tr>";
     });
 
     $("#documents tbody").empty().append(html);
+
+    // Make table sortable
+    var newTableObject = $("#documents table")[0];
+    sorttable.makeSortable(newTableObject);
+
+    // Sort by month
+    var monthHeader = $("#documents th")[2];
+    sorttable.innerSortFunction.apply(monthHeader, []);
+
+    // If user is admin, add filenames to dropdown to be selected
+    if (sessionStorage.admin == 'true') {
+        // Add filenames to dropdown
+        var htmlFilename = "<option value=''></option>";
+
+        filenameList.forEach(function (value) {
+            htmlFilename += "<option value='" + value + "'>" + value + "</option>";
+        });
+
+        $("#documentsAddFilename").empty().append(htmlFilename).show();
+    }
 
     // Add contenteditable change events
     addDocumentChangeEvent();
@@ -402,6 +433,9 @@ function documents() {
     if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
         $("#documentsAdd").show();
     }
+
+    // Move submit button below DropZone
+    $("#documentsDropzone").after($("#documentsAddButton").parent());
 
     // Toggle add property section
     $("#documentsShowAdd").on({
@@ -419,7 +453,9 @@ function documents() {
     $("#documentsAddButton").on({
         click: function () {
             // Get the filename value from the span child of the first dz-filename (DropZone)
-            var filename = $("#documentsDropzone").find(".dz-filename:first > *").text();
+            var filename = $("#documentsAddFilename").val() != '' ?
+                $("#documentsAddFilename").val() :
+                $("#documentsDropzone").find(".dz-filename:first > *").text();
 
             if (filename != '') {
                 $.post("./php/documents/adddocument.php", {
@@ -437,10 +473,10 @@ function documents() {
                         var html = '';
                         var a = (sessionStorage.admin == 'true' ? true : false);
                         html += "<tr>";
-                        html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddName").val() + "</td>";
-                        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddPropertyID option:selected").text() + "</td>";
-                        html += "    <td class='month' " + (a ? 'contenteditable=true' : '') + ">" + $("#documentsAddMonth").val() + "</td>";
-                        html += "    <td class='dateUploaded' " + (a ? 'contenteditable=true' : '') + ">" + moment().format("Do MMM YYYY") + "</td>";
+                        html += "    <td class='name'>" + $("#documentsAddName").val() + "</td>";
+                        html += "    <td class='propertyID'>" + $("#documentsAddPropertyID option:selected").text() + "</td>";
+                        html += "    <td class='month' sorttable_customkey='" + months.indexOf(value.month) + "'>" + $("#documentsAddMonth").val() + "</td>";
+                        html += "    <td class='dateUploaded'>" + moment().format("Do MMM YYYY") + "</td>";
                         html += "    <td class='notes' contenteditable=true>" + $("#documentsAddNotes").val() + "</td>";
                         html += "    <td><button onclick='viewDocument(\"" + filename + "\")'>View</button></td>";
                         html += "    <td><button onclick='deleteDocument(" + response.substr(7) + ")'>Delete</button></td>";

@@ -12,6 +12,7 @@ $sql = "SELECT * FROM Documents WHERE username = '" . $_POST['username'] . "'";
 
 if ($result = mysqli_query($con, $sql)) {
     $response = [];
+    $filenames = [];
 
     // Add results to an array
     while ($row = mysqli_fetch_assoc($result)) {
@@ -21,8 +22,25 @@ if ($result = mysqli_query($con, $sql)) {
         $response[] = $row;
     }
 
+    if ($handle = opendir('../../documents')) {
+        $filenames = [];
+
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                array_push($filenames, $entry);
+            }
+        }
+        closedir($handle);
+    } else {
+        sendErrorEmail("
+        getdocuments.php<br />
+        Filename errors
+        ");
+        echo json_encode("fail");
+    }
+
     // Echo array as json
-    echo json_encode($response);
+    echo json_encode(array($response, $filenames));
 } else {
     sendErrorEmail("
     getdocuments.php<br />

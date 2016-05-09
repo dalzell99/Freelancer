@@ -6,6 +6,7 @@ echo '
 <script src="js/external/moment.min.js"></script>
 <script src="js/external/hashchange.min.js"></script>
 <script src="js/external/dropzone.js"></script>
+<script src="js/external/sorttable.js"></script>
 <script src="js/global.js?' . filemtime('js/global.js') . '"></script>
 
 <link href="css/external/bootstrap.min.css" rel="stylesheet" />

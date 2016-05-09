@@ -16,10 +16,11 @@ $rate = mysqli_fetch_assoc($resultRate)['rate'];
 
 if ($result = mysqli_query($con, $sql)) {
     $row = mysqli_fetch_assoc($result);
-    if ($row['freeConvertablePointsBalance'] >= $points) {
-        $sqlConvert = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . ($points / $rate) . ", freeConvertablePointsBalance = freeConvertablePointsBalance - " . $points . " WHERE userID = '$userID'";
+    if ($row['freeConvertablePointsBalance'] >= $points && $points > $rate) {
+        $change = floor($points / $rate);
+        $sqlConvert = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . $change . ", freeConvertablePointsBalance = freeConvertablePointsBalance - " . ($change * $rate) . " WHERE userID = '$userID'";
         if (mysqli_query($con, $sqlConvert)) {
-            echo 'success'. ($points / $rate);
+            echo 'success'. $change;
         } else {
             echo 'sql fail. ' . $sqlConvert;
         }

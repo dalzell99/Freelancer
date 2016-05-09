@@ -35,7 +35,16 @@
         </div>
 
         <div>
+            <label for="#documentsAddFilename">Documents uploaded via FTP</label>
+            <select id='documentsAddFilename'></select>
+        </div>
+
+        <div>
             <button type='submit' id='documentsAddButton'>Add New Document</button>
+        </div>
+
+        <div id='orText'>
+            OR
         </div>
 
         <form id='documentsDropzone' class='dropzone' action='php/documents/uploaddocument.php'>

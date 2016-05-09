@@ -57,8 +57,15 @@ main > div:nth-child(4) #documentsAdd {
 }
 
 main > div:nth-child(4) #documentsAdd,
-main > div:nth-child(4) #documentsAddNewDocument {
+main > div:nth-child(4) #documentsAddNewDocument,
+main > div:nth-child(4) #documentsAddFilename {
   display: none;
+}
+
+main > div:nth-child(4) #orText {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
 }
 
 main > div:nth-child(4) table {
