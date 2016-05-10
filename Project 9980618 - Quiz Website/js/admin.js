@@ -25,6 +25,7 @@ window.onload = function() {
             case 'promotions': promotions(); break;
             case 'withdrawal': withdrawal(); break;
             case 'distribution': distribution(); break;
+            case 'taxation': taxation(); break;
             default: users();
         }
     }
@@ -1386,12 +1387,12 @@ function populateTaxation() {
         if (response == 'fail') {
             alert("Error getting taxations")
         } else {
-            taxationArray = response[1];
+            taxationArray = response;
 
             // Add pagination buttons
             var htmlPage = '';
 
-            for (var m = 0; taxationArray.length > 20 && m < taxationArray.length / 20; m += 1) {
+            for (var m = 0; taxationArray != null && taxationArray.length > 20 && m < taxationArray.length / 20; m += 1) {
                 htmlPage += "<button class='paginationButton" + m + "' onclick='changeTaxationPage(" + m + ")'>" + (m + 1) + "</button>";
             }
 
@@ -1402,6 +1403,7 @@ function populateTaxation() {
 
             html += '<thead>';
             html += '    <tr>';
+            html += '        <th>Taxation ID</th>';
             html += '        <th>Username</th>';
             html += '        <th>Quizetos Won</th>';
             html += '        <th>Tax Amount</th>';
@@ -1415,7 +1417,7 @@ function populateTaxation() {
             html += '<tbody>';
             for (var i = 20 * tablePages.taxation; taxationArray != null && i < taxationArray.length && i < 20 * (tablePages.taxation + 1); i += 1) {
                 html += '<tr>';
-                html += '    <td>' + taxationArray[i].taxationID + '</td>';
+                html += '    <td>' + taxationArray[i].taxID + '</td>';
                 html += '    <td>' + taxationArray[i].username + '</td>';
                 html += '    <td>' + taxationArray[i].grossQuizetos + '</td>';
                 html += '    <td>' + taxationArray[i].taxAmount + '</td>';

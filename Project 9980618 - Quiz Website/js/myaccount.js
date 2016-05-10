@@ -249,30 +249,38 @@ function populateProfile() {
 
     $("#myAccountProfileEmail").prop('disabled', true);
     $("#myAccountProfileMobile").prop('disabled', true);
-    $("#myAccountProfilePancard").prop('disabled', true);
+    if (userInfo.pancard != '') {
+        $("#myAccountProfilePancard").prop('disabled', true);
+    }
 
     $("#profileSaveButton").on({
         click: function () {
-            $.post("./php/users/updateuserprofile.php", {
-                firstName: $("#myAccountProfileFirstName").val(userInfo.firstName),
-                lastName: $("#myAccountProfileLastName").val(userInfo.lastName),
-                gender: $("#myAccountProfileGender").val(userInfo.gender),
-                DOB: $("#myAccountProfileDOB").val(userInfo.DOB),
-                mobileAlt: $("#myAccountProfileMobileAlt").val(userInfo.mobileAlt),
-                address: $("#myAccountProfileAddress").text(userInfo.homeAddress),
-                city: $("#myAccountProfileCity").val(userInfo.city),
-                pincode: $("#myAccountProfilePincode").val(userInfo.pincode),
-                state: $("#myAccountProfileState").val(userInfo.state),
-                country: $("#myAccountProfileCountry").val(userInfo.country)
-            }, function(response) {
-                if (response == 'success') {
-                    alert('Your profile has been saved');
-                } else {
-                    alert('Error saving your profile changes. Please contact the web admin to notify them of this problem');
-                }
-            }).fail(function (request, textStatus, errorThrown) {
-                //alert('error', "Error: Something went wrong with  AJAX POST");
-            });
+            if (isPancardValid($("#myAccountProfilePancard").val())) {
+                $.post("./php/users/updateuserprofile.php", {
+                    username: sessionStorage.username,
+                    firstName: $("#myAccountProfileFirstName").val(),
+                    lastName: $("#myAccountProfileLastName").val(),
+                    gender: $("#myAccountProfileGender").val(),
+                    DOB: $("#myAccountProfileDOB").val(),
+                    mobileAlt: $("#myAccountProfileMobileAlt").val(),
+                    address: $("#myAccountProfileAddress").val(),
+                    city: $("#myAccountProfileCity").val(),
+                    pincode: $("#myAccountProfilePincode").val(),
+                    state: $("#myAccountProfileState").val(),
+                    country: $("#myAccountProfileCountry").val(),
+                    pancard: $("#myAccountProfilePancard").val()
+                }, function(response) {
+                    if (response == 'success') {
+                        alert('Your profile has been saved');
+                    } else {
+                        alert('Error saving your profile changes. Please contact the web admin to notify them of this problem');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    //alert('error', "Error: Something went wrong with  AJAX POST");
+                });
+            } else {
+                alert("The pancard entered is invalid. The valid format is 5 letters then 4 numbers then 1 letter.");
+            }
         }
     });
 }

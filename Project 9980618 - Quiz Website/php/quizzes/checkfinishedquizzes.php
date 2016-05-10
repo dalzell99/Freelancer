@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$sqlQuiz = "SELECT * FROM Quizzes WHERE type = 'paid'";
+$sqlQuiz = "SELECT * FROM Quizzes WHERE type = 'paid' AND paidOut = 'n'";
 $now = time();
 $quizArray = [];
 
@@ -17,7 +17,7 @@ if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
 
     while ($rowQuiz = mysqli_fetch_assoc($resultQuiz)) {
         $quizEndTime = strtotime($rowQuiz['endTime']);
-        if ($now - $quizEndTime > 300 && $rowQuiz['paidOut'] == 'n') { // If the quiz finished more than 5 minutes ago and hasn't been paid out then add to quiz to $quizArray
+        if ($now - $quizEndTime > 0) { // If the quiz has finished
             $quizArray[] = $rowQuiz;
         }
     }
@@ -25,25 +25,30 @@ if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
     echo 'fail1. ' . $sqlQuiz;
 }
 
-// For each quiz that ended more than 5 minutes ago
+// For each quiz that has ended
 foreach ($quizArray as $quiz) {
     // Get the prize list
     $prizes = json_decode($quiz['pointsRewards']);
     $userRank = 0;
     $winningUserID = -1;
     // Get the userID of the users who will receive prizes ordered by percent correct then time taken
-    $sqlResults = "SELECT userID, quizID FROM QuizResults WHERE quizID = '" . $quiz['quizID'] . "'
-    ORDER BY correctPercent DESC, timeTaken ASC";
+    $sqlResults = "SELECT userID, quizID FROM QuizResults WHERE quizID = '" . $quiz['quizID'] . "' ORDER BY correctPercent DESC, timeTaken ASC";
 
     if ($resultResults = mysqli_query($con, $sqlResults)) {
         while ($rowResults = mysqli_fetch_assoc($resultResults)) {
+            // Retrieve the info for each registered user
+            $sqlUser = "SELECT * FROM Users WHERE userID = '" . $rowResults['userID'] . "'";
+            $resultUser = mysqli_query($con, $sqlUser);
+            $rowUser = mysqli_fetch_assoc($resultUser);
+
+            // Check if user has won a prize
             if ($userRank < count($prizes)) {
+                // If prize is more than 9999, apply a 30.9% tax on the whole prize
                 if ($prizes[$userRank] >= 10000) {
                     // Get User info for taxation element
-                    $resultsUser = mysqli_query($con, "SELECT mobile, email, username FROM Users WHERE userID = '" . $rowResults['userID'] . "'");
-                    $username = $_POST['username'];
-                    $mobile = mysqli_fetch_assoc($resultsUser)['mobile'];
-                    $email = mysqli_fetch_assoc($resultsUser)['email'];
+                    $username = $rowUser['username'];
+                    $mobile = $rowUser['mobile'];
+                    $email = $rowUser['email'];
 
                     // Calculate tax of 30.9% if value is above 9999
                     $grossQuizetos = $prizes[$userRank];
@@ -61,27 +66,21 @@ foreach ($quizArray as $quiz) {
                     $netQuizetos = $prizes[$userRank];
                 }
 
-                // Add prize to users paid points balance
-                $sqlUserUpdated = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . $netQuizetos . " WHERE userID = '" . $rowResults['userID'] . "'";
                 if ($userRank == 0) {
                     $winningUserID = $rowResults['userID'];
                 }
 
-                if (!mysqli_query($con, $sqlUserUpdated)) {
+                // Add prize to users paid points balance
+                $sqlUserUpdated = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . $netQuizetos . " WHERE userID = '" . $rowResults['userID'] . "'";
+                if (mysqli_query($con, $sqlUserUpdated)) {
+                    // do nothing
+                } else {
                     echo 'fail3. ' . $sqlUserUpdated;
                 }
 
                 $prizeMessage = "Congratulations, you won " . $netQuizetos . " Real Quizetos which have been added to your account.";
             } else {
                 $prizeMessage = "";
-            }
-
-            // Then retrieve the info for each prize winner
-            $sqlUser = "SELECT * FROM Users WHERE userID = '" . $rowResults['userID'] . "'";
-            if ($resultUser = mysqli_query($con, $sqlUser)) {
-                // do nothing
-            } else {
-                echo 'fail4. ' . $sqlUser;
             }
 
             // Add users rank to their quiz result from this quiz
@@ -92,7 +91,7 @@ foreach ($quizArray as $quiz) {
                 echo 'fail5. ' . $sqlRank;
             }
 
-            // Send prize winner an email
+            // Send all registered users an email with their final ranking
             $rowUser = mysqli_fetch_assoc($resultUser);
             $to = array($rowUser['email']);
             $from = $databasephpPrizeEmail;

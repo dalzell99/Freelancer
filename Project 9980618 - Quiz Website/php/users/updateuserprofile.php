@@ -8,10 +8,32 @@ if (mysqli_connect_errno()) {
 }
 
 $username = $_POST['username'];
-$column = $_POST['column'];
-$value = $_POST['value'];
+$firstName = $_POST['firstName'];
+$lastName = $_POST['lastName'];
+$gender = $_POST['gender'];
+$DOB = $_POST['DOB'];
+$mobileAlt = $_POST['mobileAlt'];
+$address = $_POST['address'];
+$city = $_POST['city'];
+$pincode = $_POST['pincode'];
+$state = $_POST['state'];
+$country = $_POST['country'];
+$pancard = $_POST['pancard'];
 
-$sql = "UPDATE Users SET $column = '$value' WHERE username = '$username'";
+$sql = "UPDATE Users SET
+firstName = '$firstName',
+lastName = '$lastName',
+gender = '$gender',
+DOB = '$DOB',
+mobileAlt = '$mobileAlt',
+homeAddress = '$address',
+city = '$city',
+pincode = '$pincode',
+state = '$state',
+country = '$country',
+pancard = '$pancard'
+WHERE username = '$username'";
+
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';
 } else {

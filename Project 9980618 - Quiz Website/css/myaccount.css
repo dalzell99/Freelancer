@@ -1,7 +1,8 @@
 #myAccountBuy, #myAccountConversion, #myAccountWithdraw,
 #withdrawChequeAddress, #withdrawBankTransferDetails,
 #myAccountQuizzes, #myAccountChangePassword,
-#myAccountProfileImage, #myAccountProfileImageForm {
+#myAccountProfileImage, #myAccountProfileImageForm,
+#myAccountTaxation {
   display: none;
 }
 
@@ -19,7 +20,8 @@
 
 #quizzesHistory,
 #purchasesHistory,
-#withdrawalHistory {
+#withdrawalHistory,
+#myAccountTaxationTable {
   width: 100%;
   font-size: 1.5em;
   border-collapse: separate;
@@ -31,7 +33,9 @@
 #purchasesHistory td,
 #purchasesHistory th,
 #withdrawalHistory td,
-#withdrawalHistory th {
+#withdrawalHistory th,
+#myAccountTaxationTable td,
+#myAccountTaxationTable th {
   border: 1px solid white;
   text-align: center;
   padding: 10px;
