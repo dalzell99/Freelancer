@@ -9,10 +9,13 @@ if (mysqli_connect_errno()) {
 }
 
 $sql = "SELECT * FROM Documents WHERE username = '" . $_POST['username'] . "'";
+$sqlUsedFilenames = "SELECT DISTINCT documentFilename FROM Documents";
 
-if ($result = mysqli_query($con, $sql)) {
+if (($result = mysqli_query($con, $sql)) && ($resultFilenames = mysqli_query($con, $sqlUsedFilenames))) {
     $response = [];
     $filenames = [];
+    $usedFilenames = [];
+    $distinctFilenames = [];
 
     // Add results to an array
     while ($row = mysqli_fetch_assoc($result)) {
@@ -22,12 +25,16 @@ if ($result = mysqli_query($con, $sql)) {
         $response[] = $row;
     }
 
-    if ($handle = opendir('../../documents')) {
-        $filenames = [];
+    // Add already used filenames to usedFilenames array
+    while ($rowUsedFilenames = mysqli_fetch_assoc($resultFilenames)) {
+        $usedFilenames[] = $rowUsedFilenames['documentFilename'];
+    }
 
+    // Get all the filenames from the documents folder
+    if ($handle = opendir('../../documents')) {
         while (false !== ($entry = readdir($handle))) {
             if ($entry != "." && $entry != "..") {
-                array_push($filenames, $entry);
+                $filenames[] = $entry;
             }
         }
         closedir($handle);
@@ -38,6 +45,9 @@ if ($result = mysqli_query($con, $sql)) {
         ");
         echo json_encode("fail");
     }
+
+    // Remove filenames that have already been used
+    $filenames = array_diff($filenames, $usedFilenames);
 
     // Echo array as json
     echo json_encode(array($response, $filenames));

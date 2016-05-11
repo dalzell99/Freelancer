@@ -7,6 +7,7 @@ var confirmPasswordTimer;
 var currentPasswordCorrect = false;
 var passwordsMatch = false;
 var done = false;
+var currentProperty;
 
 $(function() {
     if (sessionStorage.loggedIn == 'true') {
@@ -29,6 +30,9 @@ $(function() {
                         break;
                     case 'change-password':
                         password();
+                        break;
+                    case 'direct-booking':
+                        directBooking();
                         break;
                 }
             }
@@ -60,7 +64,15 @@ $(function() {
                     var html = '<select id="headerUserSelect">';
                     var users = JSON.parse(response);
                     users.forEach(function(value, index, array) {
-                        html += "<option value='" + value.username + "'>" + value.username + "</option>";
+                        var propertyString = '';
+                        value.properties.forEach(function (propName) {
+                            propertyString += propName.name + ", ";
+                        });
+
+                        // Remove last comma
+                        propertyString = propertyString.substr(0, propertyString.length - 2);
+
+                        html += "<option value='" + value.username + "'>" + value.firstName + " " + value.lastName + " - " + value.username + " (" + propertyString + ")</option>";
                     });
                     html += "</select>";
 
@@ -195,6 +207,7 @@ function hideAllContainers() {
     $("div#properties").hide();
     $("div#documents").hide();
     $("div#password").hide();
+    $("div#directBooking").hide();
 }
 
 // Show welcome container, set title, and active nav item and add last login time to bottom of page
@@ -283,7 +296,9 @@ function properties() {
     var html = '';
     propertyList.forEach(function(value, index, array) {
         var a = (sessionStorage.admin == 'true' ? true : false);
+        var imageURL = (value.imageURL == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : value.imageURL);
         html += "<tr>";
+        html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
         html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + value.propertyID + "</td>";
         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
         html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + value.description + "</td>";
@@ -306,6 +321,9 @@ function properties() {
         $("#propertiesAdd").show();
     }
 
+    // Move submit button below DropZone
+    $("#propertiesDropzone").after($("#propertiesAddButton").parent());
+
     // Toggle add property section
     $("#propertiesShowAdd").on({
         click: function () {
@@ -322,13 +340,18 @@ function properties() {
     // Add property to the current user
     $("#propertiesAddButton").on({
         click: function () {
+            var filename = $("#propertiesAddImageURL").val() != '' ?
+                $("#propertiesAddImageURL").val() :
+                "http://owners.hostkeep.com.au/images/properties/" + $("#propertiesDropzone").find(".dz-filename:first > *").text();
+
             $.post("./php/properties/addproperty.php", {
                 username: sessionStorage.username,
                 propertyID: $("#propertiesAddID").val(),
                 name: $("#propertiesAddName").val(),
                 description: $("#propertiesAddDescription").val(),
                 address: $("#propertiesAddAddress").val(),
-                price: $("#propertiesAddPrice").val()
+                price: $("#propertiesAddPrice").val(),
+                imageURL: filename
             }, function(response) {
                 if (response.substr(0, 7) == 'success') {
                     displayMessage('info', 'The property has been added to the current customer');
@@ -336,7 +359,9 @@ function properties() {
                     // Add new property to table
                     var html = '';
                     var a = (sessionStorage.admin == 'true' ? true : false);
+                    var imageURL = (filename == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : filename);
                     html += "<tr>";
+                    html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
                     html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddID").val() + "</td>";
                     html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddName").val() + "</td>";
                     html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddDescription").val() + "</td>";
@@ -363,6 +388,9 @@ function properties() {
 
                     // Add contenteditable change event to the just added table row
                     addPropertyChangeEvent();
+
+                    // Remove image from upload box
+                    $("#propertiesDropzone > .dz-preview").remove();
                 } else {
                     displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
                 }
@@ -419,7 +447,7 @@ function documents() {
         // Add filenames to dropdown
         var htmlFilename = "<option value=''></option>";
 
-        filenameList.forEach(function (value) {
+        $.each(filenameList, function(key, value) {
             htmlFilename += "<option value='" + value + "'>" + value + "</option>";
         });
 
@@ -475,7 +503,7 @@ function documents() {
                         html += "<tr>";
                         html += "    <td class='name'>" + $("#documentsAddName").val() + "</td>";
                         html += "    <td class='propertyID'>" + $("#documentsAddPropertyID option:selected").text() + "</td>";
-                        html += "    <td class='month' sorttable_customkey='" + months.indexOf(value.month) + "'>" + $("#documentsAddMonth").val() + "</td>";
+                        html += "    <td class='month' sorttable_customkey='" + months.indexOf($("#documentsAddMonth").val()) + "'>" + $("#documentsAddMonth").val() + "</td>";
                         html += "    <td class='dateUploaded'>" + moment().format("Do MMM YYYY") + "</td>";
                         html += "    <td class='notes' contenteditable=true>" + $("#documentsAddNotes").val() + "</td>";
                         html += "    <td><button onclick='viewDocument(\"" + filename + "\")'>View</button></td>";
@@ -506,6 +534,11 @@ function documents() {
 
                         // Remove document from upload box
                         $("#documentsDropzone > .dz-preview").remove();
+
+                        // Remove document from dropdown
+                        var selectedIndex = $("#documentsAddFilename").prop("selectedIndex") + 1;
+                        $("#documentsAddFilename option:nth-child(" + selectedIndex + ")").css("display", "none");
+                        $("#documentsAddFilename").prop("selectedIndex", 0);
                     } else {
                         displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
                     }
@@ -639,8 +672,50 @@ function doPasswordsMatch() {
     }
 }
 
+function directBooking() {
+    $("div#headerTitle").text("Direct Booking");
+    $("nav .active").removeClass("active");
+    $("nav .directBooking").addClass("active");
+
+    
+
+    hideAllContainers();
+    $("div#directBooking").show();
+}
+
 // Add focus and blur events to the contenteditable elements
 function addPropertyChangeEvent() {
+    $("#properties table img").on({
+        click: function () {
+            currentProperty = $(this).parent().siblings(":eq(0)").text();
+
+            $("#newPropertyImageContainer").modal({
+                fadeDuration: 250
+            });
+
+            $("#newPropertyImageButton").on({
+                click: function () {
+                    var imageURL = "http://owners.hostkeep.com.au/images/properties/" + $("#newPropertyImageDropzone").find(".dz-filename:first > *").text();
+
+                    $.modal.close();
+                    $.post("./php/properties/changepropertyimage.php", {
+                        propertyID: currentProperty,
+                        imageURL: imageURL
+                    }, function(response) {
+                        if (response == 'success') {
+                            displayMessage('info', 'The property image has been changed');
+                            $("td:contains('" + currentProperty + "')").siblings(":eq(0)").children().prop("src", imageURL);
+                        } else {
+                            displayMessage('error', 'There was a problem changing the property image.');
+                        }
+                    }).fail(function (request, textStatus, errorThrown) {
+                        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                    });
+                }
+            })
+        }
+    });
+
     $("#properties [contenteditable=true]").on({
         blur: function() {
             if ($(this).text != sessionStorage.contenteditable) {

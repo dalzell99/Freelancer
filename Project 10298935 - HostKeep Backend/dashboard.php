@@ -12,7 +12,7 @@
     </head>
     <body>
         <div class='.container-fluid'>
-            <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+            <div class="col-sm-10 col-sm-offset-1">
                 <header>
                     <?php include('header.php'); ?>
                 </header>
@@ -36,6 +36,10 @@
 
                     <div id="password">
                         <?php include('change-password.php'); ?>
+                    </div>
+
+                    <div id="directBooking">
+                        <?php include('direct-booking.php'); ?>
                     </div>
                 </main>
 

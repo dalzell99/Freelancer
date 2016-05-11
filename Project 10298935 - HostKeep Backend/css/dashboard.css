@@ -30,26 +30,30 @@ main > div:nth-child(3) table {
   width: 100%;
 }
 
-main > div:nth-child(3) th {
+main > div:nth-child(3) table th {
   font-size: 1.2em;
 }
 
-main > div:nth-child(3) th,
-main > div:nth-child(3) td {
+main > div:nth-child(3) table th,
+main > div:nth-child(3) table td {
   padding: 5px;
   text-align: center;
 }
 
-main > div:nth-child(3) th:nth-child(2), main > div:nth-child(3) th:nth-child(3),
-main > div:nth-child(3) td:nth-child(2),
-main > div:nth-child(3) td:nth-child(3) {
+main > div:nth-child(3) table th:nth-child(3), main > div:nth-child(3) table th:nth-child(4),
+main > div:nth-child(3) table td:nth-child(3),
+main > div:nth-child(3) table td:nth-child(4) {
   width: 30%;
 }
 
-main > div:nth-child(3) th:nth-child(1), main > div:nth-child(3) th:nth-child(4),
-main > div:nth-child(3) td:nth-child(1),
-main > div:nth-child(3) td:nth-child(4) {
+main > div:nth-child(3) table th:nth-child(2), main > div:nth-child(3) table th:nth-child(5),
+main > div:nth-child(3) table td:nth-child(2),
+main > div:nth-child(3) table td:nth-child(5) {
   width: 20%;
+}
+
+main > div:nth-child(3) table img {
+  width: 200px;
 }
 
 main > div:nth-child(4) #documentsAdd {

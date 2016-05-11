@@ -1,4 +1,10 @@
 $(function() {
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+            $("#loginButton").click();
+        }
+    });
+
     $("#loginButton").on({
         click: function () {
             $.post("./php/customer/login.php", {

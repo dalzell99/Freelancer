@@ -5,12 +5,15 @@ var green = '2px #3eb73e solid';
 var isMobileNumberValid = false;
 var isUsernameValid = false;
 var isEmailAddressValid = false;
+var inactivityTimer;
+var inactivityTimeout = 1000 * 60 * 5; // 5 minutes
 
 window.onload = global;
 
 function global() {
     if (sessionStorage.loggedIn == null) {
         sessionStorage.loggedIn = 'false';
+        $("#loginNotLoggedIn").show();
     } else if (sessionStorage.loggedIn == 'true') {
         $("#accountInfoUsername").text(sessionStorage.username);
         $("#accountInfoFreeConvertablePoints").text(sessionStorage.freeConvertablePointsBalance);
@@ -20,6 +23,94 @@ function global() {
         $("#loginLoggedIn").show();
         $("#myAccountMenuItem").show();
         setInterval(updatePoints, 30000); // Update points every 30 seconds
+        inactivityTimer = setTimeout(logout, inactivityTimeout);
+
+        // Add events to reset inactivityTimer
+        $(window).on({
+            mousemove: function (e) {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(logout, inactivityTimeout);
+            },
+
+            keypress: function (e) {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(logout, inactivityTimeout);
+            },
+
+            // Touchscreen presses
+            mousedown: function (e) {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(logout, inactivityTimeout);
+            },
+
+            // Touchpad clicks
+            click: function (e) {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(logout, inactivityTimeout);
+            },
+
+            // Scrolling with arrow keys
+            scroll: function (e) {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(logout, inactivityTimeout);
+            }
+        });
+
+        // Check if there are quiz results saved in local storage after a lost internet connection
+        if (localStorage.quizResults != undefined && localStorage.quizResults != "undefined") {
+            var results = JSON.parse(localStorage.quizResults);
+            // Check if it has been more than 1 minute since lost connection
+            if (moment().diff(results.currentTime, 'seconds') < 60 && moment().diff(results.quizEndTime) < 0) {
+                // Upload results
+                $.post('./php/quizresults/uploadquizresult.php', {
+                    quizID: results.quizID,
+                    userID: results.userID,
+                    username: results.username,
+                    timeTaken: results.timeTaken,
+                    questions: results.questions,
+                    correctPercent: results.correctPercent
+                }, function(response) {
+                    if (response == 'success') {
+                        alert("Your quiz results were uploaded.");
+                    } else {
+                        alert('Error uploading your results. Contact the web admin for details on what to do.');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    alert("There was a problem uploading your quiz results. Please contact the web admin to inform them of this problem");
+                });
+
+                if (results.quizType == 'free') {
+                    $.post('./php/users/depositfreepoints.php', {
+                        userID: results.userID,
+                        correctPercent: results.correctPercent
+                    }, function(response) {
+                        if (response == 'success') {
+                            if (correctPercent == 100) {
+                                var extra = 5;
+                            } else if (correctPercent >= 90) {
+                                var extra = 4;
+                            } else if (correctPercent >= 80) {
+                                var extra = 3;
+                            } else {
+                                var extra = 0;
+                            }
+                            alert("You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
+                        } else {
+                            alert("Error depositing your bonus quizetos in your account. You got " + correctAnswers + " out of " + numQuestions + " correct.");
+                        }
+                    }).fail(function (request, textStatus, errorThrown) {
+                        //alert("Error: Something went wrong with showResultsPage function");
+                    });
+                }
+            } else {
+                alert ("Sorry but has been more than 1 minute or the quiz has ended since you were disconnected");
+            }
+
+            localStorage.removeItem("quizResults");
+        }
+    } else {
+        $("#loginNotLoggedIn").show();
+        $("#loginLoggedIn").hide();
     }
 }
 

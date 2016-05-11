@@ -14,8 +14,9 @@ $name = mysqli_real_escape_string($con, $_POST['name']);
 $description = mysqli_real_escape_string($con, $_POST['description']);
 $address = mysqli_real_escape_string($con, $_POST['address']);
 $price = $_POST['price'];
+$imageURL = mysqli_real_escape_string($con, $_POST['imageURL']);
 
-$sql = "INSERT INTO Properties VALUES ('$code', '$username', '$name', '$description', '$address', '$price')";
+$sql = "INSERT INTO Properties VALUES ('$code', '$username', '$name', '$description', '$address', '$price', '$imageURL')";
 
 // Insert property into database
 if (mysqli_query($con, $sql)) {

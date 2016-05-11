@@ -41,6 +41,12 @@
                     Change Password
                 </div>
             </td>
+
+            <td>
+                <div class='directBooking' onclick='window.location = "#direct-booking"'>
+                    Change Password
+                </div>
+            </td>
         </tr>
     </table>
 </nav>

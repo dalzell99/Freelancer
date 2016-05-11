@@ -5,31 +5,54 @@
             <label for="#propertiesAddID">Property ID</label>
             <input id='propertiesAddID' type='text' />
         </div>
+
         <div>
             <label for="#propertiesAddName">Name</label>
             <input id='propertiesAddName' type='text' />
         </div>
+
         <div>
             <label for="#propertiesAddDescription">Description</label>
             <textarea id='propertiesAddDescription' lines='4'></textarea>
         </div>
+
         <div>
             <label for="#propertiesAddAddress">Address</label>
             <textarea id='propertiesAddAddress' lines='4'></textarea>
         </div>
+
         <div>
             <label for="#propertiesAddPrice">Minimum Nightly Price</label>
             <input id='propertiesAddPrice' type='number' />
         </div>
+
+        <div>
+            <label for="#propertiesAddImageURL">Image URL</label>
+            <input id='propertiesAddImageURL'></input>
+        </div>
+
         <div>
             <button id='propertiesAddButton'>Add New Property</button>
         </div>
+
+        <div id='orText'>
+            OR
+        </div>
+
+        <form id='propertiesDropzone' class='dropzone' action='php/properties/uploadpropertyimage.php'>
+            <div class="fallback">
+                <input name="file" type="file" />
+            </div>
+        </form>
     </div>
 </div>
 
 <table>
     <thead>
         <tr>
+            <th>
+                Property
+            </th>
             <th>
                 Property ID
             </th>
@@ -51,3 +74,15 @@
         <!-- Properties dynamically added here -->
     </tbody>
 </table>
+
+
+<!-- Modal Code -->
+<div id='newPropertyImageContainer' class="modal" style="display:none">
+    <form id='newPropertyImageDropzone' class='dropzone' action='php/properties/uploadpropertyimage.php'>
+        <div class="fallback">
+            <input name="file" type="file" />
+        </div>
+    </form>
+
+    <button id='newPropertyImageButton'>Change Image</button>
+</div>

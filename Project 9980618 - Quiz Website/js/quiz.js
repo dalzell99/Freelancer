@@ -154,7 +154,22 @@ function endQuiz() {
                 alert('Error uploading your results. Contact the web admin for details on what to do. ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with endQuiz function");
+            alert("There was a problem uploading your quiz results. Please check that you have a working internet connection. You will have 1 minute or until the quiz ends (whichever is less) to reconnect at which point your results will be uploaded. The results can be uploaded from any quizeto.com webpage. If your internet connect is working, then contact the web admin to inform them of this problem");
+            
+            // Store the quiz results in local storage and upload in the global method in global.js
+            localStorage.quizResults = JSON.stringify({
+                quizID: quiz.quizID,
+                userID: sessionStorage.userID,
+                username: sessionStorage.username,
+                timeTaken: timeTaken,
+                questions: questionsArray,
+                correctPercent: correctPercent,
+                currentTime: moment(),
+                quizEndTime: quiz.endTime,
+                quizType: quiz.type
+            });
+
+            window.location = "index.php";
         });
     }
 }
