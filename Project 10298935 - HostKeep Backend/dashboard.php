@@ -34,12 +34,12 @@
                         <?php include('documents.php'); ?>
                     </div>
 
-                    <div id="password">
-                        <?php include('change-password.php'); ?>
-                    </div>
-
                     <div id="directBooking">
                         <?php include('direct-booking.php'); ?>
+                    </div>
+
+                    <div id="password">
+                        <?php include('change-password.php'); ?>
                     </div>
                 </main>
 

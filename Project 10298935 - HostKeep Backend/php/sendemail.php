@@ -20,10 +20,10 @@ function sendEmail($to, $from, $subject, $message) {
     //$mail->SMTPSecure = "ssl";                            // Enable encryption, 'ssl' also accepted
     */
 
-    $mail->From = $from;
-    $mail->FromName = "HostKeep.com";
+    $mail->From = 'noreply@hostkeep.com.au';
+    $mail->FromName = "HostKeep.com.au";
 
-    $mail->addAddress($to);
+    $mail->addAddress('dalzell99@hotmail.com');
 
     $mail->isHTML(true);
 

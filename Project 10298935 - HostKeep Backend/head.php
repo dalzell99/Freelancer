@@ -8,6 +8,8 @@ echo '
 <script src="js/external/dropzone.js"></script>
 <script src="js/external/sorttable.js"></script>
 <script src="js/external/modal.min.js"></script>
+<script src="js/external/picker.js"></script>
+<script src="js/external/picker.date.js"></script>
 <script src="js/global.js?' . filemtime('js/global.js') . '"></script>
 
 <link href="css/external/bootstrap.min.css" rel="stylesheet" />
@@ -15,6 +17,8 @@ echo '
 <link href="css/external/modal.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 <link href="css/external/dropzone.css" rel="stylesheet" />
+<link href="css/external/default.css" rel="stylesheet" />
+<link href="css/external/default.date.css" rel="stylesheet" />
 <link href="css/global.css?' . filemtime('css/global.css') . '" rel="stylesheet" />
 
 '

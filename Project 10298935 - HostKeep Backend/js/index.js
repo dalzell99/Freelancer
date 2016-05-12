@@ -14,7 +14,7 @@ $(function() {
                 if (response.substr(0, 7) == 'correct') {
                     // If username and password are correct and it's not the first time logging in then call setUserInfo and redirect to dashboard
                     setUserInfo(response, 7);
-                    window.location = "dashboard.php";
+                    window.location = "dashboard.php#welcome";
                 } else if (response.substr(0, 9) == 'firsttime') {
                     // If username and password are correct and it's the first time logging in then call setUserInfo and redirect to first-time to set new password
                     setUserInfo(response, 9);
@@ -42,6 +42,7 @@ $(function() {
 function setUserInfo(response, index) {
     var userInfo = JSON.parse(response.substr(index));
     sessionStorage.loggedIn = 'true';
+    sessionStorage.customerID = userInfo['customerID'];
     sessionStorage.username = userInfo['username'];
     sessionStorage.salutation = userInfo['salutation'];
     sessionStorage.firstName = userInfo['firstName'];

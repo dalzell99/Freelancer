@@ -7,15 +7,15 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$documentID = $_POST['documentID'];
+$bookingID = $_POST['bookingID'];
 
-$sql = "DELETE FROM Documents WHERE documentID = $documentID";
+$sql = "DELETE FROM DirectBookings WHERE bookingID = $bookingID";
 if (mysqli_query($con, $sql)) {
     echo 'success';
 } else {
     echo 'fail';
     sendErrorEmail("
-    deletedocument.php<br />
+    deletebooking.php<br />
     sql: $sql
     ");
 }

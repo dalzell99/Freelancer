@@ -37,13 +37,13 @@
             </td>
 
             <td>
-                <div class='password' onclick='window.location = "#change-password"'>
-                    Change Password
+                <div class='directBooking' onclick='window.location = "#direct-booking"'>
+                    Direct Booking
                 </div>
             </td>
 
             <td>
-                <div class='directBooking' onclick='window.location = "#direct-booking"'>
+                <div class='password' onclick='window.location = "#change-password"'>
                     Change Password
                 </div>
             </td>

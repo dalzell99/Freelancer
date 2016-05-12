@@ -15,6 +15,10 @@ if ($result = mysqli_query($con, $sql)) {
     echo 'success';
 } else {
     echo 'fail';
+    sendErrorEmail("
+    changepropertyimage.php<br />
+    sql: $sql
+    ");
 }
 
 mysqli_close($con);

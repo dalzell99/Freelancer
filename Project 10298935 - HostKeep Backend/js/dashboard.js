@@ -2,12 +2,15 @@ var adminUsername = "hello@hostkeep.com.au";
 
 var propertyList = [];
 var documentList = [];
+var bookingList = [];
 var currentPasswordTimer;
 var confirmPasswordTimer;
 var currentPasswordCorrect = false;
 var passwordsMatch = false;
-var done = false;
+var done = 0;
 var currentProperty;
+var checkinDatePicker;
+var checkoutDatePicker;
 
 $(function() {
     if (sessionStorage.loggedIn == 'true') {
@@ -54,6 +57,9 @@ $(function() {
 
         // Get customer list if admin logged in
         if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
+            // Hide direct Booking navigation item
+            $("nav .directBooking").parent().hide();
+
             $.post("./php/customer/getallcustomers.php", {
 
             }, function(response) {
@@ -100,6 +106,28 @@ $(function() {
             }).fail(function (request, textStatus, errorThrown) {
                 displayMessage('error', "Error: Something went wrong with getallcustomers AJAX POST");
             });
+        } else {
+            // Get the direct bookings for the logged in user
+            $.post("./php/directbooking/getbookings.php", {
+                customerID: sessionStorage.customerID
+            }, function(response) {
+                if (response == 'fail') {
+                    displayMessage('error', 'Error retrieving the direct booking list. The web admin has been notified and will fix the problem as soon as possible.');
+                } else {
+                    bookingList = JSON.parse(response);
+
+                    // Check if the getProperties and getDocuments post AJAX have finished
+                    if (done == 2) {
+                        $(window).hashchange();
+                        done = 0;
+                    } else {
+                        // Otherwise add 1 to done
+                        done += 1;
+                    }
+                }
+            }).fail(function (request, textStatus, errorThrown) {
+                //displayMessage('error', "Error: Something went wrong with getproperties AJAX POST");
+            });
         }
 
         // Get the properties for the logged in user
@@ -111,13 +139,14 @@ $(function() {
             } else {
                 propertyList = JSON.parse(response);
 
-                if (done == true) {
-                    // Run hashchange is the get documents has finished
-                    done = false;
+                // Check if the getBookings (if user isn't admin) and getDocuments post AJAX have finished
+                if (done == 1 && sessionStorage.admin == 'true' ||
+                    done == 2 && sessionStorage.admin != 'true') {
                     $(window).hashchange();
+                    done = 0;
                 } else {
-                    // If get documents hasn't finished then set done to true
-                    done = true;
+                    // Otherwise add 1 to done
+                    done += 1;
                 }
             }
         }).fail(function (request, textStatus, errorThrown) {
@@ -133,13 +162,14 @@ $(function() {
                 documentList = response[0];
                 filenameList = response[1];
 
-                if (done == true) {
-                    // Run hashchange is the get properties has finished
-                    done = false;
+                // Check if the getBookings (if user isn't admin) and getProperties post AJAX have finished
+                if (done == 1 && sessionStorage.admin == 'true' ||
+                    done == 2 && sessionStorage.admin != 'true') {
                     $(window).hashchange();
+                    done = 0;
                 } else {
-                    // If get properties hasn't finished then set done to true
-                    done = true;
+                    // Otherwise add 1 to done
+                    done += 1;
                 }
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
@@ -153,6 +183,7 @@ $(function() {
 
 // Set sessionStorage variables and reload page
 function changeUser(userInfo) {
+    sessionStorage.customerID = userInfo['customerID'];
     sessionStorage.username = userInfo['username'];
     sessionStorage.salutation = userInfo['salutation'];
     sessionStorage.firstName = userInfo['firstName'];
@@ -677,10 +708,139 @@ function directBooking() {
     $("nav .active").removeClass("active");
     $("nav .directBooking").addClass("active");
 
-    
+    // Add properties to dropdown
+    var htmlProp = '';
+    propertyList.forEach(function (value) {
+        htmlProp += "<option value='" + value.propertyID + "'>" + value.name + "</option>";
+    });
+    $("#directBookingAddProperty").empty().append(htmlProp);
+
+    // Create booking table
+    var html = '';
+    bookingList.forEach(function(value, index, array) {
+        html += "<tr>";
+        html += "    <td class='propertyID'>" + value.propertyName + "</td>";
+        html += "    <td class='guestName'>" + value.guestName + "</td>";
+        html += "    <td class='guestCheckIn'>" + moment(value.guestCheckIn).format('ddd Do MMM YYYY') + "</td>";
+        html += "    <td class='guestCheckOut'>" +  moment(value.guestCheckOut).format('ddd Do MMM YYYY') + "</td>";
+        html += "    <td class='invoiced'><input type='checkbox' " + (value.invoiced == 'true' ? 'checked' : '') + " /></td>";
+        html += "    <td class='cleanUp'><input type='checkbox' " + (value.cleanUp == 'true' ? 'checked' : '') + " /></td>";
+        html += "    <td><button onclick='deleteBooking(" + value.bookingID + ")'>Delete</button>";
+        html += "</tr>";
+    });
+    $("#directBooking #bookingTable tbody").empty().append(html);
+
+    // Make table sortable
+    var newTableObject = $("#directBooking #bookingTable")[0];
+    sorttable.makeSortable(newTableObject);
+
+    // Create datepickers
+    checkinDatePicker = $("#directBookingAddCheckIn").pickadate({
+        format: 'ddd d mmm yyyy',
+        formatSubmit: 'yyyymmdd',
+        hiddenName: true
+    });
+
+    checkoutDatePicker = $("#directBookingAddCheckOut").pickadate({
+        format: 'ddd d mmm yyyy',
+        formatSubmit: 'yyyymmdd',
+        hiddenName: true
+    });
+
+    // Toggle add booking section
+    $("#directBookingShowAdd").on({
+        click: function () {
+            if ($("#directBookingAddNewBooking").css('display') == 'none') {
+                $("#directBookingAddNewBooking").slideDown();
+                $("#directBookingShowAdd").text("Hide Add New Booking");
+            } else {
+                $("#directBookingAddNewBooking").slideUp();
+                $("#directBookingShowAdd").text("Show Add New Booking")
+            }
+        }
+    });
+
+    // Add property to the current user
+    $("#directBookingAddButton").on({
+        click: function () {
+            $.post("./php/directbooking/addbooking.php", {
+                customerID: sessionStorage.customerID,
+                propertyID: $("#directBookingAddProperty").val(),
+                guestName: $("#directBookingAddGuestName").val(),
+                guestMobile: $("#directBookingAddGuestMobile").val(),
+                guestEmail: $("#directBookingAddGuestEmail").val(),
+                guestCheckIn: $("#directBooking input[type='hidden']:eq(0)").val(), // The datepicker dates are stored in a hidden input. This gets the first one
+                guestCheckOut: $("#directBooking input[type='hidden']:eq(1)").val(), // and this one gets the second hidden input
+                invoiced: $("#directBookingAddInvoice").prop('checked'),
+                cleanUp: $("#directBookingAddCleanUp").prop('checked'),
+                notes: $("#directBookingAddNotes").val()
+            }, function(response) {
+                if (response.substr(0, 7) == 'success') {
+                    displayMessage('info', 'The booking has been added');
+
+                    // Add new property to table
+                    var html = '';
+                    html += "<tr>";
+                    html += "    <td class='propertyID'>" + $("#directBookingAddProperty").children(":selected").text() + "</td>";
+                    html += "    <td class='guestName'>" + $("#directBookingAddGuestName").val() + "</td>";
+                    html += "    <td class='guestCheckIn'>" + $("#directBookingAddCheckIn").val() + "</td>";
+                    html += "    <td class='guestCheckOut'>" + $("#directBookingAddCheckOut").val() + "</td>";
+                    html += "    <td class='invoiced'><input type='checkbox' " + ($("#directBookingAddInvoice").prop('checked') == true ? 'checked' : '') + " /></td>";
+                    html += "    <td class='cleanUp'><input type='checkbox' " + ($("#directBookingAddCleanUp").prop('checked') == true ? 'checked' : '') + " /></td>";
+                    html += "    <td><button onclick='deleteBooking(" + response.substr(7) + ")'>Delete</button>";
+                    html += "</tr>";
+
+                    $("#directBooking #bookingTable tbody").append(html);
+
+                    bookingList.push({
+                        'customerID': sessionStorage.customerID,
+                        'propertyID': $("#directBookingAddProperty").val(),
+                        'propertyName': $("#directBookingAddProperty").children(':selected').text(),
+                        'guestName': $("#directBookingAddGuestName").val(),
+                        'guestMobile': $("#directBookingAddGuestMobile").val(),
+                        'guestEmail': $("#directBookingAddGuestEmail").val(),
+                        'guestCheckIn': $("#directBooking input[type='hidden']:eq(0)").val(),
+                        'guestCheckOut': $("#directBooking input[type='hidden']:eq(1)").val(),
+                        'invoiced': $("#directBookingAddInvoice").prop('checked'),
+                        'cleanUp': $("#directBookingAddCleanUp").prop('checked'),
+                        'notes': $("#directBookingAddNotes").val()
+                    });
+
+                    // Clear inputs
+                    $("#directBookingAddGuestName").val('');
+                    $("#directBookingAddGuestMobile").val('');
+                    $("#directBookingAddGuestEmail").val('');
+                    checkinDatePicker.pickadate('clear');
+                    checkoutDatePicker.pickadate('clear');
+                    $("#directBookingAddInvoice").prop('checked', false);
+                    $("#directBookingAddCleanUp").prop('checked', false);
+                    $("#directBookingAddNotes").val('');
+                } else {
+                    displayMessage('error', 'Something went wrong added the booking. The web admin has been notified and will fix the problem as soon as possible.');
+                }
+            }).fail(function (request, textStatus, errorThrown) {
+                //displayMessage('error', "Error: Something went wrong with addproperty AJAX POST");
+            });
+        }
+    });
 
     hideAllContainers();
     $("div#directBooking").show();
+}
+
+function deleteBooking(id) {
+    $.post("./php/directbooking/deletebooking.php", {
+        bookingID: id
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('info', 'Booking has been deleted');
+            location.reload();
+        } else {
+            displayMessage('error', 'There was a problem deleting the booking. The web admin has been notified and will fix the problem as soon as possible');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
 }
 
 // Add focus and blur events to the contenteditable elements

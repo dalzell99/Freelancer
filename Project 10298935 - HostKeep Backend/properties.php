@@ -13,12 +13,12 @@
 
         <div>
             <label for="#propertiesAddDescription">Description</label>
-            <textarea id='propertiesAddDescription' lines='4'></textarea>
+            <textarea id='propertiesAddDescription' rows='4'></textarea>
         </div>
 
         <div>
             <label for="#propertiesAddAddress">Address</label>
-            <textarea id='propertiesAddAddress' lines='4'></textarea>
+            <textarea id='propertiesAddAddress' rows='4'></textarea>
         </div>
 
         <div>

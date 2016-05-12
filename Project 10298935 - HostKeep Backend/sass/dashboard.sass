@@ -12,56 +12,19 @@ header
       padding: 5px
       width: 50%
 
-main
-  & > div
-    display: none
+main > div
+  display: none
 
-    &:nth-child(3)
-      #propertiesAdd
-        margin-top: 10px
+  &:nth-child(3)
+    #propertiesAdd
+      margin-top: 10px
 
-      #propertiesAdd,
-      #propertiesAddNewProperty
-        display: none
+    #propertiesAdd,
+    #propertiesAddNewProperty
+      display: none
 
-      table
-        width: 100%
-
-        th
-          font-size: 1.2em
-
-        th,
-        td
-          padding: 5px
-          text-align: center
-
-          &:nth-child(3),
-          &:nth-child(4)
-            width: 30%
-
-          &:nth-child(2),
-          &:nth-child(5)
-            width: 20%
-
-        img
-          width: 200px
-
-    &:nth-child(4)
-      #documentsAdd
-        margin-top: 10px
-
-      #documentsAdd,
-      #documentsAddNewDocument,
-      #documentsAddFilename
-        display: none
-
-      #orText
-        text-align: center
-        font-size: 2em
-        font-weight: bold
-
-      table
-        width: 100%
+    table
+      width: 100%
 
       th
         font-size: 1.2em
@@ -71,13 +34,82 @@ main
         padding: 5px
         text-align: center
 
-        &:nth-child(1),
-        &:nth-child(2),
-        &:nth-child(3)
-          width: 15%
-
+        &:nth-child(3),
         &:nth-child(4)
-          width: 18%
+          width: 30%
 
+        &:nth-child(2),
         &:nth-child(5)
-          width: 37%
+          width: 20%
+
+      img
+        width: 200px
+
+  &:nth-child(4)
+    #documentsAdd
+      margin-top: 10px
+
+    #documentsAdd,
+    #documentsAddNewDocument,
+    #documentsAddFilename
+      display: none
+
+    #orText
+      text-align: center
+      font-size: 2em
+      font-weight: bold
+
+    table
+      width: 100%
+
+    th
+      font-size: 1.2em
+
+    th,
+    td
+      padding: 5px
+      text-align: center
+
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3)
+        width: 15%
+
+      &:nth-child(4)
+        width: 18%
+
+      &:nth-child(5)
+        width: 37%
+
+  &:nth-child(5)
+    #directBookingAdd
+      margin-top: 10px
+
+    #directBookingAddNewBooking
+      display: none
+
+    table
+      width: 100%
+
+    th
+      font-size: 1.2em
+
+    th,
+    td
+      padding: 5px
+      text-align: center
+
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3)
+        width: 15%
+
+      &:nth-child(4)
+        width: 18%
+
+      &:nth-child(5)
+        width: 37%
+
+input[type='checkbox']
+  width: initial
+  margin-left: 10px
