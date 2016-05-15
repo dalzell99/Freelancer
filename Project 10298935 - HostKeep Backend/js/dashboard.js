@@ -57,9 +57,6 @@ $(function() {
 
         // Get customer list if admin logged in
         if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
-            // Hide direct Booking navigation item
-            $("nav .directBooking").parent().hide();
-
             $.post("./php/customer/getallcustomers.php", {
 
             }, function(response) {
@@ -106,29 +103,30 @@ $(function() {
             }).fail(function (request, textStatus, errorThrown) {
                 displayMessage('error', "Error: Something went wrong with getallcustomers AJAX POST");
             });
-        } else {
-            // Get the direct bookings for the logged in user
-            $.post("./php/directbooking/getbookings.php", {
-                customerID: sessionStorage.customerID
-            }, function(response) {
-                if (response == 'fail') {
-                    displayMessage('error', 'Error retrieving the direct booking list. The web admin has been notified and will fix the problem as soon as possible.');
-                } else {
-                    bookingList = JSON.parse(response);
-
-                    // Check if the getProperties and getDocuments post AJAX have finished
-                    if (done == 2) {
-                        $(window).hashchange();
-                        done = 0;
-                    } else {
-                        // Otherwise add 1 to done
-                        done += 1;
-                    }
-                }
-            }).fail(function (request, textStatus, errorThrown) {
-                //displayMessage('error', "Error: Something went wrong with getproperties AJAX POST");
-            });
         }
+
+        // Get the direct bookings for the logged in user
+        $.post("./php/directbooking/getbookings.php", {
+            customerID: sessionStorage.customerID
+        }, function(response) {
+            if (response == 'fail') {
+                displayMessage('error', 'Error retrieving the direct booking list. The web admin has been notified and will fix the problem as soon as possible.');
+            } else {
+                bookingList = JSON.parse(response);
+
+                // Check if the getProperties and getDocuments post AJAX have finished
+                if (done == 2) {
+                    $(window).hashchange();
+                    done = 0;
+                } else {
+                    // Otherwise add 1 to done
+                    done += 1;
+                }
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', "Error: Something went wrong with getproperties AJAX POST");
+        });
+
 
         // Get the properties for the logged in user
         $.post("./php/properties/getproperties.php", {
@@ -140,8 +138,7 @@ $(function() {
                 propertyList = JSON.parse(response);
 
                 // Check if the getBookings (if user isn't admin) and getDocuments post AJAX have finished
-                if (done == 1 && sessionStorage.admin == 'true' ||
-                    done == 2 && sessionStorage.admin != 'true') {
+                if (done == 2) {
                     $(window).hashchange();
                     done = 0;
                 } else {
@@ -163,8 +160,7 @@ $(function() {
                 filenameList = response[1];
 
                 // Check if the getBookings (if user isn't admin) and getProperties post AJAX have finished
-                if (done == 1 && sessionStorage.admin == 'true' ||
-                    done == 2 && sessionStorage.admin != 'true') {
+                if (done == 2) {
                     $(window).hashchange();
                     done = 0;
                 } else {
