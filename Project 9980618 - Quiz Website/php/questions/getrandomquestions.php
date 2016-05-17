@@ -10,21 +10,26 @@ if (mysqli_connect_errno()) {
 $numQuestions = $_POST['numQuestions'];
 $category = $_POST['category'];
 
-$sql = "SELECT question, answers, correctAnswer FROM Questions WHERE category = '$category' OR category = 'Miscellaneous'";
+$sql = "SELECT * FROM Questions WHERE category = '$category' OR category = 'Miscellaneous'";
 if ($result = mysqli_query($con, $sql)) {
     $response = [];
-    while ($row = mysqli_fetch_array($result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $response[] = $row;
     }
 
-    $test = [];
+    $questions = [];
     for ($i = 0; $i < $numQuestions; $i += 1) {
         $index = rand(0, count($response) - 1);
-        array_push($test, $response[$index]);
+        array_push($questions, $response[$index]);
+
+        // Delete question from database
+        mysqli_query($con, "DELETE FROM Questions WHERE questionID = '" . $response[$index]['questionID'] . "'");
+
+        // Delete question from question array
         array_splice($response, $index, 1);
     }
 
-    echo json_encode(array('success', $test));
+    echo json_encode(array('success', $questions));
 } else {
     echo 'fail';
 }

@@ -66,6 +66,7 @@ function hideAllContainers() {
     $("#promotionContainer").hide();
     $("#withdrawalContainer").hide();
     $("#distributionContainer").hide();
+    $("#taxationContainer").hide();
 }
 
 function setActivePage(page) {
@@ -240,30 +241,34 @@ function populateQuizzes() {
             });
 
             $(".collapsable > div").hide();
-
-            // Add categories to dropdown
-            $.post("./php/questions/getcategories.php", {
-
-            }, function(response) {
-                if (response[0] == 'success') {
-                    var categories = response[1];
-                    var html = "<option value=''></option>";
-
-                    for (var i = 0; i < categories.length; i += 1) {
-                        html += "<option value='" + categories[i].category + "'>" + categories[i].category + "</option>";
-                    }
-                    $("#createQuizQuestionsRandomCategory").empty().append(html);
-                } else {
-                    alert('Error');
-                }
-            }, 'json').fail(function (request, textStatus, errorThrown) {
-                //displayMessage('error', "Error: Something went wrong with  AJAX POST");
-            });
         } else {
             alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //alert("Error: Something went wrong with populateQuizzes function");
+    });
+
+    populateQuestionCategories();
+}
+
+function populateQuestionCategories() {
+    // Add categories to dropdown
+    $.post("./php/questions/getcategories.php", {
+
+    }, function(response) {
+        if (response[0] == 'success') {
+            var categories = response[1];
+            var html = "<option value=''></option>";
+
+            for (var i = 0; i < categories.length; i += 1) {
+                html += "<option value='" + categories[i].category + "'>" + categories[i].category + "</option>";
+            }
+            $("#createQuizQuestionsRandomCategory").empty().append(html);
+        } else {
+            alert('Error get question categories');
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
 }
 
@@ -273,7 +278,7 @@ function changeQuizPage(page) {
 }
 
 function showCreateQuiz() {
-    $("#createQuizContainer").slideDown();
+    $("#createQuizContainer").slideToggle();
     $("#createQuizUpdateButton").hide();
     $("#createQuizUploadButton").show();
     $("#createQuizQuestionsRandom").hide();
@@ -289,7 +294,7 @@ function showEditQuiz() {
 }
 
 function showCreateRandomQuiz() {
-    $("#createQuizContainer").slideDown();
+    $("#createQuizContainer").slideToggle();
     $("#createQuizUpdateButton").hide();
     $("#createQuizUploadButton").show();
     $("#createQuizQuestionsRandom").show();
@@ -336,6 +341,26 @@ function addAnswer(q, a) {
 }
 
 function removeQuestion(index) {
+    var question = questionsArray[index][0];
+    var answers = JSON.stringify(questionsArray[index][1]);
+    var correctAnswer = questionsArray[index][2] + 1;
+
+    // Readd question to question table in database
+    $.post("./php/questions/createnewquestion.php", {
+        question: question,
+        answers: answers,
+        correctAnswer: correctAnswer,
+        category: 'Miscellaneous'
+    }, function(response) {
+        if (response == 'success') {
+            //alert('');
+        } else {
+            alert('Error readding question to database');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+
     questionsArray.splice(index, 1);
     refreshQuestionTable();
 }
@@ -770,7 +795,12 @@ function uploadQuestion() {
             category: category
         }, function(response) {
             if (response == 'success') {
+                // Update table with new question
                 populateQuestions();
+
+                // Update the question category dropdown for new quizzes
+                populateQuestionCategories();
+
                 alert('Question has been created.');
                 $("#createQuestionAnswer1").val('');
                 $("#createQuestionAnswer2").val('');

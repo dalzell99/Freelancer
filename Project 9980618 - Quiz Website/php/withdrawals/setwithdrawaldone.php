@@ -19,15 +19,15 @@ if (mysqli_query($con, $sql) && ($result = mysqli_query($con, $sqlDone))) {
     if ($done == 'y') {
         $to = mysqli_fetch_assoc($result)['email'];
         $from = $databasephpNoReplyEmail;
-        $subject = "Quizeto Withdrawal Processed";
+        $subject = "IQzeto Withdrawal Processed";
         $message = "
         <html>
             <body>
                 <p>Dear $username,<br>
-                Your Quizeto withdrawal of ₹$amount has been processed. You should received it soon.<br><br>
+                Your IQzeto withdrawal of ₹$amount has been processed. You should received it soon.<br><br>
 
                 Thanks,
-                <br>Quizeto.com Team</p>
+                <br>IQzeto.com Team</p>
             </body>
         </html>
         ";

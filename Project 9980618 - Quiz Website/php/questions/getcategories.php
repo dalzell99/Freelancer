@@ -7,10 +7,10 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$sql = "SELECT DISTINCT category FROM Questions";
+$sql = "SELECT category FROM QuestionCategory";
 if ($result = mysqli_query($con, $sql)) {
     $response = [];
-    
+
     while ($row = mysqli_fetch_assoc($result)) {
         $response[] = $row;
     }

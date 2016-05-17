@@ -26,7 +26,7 @@ if ($result = mysqli_query($con, $sql)) {
         if (mysqli_query($con, $sqlConvert) && mysqli_query($con, $sqlWithdrawal)) {
             $to = array($databasephpWithdrawalEmail, $email);
             $from = $databasephpNoReplyEmail;
-            $subject = "Quizeto Withdrawal";
+            $subject = "IQzeto Withdrawal";
             $message = "
             <html>
                 <body>

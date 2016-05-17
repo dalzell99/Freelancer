@@ -16,7 +16,7 @@ $userEmailArray = [];
 
 // Get all paid quizzes
 if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
-    
+
     while ($rowQuiz = mysqli_fetch_assoc($resultQuiz)) {
         $quizStartTime = strtotime($rowQuiz['startTime']);
         if ($quizStartTime - $now < 3600 * 24 && $quizStartTime - $now > 0) { // If the quiz starts in the next 24 hours then add to quiz to $quizArray
@@ -29,7 +29,7 @@ if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
 
 
 if ($resultUser = mysqli_query($con, $sqlUser)) {
-    
+
     while ($rowUser = mysqli_fetch_assoc($resultUser)) {
         $userEmailArray[] = $rowUser['email'];
     }
@@ -48,22 +48,22 @@ $message .= "
                 <th>Prize Pool</th>
                 <th>Start Time</th>
                 <th>End Time</th>
-            </tr>";  
+            </tr>";
 foreach ($quizArray as $quiz) {
     if ($quiz['type'] == 'paid') {
         $prizePool = 0;
         foreach (json_decode($quiz['pointsRewards']) as $prize) { $prizePool += $prize; }
     } else {
-        $prizePool = '1 Free Quizeto for every correct answer';
+        $prizePool = '5 Bonus Quizeto for 100%, 3 Bonus Quizeto for 94%-99% and 1 Bonus Quizeto for 90%-94%';
     }
-    
+
     $startTime1 = new DateTime($quiz['startTime']);
     $startTime2 = $startTime1->setTimeZone(new DateTimeZone('Asia/Kolkata'));
     $startTime = $startTime2->format('D jS M g:ia T');
     $endTime1 = new DateTime($quiz['endTime']);
     $endTime2 = $endTime1->setTimeZone(new DateTimeZone('Asia/Kolkata'));
     $endTime = $endTime2->format('D jS M g:ia T');
-    
+
     $message .= "
             <tr>
                 <td>" . $quiz['category'] . "</td>

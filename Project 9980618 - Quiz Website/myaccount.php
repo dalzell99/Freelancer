@@ -133,9 +133,8 @@
                     <div class='form-group'>
                         <button class='btn btn-primary' id='purchaseButton'>Buy Real Quizetos</button>
                     </div>
-                    <div id='myAccountPurchaseHistory'>
-
-                    </div>
+                    <div class='tablePaginationContainer' id='myAccountPurchasePagination'></div>
+                    <div id='myAccountPurchaseHistory'></div>
                 </div>
 
                 <div id='myAccountConversion' class='col-xs-12'>
@@ -232,6 +231,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class='tablePaginationContainer' id='myAccountWithdrawalsPagination'></div>
                     <div id='myAccountWithdrawHistory'>
 
                     </div>

@@ -13,7 +13,9 @@ $correctAnswer = $_POST['correctAnswer'] - 1;
 $category = mysqli_real_escape_string($con, $_POST['category']);
 
 $sql = "INSERT INTO Questions VALUES (DEFAULT, '$question', '$answers', '$correctAnswer', '$category')";
+$sqlCat = "INSERT INTO QuestionCategory VALUES (DEFAULT, '$category')";
 if (mysqli_query($con, $sql)) {
+    mysqli_query($con, $sqlCat);
     echo 'success';
 } else {
     echo 'fail';

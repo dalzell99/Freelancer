@@ -16,16 +16,15 @@ if (($resultUser = mysqli_query($con, $sqlUsers)) && ($resultQuiz = mysqli_query
     $numRegisteredUsers = mysqli_num_rows($resultUser);
     $numLiveQuizzes = 0;
     $totalPrizePool = 0;
-    $daysOnline = ($now - $startDate) / (60 * 60 * 24);
-    
+    $daysOnline = ceil(($now - $startDate) / (60 * 60 * 24));
+
     while ($rowQuiz = mysqli_fetch_assoc($resultQuiz)) {
         $secondsToStart = $now - strtotime($rowQuiz['startTime']);
-        $secondsToEnd = $now - strtotime($rowQuiz['endTime']);
-        
-        if ($secondsToStart < 0 && $secondsToEnd > 0) {
+
+        if ($secondsToStart < 0) {
             $numLiveQuizzes += 1;
         }
-        
+
         if ($rowQuiz['type'] == 'paid') {
             $prizes = json_decode($rowQuiz['pointsRewards']);
             foreach ($prizes as $prize) {
@@ -33,7 +32,7 @@ if (($resultUser = mysqli_query($con, $sqlUsers)) && ($resultQuiz = mysqli_query
             }
         }
     }
-    
+
     echo json_encode(array($numRegisteredUsers, $daysOnline, $totalPrizePool, $numLiveQuizzes));
 } else {
     echo json_encode(array('fail', $sqlUsers . ", " . $sqlQuizzes));

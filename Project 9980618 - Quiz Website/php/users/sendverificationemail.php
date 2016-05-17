@@ -15,19 +15,19 @@ $sql = "UPDATE Users SET email = '$email', emailConfirmed = '$emailCode' WHERE u
 
 $to = array($email);
 $from = $databasephpNoReplyEmail;
-$subject = "Quizeto Verification Email";
+$subject = "IQzeto Verification Email";
 $message = "
 <html>
     <body>
-    
-        <p><b>Greetings $username,</b></p>
-        
-        <p><a href='http://quizeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
 
-        
+        <p><b>Greetings $username,</b></p>
+
+        <p><a href='http://iqzeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
+
+
         <p><b>Regards</b></p>
 
-        <p><b>Team Quizeto</b> </p>
+        <p><b>Team IQzeto</b> </p>
     </body>
 </html>
 ";

@@ -14,7 +14,7 @@ function sendEmail($to, $from, $subject, $message) {
     //$mail->SMTPSecure = "ssl";                            // Enable encryption, 'ssl' also accepted
 
     $mail->From = $from;
-    $mail->FromName = "Quizeto.com";
+    $mail->FromName = "IQzeto.com";
 
     foreach ($to as $userEmail) {
         $mail->addAddress($userEmail);

@@ -20,11 +20,11 @@ $subject = "Email Verfication";
 $message = "
 <html>
     <body>
-        <p>Dear " . $username . ",<br>Thank you for registering on Quizeto.com! Click the link below to verify your email address:</p>
-        <p><a href='http://quizeto.com/emailverification.php?email=" . $email . "&code=" . $emailCode . "'>Click here to verify your email</a></p>
+        <p>Dear " . $username . ",<br>Thank you for registering on IQzeto.com! Click the link below to verify your email address:</p>
+        <p><a href='http://iqzeto.com/emailverification.php?email=" . $email . "&code=" . $emailCode . "'>Click here to verify your email</a></p>
         <p>You can also copy and paste the above link in the address bar of your browser to verify email/activate account.</p>
-        
-        <p>Thanks & Regards,<br>Team Quizeto.com</p>
+
+        <p>Thanks & Regards,<br>Team IQzeto.com</p>
     </body>
 </html>
 ";

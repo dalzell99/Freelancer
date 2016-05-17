@@ -2,15 +2,15 @@
 <html lang="en">
     <head>
         <title>Home</title>
-        <?php 
+        <?php
         include 'htmlhead.php';
         echo '<link rel="stylesheet" type="text/css" href="css/index.css?' . filemtime('css/index.css') . '" />';
-        echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js') . '"></script>'; 
+        echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js') . '"></script>';
         ?>
     </head>
     <body>
         <?php include 'header.php'; ?>
-        
+
         <div class="container-fluid mainContainer">
             <!-- Start User Register and Live Stats -->
             <div class='row'>
@@ -70,11 +70,11 @@
             <!-- Start Promotions -->
             <div id='promotions' class='col-xs-12'>
                 <div id="promotionCarousel" class="carousel slide" data-ride="carousel">
-                    
+
                 </div>
             </div>
             <!-- End Promotions -->
-            
+
             <div id='howto' class='col-xs-12'>
                 <div id='howItWorksTitle'>How It Works</div>
                 <div class="col-sm-4">
@@ -113,18 +113,18 @@
             <div id='websiteDescription' class='col-xs-12'>
                 <p>Every body of us always wanted to participate in ‘<i><b>Kaun Banega crorepati</b></i>’ and ‘<i><b>Who wants to be a millionaire’</b></i> the two most important TV reality show from India and US. But very few of us would have made it to the Hot seat. We brings you an online platform where everyone will be on hot seat everyday making their dreams come true of becoming crorepati or a millionaire</p>
 
-                <p>Welcome to quizeto.com, the best place for online quiz in the world. This is a online platform which enables users participate in quiz of several formats from different subjects/field with other best minds across the globe. Quizeto.com is the place where brain across the globe comes together and competes with each other’s IQ for millions of cash reward at stake. User register for free on this platform and have option to take both free as well as paid quizzes which are scheduled 24/7 on our platform. we strive to make your online quiz experience the best across the world.</p>
+                <p>Welcome to iqzeto.com, the best place for online quiz in the world. This is a online platform which enables users participate in quiz of several formats from different subjects/field with other best minds across the globe. IQzeto.com is the place where brain across the globe comes together and competes with each other’s IQ for millions of cash reward at stake. User register for free on this platform and have option to take both free as well as paid quizzes which are scheduled 24/7 on our platform. we strive to make your online quiz experience the best across the world.</p>
 
                 <p>Our core mission is to innovate and develop a technology to spread knowledge, general awareness &amp; develop IQ in an entertaining and rewarding way that reaches to the society.</p>
 
                 <p>We are a team which offers quiz games which are completely challenging and guarantee 24 hour entertainment with knowledge add on from various fields. Practice your knowledge across subject’s skills with free quiz and once you are ready challenge the best mind across the world. Our quizzes have been developed for all level of users from students of all classes, adults, Housewives working professional from various fields by dedicated quiz specialists keeping in mind all facets of quiz. </p>
 
-                <p>A User friendly quizzing interface quizeto.com provides quizzes tips, tricks, facts, strategies, video tutorials and unlimited free quizzes making quizeto the preferred quiz site for all quiz players. </p>
+                <p>A User friendly quizzing interface iqzeto.com provides quizzes tips, tricks, facts, strategies, video tutorials and unlimited free quizzes making quizeto the preferred quiz site for all quiz players. </p>
             </div>
 
             <div id='testimonials' class='col-xs-12'>
                 <div id="testimonialCarousel" class="carousel slide" data-ride="carousel">
-                
+
                 </div>
             </div>
             <!-- End Website Description and Testimonials -->

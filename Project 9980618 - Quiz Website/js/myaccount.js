@@ -17,11 +17,6 @@ var options = {
     "amount": "100", // 100 paise = INR 1
     "name": "Quizetos.com",
     "description": "Real Quizetos",
-    "prefill" : {
-        "name": "Chris Dalzell",
-        "contact": "012345678901",
-        "email": "dalzell99@hotmail.com"
-    },
     "handler": function (response){
         $.post('./php/charge.php', {
             razorpay_payment_id: response.razorpay_payment_id,
@@ -50,6 +45,12 @@ var options = {
     "theme": {
         "color": "#F37254"
     }
+};
+var tablePages = {
+    quizzes: 0,
+    purchase: 0,
+    withdrawals: 0,
+    taxation: 0
 };
 
 window.onload = function() {
@@ -327,6 +328,13 @@ function removeProfilePicture() {
 
 function populateQuizzes() {
     var html = "";
+
+    html += "<div class='tablePaginationContainer' id='myAccountQuizPagination'>";
+    for (var l = 0; quizResults.length > 20 && l < quizResults.length / 20; l += 1) {
+        html += "<button class='paginationButton" + l + "' onclick='changeQuizPage(" + l + ")'>" + (l + 1) + "</button>";
+    }
+    html += "</div>";
+
     html += "<table id='quizzesHistory'>";
     html += "    <tr>";
     html += "        <th>Quiz Name</th>";
@@ -334,20 +342,32 @@ function populateQuizzes() {
     html += "        <th>Rank</th>";
     html += "    </tr>";
 
-    quizResults.forEach(function (resultObject) {
+    for (var i = 20 * tablePages.quizzes; quizResults != null && i < quizResults.length && i < 20 * (tablePages.quizzes + 1); i += 1) {
+        var resultObject = quizResults[i];
         html += "    <tr>";
         html += "        <td>" + resultObject.name + "</td>";
         html += "        <td>" + resultObject.fee + "</td>";
         html += "        <td>" + (resultObject.userRank == '' ? "Quiz hasn't finished" : resultObject.userRank) + "</td>";
         html += "    </tr>";
-    });
+    }
 
     html += "</table>";
     $("#myAccountQuizzes").empty().append(html);
+    $("#myAccountQuizPagination .paginationButton" + tablePages.quizzes).addClass('active');
 }
 
 function populateWithdrawals() {
+    var htmlPage = '';
+
+    for (var l = 0; withdrawals.length > 20 && l < withdrawals.length / 20; l += 1) {
+        htmlPage += "<button class='paginationButton" + l + "' onclick='changeWithdrawalPage(" + l + ")'>" + (l + 1) + "</button>";
+    }
+
+    $("#myAccountWithdrawalsPagination").empty().append(htmlPage);
+    $("#myAccountWithdrawalsPagination .paginationButton" + tablePages.withdrawals).addClass('active');
+
     var html = "";
+
     html += "<table id='withdrawalHistory'>";
     html += "    <tr>";
     html += "        <th>Date</th>";
@@ -356,33 +376,45 @@ function populateWithdrawals() {
     html += "        <th>Processed</th>";
     html += "    </tr>";
 
-    withdrawals.forEach(function (resultObject) {
+    for (var i = 20 * tablePages.withdrawals; withdrawals != null && i < withdrawals.length && i < 20 * (tablePages.withdrawals + 1); i += 1) {
+        var resultObject = withdrawals[i];
         html += "    <tr>";
         html += "        <td>" + moment(resultObject.time).format("Do MMM YYYY h:mm a") + "</td>";
         html += "        <td>₹" + resultObject.amount + "</td>";
         html += "        <td>" + resultObject.method + "</td>";
         html += "        <td>" + (resultObject.done == 'y' ? 'Yes' : 'No') + "</td>";
         html += "    </tr>";
-    });
+    }
 
     html += "</table>";
     $("#myAccountWithdrawHistory").empty().append(html);
 }
 
 function populatePurchases() {
+    var htmlPage = '';
+
+    for (var l = 0; purchaseHistory.length > 20 && l < purchaseHistory.length / 20; l += 1) {
+        htmlPage += "<button class='paginationButton" + l + "' onclick='changePurchasePage(" + l + ")'>" + (l + 1) + "</button>";
+    }
+
+    $("#myAccountPurchasePagination").empty().append(htmlPage);
+    $("#myAccountPurchasePagination .paginationButton" + tablePages.purchase).addClass('active');
+
     var html = "";
+
     html += "<table id='purchasesHistory'>";
     html += "    <tr>";
     html += "        <th>Date</th>";
     html += "        <th>Amount</th>";
     html += "    </tr>";
 
-    purchaseHistory.forEach(function (resultObject) {
+    for (var i = 20 * tablePages.purchase; purchaseHistory != null && i < purchaseHistory.length && i < 20 * (tablePages.purchase + 1); i += 1) {
+        var resultObject = purchaseHistory[i];
         html += "    <tr>";
         html += "        <td>" + moment(resultObject.datePurchased).format("Do MMM YYYY h:mm a") + "</td>";
         html += "        <td>₹" + resultObject.amount + "</td>";
         html += "    </tr>";
-    });
+    }
 
     html += "</table>";
     $("#myAccountPurchaseHistory").empty().append(html);
@@ -390,6 +422,13 @@ function populatePurchases() {
 
 function populateTaxations() {
     var html = "";
+
+    html += "<div class='tablePaginationContainer' id='myAccountTaxationPagination'>";
+    for (var l = 0; taxations.length > 20 && l < taxations.length / 20; l += 1) {
+        html += "<button class='paginationButton" + l + "' onclick='changeTaxationPage(" + l + ")'>" + (l + 1) + "</button>";
+    }
+    html += "</div>";
+
     html += "<table id='myAccountTaxationTable'>";
     html += "    <tr>";
     html += "        <th>Quizetos Won</th>";
@@ -397,16 +436,18 @@ function populateTaxations() {
     html += "        <th>Net Quizetos</th>";
     html += "    </tr>";
 
-    taxations.forEach(function (resultObject) {
+    for (var i = 20 * tablePages.taxation; taxations != null && i < taxations.length && i < 20 * (tablePages.taxation + 1); i += 1) {
+        var resultObject = taxations[i];
         html += "    <tr>";
         html += "        <td>" + resultObject.grossQuizetos + "</td>";
         html += "        <td>" + resultObject.taxAmount + "</td>";
         html += "        <td>" + resultObject.netQuizetos + "</td>";
         html += "    </tr>";
-    });
+    }
 
     html += "</table>";
     $("#myAccountTaxation").empty().append(html);
+    $("#myAccountTaxation .paginationButton" + tablePages.taxation).addClass('active');
 }
 
 function hideAllContainers() {
@@ -742,10 +783,30 @@ function checkPancardBankTransfer() {
 }
 
 function isPancardValid(pancard) {
-    // Check if pancard is 10 charaters long and the format is AAAAANNNNA where A is letter and N is number
-    if (pancard.length == 10 && pancard.substr(0, 5).search(/[a-zA-Z]/) != -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[a-zA-Z]/) != -1) {
+    // Check if pancard is 10 charaters long and the format is AAAAANNNNA where A is letter and N is number. If the user hasn't entered a pancard don't raise an error by setting the pancard as invalid
+    if (pancard.length == 0 || (pancard.length == 10 && pancard.substr(0, 5).search(/[a-zA-Z]/) != -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[a-zA-Z]/) != -1)) {
         return true;
     } else {
         return false;
     }
+}
+
+function changeQuizPage(page) {
+    tablePages.quizzes = page;
+    populateQuizzes();
+}
+
+function changePurchasePage(page) {
+    tablePages.purchase = page;
+    populatePurchases();
+}
+
+function changeWithdrawalPage(page) {
+    tablePages.withdrawals = page;
+    populateWithdrawals();
+}
+
+function changeTaxationPage(page) {
+    tablePages.taxation = page;
+    populateTaxations();
 }

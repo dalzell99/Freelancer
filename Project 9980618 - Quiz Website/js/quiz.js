@@ -17,7 +17,8 @@ window.onload = function() {
             quiz = response[1];
             answersGiven = newFilledArray(JSON.parse(quiz.questions).length, -1);
             createQuestions();
-            displayCountdown();
+            //displayCountdown();
+            startQuiz();
         } else {
             alert("Error: " + response[1])
         }
@@ -88,6 +89,7 @@ function startQuiz() {
     if (quiz.quizID == 1 || quiz.quizID == 2) {
         $("#timeLeft").hide();
     } else {
+        endTimer = setTimeout(endQuiz, moment(quiz.endTime).diff(moment()));
         updateCountdownTimers();
     }
     timeLeftTimer = setInterval(updateCountdownTimers, 1000);
@@ -154,8 +156,8 @@ function endQuiz() {
                 alert('Error uploading your results. Contact the web admin for details on what to do. ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            alert("There was a problem uploading your quiz results. Please check that you have a working internet connection. You will have 1 minute or until the quiz ends (whichever is less) to reconnect at which point your results will be uploaded. The results can be uploaded from any quizeto.com webpage. If your internet connect is working, then contact the web admin to inform them of this problem");
-            
+            alert("There was a problem uploading your quiz results. Please check that you have a working internet connection. You will have 1 minute or until the quiz ends (whichever is less) to reconnect at which point your results will be uploaded. The results can be uploaded from any iqzeto.com webpage. If your internet connect is working, then contact the web admin to inform them of this problem");
+
             // Store the quiz results in local storage and upload in the global method in global.js
             localStorage.quizResults = JSON.stringify({
                 quizID: quiz.quizID,
@@ -325,6 +327,7 @@ function updateQuizFooterQuestionColours() {
     });
 }
 
+// Returns an array of length len and is filled with len val's
 function newFilledArray(len, val) {
     var rv = new Array(len);
     while (--len >= 0) {

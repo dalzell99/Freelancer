@@ -17,74 +17,59 @@ $sql = "INSERT INTO Users VALUES (DEFAULT, '$username', '$password', 0, 0, 20, '
 
 $to = array($email);
 $from = $databasephpNoReplyEmail;
-$subject = "Welcome to Quizeto";
+$subject = "Welcome to IQzeto";
 $message = "
 <html>
     <body>
-        <img id='logo' src='http://ccrscoring.co.nz/9980618/images/logo.png'>
+        <img id='logo' src='http://iqzeto.com/images/logo3.png' alt=''>
 
         <p><b>Greetings $username,</b></p>
 
-        <p><b>Welcome to Quizeto</b></p>
+        <p>Welcome to IQzeto.com, the world's best online quizzing platform</p>
 
-        <p><b>Thanks so much for joining us. You’re on your way to Hot Seat</b></p>
+        <p><a href='http://iqzeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
 
-        <p><a href='http://quizeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
+        <p>IQzeto.com offers online trivia game show which is completely challenging and guarantees 24 hours entertainment with knowledge add-on from various fields. This is an online platform where brains across the globe come together and compete with each other's IQ & intelligence for millions of cash rewards at stake.</p>
 
-        <p>Every one of us always wanted to participate in ‘<i>Kaun Banega crorepati </i>’ and ‘<i>Who wants to be a millionaire’</i> the two most famous TV reality show from India and US. But very few of us would have made it to the Hot seat. We brings you an online platform where everyone will be on hot seat everyday making their dreams come true of becoming a crorepati or a millionaire</p>
+        <p>You have the option to take both free as well as paid quizzes which are scheduled 24/7 on the platform. We strive to make your online quiz experience best across the world. Practice your knowledge skills in free quizzes and once you are confident, dare the intelligent minds across the globe in paid quizzes to win millions of cash rewards.</p>
 
-        <p><br />
+        <p>
+        <strong>Our Vision</strong>
         </p>
 
-        <p>Welcome to <a href='http://quizeto.com/'>Quizeto.com</a>, the best place for online quiz in the world. This is an online platform which enables users participate in quiz of several formats from different subjects/fields with other best minds across the globe. <a href='http://quizeto.com/'>Quizeto.com</a> is the place where brain across the globe comes together and competes with each other’s IQ for millions of cash reward at stake. User register for free on this platform and have option to take both free as well as paid quizzes which are scheduled 24/7 on our platform. we strive to make your online quiz experience the best across the world.</p>
+        <p>Here at IQzeto.com we consider our Social Responsibility important. We adore doing great for our kindred man and offering back to the group that made us. We empower everyone with the capacity to develop their intelligence and IQ in an entertaining and rewarding way.</p>
 
-        <p><br />
+        <p>
+        <strong>Our Mission</strong>
         </p>
 
-        <p>We are a team which offers quiz games which are completely challenging and guarantee 24 hour entertainment with knowledge add on from various fields. Practice your knowledge across subject’s skills with free quiz and once you are ready challenge the best mind across the world. Our quizzes have been developed for all level of users from students of all classes, Students preparing for higher education like medical, engineering or MBA entrance, IAS aspirants, Housewives, and working professional from various fields by dedicated quiz specialists keeping in mind all facets of quiz. </p>
+        <p>Our core mission is to innovate and build a platform to spread knowledge & develop IQ in an entertaining and rewarding way that reaches to the society.</p>
 
-        <p><br />
+        <p>
+        <strong>What we offer</strong>
         </p>
 
-        <p>Our core mission is to innovate and develop a technology to spread knowledge, general awareness &amp; develop IQ in an entertaining and rewarding way that reaches to the society.</p>
+        <p>We at IQzeto.com empower life learning and follow the principle of 'earning while learning'. We do this with Quiz Alerts with an end goal to test information about different subjects at the same time helping everyone to become monetarily independent. We pride ourselves on being family-accommodating and empower friendly rivalry by means of our Leader board.</p>
 
-        <p><br />
+        <p>
+        We believe in building knowledge and developing IQ in an entertaining and rewarding way
         </p>
 
-        <p><b>So what are you waiting for, go and grab the Hot Seat...</b></p>
+        <p>IQzeto provides unlimited quizzes with cash rewards every minute, making it the preferred quiz platform for everyone.</p>
 
-        <p><br />
+        <p>
+        Wish you all the very best and happy quizzing...
         </p>
 
         <p><b>Regards</b></p>
 
-        <p><b>Team Quizeto</b> </p>
-
-        <div id='footer'>
-            <img class='footerImages' src='http://quizeto.com/images/QUIZ.png'>
-            <img class='footerImages' src='http://quizeto.com/images/howtoquizzes.png'>
-            <img class='footerImages' src='http://quizeto.com/images/howtowincash.png'>
-            <img class='footerImages' src='http://quizeto.com/images/FAQ.png'>
-        </div>
+        <p><b>Team IQzeto</b> </p>
 
         <style>
-            p {
-                color: #800000;
-            }
-
             #logo {
                 height: 100px;
                 display: block;
                 margin: 0 auto;
-            }
-
-            .footerImages {
-                width: 11%;
-                margin: 2%;
-            }
-
-            #footer {
-                text-align: center;
             }
         </style>
 

@@ -41,8 +41,8 @@ if ($payment['status'] == 'captured') {
         $message = "
         <html>
             <body>
-                <p>Dear " . $row['username'] . ",<br>Thank you for your purchase on Quizetos.com! " . $paymentAmount / 100 . " Real Quizetos have been added to your account and are ready to be used.</p>
-                <p>Thanks & Regards,<br>Team Quizetos.com</p>
+                <p>Dear " . $row['username'] . ",<br>Thank you for your purchase on IQzeto.com! " . $paymentAmount / 100 . " Real Quizetos have been added to your account and are ready to be used.</p>
+                <p>Thanks & Regards,<br>Team IQzeto.com</p>
             </body>
         </html>
         ";

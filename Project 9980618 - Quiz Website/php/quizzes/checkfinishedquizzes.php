@@ -95,7 +95,7 @@ foreach ($quizArray as $quiz) {
             $rowUser = mysqli_fetch_assoc($resultUser);
             $to = array($rowUser['email']);
             $from = $databasephpPrizeEmail;
-            $subject = "You won a prize on Quizetos.com";
+            $subject = "You won a prize on IQzeto.com";
             $message = "
             <html>
                 <body>
@@ -103,7 +103,7 @@ foreach ($quizArray as $quiz) {
 
                     <div class='container'>
                         <img src='placehold.it/300' /><p>
-                        <h1>Quizeto.com</h1><br>
+                        <h1>IQzeto.com</h1><br>
                         <h4>congratulates</h4>
                         <h3>" . $rowUser['username'] . "</h3>
                         <h2>on finishing ranked<h2>
@@ -111,7 +111,7 @@ foreach ($quizArray as $quiz) {
                         <h5>in the " . $quiz['category'] . " quiz.</h5>
                     </div>
 
-                    <p>Thanks & Regards,<br>Team Quizetos.com</p>
+                    <p>Thanks & Regards,<br>Team IQzeto.com</p>
                     <style>
                         .container{
                             border: 6px double black;
