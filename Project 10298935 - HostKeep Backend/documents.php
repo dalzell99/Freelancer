@@ -1,10 +1,12 @@
 <div id='documentsAdd'>
     <button id='documentsShowAdd'>Show Add New Document</button>
     <div id='documentsAddNewDocument'>
+        <!--
         <div>
             <label for="#documentsAddName">Name</label>
             <input id='documentsAddName' type='text' />
         </div>
+        -->
 
         <div>
             <label for="#documentsAddPropertyID">Property</label>

@@ -2,7 +2,9 @@ var adminUsername = "hello@hostkeep.com.au";
 
 var propertyList = [];
 var documentList = [];
+var filenameList = [];
 var bookingList = [];
+var changes = [];
 var currentPasswordTimer;
 var confirmPasswordTimer;
 var currentPasswordCorrect = false;
@@ -157,7 +159,11 @@ $(function() {
                 displayMessage('error', 'Error retrieving document list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
                 documentList = response[0];
-                filenameList = response[1];
+                $.each(response[1], function (key, value) {
+                    filenameList.push(value);
+                });
+
+                filenameList.sort();
 
                 // Check if the getBookings (if user isn't admin) and getProperties post AJAX have finished
                 if (done == 2) {
@@ -276,10 +282,34 @@ function profile() {
     $("#profileCountry").val(sessionStorage.country);
     $("#profileLastModified").text("[Last modified: " + moment(sessionStorage.lastModified).format("ddd Do MMM YYYY h:mm a") + "]");
 
+    // Record what changes are made
+    $("input.changeable, textarea.changeable").on({
+        blur: function () {
+            if ($(this).val() != sessionStorage.contenteditable) {
+                var classList = this.className.split(/\s+/);
+                changes.push(classList[1]);
+            }
+        },
+
+        focus: function () {
+            sessionStorage.contenteditable = $(this).val();
+        }
+    });
+
+    // Record what changes are made
+    $("select.changeable").on({
+        change: function () {
+            var classList = this.className.split(/\s+/);
+            changes.push(classList[1]);
+        }
+    });
+
     // Save profile changes on button click
     $("#profileButton").on({
         click: function () {
             $.post("./php/customer/saveprofilechanges.php", {
+                admin: sessionStorage.admin,
+                changes: JSON.stringify(changes),
                 salutation: $("#profileSalutation").val(),
                 firstName: $("#profileFirstName").val(),
                 lastName: $("#profileLastName").val(),
@@ -300,6 +330,8 @@ function profile() {
                     displayMessage('info', 'Your profile changes have been saved.');
                     // Change last modified text to the current time
                     $("#profileLastModified").text("[Last modified: " + moment().format("ddd Do MMM YYYY h:mm a") + "]");
+
+                    changes = []; // Reset changes
                 } else {
                     displayMessage('error', 'Something went wrong while saving your profile changes. The web admin has been notified and will fix the problem as soon as possible.');
                 }
@@ -512,10 +544,13 @@ function documents() {
                 $("#documentsAddFilename").val() :
                 $("#documentsDropzone").find(".dz-filename:first > *").text();
 
+            var filenameMinusExtension = filename.substr(0, filename.lastIndexOf("."));
+
             if (filename != '') {
                 $.post("./php/documents/adddocument.php", {
                     username: sessionStorage.username,
-                    name: $("#documentsAddName").val(),
+                    //name: $("#documentsAddName").val(),
+                    name: filenameMinusExtension,
                     propertyID: $("#documentsAddPropertyID").val(),
                     month: $("#documentsAddMonth").val(),
                     notes: $("#documentsAddNotes").val(),
@@ -528,7 +563,8 @@ function documents() {
                         var html = '';
                         var a = (sessionStorage.admin == 'true' ? true : false);
                         html += "<tr>";
-                        html += "    <td class='name'>" + $("#documentsAddName").val() + "</td>";
+                        //html += "    <td class='name'>" + $("#documentsAddName").val() + "</td>";
+                        html += "    <td class='name'>" + filenameMinusExtension + "</td>";
                         html += "    <td class='propertyID'>" + $("#documentsAddPropertyID option:selected").text() + "</td>";
                         html += "    <td class='month' sorttable_customkey='" + months.indexOf($("#documentsAddMonth").val()) + "'>" + $("#documentsAddMonth").val() + "</td>";
                         html += "    <td class='dateUploaded'>" + moment().format("Do MMM YYYY") + "</td>";
@@ -551,9 +587,10 @@ function documents() {
                         });
 
                         // Clear inputs
-                        $("#documentsAddName").val('');
-                        $("#documentsAddPropertyID").val('');
-                        $("#documentsAddMonth").val('');
+                        //$("#documentsAddName").val('');
+                        //$("#documentsAddPropertyID").val('');
+                        // Change month dropdown to the next month
+                        $("#documentsAddMonth").prop('selectedIndex', $("#documentsAddMonth").prop('selectedIndex') + 1);
                         $("#documentsAddNotes").val('');
 
                         // Add contenteditable change event to the just added table row
@@ -567,7 +604,7 @@ function documents() {
                         $("#documentsAddFilename option:nth-child(" + selectedIndex + ")").css("display", "none");
                         $("#documentsAddFilename").prop("selectedIndex", 0);
                     } else {
-                        displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
+                        displayMessage('error', 'Something went wrong added the document to the current user. The web admin has been notified and will fix the problem as soon as possible.');
                     }
                 }).fail(function (request, textStatus, errorThrown) {
                     //displayMessage('error', "Error: Something went wrong with  AJAX POST");
@@ -877,7 +914,10 @@ function addPropertyChangeEvent() {
             if ($(this).text != sessionStorage.contenteditable) {
                 var column = this.classList[0];
                 $.post("./php/properties/changepropertyinfo.php", {
-                    propertyID: $(this).parent().children(':nth-child(1)').text(),
+                    admin: sessionStorage.admin,
+                    username: sessionStorage.username,
+                    propertyName: $(this).parent().children(':nth-child(3)').text(),
+                    propertyID: $(this).parent().children(':nth-child(2)').text(),
                     column: column,
                     value: $(this).text()
                 }, function(response) {

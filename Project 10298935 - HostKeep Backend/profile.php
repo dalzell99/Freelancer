@@ -43,7 +43,7 @@
     </tr>
     <tr>
         <td colspan="3">
-            <input id='profileCompany' type='text' />
+            <input id='profileCompany' class='changeable company' type='text' />
         </td>
     </tr>
     <tr>
@@ -66,10 +66,10 @@
     </tr>
     <tr>
         <td>
-            <input id='profileTelephone' type='text' />
+            <input id='profileTelephone' class='changeable telephone' type='text' />
         </td>
         <td>
-            <input id='profileMobile' type='text' />
+            <input id='profileMobile' class='changeable mobile' type='text' />
         </td>
     </tr>
     <tr>
@@ -85,13 +85,13 @@
     </tr>
     <tr>
         <td>
-            <input id='profileBankName' type='text' />
+            <input id='profileBankName' class='changeable bankName' type='text' />
         </td>
         <td>
-            <input id='profileBSB' type='text' />
+            <input id='profileBSB' class='changeable BSB' type='text' />
         </td>
         <td>
-            <input id='profileAccountNumber' type='text' />
+            <input id='profileAccountNumber' class='changeable accountNumber' type='text' />
         </td>
     </tr>
     <tr>
@@ -101,7 +101,7 @@
     </tr>
     <tr>
         <td colspan="3">
-            <textarea id='profileAddress' lines='3'></textarea>
+            <textarea id='profileAddress' class='changeable address' lines='3'></textarea>
         </td>
     </tr>
     <tr>
@@ -117,13 +117,13 @@
     </tr>
     <tr>
         <td>
-            <input id='profileSuburb' type='text' />
+            <input id='profileSuburb' class='changeable suburb' type='text' />
         </td>
         <td>
-            <input id='profileState' type='text' />
+            <input id='profileState' class='changeable state' type='text' />
         </td>
         <td>
-            <input id='profilePostcode' type='text' />
+            <input id='profilePostcode' class='changeable postcode' type='text' />
         </td>
     </tr>
     <tr>
@@ -133,7 +133,7 @@
     </tr>
     <tr>
         <td colspan="3">
-            <select id='profileCountry'>
+            <select id='profileCountry' class='changeable country'>
                 <option value="Australia">Australia</option>
                 <option value="Canada">Canada</option>
                 <option value="Germany">Germany</option>

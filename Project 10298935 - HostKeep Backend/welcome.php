@@ -14,6 +14,10 @@
 </p>
 
 <p>
+    <strong>Please note: Property minimum prices are currently being updated. This will be completed shortly.</strong>
+</p>
+
+<p>
     If you have any feedback about, please email <a href='mailto:hello@hostkeep.com.au'>hello@hostkeep.com.au</a>.
 </p>
 

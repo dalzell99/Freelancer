@@ -16,6 +16,21 @@ $sql = "UPDATE Properties SET $column = '$value' WHERE propertyID = '$propertyID
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';
+
+    if ($_POST['admin'] != 'true') {
+        $message = "
+        Username: " . $_POST['username'] . "<br />
+        Property Name: " . $_POST['propertyName'] . "<br />
+        New Minimum Nightly Price: $$value
+        ";
+
+        if (!sendEmail($hostkeepEmail, 'HostKeep Owners Dashboard', 'Profile Changes', $message)) {
+            sendErrorEmail("
+            changepropertyinfo.php<br />
+            Email Fail
+            " . $message);
+        }
+    }
 } else {
     sendErrorEmail("
     changepropertyinfo.php<br />

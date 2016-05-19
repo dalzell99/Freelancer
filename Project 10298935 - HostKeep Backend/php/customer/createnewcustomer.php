@@ -11,7 +11,7 @@ if (mysqli_connect_errno()) {
 $email = mysqli_real_escape_string($con, $_POST['email']);
 $password = mt_rand(1000000, 9999999); // Create random 7 digit password
 
-$sql = "INSERT INTO Customer(username, password, propertyIDs, documentIDs) VALUES ('$email', '" . hashPassword($con, $password) . "', '[]', '[]')";
+$sql = "INSERT INTO Customer(username, password) VALUES ('$email', '" . hashPassword($con, $password) . "')";
 
 // Insert new customer
 if ($result = mysqli_query($con, $sql)) {

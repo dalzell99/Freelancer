@@ -28,6 +28,58 @@ $sql = "UPDATE Customer SET
 
 if (mysqli_query($con, $sql)) {
     echo 'success';
+
+    if ($_POST['admin'] != 'true') {
+        $changesArray = json_decode($_POST['changes']);
+        $changesString = '';
+
+        foreach ($changesArray as $change) {
+            switch ($change) {
+                case 'company':
+                    $changesString .= 'Company: ' . $_POST['company'] . "<br />";
+                    break;
+                case 'telephone':
+                    $changesString .= 'Phone Number: ' . $_POST['telephone'] . "<br />";
+                    break;
+                case 'mobile':
+                    $changesString .= 'Mobile Number: ' . $_POST['mobile'] . "<br />";
+                    break;
+                case 'bankName':
+                    $changesString .= 'Bank Name: ' . $_POST['bankName'] . "<br />";
+                    break;
+                case 'BSB':
+                    $changesString .= 'BSB: ' . $_POST['bsb'] . "<br />";
+                    break;
+                case 'accountNumber':
+                    $changesString .= 'Bank Account Number: ' . $_POST['accountNumber'] . "<br />";
+                    break;
+                case 'address':
+                    $changesString .= 'Postal Address: ' . $_POST['address'] . "<br />";
+                    break;
+                case 'suburb':
+                    $changesString .= 'Suburb: ' . $_POST['suburb'] . "<br />";
+                    break;
+                case 'state':
+                    $changesString .= 'State: ' . $_POST['state'] . "<br />";
+                    break;
+                case 'postcode':
+                    $changesString .= 'Postcode: ' . $_POST['postcode'] . "<br />";
+                    break;
+                case 'country':
+                    $changesString .= 'Country: ' . $_POST['country'] . "<br />";
+                    break;
+            }
+        }
+
+        $message = "Username: " . $_POST['username'] . "<br />" . $changesString;
+
+        if (!sendEmail($hostkeepEmail, 'HostKeep Owners Dashboard', 'Profile Changes', $message)) {
+            sendErrorEmail("
+            saveprofilechanges.php<br />
+            Email Fail
+            " . $message);
+        }
+    }
 } else {
     sendErrorEmail("
     saveprofilechanges.php<br />

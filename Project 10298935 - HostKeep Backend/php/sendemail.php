@@ -3,7 +3,7 @@ require_once("phpmailer/class.phpmailer.php");
 require_once("global.php");
 
 function sendErrorEmail($message) {
-    sendEmail($webAdminEmail, $noReplyEmail, 'HostKeep Error', $message);
+    sendEmail('dalzell99@hotmail.com', $noReplyEmail, 'HostKeep Error', $message);
 }
 
 function sendEmail($to, $from, $subject, $message) {
@@ -23,7 +23,7 @@ function sendEmail($to, $from, $subject, $message) {
     $mail->From = 'noreply@hostkeep.com.au';
     $mail->FromName = "HostKeep.com.au";
 
-    $mail->addAddress('dalzell99@hotmail.com');
+    $mail->addAddress($to);
 
     $mail->isHTML(true);
 
