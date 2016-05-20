@@ -9,19 +9,19 @@ function sendErrorEmail($message) {
 function sendEmail($to, $from, $subject, $message) {
     $mail = new PHPMailer;
 
-    /*
+
     $mail->IsSMTP();                                      // Set mailer to use SMTP
     //$mail->SMTPDebug  = 1;
-    $mail->Host = "";                 // Specify main and backup server
-    $mail->Port = 26;                                    // Set the SMTP port
+    $mail->Host = "box306.bluehost.com";                 // Specify main and backup server
+    $mail->Port = 465;                                    // Set the SMTP port
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
     $mail->Username = $from;                // SMTP username
-    $mail->Password = "";                  // SMTP password
-    //$mail->SMTPSecure = "ssl";                            // Enable encryption, 'ssl' also accepted
-    */
+    $mail->Password = "@+sP2YgbF%rOE";                  // SMTP password
+    $mail->SMTPSecure = "ssl";                            // Enable encryption, 'ssl' also accepted
 
-    $mail->From = 'noreply@hostkeep.com.au';
-    $mail->FromName = "HostKeep.com.au";
+
+    $mail->From = $from;
+    $mail->FromName = "HostKeep";
 
     $mail->addAddress($to);
 

@@ -1,0 +1,72 @@
+[02-May-2016 08:18:12 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 08:18:12 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 08:18:12 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 08:18:12 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 08:18:12 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 08:18:39 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 08:18:39 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 08:18:39 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 08:18:39 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 08:18:39 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 08:18:55 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 08:18:55 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 08:18:55 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 08:18:55 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 08:18:55 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 08:19:09 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 08:19:09 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 08:19:09 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 08:19:09 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 08:19:09 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 08:43:31 UTC] PHP Notice:  Undefined index: password in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 08:43:31 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 08:43:31 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 08:50:11 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 08:50:11 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 08:50:11 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 08:50:11 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 08:50:11 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 09:05:49 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 09:05:49 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 09:05:49 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 09:05:49 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 09:05:49 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 09:13:05 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user '
+quizetoc_admin'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 09:13:05 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 09:13:05 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 09:13:05 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 09:13:05 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 09:14:12 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user '
+quizetoc_admin'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 09:14:12 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 09:14:12 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 09:14:12 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 09:14:12 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 22:32:30 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user '
+quizetoc_admin'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 22:32:30 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 22:32:30 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 22:32:30 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 22:32:30 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[02-May-2016 22:32:53 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user '
+quizetoc_admin'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/admin/checkpassword.php on line 3
+[02-May-2016 22:32:53 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[02-May-2016 22:32:53 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[02-May-2016 22:32:53 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 14
+[02-May-2016 22:32:53 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/admin/checkpassword.php on line 26
+[04-May-2016 04:06:12 UTC] PHP Notice:  Undefined index: password in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[04-May-2016 04:06:12 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[05-May-2016 03:56:46 UTC] PHP Notice:  Undefined index: password in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[05-May-2016 03:56:46 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11
+[09-May-2016 05:46:41 UTC] PHP Notice:  Undefined index: password in /home/quizetoc/public_html/php/admin/checkpassword.php on line 10
+[09-May-2016 05:46:41 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/admin/checkpassword.php on line 11

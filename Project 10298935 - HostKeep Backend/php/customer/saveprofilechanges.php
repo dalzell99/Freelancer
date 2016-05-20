@@ -73,7 +73,7 @@ if (mysqli_query($con, $sql)) {
 
         $message = "Username: " . $_POST['username'] . "<br />" . $changesString;
 
-        if (!sendEmail($hostkeepEmail, 'HostKeep Owners Dashboard', 'Profile Changes', $message)) {
+        if (!sendEmail($hostkeepEmail, $noReplyEmail, 'Profile Changes', $message)) {
             sendErrorEmail("
             saveprofilechanges.php<br />
             Email Fail

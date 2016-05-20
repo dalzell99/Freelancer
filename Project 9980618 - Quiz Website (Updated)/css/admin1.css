@@ -1,0 +1,63 @@
+#userContainer, #quizContainer,
+#testimonialContainer, #promotionContainer,
+#createQuizContainer, #createQuizUpdateButton,
+#createTestimonialContainer, #withdrawalContainer,
+#rewardContainer, #createPromotionContainer,
+#questionsContainer, #createQuestionContainer,
+#createQuestionUpdateButton, #createQuizQuestionsRandom,
+#distributionContainer {
+  display: none;
+}
+
+.databaseTable {
+  text-align: center;
+  box-shadow: 0 0 20px 0px rgba(0,0,0,.35);
+  border-spacing: 0px;
+  background-color: white;
+  margin: 0 1px; width:100%;
+}
+
+.databaseTable th {
+  border: 1px #eee solid;
+  background-color: #00b6f2;
+  color: snow;
+  padding: 8px;
+  text-align: center;
+}
+
+.databaseTable td {
+  border: 1px #eee solid;
+  padding: 5px;
+}
+
+.rowfix {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+body {
+  padding-bottom: 10px;
+}
+
+.selectedAnswer {
+  background-color: #ffffc0;
+}
+
+.promotionImages, .testimonialImages {
+  width: 300px;
+}
+
+.userProfileImages {
+  width: 70px;
+}
+
+#createQuizPagination button,
+#createQuestionPagination button {
+    margin: 4px;
+    padding: 2px 21px;
+}
+
+#createQuizPagination button.active,
+#createQuestionPagination button.active {
+  background-color: #939393;
+}

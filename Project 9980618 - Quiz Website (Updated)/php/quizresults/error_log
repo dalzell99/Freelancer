@@ -1,0 +1,9 @@
+[07-May-2016 01:06:52 UTC] PHP Notice:  Undefined index: quizID in /home/quizetoc/public_html/php/quizresults/getquizresults.php on line 10
+[09-May-2016 09:35:40 UTC] PHP Notice:  Undefined index: userID in /home/quizetoc/public_html/php/quizresults/uploadquizresult.php on line 10
+[09-May-2016 09:35:40 UTC] PHP Notice:  Undefined index: quizID in /home/quizetoc/public_html/php/quizresults/uploadquizresult.php on line 11
+[09-May-2016 09:35:40 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/quizresults/uploadquizresult.php on line 12
+[09-May-2016 09:35:40 UTC] PHP Notice:  Undefined index: timeTaken in /home/quizetoc/public_html/php/quizresults/uploadquizresult.php on line 13
+[09-May-2016 09:35:40 UTC] PHP Notice:  Undefined index: questions in /home/quizetoc/public_html/php/quizresults/uploadquizresult.php on line 14
+[09-May-2016 09:35:40 UTC] PHP Notice:  Undefined index: correctPercent in /home/quizetoc/public_html/php/quizresults/uploadquizresult.php on line 15
+[09-May-2016 09:35:41 UTC] PHP Notice:  Undefined index: quizID in /home/quizetoc/public_html/php/quizresults/getquizresults.php on line 10
+[11-May-2016 03:50:37 UTC] PHP Notice:  Undefined index: questions in /home/quizetoc/public_html/php/quizresults/uploadquizresult.php on line 14

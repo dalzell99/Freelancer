@@ -1,0 +1,11 @@
+[12-May-2016 06:43:56 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
+[13-May-2016 03:53:21 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
+[13-May-2016 23:14:48 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
+[15-May-2016 09:03:07 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
+[15-May-2016 10:33:01 UTC] PHP Notice:  Array to string conversion in /home/quizetoc/public_html/php/users/getlivestats.php on line 31
+[15-May-2016 20:05:18 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
+[16-May-2016 01:15:22 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
+[16-May-2016 02:56:21 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
+[17-May-2016 05:53:39 UTC] PHP Notice:  Undefined index: imageURL in /home/quizetoc/public_html/php/users/removeprofilepicture.php on line 10
+[17-May-2016 05:54:32 UTC] PHP Notice:  Undefined index: imageURL in /home/quizetoc/public_html/php/users/removeprofilepicture.php on line 10
+[17-May-2016 14:27:10 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10

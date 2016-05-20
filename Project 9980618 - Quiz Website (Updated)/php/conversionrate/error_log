@@ -1,0 +1,5 @@
+[02-May-2016 13:02:29 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user '
+quizetoc_admin'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/conversionrate/getconversionrate.php on line 3
+[02-May-2016 13:02:29 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/conversionrate/getconversionrate.php on line 12
+[02-May-2016 13:02:29 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/conversionrate/getconversionrate.php on line 18
+[09-May-2016 05:49:05 UTC] PHP Notice:  Undefined index: rate in /home/quizetoc/public_html/php/conversionrate/change.php on line 10

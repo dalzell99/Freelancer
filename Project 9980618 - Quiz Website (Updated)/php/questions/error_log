@@ -1,0 +1,381 @@
+[02-May-2016 08:17:47 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getallquestions.php on line 3
+[02-May-2016 08:17:47 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 10
+[02-May-2016 08:17:47 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 21
+[02-May-2016 08:17:47 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getcategories.php on line 3
+[02-May-2016 08:17:47 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 11
+[02-May-2016 08:17:47 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 23
+[02-May-2016 08:43:28 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getcategories.php on line 3
+[02-May-2016 08:43:28 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 11
+[02-May-2016 08:43:28 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 23
+[02-May-2016 08:43:28 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getallquestions.php on line 3
+[02-May-2016 08:43:28 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 10
+[02-May-2016 08:43:28 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 21
+[02-May-2016 08:43:30 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getcategories.php on line 3
+[02-May-2016 08:43:30 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 11
+[02-May-2016 08:43:30 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 23
+[02-May-2016 08:43:30 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getallquestions.php on line 3
+[02-May-2016 08:43:30 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 10
+[02-May-2016 08:43:30 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 21
+[02-May-2016 09:05:26 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getallquestions.php on line 3
+[02-May-2016 09:05:26 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 10
+[02-May-2016 09:05:26 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 21
+[02-May-2016 09:05:26 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'ccrsc638_test'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getcategories.php on line 3
+[02-May-2016 09:05:26 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 11
+[02-May-2016 09:05:26 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 23
+[02-May-2016 22:32:01 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user '
+quizetoc_admin'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getallquestions.php on line 3
+[02-May-2016 22:32:01 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 10
+[02-May-2016 22:32:01 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getallquestions.php on line 21
+[02-May-2016 22:32:01 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user '
+quizetoc_admin'@'localhost' (using password: YES) in /home/quizetoc/public_html/php/questions/getcategories.php on line 3
+[02-May-2016 22:32:01 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 11
+[02-May-2016 22:32:01 UTC] PHP Warning:  mysqli_close() expects parameter 1 to be mysqli, boolean given in /home/quizetoc/public_html/php/questions/getcategories.php on line 23
+[05-May-2016 15:46:47 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:46:47 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:46:47 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:46:47 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:46:47 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:46:47 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:46:47 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:47:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:47:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:47:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:47:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:47:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:47:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:47:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:48:06 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:48:06 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:48:06 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:48:06 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:48:06 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:48:06 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:48:06 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:54:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:54:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:54:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:54:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:54:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:54:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:54:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:55:37 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:55:37 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:55:37 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:55:37 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:55:37 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:55:37 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:55:37 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:59:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:59:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:59:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:59:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:59:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:59:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 15:59:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:03 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:04 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:04 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:04 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:04 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:04 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:04 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:04 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[05-May-2016 16:02:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:30:13 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:30:13 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:30:13 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:30:13 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:30:13 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:30:13 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:30:13 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:07 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:31:11 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:32:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:32:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:32:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:32:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:32:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:32:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:32:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:33:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:34:29 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:35:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:35:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:35:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:35:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:35:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:35:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:35:23 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:39:44 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:39:44 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:39:44 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:39:44 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:39:44 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:39:44 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 05:39:44 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:49 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:49 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:49 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:49 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:49 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:49 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:49 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:28:50 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:15 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[06-May-2016 14:29:16 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:14:45 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:14:45 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:14:45 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:14:45 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:14:45 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:14:45 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:14:45 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:15:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:15:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:15:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:15:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:15:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:15:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:15:27 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:08 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:16:09 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:34:42 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:34:42 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:34:42 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:34:42 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:34:42 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:34:42 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:34:42 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:05 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:10 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:13 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:26 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:26 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:26 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:26 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:26 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:26 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:26 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:35:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:41 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:41 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:41 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:41 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:41 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:41 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:36:41 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:43:22 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:43:22 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:43:22 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:43:22 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:43:22 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:25 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:25 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:25 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:25 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:25 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:25 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:25 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:47:52 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 02:54:48 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[07-May-2016 03:29:14 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[15-May-2016 08:44:42 UTC] PHP Notice:  Undefined offset: 15 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 29
+[15-May-2016 09:11:09 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 2 to be string, array given in /home/quizetoc/public_html/php/questions/createnewquestion.php on line 11
+[15-May-2016 09:13:17 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 2 to be string, array given in /home/quizetoc/public_html/php/questions/createnewquestion.php on line 11
+[15-May-2016 09:15:12 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 2 to be string, array given in /home/quizetoc/public_html/php/questions/createnewquestion.php on line 11
+[15-May-2016 09:16:23 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 2 to be string, array given in /home/quizetoc/public_html/php/questions/createnewquestion.php on line 11
+[15-May-2016 09:18:22 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 2 to be string, array given in /home/quizetoc/public_html/php/questions/createnewquestion.php on line 11
+[17-May-2016 01:11:40 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 29
+[17-May-2016 01:19:53 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[17-May-2016 01:19:53 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 26
+[17-May-2016 01:19:53 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[17-May-2016 01:19:53 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 26
+[17-May-2016 01:19:53 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[17-May-2016 01:19:53 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 26
+[17-May-2016 01:21:38 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 23
+[17-May-2016 01:21:38 UTC] PHP Notice:  Undefined offset: 0 in /home/quizetoc/public_html/php/questions/getrandomquestions.php on line 26

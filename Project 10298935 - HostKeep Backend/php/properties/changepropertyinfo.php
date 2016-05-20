@@ -24,7 +24,7 @@ if ($result = mysqli_query($con, $sql)) {
         New Minimum Nightly Price: $$value
         ";
 
-        if (!sendEmail($hostkeepEmail, 'HostKeep Owners Dashboard', 'Profile Changes', $message)) {
+        if (!sendEmail($hostkeepEmail, $noReplyEmail, 'Profile Changes', $message)) {
             sendErrorEmail("
             changepropertyinfo.php<br />
             Email Fail
