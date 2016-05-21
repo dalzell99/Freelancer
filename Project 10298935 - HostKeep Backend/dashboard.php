@@ -41,6 +41,10 @@
                     <div id="password">
                         <?php include('change-password.php'); ?>
                     </div>
+
+                    <div id="admin">
+                        <?php include('admin.php'); ?>
+                    </div>
                 </main>
 
                 <footer>

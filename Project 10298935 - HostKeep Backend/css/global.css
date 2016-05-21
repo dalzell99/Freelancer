@@ -53,7 +53,7 @@ nav table {
 }
 
 nav table td {
-  width: 16%;
+  width: 16.67%;
 }
 
 nav table td div {
@@ -92,6 +92,10 @@ nav table td div.active {
   nav table td:nth-child(3) div {
     padding-top: .75em;
   }
+}
+
+nav table td .admin {
+  display: none;
 }
 
 input,

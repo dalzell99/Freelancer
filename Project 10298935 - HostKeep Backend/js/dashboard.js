@@ -39,6 +39,9 @@ $(function() {
                     case 'direct-booking':
                         directBooking();
                         break;
+                    case 'admin':
+                        admin();
+                        break;
                 }
             }
         });
@@ -47,11 +50,28 @@ $(function() {
             click: function () {
                 logout();
             }
-        })
+        });
+
+        $("#adminCreateNewCustomerButton").on({
+            click: function () {
+                createNewUser();
+            }
+        });
+
+        $("#adminSendWelcomeEmailToNewCustomerButton").on({
+            click: function () {
+                // Creates a random password and sends a welcome email to all admin created users
+                $.post("./php/customer/sendwelcomeemailtonewusers.php");
+            }
+        });
 
         // Set the admin sessionStorage vaiable to true if the admin account is used.
         if (sessionStorage.username == adminUsername) {
             sessionStorage.admin = 'true';
+            // Show admin section of dashboard if logged in as admin
+            $(".admin").show();
+            // Change the nav item widths to accommodate the Admin nav
+            $("nav table td").css('width', '14.28%');
         } else if (sessionStorage.lastLogin != '') {
             // If the user isn't admin, show username and last login time and IP address
             $("#headerCustomerInfo").html(sessionStorage.username + "<br />" + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + " [" + sessionStorage.lastLoginIP + "]");
@@ -241,6 +261,7 @@ function hideAllContainers() {
     $("div#documents").hide();
     $("div#password").hide();
     $("div#directBooking").hide();
+    $("div#admin").hide();
 }
 
 // Show welcome container, set title, and active nav item and add last login time to bottom of page
@@ -876,6 +897,14 @@ function deleteBooking(id) {
     });
 }
 
+function admin() {
+    $("div#headerTitle").text("Admin");
+    $("nav .active").removeClass("active");
+    $("nav .admin").addClass("active");
+    hideAllContainers();
+    $("div#admin").show();
+}
+
 // Add focus and blur events to the contenteditable elements
 function addPropertyChangeEvent() {
     $("#properties table img").on({
@@ -966,4 +995,23 @@ function addDocumentChangeEvent() {
         }
     });
 
+}
+
+// Create a new customer when admin clicks 'Create New Customer' button in admin section
+function createNewUser() {
+    $.post("./php/customer/createnewcustomeradmin.php", {
+        username: $("#adminNewCustomerUsername").val(),
+        firstName: $("#adminNewCustomerFirstName").val(),
+        lastName: $("#adminNewCustomerLastName").val()
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('info', 'Customer has been created');
+        } else if (response == 'alreadyexists') {
+            displayMessage('error', 'There is already a customer with that email');
+        } else {
+            displayMessage('error', 'Error creating new customer. The web admin has been notified and will fix the problem as soon as possible.');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
 }

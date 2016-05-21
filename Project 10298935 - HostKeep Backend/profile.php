@@ -48,7 +48,7 @@
     </tr>
     <tr>
         <td colspan="3">
-            Email
+            Username (email address)
         </td>
     </tr>
     <tr>

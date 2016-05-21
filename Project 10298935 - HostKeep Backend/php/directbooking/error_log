@@ -1,7 +1,0 @@
-[11-May-2016 22:23:02 America/Denver] PHP Notice:  Undefined index: userID in /home2/stephfl5/public_html/owners/php/directbooking/getbookings.php on line 10
-[11-May-2016 22:23:20 America/Denver] PHP Notice:  Undefined index: userID in /home2/stephfl5/public_html/owners/php/directbooking/getbookings.php on line 10
-[11-May-2016 22:23:53 America/Denver] PHP Notice:  Undefined index: userID in /home2/stephfl5/public_html/owners/php/directbooking/getbookings.php on line 10
-[11-May-2016 22:25:37 America/Denver] PHP Notice:  Undefined index: userID in /home2/stephfl5/public_html/owners/php/directbooking/getbookings.php on line 10
-[11-May-2016 22:26:47 America/Denver] PHP Notice:  Undefined index: userID in /home2/stephfl5/public_html/owners/php/directbooking/addbooking.php on line 10
-[11-May-2016 22:30:03 America/Denver] PHP Notice:  Undefined index: userID in /home2/stephfl5/public_html/owners/php/directbooking/addbooking.php on line 10
-[11-May-2016 23:09:44 America/Denver] PHP Fatal error:  Call to undefined function sendErrorEmail() in /home2/stephfl5/public_html/owners/php/directbooking/getbookings.php on line 24

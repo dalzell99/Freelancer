@@ -28,7 +28,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <label for'#resetpasswordEmailInput'>Email Address</label>
+                                    <label for'#resetpasswordEmailInput'>Username (email address)</label>
                                 </td>
                                 <td>
                                     <input id='resetpasswordEmailInput' type='email' />

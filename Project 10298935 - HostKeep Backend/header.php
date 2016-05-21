@@ -47,6 +47,12 @@
                     Change Password
                 </div>
             </td>
+
+            <td>
+                <div class='admin' onclick='window.location = "#admin"'>
+                    Admin
+                </div>
+            </td>
         </tr>
     </table>
 </nav>
