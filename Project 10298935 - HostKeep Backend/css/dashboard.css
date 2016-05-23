@@ -69,70 +69,82 @@ main > div#documents table {
   width: 100%;
 }
 
-main > div#documents th {
+main > div#documents table th {
   font-size: 1.2em;
 }
 
-main > div#documents th,
-main > div#documents td {
+main > div#documents table th,
+main > div#documents table td {
   padding: 5px;
   text-align: center;
 }
 
-main > div#documents th:nth-child(1), main > div#documents th:nth-child(2), main > div#documents th:nth-child(3),
-main > div#documents td:nth-child(1),
-main > div#documents td:nth-child(2),
-main > div#documents td:nth-child(3) {
+main > div#documents table th:nth-child(1), main > div#documents table th:nth-child(2), main > div#documents table th:nth-child(3),
+main > div#documents table td:nth-child(1),
+main > div#documents table td:nth-child(2),
+main > div#documents table td:nth-child(3) {
   width: 15%;
 }
 
-main > div#documents th:nth-child(4),
-main > div#documents td:nth-child(4) {
+main > div#documents table th:nth-child(4),
+main > div#documents table td:nth-child(4) {
   width: 18%;
 }
 
-main > div#documents th:nth-child(5),
-main > div#documents td:nth-child(5) {
+main > div#documents table th:nth-child(5),
+main > div#documents table td:nth-child(5) {
   width: 37%;
-}
-
-main > div#directBooking #directBookingAddNewBooking {
-  display: none;
 }
 
 main > div#directBooking table {
   width: 100%;
 }
 
-main > div#directBooking th {
+main > div#directBooking table th {
   font-size: 1.2em;
 }
 
-main > div#directBooking th,
-main > div#directBooking td {
+main > div#directBooking table th,
+main > div#directBooking table td {
   padding: 5px;
   text-align: center;
 }
 
-main > div#directBooking th:nth-child(1), main > div#directBooking th:nth-child(2), main > div#directBooking th:nth-child(3),
-main > div#directBooking td:nth-child(1),
-main > div#directBooking td:nth-child(2),
-main > div#directBooking td:nth-child(3) {
+main > div#directBooking table th:nth-child(1), main > div#directBooking table th:nth-child(2), main > div#directBooking table th:nth-child(3),
+main > div#directBooking table td:nth-child(1),
+main > div#directBooking table td:nth-child(2),
+main > div#directBooking table td:nth-child(3) {
   width: 15%;
 }
 
-main > div#directBooking th:nth-child(4),
-main > div#directBooking td:nth-child(4) {
+main > div#directBooking table th:nth-child(4),
+main > div#directBooking table td:nth-child(4) {
   width: 18%;
 }
 
-main > div#directBooking th:nth-child(5),
-main > div#directBooking td:nth-child(5) {
+main > div#directBooking table th:nth-child(5),
+main > div#directBooking table td:nth-child(5) {
   width: 37%;
 }
 
 main > div#admin button {
   margin-top: 10px;
+}
+
+main > div#admin table#userTable {
+  width: 100%;
+  margin-top: 30px;
+}
+
+main > div#admin table#userTable th {
+  font-size: 1.2em;
+}
+
+main > div#admin table#userTable th,
+main > div#admin table#userTable td {
+  padding: 5px;
+  text-align: center;
+  border-top: 1px solid teal;
 }
 
 input[type='checkbox'] {

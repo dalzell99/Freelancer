@@ -21,5 +21,6 @@ echo '
 <link href="css/external/default.date.css" rel="stylesheet" />
 <link href="css/global.css?' . filemtime('css/global.css') . '" rel="stylesheet" />
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
 '
 ?>

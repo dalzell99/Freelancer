@@ -13,7 +13,7 @@ $message = "
 </p>
 
 <p>
-    You can always login at <a href='$dashboardWebaddress'>$dashboardWebaddress</a> using the details below.
+    You can always login at <a href='http://owners.hostkeep.com.au'>http://owners.hostkeep.com.au</a> using the details below.
 </p>
 
 <table style='width: 90%; background-color: #e4e4e4'>
@@ -22,7 +22,7 @@ $message = "
             Link
         </td>
         <td>
-            <a href='$dashboardWebaddress'>$dashboardWebaddress</a>
+            <a href='http://owners.hostkeep.com.au'>http://owners.hostkeep.com.au</a>
         </td>
     </tr>
     <tr>

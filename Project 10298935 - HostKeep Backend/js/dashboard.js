@@ -1,5 +1,6 @@
 var adminUsername = "hello@hostkeep.com.au";
 
+var userList = [];
 var propertyList = [];
 var documentList = [];
 var filenameList = [];
@@ -61,7 +62,14 @@ $(function() {
         $("#adminSendWelcomeEmailToNewCustomerButton").on({
             click: function () {
                 // Creates a random password and sends a welcome email to all admin created users
-                $.post("./php/customer/sendwelcomeemailtonewusers.php");
+                $.post("./php/customer/sendwelcomeemailtonewusers.php", {
+                }, function (response) {
+                    if (response == 'success') {
+                        displayMessage('info', "Welcome messages have been sent to all new users");
+                    } else {
+                        displayMessage('error', 'Something went wrong sending the welcome emails to the new users. The web admin has been notified and will fix the problem as soon as possible.');
+                    }
+                });
             }
         });
 
@@ -87,8 +95,8 @@ $(function() {
                 } else {
                     // Dynamically create customer dropdown
                     var html = '<select id="headerUserSelect">';
-                    var users = JSON.parse(response);
-                    users.forEach(function(value, index, array) {
+                    userList = JSON.parse(response);
+                    userList.forEach(function(value, index, array) {
                         var propertyString = '';
                         value.properties.forEach(function (propName) {
                             propertyString += propName.name + ", ";
@@ -801,19 +809,6 @@ function directBooking() {
         hiddenName: true
     });
 
-    // Toggle add booking section
-    $("#directBookingShowAdd").on({
-        click: function () {
-            if ($("#directBookingAddNewBooking").css('display') == 'none') {
-                $("#directBookingAddNewBooking").slideDown();
-                $("#directBookingShowAdd").text("Hide Add New Booking");
-            } else {
-                $("#directBookingAddNewBooking").slideUp();
-                $("#directBookingShowAdd").text("Show Add New Booking")
-            }
-        }
-    });
-
     // Add property to the current user
     $("#directBookingAddButton").on({
         click: function () {
@@ -901,6 +896,53 @@ function admin() {
     $("div#headerTitle").text("Admin");
     $("nav .active").removeClass("active");
     $("nav .admin").addClass("active");
+
+    // Empty table to prevents duplicates
+    $("#userTable tbody").empty();
+
+    userList.forEach(function(value, index, array) {
+        var propertyString = '';
+        value.properties.forEach(function (propName) {
+            propertyString += propName.name + "<br />";
+        });
+
+        var html = '';
+
+        html += "<tr>";
+        html += "    <td>" + value.firstName + " " + value.lastName + "</td>";
+        html += "    <td>" + value.username + "</td>";
+        html += "    <td>" + propertyString + "</td>";
+        html += "    <td>";
+        html += "        <select class='status " + value.customerID + "'>";
+        html += "            <option value='active'>Active</option>";
+        html += "            <option value='retired'>Retired</option>";
+        html += "            <option value='proposal'>Proposal</option>";
+        html += "        </select>";
+        html += "    </td>";
+        html += "</tr>";
+
+        $("#userTable tbody").append(html);
+
+        $(".status." + value.customerID).val(value.status);
+    });
+
+    $("select.status").on({
+        change: function () {
+            $.post("./php/customer/changestatus.php", {
+                customerID: this.classList[1],
+                status: $(this).val()
+            }, function(response) {
+                if (response == 'success') {
+                    displayMessage('info', 'Status has been changed');
+                } else {
+                    displayMessage('error', 'Error creating changing the users status. The web admin has been notified and will fix the problem as soon as possible.');
+                }
+            }).fail(function (request, textStatus, errorThrown) {
+                //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+            });
+        }
+    });
+
     hideAllContainers();
     $("div#admin").show();
 }

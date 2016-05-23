@@ -20,7 +20,10 @@ if ($result = mysqli_query($con, $sql)) {
         echo 'incorrectusername';
     } else {
         $assoc = mysqli_fetch_assoc($result);
-        if ($assoc['lastLogin'] == '') {
+        if ($assoc['status'] == 'retired') {
+            // Echo retired if the account has been marked as retired
+            echo 'retired';
+        } else if ($assoc['lastLogin'] == '') {
             // If the customer hasn't logged in yet then update last login database info and send firsttime and json array of customer info
             mysqli_query($con, "UPDATE Customer SET lastLoginIP = '" . $_SERVER['REMOTE_ADDR'] . "', lastLogin = '" . date('c') . "' WHERE username = '$username'");
             echo 'firsttime' . json_encode($assoc);

@@ -32,3 +32,15 @@
         </td>
     </tr>
 </table>
+
+<table id='userTable'>
+    <thead>
+        <tr>
+            <th>Owner Name</th>
+            <th>Email Address</th>
+            <th>Properties</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>

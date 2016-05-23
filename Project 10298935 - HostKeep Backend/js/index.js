@@ -19,6 +19,9 @@ $(function() {
                     // If username and password are correct and it's the first time logging in then call setUserInfo and redirect to first-time to set new password
                     setUserInfo(response, 9);
                     window.location = "first-time.php"
+                } else if (response == 'retired') {
+                    // If the account has been marked as retired display a message
+                    displayMessage('error', "This account has been marked as retired. If this is incorrect, please send an email to hello@hostkeep.com.au");
                 } else if (response == 'incorrectpassword') {
                     // If username is correct but password isn't then display message
                     displayMessage('error', 'Your password appears to be incorrect, please try again');
