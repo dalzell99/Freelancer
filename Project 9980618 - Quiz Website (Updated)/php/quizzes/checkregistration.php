@@ -10,11 +10,13 @@ if (mysqli_connect_errno()) {
 $quizID = $_POST['quizID'];
 $userID = $_POST['userID'];
 
-$sql = "SELECT type, userRegistered FROM Quizzes WHERE quizID = '$quizID'";
+$sql = "SELECT type, userRegistered, cancelled FROM Quizzes WHERE quizID = '$quizID'";
 if ($result = mysqli_query($con, $sql)) {
     $row = mysqli_fetch_assoc($result);
     if ($row['type'] == 'paid') {
-        if (in_array($userID, json_decode($row['userRegistered']))) {
+        if ($row['cancelled'] == 'y') {
+            echo 'cancelled';
+        } else if (in_array($userID, json_decode($row['userRegistered']))) {
             $sql2 = "SELECT timeTaken FROM QuizResults WHERE quizID = '$quizID' AND userID = '$userID'";
             if ($result2 = mysqli_query($con, $sql2)) {
                 $row2 = mysqli_fetch_assoc($result2);
@@ -30,13 +32,13 @@ if ($result = mysqli_query($con, $sql)) {
     } else {
         $userRegistered = false;
         $userRegisteredArray = json_decode($row['userRegistered']);
-        
+
         for ($i = 0; $i < count($userRegisteredArray); $i += 1) {
             if ($userRegisteredArray[$i][0] == $userID) {
                 $userRegistered = true;
             }
         }
-        
+
         if ($userRegistered == true) {
             $sql2 = "SELECT timeTaken FROM QuizResults WHERE quizID = '$quizID' AND userID = '$userID'";
             if ($result2 = mysqli_query($con, $sql2)) {

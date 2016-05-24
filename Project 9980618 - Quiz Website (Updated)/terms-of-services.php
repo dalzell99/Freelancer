@@ -10,7 +10,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
         <h2 class="h2-heading">Terms of Service</h2>
 
         <p class="margin-top"> <hr/>
-       This web page represents a legal document that serves as our Terms of Service and it governs the legal terms of our website, http://quizeto.com, sub-domains, and any associated web-based and mobile applications (collectively, "Website"), as owned and operated by IQvirus Services Private Limited.
+       This web page represents a legal document that serves as our Terms of Service and it governs the legal terms of our website, https://quizeto.com, sub-domains, and any associated web-based and mobile applications (collectively, "Website"), as owned and operated by IQvirus Services Private Limited.
         </p>
         <p class="margin-top-10">Capitalized terms, unless otherwise defined, have the meaning specified within the Definitions section below. This Terms of Service, along with our Privacy Policy, any mobile license agreement, and other posted guidelines within our Website, collectively "Legal Terms", constitute the entire and only agreement between you and IQvirus Services Private Limited, and supersede all other agreements, representations, warranties and understandings with respect to our Website and the subject matter contained herein. We may amend our Legal Terms at any time without specific notice to you. The latest copies of our Legal Terms will be posted on our Website, and you should review all Legal Terms prior to using our Website. After any revisions to our Legal Terms are posted, you agree to be bound to any such changes to them. Therefore, it is important for you to periodically review our Legal Terms to make sure you still agree to them.</p>
         <p class="margin-top-10">By accessing this web site, you are agreeing to be bound by these Website Terms and Conditions of Use, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this Website are protected by applicable copyright and trademark law.</p>
@@ -58,7 +58,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
 
                 <p class="margin-top-10"> IQvirus Services Private Limited has no duty to keep track of any products published, transferred, or connected to or with the Site. If you think that something on the Website breaches these Terms please contact our marked representative as set forth below.</p>
                 <p class="margin-top-10">If alerted by a User of any products which allegedly do not conform to these Terms, IQvirus Services Private Limited could in its single discernment explore the allegation and figure out whether to take other actions or ask for the removal or get rid of the Content. IQvirus Services Private Limited has no liability or duty to Individuals for efficiency or nonperformance of such activities.</p>
-                   
+
             </div>
         </div>
 
@@ -80,14 +80,14 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
             </div>
         </div>
 
-		
+
         <div class="margin-top">
             <h3 class="red"><strong>Services not offered in Assam AND Orissa</strong></h3>
             <div style="margin-left:30px;">
                 <p>The applicable laws in the state of Assam and Orissa may prohibit a player from using the services offered on our website. There may be applicable penalties imposed on such user by the respective state governments or the central government of India as the case maybe.  Our company and its website doesn’t accept membership request from people who are residing in these states and if a user residing in such state becomes a member of the site by giving false information, the liability will be solely on the user and the company reserves the right to terminate the users membership without any notice and confiscate all his deposit and winnings as the case might be. You accept that iqzeto.com or Iqvirus Services Private Limited will not be liable to take any responsibility for the breach of the user of applicable state laws. Users from all state have to always ensure that they are following the applicable state laws and we will try to post any changes that we seem appropriate to better educate the users. Our decision in this regard will be final and no consideration whatsoever will be extended to the user.</p>
             </div>
         </div>
-		
+
         <div class="margin-top">
             <h3 class="red"><strong>Reviews, Comments, and Other Material</strong></h3>
             <div style="margin-left:30px;">
@@ -156,13 +156,13 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
         <div class="margin-top">
             <h3 class="red"><strong>Indemnity</strong></h3>
             <div style="margin-left:30px;">
-               You accept defend, indemnify, and hold safe IQvirus Services Private Limited, its affiliates, and their corresponding officers, directors, agents and workers, from and against any claims, actions or demands, including without limitation affordable legal, accounting, and other provider charges, affirming or resulting from 
+               You accept defend, indemnify, and hold safe IQvirus Services Private Limited, its affiliates, and their corresponding officers, directors, agents and workers, from and against any claims, actions or demands, including without limitation affordable legal, accounting, and other provider charges, affirming or resulting from
                 <div style="margin-left:50px;">
                     <p class="margin-top-10">(i) Any Content of most material You offer to the Site,</p>
                     <p class="margin-top-10">(ii) Your use of any Content, or  </p>
                     <p class="margin-top-10">(iii) Your breach of the terms of these Terms. IQvirus Services Private Limited will provide notice to You promptly of any such claim, match, or case.</p>
                 </div>
-                
+
 
             </div>
         </div>

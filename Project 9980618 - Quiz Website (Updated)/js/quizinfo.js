@@ -32,10 +32,14 @@ window.onload = function () {
                         populateQuestions();
                     }
 
-                    // Stop registration 10 minutes before start of quiz
-                    registrationQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 600000);
-                    // Update the prizes to reflect the redistributed prizes
-                    updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 600000);
+                    // Only create these timers if the quiz starts in more than 10 minutes
+                    if (moment(quiz.startTime).diff(moment()) > 600000) {
+                        // Stop registration 10 minutes before start of quiz
+                        registrationQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 600000);
+                        // Update the prizes to reflect the redistributed prizes
+                        updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 600000);
+                    }
+
                     // Don't allow people to start quiz after it has ended
                     endQuizTimer = setTimeout(populateTitle, moment(quiz.endTime).diff(moment()));
 
@@ -74,7 +78,8 @@ function updatePrizes() {
             updatePrizesTimer = setTimeout(updatePrizes, 5000);
         }  else if (response == 'cancelled') {
             alert("This quiz has been cancelled because not enough users registered for it. You have been refunded the quiz fee plus 1 bonus quizeto.");
-            $("#quizTitleRight").hide();
+            $("#quizTitleRight").html('QUIZ CANCELLED');
+            $("#countdownText").hide();            
         } else {
             alert('Error checking if prizes have been updated');
         }
@@ -105,7 +110,9 @@ function populateTitle() {
             html += '<div class="row">';
             html += '    <div id="quizNameTitle" class="col-xs-6 col-xs-offset-3">' + quiz.category + '</div>';
 
-            if (secondsToStartTime >= 600 && response == 'registered') {
+            if (response == 'cancelled') {
+                html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ CANCELLED</div>';
+            } else if (secondsToStartTime >= 600 && response == 'registered') {
                 html += '    <div id="quizTitleRight" class="col-xs-3">';
                 html += '        <button id="unregisterButton" class="btn btn-success btn-lg button" style="box-shadow:0 0 9px 3px rgba(0,0,0,.35)" onclick="unregisterQuiz(' + quiz.quizID + ')">UNREGISTER</button>';
                 html += '    </div>';
@@ -139,7 +146,7 @@ function populateTitle() {
             }
             html += '</div>';
 
-            if (secondsToStartTime > 0 || secondsToEndTime > 0) {
+            if ((secondsToStartTime > 0 || secondsToEndTime > 0) && response != 'cancelled') {
                 html += '<div class="row">';
                 html += '    <div id="countdownText" class="col-xs-12">' + getCountdownString(secondsToStartTime, secondsToEndTime) + '</div>';
                 html += '</div>';

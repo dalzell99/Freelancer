@@ -11,9 +11,9 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
         <h2 class="h2-heading">Privacy Policy</h2>
 
         <p class="margin-top"><hr/>
-        Our Privacy Policy was last updated and posted on May 10, 2016. It governs the privacy terms of our Website, located at http://quizeto.com, sub-domains, and any associated web-based and mobile applications (collectively, "Website"), as owned and operated by Quizeto Pvt Ltd. Any capitalized terms not defined in our Privacy Policy, have the meaning as specified in our Terms of Service.
+        Our Privacy Policy was last updated and posted on May 10, 2016. It governs the privacy terms of our Website, located at https://quizeto.com, sub-domains, and any associated web-based and mobile applications (collectively, "Website"), as owned and operated by Quizeto Pvt Ltd. Any capitalized terms not defined in our Privacy Policy, have the meaning as specified in our Terms of Service.
         </p>
-        <p class="margin-top-10">Your privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at <strong>http://quizeto.com.</strong> </p>
+        <p class="margin-top-10">Your privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at <strong>https://quizeto.com.</strong> </p>
 
         <div class="margin-top">
             <h3 class="red"><strong>The following outlines our privacy policy.</strong></h3>
@@ -25,7 +25,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
                 <p class="margin-top-10">•	We will collect personal information by lawful and fair means and, where appropriate, with the knowledge or consent of the individual concerned.</p>
                 <p class="margin-top-10">•	Personal data should be relevant to the purposes for which it is to be used, and, to the extent necessary for those purposes, should be accurate, complete, and up-to-date.</p>
                 <p class="margin-top-10">•	We will protect personal information by reasonable security safeguards against loss or theft, as well as unauthorized access, disclosure, copying, use or modification.</p>
-                <p class="margin-top-10">•	We will make readily available to customers information about our policies and practices relating to the management of personal information.</p>        
+                <p class="margin-top-10">•	We will make readily available to customers information about our policies and practices relating to the management of personal information.</p>
             </div>
 
         </div>
@@ -91,7 +91,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
                     <p class="margin-top-10">We retain the right to collect and use any Non Personal Information collected from your use of our Website and aggregate such data for internal analytics that improve our Website and Service as well as for use or resale to others. At no time is your Personally Identifiable Information included in such data aggregations.</p>
                     <h3 style="font-size: 19px;"><strong>•	Legally Required Releases of Information</strong></h3>
                     <p class="margin-top-10">We may be legally required to disclose your Personally Identifiable Information, if such disclosure is  </p>
-                    <div style="margin-left:70px">(a) required by subpoena, law, or other legal process; 
+                    <div style="margin-left:70px">(a) required by subpoena, law, or other legal process;
                         <p class="margin-top-10">(b) necessary to assist law enforcement officials or government enforcement agencies;  </p>
                         <p class="margin-top-10">(c) necessary to investigate violations of or otherwise enforce our Legal Terms; </p>
                         <p class="margin-top-10">(d) necessary to protect us from legal action or claims from third parties including you and/or other Members; and/or  </p>
@@ -100,7 +100,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
                     </div>
 
                 </div>
-               
+
 
             </div>
         </div>
@@ -144,7 +144,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
 
 
 
-    </div>       
+    </div>
 
 </div>
 

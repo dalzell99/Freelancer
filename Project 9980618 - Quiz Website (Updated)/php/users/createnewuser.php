@@ -21,13 +21,13 @@ $subject = "Welcome to IQzeto";
 $message = "
 <html>
     <body>
-        <img id='logo' src='http://iqzeto.com/images/logo3.png' alt=''>
+        <img id='logo' src='https://iqzeto.com/images/logo3.png' alt=''>
 
         <p><b>Greetings $username,</b></p>
 
         <p>Welcome to IQzeto.com, the world's best online quizzing platform</p>
 
-        <p><a href='http://iqzeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
+        <p><a href='https://iqzeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
 
         <p>IQzeto.com offers online trivia game show which is completely challenging and guarantees 24 hours entertainment with knowledge add-on from various fields. This is an online platform where brains across the globe come together and compete with each other's IQ & intelligence for millions of cash rewards at stake.</p>
 

@@ -22,7 +22,7 @@ $message = "
 
         <p><b>Greetings $username,</b></p>
 
-        <p><a href='http://iqzeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
+        <p><a href='https://iqzeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
 
 
         <p><b>Regards</b></p>

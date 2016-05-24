@@ -22,7 +22,7 @@ if (mysqli_num_rows($resultUser) > 0) {
     <html>
         <body>
             <p>Dear " . $username . ",<br>Click the link below to change your password:</p>
-            <p><a href='http://iqzeto.com/forgotpassword.php?username=" . $username . "&password=" . $password . "'>http://iqzeto.com/forgotpassword.php?username=" . $username . "&password=" . $password . "</a></p>
+            <p><a href='https://iqzeto.com/forgotpassword.php?username=" . $username . "&password=" . $password . "'>https://iqzeto.com/forgotpassword.php?username=" . $username . "&password=" . $password . "</a></p>
             <p>You can also copy and paste the above link in the address bar of your browser to change your password.</p>
             <p>Thanks & Regards,<br>Team IQzeto.com</p>
         </body>

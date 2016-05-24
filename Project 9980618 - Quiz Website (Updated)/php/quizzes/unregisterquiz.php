@@ -14,7 +14,7 @@ $sqlQuiz = "SELECT pointsCost, userRegistered, type FROM Quizzes WHERE quizID = 
 if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
     $rowQuiz = mysqli_fetch_assoc($resultQuiz);
     $userArray = json_decode($rowQuiz['userRegistered']);
-    
+
     if ($rowQuiz['type'] == 'free') {
         $index = -1;
         for ($i = 0; $i < count($userArray) && $index == -1; $i += 1) {
@@ -24,7 +24,7 @@ if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
                 $index = $i;
             }
         }
-        
+
         // Remove userID from array of users registered for this quiz
         array_splice($userArray, $index, 1);
         $userArrayUpdated = json_encode($userArray);
@@ -37,14 +37,14 @@ if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
         }
     } else {
         $sqlBalanceChange = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . $rowQuiz['pointsCost'] . " WHERE userID = '$userID'";
-        
+
         $index = -1;
         for ($i = 0; $i < count($userArray) && $index == -1; $i += 1) {
-            if ($userArray[$i][0] == $userID) {
+            if ($userArray[$i] == $userID) {
                 $index = $i;
             }
         }
-        
+
         // Remove userID from array of users registered for this quiz
         array_splice($userArray, $index, 1);
         $userArrayUpdated = json_encode($userArray);
@@ -56,7 +56,7 @@ if ($resultQuiz = mysqli_query($con, $sqlQuiz)) {
             echo json_encode(array('fail', $sqlBalanceChange . ', ' . $sqlAddUserToQuiz));
         }
     }
-    
+
 } else {
     echo json_encode(array('fail', $sqlUser . ', ' . $sqlQuiz));
 }
