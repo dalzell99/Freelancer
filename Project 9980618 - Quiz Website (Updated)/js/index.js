@@ -78,10 +78,10 @@ function checkUsername() {
 
                 isUsernameValid = true;
             } else {
-                alert('Error checking if username exists');
+                displayMessage('error', 'Error', 'Error checking if username exists');
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with checkusername function");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with checkusername function");
         });
     }
 }
@@ -121,10 +121,10 @@ function checkEmail() {
                 $("#emailValidation").removeClass().addClass('fa fa-check').css('color', 'green').show();
                 isEmailAddressValid = true;
             } else {
-                alert('Error checking if email exists');
+                displayMessage('error', 'Error', 'Error checking if email exists');
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with checkusername function");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with checkusername function");
         });
     }
 }
@@ -146,9 +146,9 @@ function updateLiveStats() {
                 $("#liveStatsPlayingSinceValue").text(timeLive);
                 $("#liveStatsTournamentPrizeValue").text('' + response[2]);
                 $("#liveStatsLiveQuizzesValue").text(response[3]);
-               // alert(response[3]);
+               // displayMessage('info', '', response[3]);
             }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with updateLiveStats function");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with updateLiveStats function");
     });
 }
 
@@ -247,9 +247,9 @@ function addTestimonials() {
                 $("#testimonials").hide();
             }
         } else {
-            alert("Testimonials failed to load.")
+            displayMessage('error', '', "Testimonials failed to load. Please use the contact form to inform us of this problem.")
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with addPromotions function");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with addPromotions function");
     });
 }

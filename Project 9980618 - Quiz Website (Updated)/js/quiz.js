@@ -1,4 +1,4 @@
-var quiz; 
+var quiz;
 var selectedAnswer;
 var answersGiven;
 var startQuizTime;
@@ -19,10 +19,10 @@ window.onload = function() {
             createQuestions();
             displayCountdown();
         } else {
-            alert("Error: " + response[1])
+            displayMessage('error', 'Error', "Err or: " + response[1])
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with startQuiz function");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with startQuiz function");
     });
 
     disableCopying();
@@ -99,19 +99,19 @@ function createQuestionsold() {
 }
 
 function displayCountdown() {
-    //$("#countdown").text("5");
-   // setTimeout(function() { $("#countdown").text("4"); }, 1000);
-   // setTimeout(function() { $("#countdown").text("3"); }, 2000);
-   // setTimeout(function() { $("#countdown").text("2"); }, 3000);
-   // setTimeout(function() { $("#countdown").text("1"); }, 4000);
-      setTimeout(function() { startQuiz(); });
+    $("#countdown").text("5");
+    setTimeout(function() { $("#countdown").text("4"); }, 1000);
+    setTimeout(function() { $("#countdown").text("3"); }, 2000);
+    setTimeout(function() { $("#countdown").text("2"); }, 3000);
+    setTimeout(function() { $("#countdown").text("1"); }, 4000);
+    setTimeout(function() { startQuiz(); }, 5000);
     if (!(quiz.quizID == 1 || quiz.quizID == 2)) {
         endTimer = setTimeout(endQuiz, moment(quiz.endTime).diff(moment()));
     }
 }
 
 function startQuiz() {
-   // $("#countdown").hide();
+    $("#countdown").hide();
     $("#questionsContainer").show();
     $("#quizFooter").show();
     $(".questionContainer.0").addClass('currentQuestion');
@@ -182,11 +182,11 @@ function endQuiz() {
             if (response == 'success') {
                 showResultsPage(correctAnswers, correctPercent, timeTaken, questions.length);
             } else {
-                alert('Error uploading your results. Contact the web admin for details on what to do. ' + response);
+                displayMessage('error', 'Error', 'Error uploading your results. Contact the web admin for details on what to do. ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            alert("There was a problem uploading your quiz results. Please check that you have a working internet connection. You will have 1 minute or until the quiz ends (whichever is less) to reconnect at which point your results will be uploaded. The results can be uploaded from any quizeto.com webpage. If your internet connect is working, then contact the web admin to inform them of this problem");
-            
+            displayMessage('warning', 'Results Not Uploaded', "There was a problem uploading your quiz results. Please check that you have a working internet connection. You will have 1 minute or until the quiz ends (whichever is less) to reconnect at which point your results will be uploaded. The results can be uploaded from any quizeto.com webpage. If your internet connect is working, then contact the web admin to inform them of this problem");
+
             // Store the quiz results in local storage and upload in the global method in global.js
             localStorage.quizResults = JSON.stringify({
                 quizID: quiz.quizID,
@@ -229,11 +229,11 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     }
                     $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
                 } else {
-                    alert('Error depositing your bonus quizetos in your account.');
+                    displayMessage('error', 'Error', 'Error depositing your bonus quizetos in your account.');
                     $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");
                 }
             }).fail(function (request, textStatus, errorThrown) {
-                //alert("Error: Something went wrong with showResultsPage function");
+                //displayMessage('error', 'Error', "Err or: Something went wrong with showResultsPage function");
             });
         } else {
             $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");
@@ -289,10 +289,10 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     }
                 }
             } else {
-                alert('Error retrieving leaderboard. ' + response[1]);
+                displayMessage('error', 'Error', 'Error retrieving leaderboard. ' + response[1]);
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with showResultsPage function");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with showResultsPage function");
         });
     }
 

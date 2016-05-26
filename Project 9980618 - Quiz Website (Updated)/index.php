@@ -225,8 +225,8 @@
             <div class="carousel-inner">
 
             </div>
-            <a class="left carousel-control" href="#promotionCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-            <a class="right carousel-control" href="#promotionCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+            <a class="left carousel-control" href="#promotionCarousel" data-slide="prev"><img src="images/arrow1.png" alt=""></a>
+            <a class="right carousel-control" href="#promotionCarousel" data-slide="next"><img src="images/arrow2.png" alt=""></a>
         </div>
 
     </div>
