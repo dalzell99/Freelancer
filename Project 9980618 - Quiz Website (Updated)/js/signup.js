@@ -66,10 +66,10 @@ function checkUsername() {
 
                 isUsernameValid = true;
             } else {
-                alert('Error checking if username exists');
+                displayMessage('error', 'Error checking if username exists');
             }
         }).fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with checkusername function");
+        //displayMessage('error', "Err or: Something went wrong with checkusername function");
     });
     }
 }
@@ -108,10 +108,10 @@ function checkEmail() {
                 $("#emailValidation").removeClass().addClass('fa fa-check').css('color', 'green').show();
                 isEmailAddressValid = true;
             } else {
-                alert('Error checking if email exists');
+                displayMessage('error', 'Error checking if email exists');
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with checkusername function");
+            //displayMessage('error', "Err or: Something went wrong with checkusername function");
         });
     }
 }

@@ -78,10 +78,10 @@ function checkUsername() {
 
                 isUsernameValid = true;
             } else {
-                alert('Error checking if username exists');
+                displayMessage('error', 'Error checking if username exists');
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with checkusername function");
+            //displayMessage('error', "Err or: Something went wrong with checkusername function");
         });
     }
 }
@@ -121,10 +121,10 @@ function checkEmail() {
                 $("#emailValidation").removeClass().addClass('fa fa-check').css('color', 'green').show();
                 isEmailAddressValid = true;
             } else {
-                alert('Error checking if email exists');
+                displayMessage('error', 'Error checking if email exists');
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with checkusername function");
+            //displayMessage('error', "Err or: Something went wrong with checkusername function");
         });
     }
 }
@@ -146,9 +146,9 @@ function updateLiveStats() {
                 $("#liveStatsPlayingSinceValue").text(timeLive);
                 $("#liveStatsTournamentPrizeValue").text('' + response[2]);
                 $("#liveStatsLiveQuizzesValue").text(response[3]);
-               // alert(response[3]);
+               // displayMessage('info', response[3]);
             }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with updateLiveStats function");
+        //displayMessage('error', "Err or: Something went wrong with updateLiveStats function");
     });
 }
 
@@ -157,33 +157,51 @@ function addPromotions() {
     }, function (response) {
         if (response[0] == 'success') {
             var html = '';
-            html += '<div class="carousel-inner" role="listbox">';
 
             for (var i = 0; response[1] != null && i < response[1].length; i += 1) {
                 html += '    <div class="item ">';
+                html += '        <div class="col-md-4">';
                 if (sessionStorage.loggedIn == 'true') {
                     html += '        <a href="quizinfo.php?id=' + response[1][i].quizID + '">';
                 } else {
                     html += '        <a href="letsplayfree.php?id=' + response[1][i].quizID + '">';
                 }
-                html += '            <img class="promotionImage" src="./php/promotions/uploads/' + response[1][i].imageURL + '">';
-                html += '        </a>';
+                html += '            <img class="promotionImage img-responsive" src="./php/promotions/uploads/' + response[1][i].imageURL + '">';
+                html += '            </a>';
+                html += '        </div>';
                 html += '    </div>';
             }
-            html += '</div>';
-            html += '<a class="left carousel-control" href="#promotionCarousel" data-slide="prev" style=" margin:190px auto; margin-left:10px;	"><img src="images/arrow1.png" alt="" /></a><a class="right carousel-control" href="#promotionCarousel" data-slide="next"  style=" margin:190px auto;"><img src="images/arrow2.png" alt="" /></a>';
 
-            $("#promotionCarousel").empty().append(html);
-            $("#promotionCarousel > div > :nth-child(1)").addClass('active');
+            $("#promotionCarousel .carousel-inner").empty().append(html);
+            $("#promotionCarousel .carousel-inner :nth-child(1)").addClass('active');
 
             if (response.length == 0) {
                 $("#promotions").hide();
             }
+
+            $('#myCarousel').carousel({
+                interval: 3000
+            });
+
+            $('.carousel .item').each(function() {
+                var next = $(this).next();
+                if (!next.length) {
+                    next = $(this).siblings(':first');
+                }
+                next.children(':first-child').clone().appendTo($(this));
+
+                if (next.next().length > 0) {
+                    next.next().children(':first-child').clone().appendTo($(this));
+                }
+                else {
+                    $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+                }
+            });
         } else {
-            alert("Promotions failed to load.")
+            displayMessage('info', "Promotions failed to load.")
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with addPromotions function");
+        //displayMessage('error', "Err or: Something went wrong with addPromotions function");
     });
 }
 
@@ -229,9 +247,9 @@ function addTestimonials() {
                 $("#testimonials").hide();
             }
         } else {
-            alert("Testimonials failed to load.")
+            displayMessage('info', "Testimonials failed to load.")
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with addPromotions function");
+        //displayMessage('error', "Err or: Something went wrong with addPromotions function");
     });
 }

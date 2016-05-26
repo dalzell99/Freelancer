@@ -16,9 +16,9 @@ window.onload = function() {
         } else if (response == 'incorrect') {
             $("#notConfirmed").show();
         } else {
-            alert("Error setting your email as verified. Please contact the web admin.");
+            displayMessage('error', "Err or setting your email as verified. Please contact the web admin.");
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with window.onLoad function");
+        //displayMessage('error', "Err or: Something went wrong with window.onLoad function");
     });
 }

@@ -55,7 +55,7 @@
                                 <span  class=" btn1 btn btn-success btn-lg"> Get Started</span>
 
                             </a>
-                        </span> 
+                        </span>
                     </div></div>
                 <div class="da-slide" style="background-image:url(images/banner2.png); width:100%; " >
                     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
@@ -116,10 +116,10 @@
                         <input type="text" id="userRegisterEmail" class="form-control input-sm chat-input" placeholder="Email Id"  /> </br>
                         <input type="text" id="userRegisterPhone" class="form-control input-sm chat-input" placeholder="Mobile Number" style="margin-bottom:15px; margin-top:15px !important;" /> </br>
                         <div style="font-family: Homizio Nova; font-size:10px;">
-                            <input type="checkbox" id="userRegisterTerms" value="1" style="    width: 11px;height: 11px;"> 
-                            <span>I agree to the <a href="terms-of-services.php" > Terms of Service and Privacy Policy</a></span> 
+                            <input type="checkbox" id="userRegisterTerms" value="1" style="    width: 11px;height: 11px;">
+                            <span>I agree to the <a href="terms-of-services.php" > Terms of Service and Privacy Policy</a></span>
                         </div>
-                        <div class="wrapper">  
+                        <div class="wrapper">
                             <button class="btn btn-default btn-lg btn-1" id='userRegisterSignup' onclick='createNewUser()'>SIGN UP</button>
                         </div>
                     </div>
@@ -136,10 +136,10 @@
 
     <div class="row-fluid" id="services">
         <!-- FEATURE ITEM-->
-        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 padding0  animated fadeInDown wow" style="    margin-bottom: 85px;">	
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 padding0  animated fadeInDown wow" style="    margin-bottom: 85px;">
             <div class="col-xs-12 col-sm-4 col-lg-4  animated fadeInDown wow mbl-top" style=" margin-top:-25px;" >
                 <div class="span3 center">
-                    <div class="box1 span3 animated fadeInDown wow">							
+                    <div class="box1 span3 animated fadeInDown wow">
                         <div class="icon">
                             <div class="image  animated fadeInDown wow"><img src="images/mission-icon.png" alt="" style="margin: -23px 0px 0px 0px; transform: scale(1.25);" /></div>
                             <div class="info">
@@ -160,8 +160,8 @@
                 </div></div>
 
             <div class="col-xs-12 col-sm-4 col-lg-4  animated fadeInDown wow  mbl-top" >
-                <div class="span3 center"> 
-                    <div class="box1  animated fadeInDown wow">							
+                <div class="span3 center">
+                    <div class="box1  animated fadeInDown wow">
                         <div class="icon  animated fadeInDown wow">
                             <div class="image  animated fadeInDown wow"><img src="images/vission+icon.png" alt="" style="margin: -23px 0px 0px 0px;" /></div>
                             <div class="info">
@@ -182,12 +182,12 @@
 
             <div class="col-xs-12 col-sm-4 col-lg-4  animated fadeInDown wow  mbl-top" >
                 <div class="span3 center">
-                    <div class="box1  animated fadeInDown wow">							
+                    <div class="box1  animated fadeInDown wow">
                         <div class="icon  animated fadeInDown wow">
                             <div class="image"><img src="images/we+offer+icon.png" alt="" style="margin: -23px 0px 0px 0px;" /></div>
                             <div class="info">
                                 <h3 class="title">What We Offer</h3>
-                                <p  class="more"> 
+                                <p  class="more">
                                     We at IQzeto.com empower life learning and follow the principle of 'earning while learning'. We do this with Quiz Alerts with an end goal to test information about different subjects at the same time helping everyone to become monetarily independent. We pride ourselves on being family-accommodating and empower friendly rivalry by means of our Leader board.
 
 
@@ -213,10 +213,19 @@
 <div class=" container margin-top" >
     <h2 class="h2-heading1 animated fadeInDown wow margin-35">Promotion <br/>  <img src="images/line.png" alt="" class="mbl-none" /></h2>
     <div class="row" id='promotions'>
+        <!--
         <div id="promotionCarousel" class="carousel slide" data-ride="carousel">
 
         </div>
-        <!-- Carousel -->
+        Carousel -->
+
+        <div class="carousel slide" id="promotionCarousel">
+            <div class="carousel-inner">
+
+            </div>
+            <a class="left carousel-control" href="#promotionCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            <a class="right carousel-control" href="#promotionCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+        </div>
 
     </div>
 </div>
@@ -231,7 +240,7 @@
 
             <a href="#" class="box one  animated fadeInDown wow">
                 <figure><img  src="images/image1.png" class="img-responsive text-center" alt="" /></figure>
-                <h3 class="heading2">SIGN UP</h3> 
+                <h3 class="heading2">SIGN UP</h3>
                 <div class="box-intro">
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Create your account </p>
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Verify your email id</p>
@@ -267,7 +276,7 @@
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Take the quiz at scheduled time </p>
                     <!--<button class="btn btn-danger" style="text-align: center;    margin: 8px 0px 0px 48px;">Read More</button>-->
                 </div>
-            </a>  
+            </a>
 
         </div>
         <div class="col-md-3 col-xs-12 col-sm-6 col-lg-3 padding0  animated fadeInDown wow wincash-box">
@@ -313,7 +322,7 @@
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp; Amount gets credited to your acccount </p>
                     <!-- <button class="btn btn-danger" style="text-align: center;    margin: 8px 0px 0px 48px;">Read More</button>-->
                 </div>
-            </a>  
+            </a>
 
         </div>
 
@@ -321,7 +330,7 @@
     </div>
 </div>
 
-<div class="container-fluid  animated fadeInDown wow top1 " style=" ">       
+<div class="container-fluid  animated fadeInDown wow top1 " style=" ">
     <div class="container  animated fadeInDown wow">
         <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 padding0">
 
@@ -335,18 +344,18 @@
                 <iframe src="https://www.youtube.com/embed/fRygg1fmTZc" frameborder="0" class="video-size" allowfullscreen></iframe>
             </div>
         </div>
-    </div> 
-</div> 
+    </div>
+</div>
 
 <!-- Start Website Description and Testimonials -->
-<div class="container-fluid  animated fadeInDown wow top-30"  style="background-image:url(images/tetmonials+image.png); " >               
+<div class="container-fluid  animated fadeInDown wow top-30"  style="background-image:url(images/tetmonials+image.png); " >
     <div class="container content  animated fadeInDown wow">
         <h2 class="h2-heading1" style="color:#fff">Testimonials<br/>
-            <img src="images/line-1.png" alt="" class="mbl-none" /></h2> 
+            <img src="images/line-1.png" alt="" class="mbl-none" /></h2>
         <!--<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">-->
         <div id='testimonials' class='col-xs-12'>
             <div id="testimonialCarousel" class="carousel slide" data-ride="carousel">
-            </div>       
+            </div>
         </div>
     </div>
 
@@ -405,6 +414,6 @@
 </div>
 <div class="clearfix"></div>
 <!-- End Live Stats -->
-       
+
 
 <?php include('footer.php'); ?>

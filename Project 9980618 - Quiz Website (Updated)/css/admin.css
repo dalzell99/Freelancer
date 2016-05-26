@@ -12,23 +12,22 @@
 
 .databaseTable {
   text-align: center;
-     box-shadow: 0 0 20px 0px rgba(0,0,0,.35);
-  border-spacing: 0px;
+  border-collapse: separate;
+  border-spacing: 3px;
   background-color: white;
-  margin: 0 1px; width:100%;
+  margin: 0 1px;
 }
 
-
 .databaseTable th {
-  border: 1px #eee solid;
-  background-color: #00b6f2;
+  border: 1px black solid;
+  background-color: #33b5e5;
   color: snow;
   padding: 8px;
   text-align: center;
 }
 
 .databaseTable td {
-  border: 1px #eee solid;
+  border: 1px black solid;
   padding: 5px;
 }
 

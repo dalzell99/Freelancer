@@ -7,12 +7,11 @@
 }
 
 #withdrawCheque, #withdrawBankTransfer {
-     background-color: #428bca;
-    font-size: 1.5em;
-    color: black;
-    padding: 3px 16px;
-    border-radius: 0px;
-    color: #fff;    font-size: 17px;
+  background-color: #428bca;
+  font-size: 1.5em;
+  color: black;
+  padding: 8px 18px;
+  border-radius: 7px;
 }
 
 #myAccountProfileImage {
@@ -41,6 +40,7 @@
   text-align: center;
   padding: 10px;
 }
+
 .tablePaginationContainer {
   color: black;
 }

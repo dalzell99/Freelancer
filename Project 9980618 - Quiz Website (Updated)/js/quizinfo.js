@@ -26,28 +26,32 @@ window.onload = function () {
                     populateLeaders();
                     populateRules();
                     $('#quizQnsDiv').hide();
-                    //alert('sdfdsf');
+                    //displayMessage('info', 'sdfdsf');
                     if (moment(quiz.endTime).diff(moment()) < 0) {
                         $('#quizQnsDiv').show();
                         populateQuestions();
                     }
 
-                    // Only create these timers if the quiz starts in more than 10 minutes
+                    // Only create this timer if the quiz starts in more than 10 minutes
                     if (moment(quiz.startTime).diff(moment()) > 600000) {
                         // Stop registration 10 minutes before start of quiz
                         registrationQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 600000);
+                    }
+
+                    // Only create this timer if the quiz starts in more than 2 minutes
+                    if (moment(quiz.startTime).diff(moment()) > 120000) {
                         // Update the prizes to reflect the redistributed prizes
-                        updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 600000);
+                        updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 120000);
                     }
 
                     // Don't allow people to start quiz after it has ended
                     endQuizTimer = setTimeout(populateTitle, moment(quiz.endTime).diff(moment()));
 
                 } else {
-                    alert("Error: " + response[1])
+                    displayMessage('error', "Err or: " + response[1])
                 }
             }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with onload function");
+        //displayMessage('error', "Err or: Something went wrong with onload function");
     });
 }
 
@@ -77,14 +81,14 @@ function updatePrizes() {
             // The quiz prizes haven't been redistributed yet so check again in 5 seconds
             updatePrizesTimer = setTimeout(updatePrizes, 5000);
         }  else if (response == 'cancelled') {
-            alert("This quiz has been cancelled because not enough users registered for it. You have been refunded the quiz fee plus 1 bonus quizeto.");
+            displayMessage('info', "This quiz has been cancelled because not enough users registered for it. You have been refunded the quiz fee plus 1 bonus quizeto.");
             $("#quizTitleRight").html('QUIZ CANCELLED');
-            $("#countdownText").hide();            
+            $("#countdownText").hide();
         } else {
-            alert('Error checking if prizes have been updated');
+            displayMessage('error', 'Error checking if prizes have been updated');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        alert("Error: Something went wrong with  AJAX POST");
+        displayMessage('error', "Err or: Something went wrong with  AJAX POST");
     });
 }
 
@@ -139,7 +143,7 @@ function populateTitle() {
                 setInterval(populateLeaders, 15000);
             } else if (secondsToEndTime >= 0) {
                 html += '    <div id="quizTitleRight" class="col-xs-3">ERROR</div>';
-                alert("Error checking if you are registered for this quiz or if you have already completed the quiz. Please contact web admin about this problem.");
+                displayMessage('error', "Err or checking if you are registered for this quiz or if you have already completed the quiz. Please contact web admin about this problem.");
             } else {
                 html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ ENDED</div>';
                 populateQuestions();
@@ -161,7 +165,7 @@ function populateTitle() {
                 $("#startButton").hide();
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with populateTitles function");
+            //displayMessage('error', "Err or: Something went wrong with populateTitles function");
         });
     }
 }
@@ -300,10 +304,10 @@ function populateLeaders() {
                         //  html += '</div>';
                         $("#quizUsers").empty().append(html);
                     } else {
-                        alert('Error: ' + response[1]);
+                        displayMessage('error', 'Error: ' + response[1]);
                     }
                 }, 'json').fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with onload function");
+            //displayMessage('error', "Err or: Something went wrong with onload function");
         });
     } else {
         var html = '';
@@ -385,15 +389,15 @@ function registerQuiz(id, type) {
                 if (response[0] == 'success') {
                     populateTitle();
                     updatePoints();
-                    alert('You have been registered for this quiz.');
+                    displayMessage('info', 'You have been registered for this quiz.');
                 } else if (response[0] == 'notenoughpoints') {
-                    alert('You don\'t have enough points for this quiz.');
+                    displayMessage('info', 'You don\'t have enough points for this quiz.');
                 } else {
-                    //alert('Error registering for this quiz. Please try again later.');
-                    alert(response[1]);
+                    //displayMessage('error', 'Error registering for this quiz. Please try again later.');
+                    displayMessage('info', response[1]);
                 }
             }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with registerQuiz function");
+        //displayMessage('error', "Err or: Something went wrong with registerQuiz function");
     });
 }
 
@@ -406,13 +410,13 @@ function unregisterQuiz(id) {
                 if (response[0] == 'success') {
                     populateTitle();
                     updatePoints();
-                    alert('You have been unregistered from this quiz.');
+                    displayMessage('info', 'You have been unregistered from this quiz.');
                 } else {
-                    //alert('Error unregistering from this quiz. Please try again later.');
-                    alert(response[1]);
+                    //displayMessage('error', 'Error unregistering from this quiz. Please try again later.');
+                    displayMessage('info', response[1]);
                 }
             }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with registerQuiz function");
+        //displayMessage('error', "Err or: Something went wrong with registerQuiz function");
     });
 }
 

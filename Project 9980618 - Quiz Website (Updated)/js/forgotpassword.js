@@ -33,14 +33,14 @@ function createNewPassword() {
         if (response == 'success') {            
             $("#forgotPassword").hide();
             $("#createNewPassword").show();
-            alert("Your password has been reset. Check your emails for the link to set your new password.");
+            displayMessage('info', "Your password has been reset. Check your emails for the link to set your new password.");
         } else if (response == 'incorrect') {
-            alert("The username or email entered is incorrect")
+            displayMessage('info', "The username or email entered is incorrect")
         } else {
-            alert("Error sending the new password. Please contact the web admin to inform them of this error.")
+            displayMessage('error', "Err or sending the new password. Please contact the web admin to inform them of this error.")
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with login function");
+        //displayMessage('error', "Err or: Something went wrong with login function");
     });
 }
 
@@ -50,11 +50,11 @@ function checkTempPassword(username, password) {
         password: password
     }, function (response) {
         if (response == 'incorrect') {
-            alert("The password included in the web address is incorrect. Please contact the web admin to inform them of this error.");
+            displayMessage('info', "The password included in the web address is incorrect. Please contact the web admin to inform them of this error.");
             $("#createNewPassword").hide();
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with checkTempPassword function");
+        //displayMessage('error', "Err or: Something went wrong with checkTempPassword function");
     });
 }
 
@@ -66,13 +66,13 @@ function changePassword() {
             newPassword: $("#newPassword").val()
         }, function (response) {
             if (response == 'success') {
-                alert("Your new password has been set. You can now log in with the new password.");
+                displayMessage('info', "Your new password has been set. You can now log in with the new password.");
                 sessionStorage.passwordChanged = 'true';
             } else {
-                alert("Error setting the new password. Please contact the web admin to inform them of this error.")
+                displayMessage('error', "Err or setting the new password. Please contact the web admin to inform them of this error.")
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with changePassword function");
+            //displayMessage('error', "Err or: Something went wrong with changePassword function");
         });
     }
 }

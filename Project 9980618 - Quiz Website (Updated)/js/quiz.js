@@ -19,10 +19,10 @@ window.onload = function() {
             createQuestions();
             displayCountdown();
         } else {
-            alert("Error: " + response[1])
+            displayMessage('error', "Err or: " + response[1])
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //alert("Error: Something went wrong with startQuiz function");
+        //displayMessage('error', "Err or: Something went wrong with startQuiz function");
     });
 
     disableCopying();
@@ -182,10 +182,10 @@ function endQuiz() {
             if (response == 'success') {
                 showResultsPage(correctAnswers, correctPercent, timeTaken, questions.length);
             } else {
-                alert('Error uploading your results. Contact the web admin for details on what to do. ' + response);
+                displayMessage('error', 'Error uploading your results. Contact the web admin for details on what to do. ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            alert("There was a problem uploading your quiz results. Please check that you have a working internet connection. You will have 1 minute or until the quiz ends (whichever is less) to reconnect at which point your results will be uploaded. The results can be uploaded from any quizeto.com webpage. If your internet connect is working, then contact the web admin to inform them of this problem");
+            displayMessage('info', "There was a problem uploading your quiz results. Please check that you have a working internet connection. You will have 1 minute or until the quiz ends (whichever is less) to reconnect at which point your results will be uploaded. The results can be uploaded from any quizeto.com webpage. If your internet connect is working, then contact the web admin to inform them of this problem");
             
             // Store the quiz results in local storage and upload in the global method in global.js
             localStorage.quizResults = JSON.stringify({
@@ -229,11 +229,11 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     }
                     $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
                 } else {
-                    alert('Error depositing your bonus quizetos in your account.');
+                    displayMessage('error', 'Error depositing your bonus quizetos in your account.');
                     $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");
                 }
             }).fail(function (request, textStatus, errorThrown) {
-                //alert("Error: Something went wrong with showResultsPage function");
+                //displayMessage('error', "Err or: Something went wrong with showResultsPage function");
             });
         } else {
             $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");
@@ -289,10 +289,10 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     }
                 }
             } else {
-                alert('Error retrieving leaderboard. ' + response[1]);
+                displayMessage('error', 'Error retrieving leaderboard. ' + response[1]);
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
-            //alert("Error: Something went wrong with showResultsPage function");
+            //displayMessage('error', "Err or: Something went wrong with showResultsPage function");
         });
     }
 

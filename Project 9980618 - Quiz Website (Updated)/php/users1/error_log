@@ -1,9 +1,0 @@
-[12-May-2016 06:43:56 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
-[13-May-2016 03:53:21 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/users/getmyaccountinfo.php on line 10
-[13-May-2016 11:08:50 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/demo/php/users/getmyaccountinfo.php on line 10
-[16-May-2016 08:59:10 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/demo/php/users/login.php on line 10
-[16-May-2016 08:59:10 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/demo/php/users/login.php on line 15
-[16-May-2016 08:59:10 UTC] PHP Notice:  Undefined index: password in /home/quizetoc/public_html/demo/php/users/login.php on line 17
-[17-May-2016 05:00:33 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/demo/php/users/login.php on line 10
-[17-May-2016 05:00:33 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/demo/php/users/login.php on line 15
-[17-May-2016 05:00:33 UTC] PHP Notice:  Undefined index: password in /home/quizetoc/public_html/demo/php/users/login.php on line 17

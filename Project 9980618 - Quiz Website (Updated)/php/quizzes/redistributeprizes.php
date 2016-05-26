@@ -15,12 +15,12 @@ $percentages = mysqli_fetch_assoc($resultDistribution);
 $sqlQuizzes = "SELECT * FROM Quizzes WHERE checked = 'n' AND type = 'paid'";
 $resultQuizzes = mysqli_query($con, $sqlQuizzes);
 while ($quiz = mysqli_fetch_assoc($resultQuizzes)) {
-    // Check if there is less than 10 minutes to start of quiz
+    // Check if there is less than 2 minutes to start of quiz
     $startTime = strtotime($quiz['startTime']);
     $now = time();
 
-    if ($startTime - $now < 600) {
-        // If quiz starts within 10 minutes (600 seconds) then check if 10 or more users registered
+    if ($startTime - $now < 120) {
+        // If quiz starts within 2 minutes (120 seconds) then check if 10 or more users registered
         if (count(json_decode($quiz['userRegistered'])) >= $quiz['minPlayers']) {
             // If 10 or more registered then distribute prizes based on above percentages
             $totalRegistrationFees = count(json_decode($quiz['userRegistered'])) * $quiz['pointsCost'];

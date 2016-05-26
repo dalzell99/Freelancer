@@ -29,7 +29,7 @@ $pointsRewards = json_encode(
     )
 );
 
-$sql = "INSERT INTO Quizzes VALUES (DEFAULT, '$type', '$questions', '$category', '$pointsRewards', $pointsCost, '$startTime', '$endTime', -1, '[]', '$rules', 'n', 'n', 'n', $minPlayers)";
+$sql = "INSERT INTO Quizzes (type, questions, category, pointsRewards, pointsCost, startTime, endTime, rules, minPlayers) VALUES ('$type', '$questions', '$category', '$pointsRewards', $pointsCost, '$startTime', '$endTime', '$rules', $minPlayers)";
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';

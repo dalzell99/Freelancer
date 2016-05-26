@@ -23,9 +23,8 @@
 }
 
 .quizRow {
- /* background-color: papayawhip;*/
-  background-color: #fff ;
-  border-radius: 0px;
+  background-color: papayawhip;
+  border-radius: 20px;
   color: black;
   padding: 10px;
   margin: 15px 0;
@@ -63,8 +62,8 @@
 
 .viewButton {
   display: block;
-  margin: 30px auto 0;
-  padding:4px 10px; border-radius:0px;
+  margin: 25px auto 0;
+  height: 50px;
   width: 100px;
   font-size: 1.5em;
 }

@@ -7,7 +7,7 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$sql = "SELECT quizID, type, questions, category, pointsRewards, pointsCost, startTime, endTime, rules, userRegistered, minPlayers FROM Quizzes";
+$sql = "SELECT quizID, type, questions, category, pointsRewards, pointsCost, startTime, endTime, rules, userRegistered, minPlayers FROM Quizzes WHERE archived = 'n'";
 $response = [];
 
 if ($result = mysqli_query($con, $sql)) {

@@ -2,7 +2,7 @@ body {
   color: initial;
 }
 
-.quizInfoPanels1 {
+.quizInfoPanels {
   border-radius: 10px;
   margin: 10px 5px;
   padding: 10px;
@@ -13,16 +13,13 @@ body {
 #quizNameTitle {
   text-align: center;
   font-size: xx-large;
-  color:#fff;
 }
 
 #quizTitleRight {
   text-align: center;
-  font-size: 25px;
-  padding-top: 4px;
-  color:#fff;
+  font-size: 1.3em;
+  padding-top: 10px;
 }
-
 
 #countdownText {
   text-align: center;
