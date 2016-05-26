@@ -1,0 +1,129 @@
+body {
+  padding: 30px 0;
+}
+
+@media (max-width: 992px) {
+  body {
+    padding: 50px 0;
+  }
+}
+
+.questionContainer, #questionsContainer, #quizFooter, #quizResults {
+  display: none;margin-top: 60px;
+}
+
+.currentQuestion {
+  display: block;
+}
+
+#countdown {
+  margin: 20% 0 0 40%;
+  font-size: 10em;
+}
+
+#timeLeft {
+  font-size: 1.5em;
+}
+
+.question {
+  text-align: center;
+  font-size: 3em;
+  padding: 15px;
+  font-weight: bold;
+}
+
+.answer {
+  text-align: center;
+  margin: 10px;
+  border: 1px lightgrey solid;
+  border-radius: 5px;
+  font-size: 2em;
+  background: whitesmoke;
+  padding: 10px;
+  color: initial;
+}
+
+.answer.selectedAnswer {
+  background-color: #56a634;
+    color: #fff;
+}
+
+@media (max-width: 1200px) {
+    .question {
+        font-size: 2.5em;
+        padding: 12px;
+    }
+    .answer {
+        margin: 8px;
+        font-size: 1.75em;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 992px) {
+    .question {
+        font-size: 2em;
+        padding: 9px;
+    }
+    .answer {
+        margin: 6px;
+        font-size: 1.5em;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .question {
+        font-size: 1.5em;
+        padding: 6px;
+    }
+    .answer {
+        margin: 4px;
+        font-size: 1.25em;
+        padding: 10px;
+    }
+}
+
+.buttonContainer {
+  text-align: center;
+}
+
+.submitButton, .skipButton {
+  margin: 10px 30px;
+}
+
+@media (max-width: 768px) {
+  #quizFooter {
+    width: 80%;
+  }
+}
+
+.submitAnswersButton {
+  right: 30px;
+  top: 10px;
+  position: fixed;
+}
+
+#quizResultTable {
+  width: 100%;
+}
+
+#quizResultTable th, #quizResultTable td {
+  padding: 10px;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  #quizResultTable th, #quizResultTable td {
+    font-size: 1.3em;
+  }
+}
+
+#resultText {
+  font-size: 1.3em;
+}
+
+.leaderboardUserImage {
+  width: 70px;
+}

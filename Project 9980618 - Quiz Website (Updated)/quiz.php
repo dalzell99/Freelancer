@@ -16,7 +16,7 @@
         <link rel="stylesheet" type="text/css" href="css/parallax_slider/nojs.html" />
         </noscript>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-        <link href="assets/css/font-awesome.min.css" rel="stylesheet"> 
+        <link href="assets/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet" id="colors"><!-- !important THIS STYLE CSS ON BOTTOM OF STYLEs LIST-->
         <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -36,7 +36,7 @@
             }
         </style>
         <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-1.12.2.min.js" integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk=" crossorigin="anonymous"></script>   
+        <script src="https://code.jquery.com/jquery-1.12.2.min.js" integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk=" crossorigin="anonymous"></script>
         <!-- User Script -->
 
         <?php echo '<script type="text/javascript" src="js/global.js?' . filemtime('js/global.js') . '"></script>'; ?>
@@ -56,7 +56,7 @@
         <script type="text/javascript" src="js/external/intlTelInput.min.js"></script>
     </head>
     <body>
-      
+
 
 <?php
 echo '<link href="css/external/flipclock.css" rel="stylesheet">';
@@ -91,14 +91,14 @@ echo '<script type="text/javascript" src="js/quiz.js?' . filemtime('js/quiz.js')
 
 </div>
 
-                
+
 
 
 <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/js/bootstrap.js"></script>
 <script type="text/javascript" src="assets/js/modernizr.custom.28468.js"></script>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
-<script src="assets/js/bootstrap.js" type="text/javascript"></script> 
+<script src="assets/js/bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript" src="assets/js/jquery.cslider.js"></script>
 
 <script>
@@ -188,7 +188,7 @@ echo '<script type="text/javascript" src="js/quiz.js?' . filemtime('js/quiz.js')
         });
     });
 
-</script> 
+</script>
 <script>
     $(document).ready(function () {
         // Configure/customize these variables.

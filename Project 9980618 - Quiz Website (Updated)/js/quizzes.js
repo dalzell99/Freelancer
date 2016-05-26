@@ -13,7 +13,7 @@ window.onload = function () {
         sessionStorage.quizType = 'free';
     }
     updateQuizzes();
-    updateQuizzesTimer = setInterval(updateQuizzes, 5000);
+    //updateQuizzesTimer = setInterval(updateQuizzes, 5000);
 
     if (getUrlVars()['type'] == 'free') {
         showFreeQuizzes();
@@ -35,7 +35,7 @@ function updateQuizzes() {
                     updateCountdownsTimer = setInterval(updateCountdownTimers, 1000);
                 }
             }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
+        //alert("Error: Something went wrong with onload function");
     });
 }
 

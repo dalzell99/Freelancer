@@ -1,0 +1,95 @@
+/* ----------- Remove Carousel Controls ----------- */
+.carousel-inner > .item > img {
+  margin: 0 auto;
+}
+
+/* -------------- Bootstrap Checkbox -------------- */
+input[type="checkbox"].styled:checked + label:after,
+input[type="radio"].styled:checked + label:after,
+.checkbox input[type=checkbox]:checked + label:after {
+  font-family: 'Glyphicons Halflings';
+  content: "\e013";
+}
+
+input[type="checkbox"].styled:checked label:after,
+input[type="radio"].styled:checked label:after,
+.checkbox label:after {
+  padding-left: 4px;
+  padding-top: 2px;
+  font-size: 9px;
+}
+
+/* ---------------- Index.php CSS ----------------- */
+#liveStats {
+  font-size: 2em;
+  text-align: center;
+  padding: 40px 0;
+}
+
+#liveStats > .row > .liveStatUser {
+  color: red;
+}
+
+#liveStats > .row > .liveStatTime {
+  color: orange;
+}
+
+#liveStats > .row > .liveStatPrizes {
+  color: #0076ff;
+}
+
+#liveStats > .row > .liveStatQuizzes {
+  color: green;
+}
+
+#howItWorksTitle {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.howtoImage {
+  width: 100px;
+  margin: 15px auto;
+  display: block;
+}
+
+.howtoTitle {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+#promotions, #websiteDescription, #howto, #testimonials {
+  /*padding: 40px 0;*/
+}
+
+.mainContainer {
+  /*height: initial;*/
+}
+
+.carousel-inner > .item > a > img, .carousel-inner > .item > img {
+  /*height: 400px;
+  display: block;  width: 100%;
+  margin: 0 auto;*/
+}
+
+.testimonialImages {
+/*  width: 80px;*/
+}
+
+#signupLabel {
+  /*font-size: 1.7em;*/
+}
+
+#signupForm, #promotions, #howto, #websiteDescription, #testimonials {
+  /*background-color: #1D1D1D;
+  border-radius: 10px;
+  padding: 30px;
+  margin: 10px 0;
+  box-shadow: 0 0 19px #000 inset;*/
+}
+
+#userRegisterPhoneExplanation {
+  display: none;
+}

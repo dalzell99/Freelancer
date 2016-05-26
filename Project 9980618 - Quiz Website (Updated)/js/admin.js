@@ -52,21 +52,21 @@ window.onload = function() {
     if (sessionStorage.fileUploaded != undefined) {
         if (sessionStorage.page == 'promotions') {
             if (sessionStorage.fileUploaded == 'success') {
-                displayMessage('info', "Promotion successfully added.");
+                alert("Promotion successfully added.");
             } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
-                displayMessage('error', 'Error', "Err or adding promotions to database. Please try again later.");
+                alert("Error adding promotions to database. Please try again later.");
             } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
-                displayMessage('info', "File upload failed. Please try again later.");
+                alert("File upload failed. Please try again later.");
             }
 
             sessionStorage.fileUploaded = '';
         } else if (sessionStorage.page == 'testimonials') {
             if (sessionStorage.fileUploaded == 'success') {
-                displayMessage('info', "Testimonial successfully added.");
+                alert("Testimonial successfully added.");
             } else if (sessionStorage.fileUploaded.substr(0, 7) == 'sqlfail') {
-                displayMessage('error', 'Error', "Err or adding promotions to database. Please try again later.");
+                alert("Error adding promotions to database. Please try again later.");
             } else if (sessionStorage.fileUploaded == 'fileuploadfail') {
-                displayMessage('info', "File upload failed. Please try again later.");
+                alert("File upload failed. Please try again later.");
             }
 
             sessionStorage.fileUploaded = '';
@@ -120,12 +120,12 @@ function checkPassword() {
             }
         } else if (response == 'incorrect') {
             $("#password").val('');
-            displayMessage('info', "Incorrect password or username");
+            alert("Incorrect password or username");
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response);
+            alert('Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with checkPassword function");
+        //alert("Error: Something went wrong with checkPassword function");
     });
 }
 
@@ -266,10 +266,10 @@ function populateQuizzes() {
 
             $(".collapsable > div").hide();
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response[1]);
+            alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with populateQuizzes function");
+        //alert("Error: Something went wrong with populateQuizzes function");
     });
 
     populateQuestionCategories();
@@ -289,10 +289,10 @@ function populateQuestionCategories() {
             }
             $("#createQuizQuestionsRandomCategory").empty().append(html);
         } else {
-            displayMessage('error', 'Error', 'Error get question categories');
+            alert('Error get question categories');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
 }
 
@@ -377,12 +377,12 @@ function removeQuestion(index) {
         category: 'Miscellaneous'
     }, function(response) {
         if (response == 'success') {
-            //displayMessage('info', '');
+            //alert('');
         } else {
-            displayMessage('error', 'Error', 'Error readding question to database');
+            alert('Error readding question to database');
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
 
     questionsArray.splice(index, 1);
@@ -501,15 +501,15 @@ function uploadQuiz() {
                 sessionStorage.copiedQuiz = false;
                 $("#createQuizContainer").slideUp();
                 populateQuizzes();
-                displayMessage('info', 'Quiz has been created.');
+                alert('Quiz has been created.');
             } else {
-                displayMessage('error', 'Error', 'Error: ' + response);
+                alert('Error: ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+            //alert("Error: Something went wrong with uploadQuiz function");
         });
     } else {
-        displayMessage('info', valid[1]);
+        alert(valid[1]);
     }
 }
 
@@ -568,12 +568,12 @@ function deleteQuiz(id) {
     }, function(response) {
         if (response == 'success') {
             populateQuizzes();
-            displayMessage('info', 'Quiz has been deleted.');
+            alert('Quiz has been deleted.');
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response);
+            alert('Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+        //alert("Error: Something went wrong with uploadQuiz function");
     });
 }
 
@@ -597,15 +597,15 @@ function updateQuiz() {
             if (response == 'success') {
                 populateQuizzes();
                 $("#createQuizContainer").slideUp();
-                displayMessage('info', 'Quiz has been updated.');
+                alert('Quiz has been updated.');
             } else {
-                displayMessage('error', 'Error', 'Error: ' + response);
+                alert('Error: ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+            //alert("Error: Something went wrong with uploadQuiz function");
         });
     } else {
-        displayMessage('info', valid[1]);
+        alert(valid[1]);
     }
 }
 
@@ -653,19 +653,19 @@ function addRandomQuestions() {
                 });
 
                 if (tempArray.length < $("#createQuizQuestionsRandomNum").val()) {
-                    displayMessage('info', "There are only " + tempArray.length + " questions with in the " + $("#createQuizQuestionsRandomCategory").val() + " category");
+                    alert("There are only " + tempArray.length + " questions with in the " + $("#createQuizQuestionsRandomCategory").val() + " category");
                 }
 
                 questionsArray = tempArray;
                 refreshQuestionTable();
             } else {
-                displayMessage('error', 'Error', 'Error: ' + response[1]);
+                alert('Error: ' + response[1]);
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+            //displayMessage('error', "Error: Something went wrong with  AJAX POST");
         });
     } else {
-        displayMessage('info', "Make sure you enter the number of questions and category then try again");
+        alert("Make sure you enter the number of questions and category then try again");
     }
 }
 
@@ -742,10 +742,10 @@ function populateQuestions() {
                 }
             });
         } else {
-            displayMessage('error', 'Error', 'Error');
+            alert('Error');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with populateQuizzes function");
+        //alert("Error: Something went wrong with populateQuizzes function");
     });
 
     $.post("./php/questions/getcategories.php", {
@@ -760,10 +760,10 @@ function populateQuestions() {
             }
             $("#createQuestionCategorySelect").empty().append(html);
         } else {
-            displayMessage('error', 'Error', 'Error');
+            alert('Error');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
 }
 
@@ -825,7 +825,7 @@ function uploadQuestion() {
                 // Update the question category dropdown for new quizzes
                 populateQuestionCategories();
 
-                displayMessage('info', 'Question has been created.');
+                alert('Question has been created.');
                 $("#createQuestionAnswer1").val('');
                 $("#createQuestionAnswer2").val('');
                 $("#createQuestionAnswer3").val('');
@@ -833,13 +833,13 @@ function uploadQuestion() {
                 $("#createQuestionQuestion").val('');
                 $("#createQuestionCategory").val('');
             } else {
-                displayMessage('error', 'Error', 'Error:');
+                alert('Error:');
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+            //alert("Error: Something went wrong with uploadQuiz function");
         });
     } else {
-        displayMessage('info', valid[1]);
+        alert(valid[1]);
     }
 }
 
@@ -862,15 +862,15 @@ function updateQuestion() {
             if (response == 'success') {
                 populateQuizzes();
                 $("#createQuestionContainer").slideUp();
-                displayMessage('info', 'Question has been updated.');
+                alert('Question has been updated.');
             } else {
-                displayMessage('error', 'Error', 'Error: ');
+                alert('Error: ');
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+            //alert("Error: Something went wrong with uploadQuiz function");
         });
     } else {
-        displayMessage('info', valid[1]);
+        alert(valid[1]);
     }
 }
 
@@ -880,12 +880,12 @@ function deleteQuestion(id) {
     }, function(response) {
         if (response == 'success') {
             populateQuestions();
-            displayMessage('info', 'Question has been deleted.');
+            alert('Question has been deleted.');
         } else {
-            displayMessage('error', 'Error', 'Error');
+            alert('Error');
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+        //alert("Error: Something went wrong with uploadQuiz function");
     });
 }
 
@@ -986,12 +986,12 @@ function populateTestimonials() {
                             message: $(this).parent().children(':nth-child(3)').text()
                         }, function(response) {
                             if (response == 'success') {
-                                displayMessage('info', 'Testimonial has been updated.');
+                                alert('Testimonial has been updated.');
                             } else {
-                                displayMessage('error', 'Error', 'Error: ' + response);
+                                alert('Error: ' + response);
                             }
                         }).fail(function (request, textStatus, errorThrown) {
-                            //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+                            //alert("Error: Something went wrong with uploadQuiz function");
                         });
                     }
                 },
@@ -1001,10 +1001,10 @@ function populateTestimonials() {
                 }
             });
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response[1]);
+            alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with populateTestimonials function");
+        //alert("Error: Something went wrong with populateTestimonials function");
     });
 }
 
@@ -1024,12 +1024,12 @@ function uploadTestimonial() {
     }, function(response) {
         if (response == 'success') {
             populateTestimonials();
-            displayMessage('info', 'Testimonial has been uploaded.');
+            alert('Testimonial has been uploaded.');
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response);
+            alert('Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+        //alert("Error: Something went wrong with uploadQuiz function");
     });
 }
 
@@ -1039,12 +1039,12 @@ function deleteTestimonial(id) {
     }, function(response) {
         if (response == 'success') {
             populateTestimonials();
-            displayMessage('info', 'Testimonial has been deleted.');
+            alert('Testimonial has been deleted.');
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response);
+            alert('Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with uploadQuiz function");
+        //alert("Error: Something went wrong with uploadQuiz function");
     });
 }
 
@@ -1133,12 +1133,12 @@ function populateUsers() {
                             rate: $(this).val()
                         }, function(response) {
                             if (response == 'success') {
-                                displayMessage('info', "Conversion rate changed");
+                                alert("Conversion rate changed");
                             } else {
-                                displayMessage('error', 'Error', "Err or changing conversion rate. Contact the web admin to inform them of this error.")
+                                alert("Error changing conversion rate. Contact the web admin to inform them of this error.")
                             }
                         }).fail(function (request, textStatus, errorThrown) {
-                            //displayMessage('error', 'Error', "Err or: Something went wrong with conversion rate change function");
+                            //alert("Error: Something went wrong with conversion rate change function");
                         });
                     }
                 }
@@ -1157,12 +1157,12 @@ function populateUsers() {
                             mobile: t.parent().children(':nth-child(7)').text()
                         }, function(response) {
                             if (response == 'success') {
-                                displayMessage('info', 'User info updated for ' + t.parent().children(':nth-child(2)').text());
+                                alert('User info updated for ' + t.parent().children(':nth-child(2)').text());
                             } else {
-                                displayMessage('error', 'Error', 'Error updating user info.');
+                                alert('Error updating user info.');
                             }
                         }).fail(function (request, textStatus, errorThrown) {
-                            //displayMessage('error', 'Error', "Err or: Something went wrong with usertable contenteditable blur function");
+                            //alert("Error: Something went wrong with usertable contenteditable blur function");
                         });
                     }
                 },
@@ -1172,10 +1172,10 @@ function populateUsers() {
                 }
             })
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response[1]);
+            alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with populateUsers function");
+        //alert("Error: Something went wrong with populateUsers function");
     });
 }
 
@@ -1238,10 +1238,10 @@ function populatePromotions() {
             var newTableObject = document.getElementById('promotionTable')
             sorttable.makeSortable(newTableObject);
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response[1]);
+            alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with populateTestimonials function");
+        //alert("Error: Something went wrong with populateTestimonials function");
     });
 }
 
@@ -1255,13 +1255,13 @@ function deletePromotion(id) {
         promotionID: id
     }, function(response) {
         if (response == 'success') {
-            displayMessage('info', "Promotion has been deleted");
+            alert("Promotion has been deleted");
             populatePromotions();
         } else {
-            displayMessage('error', 'Error', "Err or deleting promotion. Try again later or contact web admin");
+            alert("Error deleting promotion. Try again later or contact web admin");
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with deletePromotion function");
+        //alert("Error: Something went wrong with deletePromotion function");
     });
 }
 
@@ -1337,10 +1337,10 @@ function populateWithdrawal() {
             var newTableObject = document.getElementById('withdrawalTable');
             sorttable.makeSortable(newTableObject);
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response[1]);
+            alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with populateWithdrawal function");
+        //alert("Error: Something went wrong with populateWithdrawal function");
     });
 }
 
@@ -1357,13 +1357,13 @@ function setWithdrawalDone(id, done, username, amount) {
         amount: amount
     }, function(response) {
         if (response == 'success') {
-            displayMessage('info', "Withdrawal has been marked as done");
+            alert("Withdrawal has been marked as done");
             populateWithdrawal();
         } else {
-            displayMessage('error', 'Error', "Err or deleting withdrawal. Try again later or contact web admin");
+            alert("Error deleting withdrawal. Try again later or contact web admin");
         }
     }).fail(function (request, textStatus, errorThrown) {
-       //displayMessage('error', 'Error', "Err or: Something went wrong with markWithdrawalDone function");
+       //alert("Error: Something went wrong with markWithdrawalDone function");
     });
 }
 
@@ -1402,23 +1402,23 @@ function populateDistribution() {
                             third: third
                         }, function(response) {
                             if (response == 'success') {
-                                displayMessage('info', 'Changes have been saved');
+                                alert('Changes have been saved');
                             } else {
-                                displayMessage('error', 'Error', 'Error');
+                                alert('Error');
                             }
                         }).fail(function (request, textStatus, errorThrown) {
-                            //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+                            //displayMessage('error', "Error: Something went wrong with  AJAX POST");
                         });
                     } else {
-                        displayMessage('info', "The percentages must add up to 100");
+                        alert("The percentages must add up to 100");
                     }
                 }
             });
         } else {
-            displayMessage('error', 'Error', 'Error');
+            alert('Error');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
 }
 
@@ -1439,7 +1439,7 @@ function populateTaxation() {
 
     }, function(response) {
         if (response == 'fail') {
-            displayMessage('error', 'Error', "Err or getting taxations")
+            alert("Error getting taxations")
         } else {
             taxationArray = response;
 
@@ -1488,6 +1488,6 @@ function populateTaxation() {
             sorttable.makeSortable(newTableObject);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
 }

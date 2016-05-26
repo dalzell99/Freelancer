@@ -92,12 +92,12 @@ function global() {
                     correctPercent: results.correctPercent
                 }, function(response) {
                     if (response == 'success') {
-                        displayMessage('info', 'Quiz Results Uploaded', "Your quiz results were uploaded.");
+                        alert("Your quiz results were uploaded.");
                     } else {
-                        displayMessage('error', 'Error', 'Error uploading your results. Contact the web admin for details on what to do.');
+                        alert('Error uploading your results. Contact the web admin for details on what to do.');
                     }
                 }).fail(function (request, textStatus, errorThrown) {
-                    //displayMessage('error', 'Error', "There was a problem uploading your quiz results. Please contact the web admin to inform them of this problem");
+                    alert("There was a problem uploading your quiz results. Please contact the web admin to inform them of this problem");
                 });
 
                 if (results.quizType == 'free') {
@@ -115,12 +115,12 @@ function global() {
                             } else {
                                 var extra = 0;
                             }
-                            displayMessage('info', 'Quiz Result', "You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
+                            alert("You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
                         } else {
-                            displayMessage('error', 'Error', "Error depositing your bonus quizetos in your account. You got " + correctAnswers + " out of " + numQuestions + " correct.");
+                            alert("Error depositing your bonus quizetos in your account. You got " + correctAnswers + " out of " + numQuestions + " correct.");
                         }
                     }).fail(function (request, textStatus, errorThrown) {
-                        //displayMessage('error', 'Error', "Err or: Something went wrong with showResultsPage function");
+                        //alert("Error: Something went wrong with showResultsPage function");
                     });
                 }
             } else {
@@ -158,14 +158,14 @@ function login() {
             sessionStorage.loggedIn = 'true';
             location.reload();
         } else if (response[0] == 'incorrect') {
-            displayMessage('warning', '', 'Incorrect password');
+            alert('Incorrect password');
         } else if (response[0] == 'usernamedoesntexist') {
-            displayMessage('warning', '', "An account with that username doesn't exist. Please create an account or user a different username");
+            alert("An account with that username doesn't exist. Please create an account or user a different username");
         } else {
-            displayMessage('error', 'Error', 'Error: ' + response[1]);
+            alert('Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with login function");
+        //alert("Error: Something went wrong with login function");
     });
 }
 
@@ -200,15 +200,15 @@ function createNewUser() {
             if (response == 'success') {
                 window.location = 'successfulregistration.php';
             } else if (response == 'exists') {
-                displayMessage('warning', '', "Username already exists or email address is attached to another account");
+                alert("Username already exists or email address is attached to another account");
             } else {
-                displayMessage('error', 'Error', 'Error: ' + response);
+                alert('Error: ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with checkPassword function");
+            //alert("Error: Something went wrong with checkPassword function");
         });
     } else {
-        displayMessage('warning', '', valid[1]);
+        alert(valid[1]);
     }
 }
 
@@ -307,10 +307,10 @@ function updatePoints() {
                 $("#accountInfoFreeUnconvertablePoints").text(response[1].freeUnconvertablePointsBalance);
                 $("#accountInfoPaidPoints").text(response[1].paidPointsBalance);
             } else {
-                displayMessage('error', 'Error', 'Error: ' + response[1]);
+                alert('Error: ' + response[1]);
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with login function");
+            //alert("Error: Something went wrong with login function");
         });
     }
 }
