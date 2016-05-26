@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>IQ Virus</title>
+        <title>IQZETO</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="robots" content="index, follow" />
         <link rel="SHORTCUT ICON" href="images/favicon.png" />
@@ -119,7 +119,7 @@
                                 <div class="col-md-2 col-xs-12 col-lg-2 col-sm-2 padding0 table-padding mbl-overflow" style="     " >
                                     <table id='freePointsTable' style="color:#fff; cursor: pointer; width:100%; box-shadow:none;">
                                         <tr>
-                                            <td colspan="3" style="text-align: center;color: #ccac00;font-weight: 700;"><span class='accountInfoTitle'><b>Quizetos</b></span></td>
+                                            <td colspan="3" style="text-align: center;color: #ccac00;font-weight: 700;"><span class='accountInfoTitle'><b>Qzetos</b></span></td>
                                         </tr>
                                         <tr style=" text-align:center;color: #fff;">
                                             <td style="width:65px;"><strong>Bonus</strong></td>
@@ -186,18 +186,18 @@
                                     <div class=" col-md-7"></div>
                                     <div id="navbar" class="navbar-collapse collapse col-md-8 col-sm-8 col-lg-8 left-nav ">
                                         <ul class="nav navbar-nav">
-                                            <li class="active"><a href="index.php" class="">Home</a></li>
-                                            <li><a href="about-us.php" class="">About Us</a></li>
+                                            <li class="active"><a href="index.php" class=""><img src="images/home-icon.png" class="menu-icons">Home</a></li>
+                                            <li><a href="about-us.php" class=""><img src="images/about-icon.png" class="menu-icons"> About Us</a></li>
 
                                             <li class=" dropdown">
-                                                <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quizzes<span class="caret"></span></a>
+                                                <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="images/quiz-icon.png" class="menu-icons">Quizzes<span class="caret"></span></a>
                                                 <ul class="dropdown-menu">
                                                     <li><a href="quizzes.php?type=free"> Free Quizzes</a></li>
                                                     <li><a href="quizzes.php?type=paid">Paid Quizzes </a></li>
                                                 </ul>
                                             </li>
-                                            <li id='myAccountMenuItem' ><a href="myaccount.php" class="">My Account</a></li>
-                                            <li><a href="contact-us.php">Contact Us</a></li>
+                                            <li id='myAccountMenuItem' ><a href="myaccount.php" class=""><img src="images/account-icon.png" class="menu-icons">My Account</a></li>
+                                            <li><a href="contact-us.php"><img src="images/contact-icon.png" class="menu-icons">Contact Us</a></li>
                                         </ul>
                                     </div>
 

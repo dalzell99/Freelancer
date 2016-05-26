@@ -178,10 +178,10 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
 
                             <div id='myAccountBuy' class='col-xs-12'>
                                 <div class='form-group'>
-                                    <h3>Buy Real Quizetos</h3>
+                                    <h3>Buy Real Qzetos</h3>
                                 </div>
                                 <div class='form-group'>
-                                    <label for='#numQuizetos'>Enter the number of Real Quizetos you want to purchase.</label>
+                                    <label for='#numQuizetos'>Enter the number of Real Qzetos you want to purchase.</label>
                                     <input id='numQuizetos' class='form-control' type='number'>
                                 </div>
                                 <div class='form-group'>
@@ -189,7 +189,7 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
                                     ₹<span id='costQuizetos'>0</span>
                                 </div>
                                 <div class='form-group'>
-                                    <button class='btn btn-primary' id='purchaseButton'>Buy Real Quizetos</button>
+                                    <button class='btn btn-primary' id='purchaseButton'>Buy Real Qzetos</button>
                                 </div>
                                 <div id='myAccountPurchaseHistory'>
 
@@ -198,28 +198,28 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
 
                             <div id='myAccountConversion' class='col-xs-12'>
                                 <div class='form-group'>
-                                    <h3>Convert Quizetos from Free to Real</h3>
-                                    <span>The conversion rate is 1 Real Quizeto for every <span id='conversionRateText'></span> Bonus Quizetos</span>
+                                    <h3>Convert Bonus Qzetos to Real Qzetos</h3>
+                                    <span>The conversion rate is 1 Real Qzeto for every <span id='conversionRateText'></span> Bonus Qzetos</span>
                                 </div>
                                 <div class='form-group'>
-                                    <label for='#numFreeQuizetos'>Enter the number of Bonus Quizetos you want to convert.</label>
+                                    <label for='#numFreeQuizetos'>Enter the number of Bonus Qzetos you want to convert.</label>
                                     <input id='numFreeQuizetos' class='form-control' type='number'>
                                 </div>
                                 <div class='form-group'>
-                                    <label for='#numRealQuizetos'>Real Quizetos</label>
+                                    <label for='#numRealQuizetos'>Real Qzetos</label>
                                     <div id='numRealQuizetos'></div>
                                 </div>
                                 <div class='form-group'>
-                                    <button class='btn btn-primary' onclick='convertFreePoints()'>Convert to Real Quizetos</button>
+                                    <button class='btn btn-primary' onclick='convertFreePoints()'>Convert to Real Qzetos</button>
                                 </div>
                             </div>
 
                             <div id='myAccountWithdraw' class='col-xs-12'>
                                 <div class='form-group'>
-                                    <h3>Redeem Real Quizetos for Cash</h3>
+                                    <h3>Redeem Real Qzetos for Cash</h3>
                                 </div>
                                 <div class='form-group'>
-                                    <label for='#numRealRedeemQuizetos'>Enter the number of Real Quizetos you want to redeem.</label>
+                                    <label for='#numRealRedeemQuizetos'>Enter the number of Real Qzetos you want to redeem.</label>
                                     <input id='numRealRedeemQuizetos' class='form-control' type='number'>
                                 </div>
                                 <div class='form-group'>

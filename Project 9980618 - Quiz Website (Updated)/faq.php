@@ -1,14 +1,14 @@
 <?php include('header.php'); ?>
-        <?php
+        <?php 
         echo '<link rel="stylesheet" type="text/css" href="css/faq.css?' . filemtime('css/faq.css') . '" />';
-        echo '<script type="text/javascript" src="js/faq.js?' . filemtime('js/faq.js') . '"></script>';
+        echo '<script type="text/javascript" src="js/faq.js?' . filemtime('js/faq.js') . '"></script>'; 
         ?>
 
-        <div class="container-fluid" style=" background: url(images/backgrond.png); min-height:390px;">
+        <div class="container-fluid" style=" background: url(images/backgrond.png); min-height:390px;">                
             <div class="container margin-top" >
                 <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
                     <div class="margin-top font-16">
-
+					
 					<div class="panel panel1">
                             <div class="panel-heading ">
                                 <h2 class="panel-title font-16">
@@ -16,14 +16,14 @@
                                 <div class="margin-top font-18">A. Just follow these simple steps  : </div>
                                 <div class="font-16">
                                     <p class="margin-top">IQzeto.com is the world’s largest trivia game show of skill where you showcase your knowledge, IQ, intelligence and earn cash rewards after winning every quiz!</p>
-
+                                    
                                 </div>
 
                             </div>
 
                         </div>
-
-
+					
+					
                         <div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -31,7 +31,7 @@
 									<div class="panel-body ">
 										<div class="margin-top font-18">A. Just follow these simple steps  : </div>
 										<div class="font-16">
-										   <p class="margin-top"> <img src="images/arrow.png" alt="arrow" />Register with us free by entering a Username, E-mail id, Mobile number and Desired Password.</p>
+										   <p class="margin-top"> <img src="images/arrow.png" alt="arrow" />Register with us free by entering a Username, Desired Password, E-mail id, and Mobile number </p>
 											<p> <img src="images/arrow.png" alt="arrow" /> Log-in using the Username and Password you registered with.</p>
 											<p> <img src="images/arrow.png" alt="arrow" /> Click on Quiz tab to see the list of scheduled quiz on the platform</p>
 											<p> <img src="images/arrow.png" alt="arrow" /> Click on view' button beside each scheduled quiz to check the detail quiz structure</p>
@@ -41,7 +41,7 @@
                             </div>
 
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -49,10 +49,10 @@
 
                             </div>
                             <div class="panel-body ">
-                               A. Please check whether your registered email address and password are entered correctly and try again. If you've forgotten your password, click on 'Forgot Password', enter your registered email ID and we’ll send you a link to reset your password through an email within a few minutes! If you've forgotten your registered email id, you can very well login with your registered mobile number and password. If you have forgotten both your registered email id and mobile number reach out to us via Contact Us page.
+                               A. Please check whether your registered email address and password are entered correctly and try again. If you've forgotten your password, click on 'Forgot Password', enter your registered email ID and we’ll send you a link to reset your password through an email within a few minutes! If you've forgotten your registered email id, you can very well login with your registered mobile number and password. If you have forgotten both your registered email id and mobile number reach out to us via <a href="contact-us.php" target="_blank">Contact Us</a> page.
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -63,7 +63,7 @@
                                A. When you are logged in, click on My Account tab and click on 'Change Password'
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -74,7 +74,7 @@
                                A. Having multiple accounts is strictly prohibited on www.iqzeto.com. Each user is allowed to have only one account on the site. Making multiple accounts may result in deletion of all duplicate accounts.
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -96,7 +96,7 @@
                                A. If you are sure that you are a registered user on IQzeto.com and are entering the correct details, please reach out to us from the Contact Us page. Our Customer Care team will be happy to assist you.
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -110,7 +110,7 @@
                             </div>
                         </div>
 
-
+						
                         <div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -129,7 +129,7 @@
 
                             </div>
                             <div class="panel-body line">
-                              A.  <strong> www.iqzeto.com</strong> offers both free and paid quizzes
+                              A.  <strong> www.iqzeto.com</strong> offers both free and paid quizzes. Free quiz formats are those quizzes which can be played by using free qzeto which every user gets daily as joining bonus on daily basis. Paid quizzes can only be played by using real qzeto which users need to purchase for their participation
                             </div>
                         </div>
 
@@ -154,7 +154,7 @@
                                 A. Time limit for each quiz will vary and will be mentioned in the rules table for the particular quiz
                             </div>
                         </div>
-
+						
 						 <div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -165,7 +165,7 @@
                                 A. Ranking and winners qzeto points will be updated and displayed on the leader board section on its quiz info page at the end of every quiz. If you win any Paid Quiz, the equivalent real qzetos will be credited automatically into your iqzeto.com account. Same will be communicated to all winners via email as well
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -184,10 +184,10 @@
 
                             </div>
                             <div class="panel-body line">
-                                A. The balance in your iqzeto.com account will be displayed on the top of your screen at all times.
+                                A. The balance in your iqzeto.com account will be displayed on the top of your screen at all times. 
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -195,7 +195,7 @@
 
                             </div>
                             <div class="panel-body line">
-                                A. Absolutely! To ensure that all the payments are safe and secure, we use reputed and verified third party payment gateways that have multiple security checks and comply with every single law on online transactions.
+                                A. Absolutely! To ensure that all the payments are safe and secure, we use reputed and verified third party payment gateways that have multiple security checks and comply with every single law on online transactions. 
                             </div>
                         </div>
 
@@ -209,7 +209,7 @@
                                A. You don’t need to do anything special; we will take care of this during the payment process. We’re sure you will find the entire payment process hassle free.
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -220,7 +220,7 @@
                                A. For all successful transactions, you will get a confirmation email with your Order detail and the Amount from iqzeto.com.
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -228,10 +228,10 @@
 
                             </div>
                             <div class="panel-body line">
-                               A. If you require any help regarding your iqzeto.com account balance or any other queries, please feel free to reach us from the Contact Us page
+                               A. If you require any help regarding your iqzeto.com account balance or any other queries, please feel free to reach us from the <a href="contact-us.php" target="_blank">Contact Us</a> page
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -239,10 +239,10 @@
 
                             </div>
                             <div class="panel-body line">
-                               A. The mode of payment you have chosen may not be authorized by your bank, in which case you should call them and get it fixed. Also, please reach us from the Contact Us page with the error message screenshot so that we can advise you on how to complete your transaction.
+                               A. The mode of payment you have chosen may not be authorized by your bank, in which case you should call them and get it fixed. Also, please reach us from the <a href="contact-us.php" target="_blank">Contact Us</a> page with the error message screenshot so that we can advise you on how to complete your transaction.
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -250,10 +250,10 @@
 
                             </div>
                             <div class="panel-body line">
-                               A. Once you have made the deposit, your iqzeto.com account balance will get updated instantly. If the updated balance is not reflected in your account please reach us from the Contact Us page.
+                               A. Once you have made the deposit, your iqzeto.com account balance will get updated instantly. If the updated balance is not reflected in your account please reach us from the <a href="contact-us.php" target="_blank">Contact Us</a> page.
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -264,7 +264,7 @@
                                A. Free Qzetos are points given to all users for participating in free quiz. User need to take the free quiz using these free qzetos . Everyday user receives 20 free qzetos in the wallet on first login.
                             </div>
                         </div>
-
+						
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -290,7 +290,7 @@
                                 A. 100 Bonus Qzetos is equal to 1 Real Qzetos. This will be changing as and when required and iqzeto.com owns the right to this any time
                             </div>
                         </div>
-
+						
 						 <div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -298,11 +298,11 @@
 
                             </div>
                             <div class="panel-body line">
-                               A. Go to My Account section, click on 'Convert', enter the bonus qzeto balance which you want to convert and hit the 'convert to real qzeto button'. Based on the existing conversion ratio your bonus qzeto balance will be converted into real qzeto balance instantaneously
+                               A. Go to My Account section, click on 'Convert', enter the bonus qzeto balance which you want to convert and hit the 'convert to real qzeto button'. Based on the existing conversion ratio your bonus qzeto balance will be converted into real qzeto balance instantaneously 
                             </div>
                         </div>
-
-
+						
+                       
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -315,7 +315,7 @@
                             </div>
                         </div>
 
-
+                        
 						<div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -340,8 +340,8 @@
                                 <p> <img src="images/arrow.png" alt="arrow" /> 1 Real Qzetos will cost you one rupee and Qzetos balance will be shown in your wallet immediately after you complete your transaction</p>
                             </div>
                         </div>
-
-
+						
+						
                         <div class="panel panel1">
                             <div class="panel-heading clickable">
                                 <h2 class="panel-title font-16">
@@ -386,7 +386,7 @@
 
                             </div>
                             <div class="panel-body line">
-                               A. Please contact qzetos-query<strong>@iqzeto.com</strong> with your transaction detail immediately. Our operations team will look into the matter and fix your problem in 7 working days.
+                               A. Please contact query<strong>@iqzeto.com</strong> with your transaction detail immediately. Our team will look into the matter and fix your problem in 10 working days.  
                             </div>
                         </div>
 
@@ -394,9 +394,9 @@
                 </div>
             </div>
 
-        </div>
+        </div> 
         <script>
-
+		
 $(document).on('click', '.panel-heading span.clickable', function (e) {
     var $this = $(this);
     if (!$this.hasClass('panel-collapsed')) {
@@ -427,6 +427,6 @@ $(document).ready(function () {
 });
 
 </script>
-
+	
 
 <?php include('footer.php'); ?>

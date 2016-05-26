@@ -41,6 +41,14 @@
         float: right;
         margin: 8px 0 10px 40px;
     }
+
+     .carousel-inner {
+    width: 96%;
+    margin-left: 27px;
+    }
+    a.left.carousel-control{margin:130px auto; margin-left:50px;}
+    a.right.carousel-control{margin:130px auto;margin-right:35px;}
+
 </style>
 <div class="main-wrapper">
     <div class="headertop needhead">
@@ -106,7 +114,7 @@
                     </div>
                 </div>
                 <div id='signupLoggedIn'>
-                    <div class="well mbl-none" style="z-index:1000" >
+                    <div class="well" style="z-index:1000" >
 
                         <h4 class="well-signup"><span >SIGN UP</span></h4>
                         <input type="text" id="userRegisterUsername" class="form-control input-sm chat-input" placeholder="User Name"  />
@@ -137,7 +145,7 @@
     <div class="row-fluid" id="services">
         <!-- FEATURE ITEM-->
         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 padding0  animated fadeInDown wow" style="    margin-bottom: 85px;">
-            <div class="col-xs-12 col-sm-4 col-lg-4  animated fadeInDown wow mbl-top" style=" margin-top:-25px;" >
+            <div class="col-xs-12 col-sm-4 col-lg-4 padding0  animated fadeInDown wow mbl-top" style=" margin-top:-25px;" >
                 <div class="span3 center">
                     <div class="box1 span3 animated fadeInDown wow">
                         <div class="icon">
@@ -149,7 +157,7 @@
                                     <br/> 	<br/>
                                 </p>
                                 <div class="more1  animated fadeInDown wow">
-                                    <a href="#" title="Title Link">
+                                    <a href="about-us.php" title="Title Link">
                                         Read More <i class="fa fa-angle-double-right"></i>
                                     </a>
                                 </div>
@@ -159,7 +167,7 @@
                     </div>
                 </div></div>
 
-            <div class="col-xs-12 col-sm-4 col-lg-4  animated fadeInDown wow  mbl-top" >
+            <div class="col-xs-12 col-sm-4 col-lg-4 padding0  animated fadeInDown wow  mbl-top" >
                 <div class="span3 center">
                     <div class="box1  animated fadeInDown wow">
                         <div class="icon  animated fadeInDown wow">
@@ -170,7 +178,7 @@
                                     Here at IQzeto.com we consider our Social Responsibility important. We adore doing great for our kindred man and offering back to the group that made us. We empower everyone with the capacity to develop their intelligence and IQ in an entertaining and rewarding way.
                                 </p>
                                 <div class="more1  animated fadeInDown wow">
-                                    <a href="#" title="Title Link">
+                                    <a href="about-us.php" title="Title Link">
                                         Read More <i class="fa fa-angle-double-right"></i>
                                     </a>
                                 </div>
@@ -180,7 +188,7 @@
                     </div>
                 </div></div>
 
-            <div class="col-xs-12 col-sm-4 col-lg-4  animated fadeInDown wow  mbl-top" >
+            <div class="col-xs-12 col-sm-4 col-lg-4 padding0  animated fadeInDown wow  mbl-top" >
                 <div class="span3 center">
                     <div class="box1  animated fadeInDown wow">
                         <div class="icon  animated fadeInDown wow">
@@ -193,7 +201,7 @@
 
                                 </p>
                                 <div class="more1  animated fadeInDown wow">
-                                    <a href="#" title="Title Link">
+                                    <a href="about-us.php" title="Title Link">
                                         Read More <i class="fa fa-angle-double-right"></i>
                                     </a>
                                 </div>
@@ -210,16 +218,10 @@
 
 <!-- Start Promotions -->
 
-<div class=" container margin-top" style='padding: 10px;'>
+<div class=" container margin-top" >
     <h2 class="h2-heading1 animated fadeInDown wow margin-35">Promotion <br/>  <img src="images/line.png" alt="" class="mbl-none" /></h2>
-    <div class="row" id='promotions' style='margin-left:0; margin-right:0;'>
-        <!--
-        <div id="promotionCarousel" class="carousel slide" data-ride="carousel">
-
-        </div>
-        Carousel -->
-
-        <div class="carousel slide" id="promotionCarousel">
+    <div class="row" id='promotions'>
+        <div class="carousel slide" id="promotionCarousel" data-ride="carousel">
             <div class="carousel-inner">
 
             </div>
@@ -233,10 +235,10 @@
 
 <div class="container  animated fadeInDown wow" style=" margin-top:50px;">
     <h2 class="h2-heading1  animated fadeInDown wow">How It Works<br/><img src="images/line.png" alt="" class=" mbl-none" /></h2>
-    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 padding0  animated fadeInDown wow">
+    <div class="row animated fadeInDown wow" style="margin-right:0px; margin-left: -25px;">
 
 
-        <div class="col-md-3 col-xs-12 col-sm-6 col-lg-3  animated fadeInDown wow signup-box " style="">
+        <div class="col-md-3 col-xs-12 col-sm-6 col-lg-3 padding0  animated fadeInDown wow signup-box " style="margin-top:1px;">
 
             <a href="#" class="box one  animated fadeInDown wow">
                 <figure><img  src="images/image1.png" class="img-responsive text-center" alt="" /></figure>
@@ -363,9 +365,9 @@
 <!-- End Website Description and Testimonials -->
 
 <!-- Start Live Stats -->
-<div class="container-fluid  animated fadeInDown wow mbl-none" style="background-image:url(images/client.png); padding: 10px 0px 20px 10px;">
+<div class="container-fluid  animated fadeInDown wow mbl-none" style="background-image:url(images/client.png); padding: 10px 0px 10px 10px;">
     <div class="container"   id='liveStats1'>
-        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding0  animated fadeInDown wow " style="    margin-top: 26px;" >
+        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding0  animated fadeInDown wow " style="    margin-top: 10px;" >
 
             <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
 

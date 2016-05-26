@@ -11,7 +11,7 @@
 						<li><a href="legality.php">Legality</a> </li>
 						<li> <a href="terms-of-services.php">Terms of Use</a></li>
 						<li><a href="privacy-policy.php">Privacy Policy </a></li>
-
+						
 					</ul>
 				</div>
 				<div class="col-lg-3 col-md-3">
@@ -28,14 +28,14 @@
 					<div class="payment-part">
 						<h3>Our Payment Options</h3>
 						<img src="images/payment.png" class="img-responsive">
-
+				
 				</div>
 			</div>
 			<div class="clearfix"></div>
 			<hr class="sepa">
 			<div class="row" style="margin:0px;">
 				<div style="margin-top:10px;padding-bottom:25px;">
-					<div style="float:left; font-size:13px;">Copyright © <?php echo date('Y');?> IQ Virus. All Rights Reserved</div>
+					<div style="float:left; font-size:13px;">Copyright © <?php echo date('Y');?> IQzeto. All Rights Reserved</div>
 					<div style="float:right; font-size:13px;">Designed by <a href="http://www.innasoft.in/" target="_blank"  style="color:#fff">Innasoft Technologies Pvt Ltd</a>.</div>
 				</div>
 				<div class="clearfix"></div>
@@ -45,16 +45,16 @@
 		<div class="clearfix"></div>
 		</div>
 		<div class="clearfix"></div>
-    </div>
+    </div>  
 	<div class="clearfix"></div>
-</div>
+</div>                
 
 
 <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/js/bootstrap.js"></script>
 <script type="text/javascript" src="assets/js/modernizr.custom.28468.js"></script>
 <script type="text/javascript" src="assets/js/jquery.js"></script>
-<script src="assets/js/bootstrap.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.js" type="text/javascript"></script> 
 <script type="text/javascript" src="assets/js/jquery.cslider.js"></script>
 
 <script>
@@ -144,7 +144,7 @@
         });
     });
 
-</script>
+</script> 
 <script>
     $(document).ready(function () {
         // Configure/customize these variables.
