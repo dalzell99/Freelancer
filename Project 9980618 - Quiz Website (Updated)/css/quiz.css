@@ -9,7 +9,7 @@ body {
 }
 
 .questionContainer, #questionsContainer, #quizFooter, #quizResults {
-  display: none;
+  display: none;margin-top: 60px;
 }
 
 .currentQuestion {
@@ -44,43 +44,44 @@ body {
 }
 
 .answer.selectedAnswer {
-  background-color: #006600;
+  background-color: #56a634;
+    color: #fff;
 }
 
 @media (max-width: 1200px) {
-  .question {
-    font-size: 2.5em;
-    padding: 12px;
-  }
-  .answer {
-    margin: 8px;
-    font-size: 1.75em;
-    padding: 10px;
-  }
+    .question {
+        font-size: 2.5em;
+        padding: 12px;
+    }
+    .answer {
+        margin: 8px;
+        font-size: 1.75em;
+        padding: 10px;
+    }
 }
 
 @media (max-width: 992px) {
-  .question {
-    font-size: 2em;
-    padding: 9px;
-  }
-  .answer {
-    margin: 6px;
-    font-size: 1.5em;
-    padding: 10px;
-  }
+    .question {
+        font-size: 2em;
+        padding: 9px;
+    }
+    .answer {
+        margin: 6px;
+        font-size: 1.5em;
+        padding: 10px;
+    }
 }
 
 @media (max-width: 768px) {
-  .question {
-    font-size: 1.5em;
-    padding: 6px;
-  }
-  .answer {
-    margin: 4px;
-    font-size: 1.25em;
-    padding: 10px;
-  }
+    .question {
+        font-size: 1.5em;
+        padding: 6px;
+    }
+    .answer {
+        margin: 4px;
+        font-size: 1.25em;
+        padding: 10px;
+    }
 }
 
 .buttonContainer {

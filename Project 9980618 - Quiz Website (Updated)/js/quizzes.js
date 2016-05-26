@@ -35,7 +35,7 @@ function updateQuizzes() {
                     updateCountdownsTimer = setInterval(updateCountdownTimers, 1000);
                 }
             }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Err or: Something went wrong with onload function");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
     });
 }
 

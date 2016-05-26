@@ -37,15 +37,6 @@
         </style>
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-1.12.2.min.js" integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk=" crossorigin="anonymous"></script>
-        <!-- User Script -->
-    <?php echo '<link rel="stylesheet" type="text/css" href="css/global.css?' . filemtime('css/global.css') . '" />'; ?>
-
-        <?php echo '<script type="text/javascript" src="js/global.js?' . filemtime('js/global.js') . '"></script>'; ?>
-        <?php
-        echo '<link rel="stylesheet" type="text/css" href="css/index.css?' . filemtime('css/index.css') . '" />';
-        echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js') . '"></script>';
-        ?>
- <?php //echo '<script type="text/javascript" src="js/signup.js?' . filemtime('js/signup.js') . '"></script>'; ?>
         <!-- Moment.js -->
         <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js' type="application/javascript"></script>
 
@@ -56,6 +47,21 @@
         <!-- Phone Number Validation -->
         <link rel="stylesheet" type="text/css" href="css/external/intlTelInput.css" />
         <script type="text/javascript" src="js/external/intlTelInput.min.js"></script>
+
+        <!-- Toastr Notifications -->
+        <link rel="stylesheet" type="text/css" href="css/external/toastr.min.css" />
+        <script type="text/javascript" src="js/external/toastr.min.js"></script>
+
+        <!-- User Script -->
+    <?php echo '<link rel="stylesheet" type="text/css" href="css/global.css?' . filemtime('css/global.css') . '" />'; ?>
+
+        <?php echo '<script type="text/javascript" src="js/global.js?' . filemtime('js/global.js') . '"></script>'; ?>
+        <?php
+        echo '<link rel="stylesheet" type="text/css" href="css/index.css?' . filemtime('css/index.css') . '" />';
+        echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js') . '"></script>';
+        ?>
+ <?php //echo '<script type="text/javascript" src="js/signup.js?' . filemtime('js/signup.js') . '"></script>'; ?>
+
     </head>
     <body>
         <!--START MAIN-WRAPPER-->

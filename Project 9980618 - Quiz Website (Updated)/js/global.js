@@ -13,7 +13,7 @@ window.onload = global;
 function global() {
     // Set toastr notification options
     toastr.options = {
-        "closeButton": true,
+        "closeButton": false,
         "debug": false,
         "newestOnTop": true,
         "progressBar": false,
@@ -22,8 +22,8 @@ function global() {
         "onclick": null,
         "showDuration": "300",
         "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
+        "timeOut": "0",
+        "extendedTimeOut": "0",
         "showEasing": "swing",
         "hideEasing": "linear",
         "showMethod": "fadeIn",
@@ -92,12 +92,12 @@ function global() {
                     correctPercent: results.correctPercent
                 }, function(response) {
                     if (response == 'success') {
-                        displayMessage('info', "Your quiz results were uploaded.");
+                        displayMessage('info', 'Quiz Results Uploaded', "Your quiz results were uploaded.");
                     } else {
-                        displayMessage('error', 'Error uploading your results. Contact the web admin for details on what to do.');
+                        displayMessage('error', 'Error', 'Error uploading your results. Contact the web admin for details on what to do.');
                     }
                 }).fail(function (request, textStatus, errorThrown) {
-                    displayMessage('info', "There was a problem uploading your quiz results. Please contact the web admin to inform them of this problem");
+                    //displayMessage('error', 'Error', "There was a problem uploading your quiz results. Please contact the web admin to inform them of this problem");
                 });
 
                 if (results.quizType == 'free') {
@@ -115,12 +115,12 @@ function global() {
                             } else {
                                 var extra = 0;
                             }
-                            displayMessage('info', "You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
+                            displayMessage('info', 'Quiz Result', "You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
                         } else {
-                            displayMessage('error', "Err or depositing your bonus quizetos in your account. You got " + correctAnswers + " out of " + numQuestions + " correct.");
+                            displayMessage('error', 'Error', "Error depositing your bonus quizetos in your account. You got " + correctAnswers + " out of " + numQuestions + " correct.");
                         }
                     }).fail(function (request, textStatus, errorThrown) {
-                        //displayMessage('error', "Err or: Something went wrong with showResultsPage function");
+                        //displayMessage('error', 'Error', "Err or: Something went wrong with showResultsPage function");
                     });
                 }
             } else {
@@ -158,14 +158,14 @@ function login() {
             sessionStorage.loggedIn = 'true';
             location.reload();
         } else if (response[0] == 'incorrect') {
-            displayMessage('info', 'Incorrect password');
+            displayMessage('warning', '', 'Incorrect password');
         } else if (response[0] == 'usernamedoesntexist') {
-            displayMessage('info', "An account with that username doesn't exist. Please create an account or user a different username");
+            displayMessage('warning', '', "An account with that username doesn't exist. Please create an account or user a different username");
         } else {
-            displayMessage('error', 'Error: ' + response[1]);
+            displayMessage('error', 'Error', 'Error: ' + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Err or: Something went wrong with login function");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with login function");
     });
 }
 
@@ -200,15 +200,15 @@ function createNewUser() {
             if (response == 'success') {
                 window.location = 'successfulregistration.php';
             } else if (response == 'exists') {
-                displayMessage('info', "Username already exists or email address is attached to another account");
+                displayMessage('warning', '', "Username already exists or email address is attached to another account");
             } else {
-                displayMessage('error', 'Error: ' + response);
+                displayMessage('error', 'Error', 'Error: ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', "Err or: Something went wrong with checkPassword function");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with checkPassword function");
         });
     } else {
-        displayMessage('info', valid[1]);
+        displayMessage('warning', '', valid[1]);
     }
 }
 
@@ -261,8 +261,14 @@ function createEmailCode() {
 }
 
 // Display a notification message with bootstrap message types
-function displayMessage(type, message) {
-    toastr[type](message);
+function displayMessage(type, title, message) {
+    var html = "";
+    //toastr.clear();
+    html += "<div>" + title + "</div>";
+    html += "<div>" + message + "</div>";
+    html += "<div><button type='button' class='btn clear'>Ok</button></div>";
+
+    toastr[type](html);
 }
 
 function getUrlVars() {
@@ -301,10 +307,10 @@ function updatePoints() {
                 $("#accountInfoFreeUnconvertablePoints").text(response[1].freeUnconvertablePointsBalance);
                 $("#accountInfoPaidPoints").text(response[1].paidPointsBalance);
             } else {
-                displayMessage('error', 'Error: ' + response[1]);
+                displayMessage('error', 'Error', 'Error: ' + response[1]);
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', "Err or: Something went wrong with login function");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with login function");
         });
     }
 }

@@ -37,60 +37,121 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
                                         <button id='myAccountRemoveProfileImageButton' onclick='removeProfilePicture()' class='btn btn-primary'>Remove Profile Picture</button>
                                     </div>
                                 </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileFirstName'>First Name:</label>
-                                    <input id='myAccountProfileFirstName' class='form-control'></input>
+
+                                <div id="profileEdit" style="display: none;">
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileFirstName'>First Name:</label>
+                                        <input id='myAccountProfileFirstName' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileLastName'>Last Name</label>
+                                        <input id='myAccountProfileLastName' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileEmail'>Email</label>
+                                        <input id='myAccountProfileEmail' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileGender'>Gender</label>
+                                        <input id='myAccountProfileGender' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileDOB'>Date of Birth</label>
+                                        <input id='myAccountProfileDOB' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileMobile'>Mobile No.</label>
+                                        <input id='myAccountProfileMobile' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileMobileAlt'>Alternate Mobile No.</label>
+                                        <input id='myAccountProfileMobileAlt' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfilePancard'>Pancard</label>
+                                        <input id='myAccountProfilePancard' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileAddress'>Address</label>
+                                        <textarea id='myAccountProfileAddress' class='form-control' lines='4'></textarea>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileCity'>City</label>
+                                        <input id='myAccountProfileCity' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfilePincode'>Pincode</label>
+                                        <input id='myAccountProfilePincode' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileState'>State</label>
+                                        <input id='myAccountProfileState' class='form-control'></input>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileCountry'>Country</label>
+                                        <input id='myAccountProfileCountry' class='form-control'></input>
+                                    </div>
+                                    <div>
+                                        <button id='profileSaveButton' class='btn btn-primary'>Save</button>
+                                    </div>
                                 </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileLastName'>Last Name</label>
-                                    <input id='myAccountProfileLastName' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileEmail'>Email</label>
-                                    <input id='myAccountProfileEmail' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileGender'>Gender</label>
-                                    <input id='myAccountProfileGender' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileDOB'>Date of Birth</label>
-                                    <input id='myAccountProfileDOB' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileMobile'>Mobile No.</label>
-                                    <input id='myAccountProfileMobile' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileMobileAlt'>Alternate Mobile No.</label>
-                                    <input id='myAccountProfileMobileAlt' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfilePancard'>Pancard</label>
-                                    <input id='myAccountProfilePancard' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileAddress'>Address</label>
-                                    <textarea id='myAccountProfileAddress' class='form-control' lines='4'></textarea>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileCity'>City</label>
-                                    <input id='myAccountProfileCity' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfilePincode'>Pincode</label>
-                                    <input id='myAccountProfilePincode' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileState'>State</label>
-                                    <input id='myAccountProfileState' class='form-control'></input>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#myAccountProfileCountry'>Country</label>
-                                    <input id='myAccountProfileCountry' class='form-control'></input>
-                                </div>
-                                <div>
-                                    <button id='profileSaveButton' class='btn btn-primary'>Save Changes</button>
+
+                                <div id="profileView">
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileFirstNameView'>First Name:</label>
+                                        <span id='myAccountProfileFirstNameView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileLastNameView'>Last Name:</label>
+                                        <span id='myAccountProfileLastNameView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileEmailView'>Email:</label>
+                                        <span id='myAccountProfileEmailView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileGenderView'>Gender:</label>
+                                        <span id='myAccountProfileGenderView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileDOBView'>Date of Birth:</label>
+                                        <span id='myAccountProfileDOBView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileMobileView'>Mobile No.:</label>
+                                        <span id='myAccountProfileMobileView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileMobileAltView'>Alternate Mobile No.:</label>
+                                        <span id='myAccountProfileMobileAltView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfilePancardView'>Pancard:</label>
+                                        <span id='myAccountProfilePancardView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileAddressView'>Address:</label>
+                                        <span id='myAccountProfileAddressView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileCityView'>City:</label>
+                                        <span id='myAccountProfileCityView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfilePincodeView'>Pincode:</label>
+                                        <span id='myAccountProfilePincodeView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileStateView'>State:</label>
+                                        <span id='myAccountProfileStateView'></span>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='#myAccountProfileCountryView'>Country:</label>
+                                        <span id='myAccountProfileCountryView'></span>
+                                    </div>
+                                    <div>
+                                        <button id='profileEditButton' class='btn btn-primary'>Edit</button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -283,5 +344,3 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
     });
 
 </script>
-
-

@@ -3,9 +3,9 @@ html {
 }
 
 body {
-  background-image: url("../images/bg1.jpg");
+  //background-image: url("../images/bg1.jpg");
   height: 100%;
-  color: whitesmoke;
+  color: #333;
 }
 
 #homeIcon, #quizzesIcon, #myAccountIcon, #faqIcon {
@@ -42,7 +42,7 @@ body {
 
 .navbar-nav {
   margin: 0;
-  width: 90%;
+  width: 100%;
   text-align: center;
 }
 

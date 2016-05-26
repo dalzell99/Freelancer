@@ -26,16 +26,16 @@ var options = {
         }, function(response2) {
             if (response2[1] == 'success') {
                 updatePoints();
-                displayMessage('info', options.amount / 100 + " Real Quizetos have been added to your account.");
+                displayMessage('info', 'Purchase Successful', options.amount / 100 + " Real Quizetos have been added to your account.");
             } else if (response2[1] == 'sqlfail') {
-                displayMessage('error', "Err or adding points to your account. Please contact the web admin to inform them of this error.");
+                displayMessage('error', 'Error', "Err or adding points to your account. Please contact the web admin to inform them of this error.");
             } else if (response2[1] == 'sqlfail') {
-                displayMessage('error', "Err or capturing payment. Please contact the web admin to inform them of this error.");
+                displayMessage('error', 'Error', "Err or capturing payment. Please contact the web admin to inform them of this error.");
             } else {
-                displayMessage('error', "Err or connecting to database. Please contact the web admin to inform them of this error.");
+                displayMessage('error', 'Error', "Err or connecting to database. Please contact the web admin to inform them of this error.");
             }
         }, 'json').fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', "Err or: Something went wrong with capturing payment");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with capturing payment");
         });
     },
     "notes": {
@@ -79,11 +79,11 @@ window.onload = function() {
                     $("#currentPassword").css('border', green);
                     currentPasswordCorrect = true;
                 } else {
-                    displayMessage('error', 'Error checking current password. Please try again later.');
+                    displayMessage('error', 'Error', 'Error checking current password. Please try again later.');
                     currentPasswordCorrect = false;
                 }
             }).fail(function (request, textStatus, errorThrown) {
-                //displayMessage('error', "Err or: Something went wrong with login function");
+                //displayMessage('error', 'Error', "Err or: Something went wrong with login function");
                 currentPasswordCorrect = false;
             });
         }
@@ -179,7 +179,7 @@ window.onload = function() {
             $("#myAccountConversionButton").prop('disabled', false);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Err or: Something went wrong with capturing payment");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with capturing payment");
     });
 
     $.post("./php/users/getmyaccountinfo.php", {
@@ -210,10 +210,10 @@ window.onload = function() {
             populatePurchases();
             populateTaxations();
         } else {
-            displayMessage('error', 'Error getting account info');
+            displayMessage('error', 'Error', 'Error getting account info');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+        //displayMessage('error', 'Error', 'Error', "Error: Something went wrong with  AJAX POST");
     });
 }
 
@@ -234,6 +234,57 @@ function populateProfile() {
         $("#myAccountRemoveProfileImageButton").hide();
     };
 
+    showProfileView();
+
+    $("#profileEditButton").on('click', showProfileEdit);
+
+    $("#profileSaveButton").on({
+        click: function () {
+            if (isPancardValid($("#myAccountProfilePancard").val())) {
+                // Save to local storage
+                userInfo.firstName = $("#myAccountProfileFirstName").val();
+                userInfo.lastName = $("#myAccountProfileLastName").val();
+                userInfo.gender = $("#myAccountProfileGender").val();
+                userInfo.DOB = $("#myAccountProfileDOB").val();
+                userInfo.mobileAlt = $("#myAccountProfileMobileAlt").val();
+                userInfo.address = $("#myAccountProfileAddress").val();
+                userInfo.city = $("#myAccountProfileCity").val();
+                userInfo.pincode = $("#myAccountProfilePincode").val();
+                userInfo.state = $("#myAccountProfileState").val();
+                userInfo.country = $("#myAccountProfileCountry").val();
+                userInfo.pancard = $("#myAccountProfilePancard").val();
+
+                $.post("./php/users/updateuserprofile.php", {
+                    username: sessionStorage.username,
+                    firstName: userInfo.firstName,
+                    lastName: userInfo.lastName,
+                    gender: userInfo.gender,
+                    DOB: userInfo.DOB,
+                    mobileAlt: userInfo.mobileAlt,
+                    address: userInfo.address,
+                    city: userInfo.city,
+                    pincode: userInfo.pincode,
+                    state: userInfo.state,
+                    country: userInfo.country,
+                    pancard: userInfo.pancard
+                }, function(response) {
+                    if (response == 'success') {
+                        displayMessage('info', 'Profile Saved', 'Your profile has been saved');
+                        showProfileView();
+                    } else {
+                        displayMessage('error', 'Error', 'Error saving your profile changes. Please contact the web admin to notify them of this problem');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    //displayMessage('error', 'Error', 'Error', "Error: Something went wrong with  AJAX POST");
+                });
+            } else {
+                displayMessage('warning', 'Invalid Pancard', "The pancard entered is invalid. The valid format is 5 letters then 4 numbers then 1 letter.");
+            }
+        }
+    });
+}
+
+function showProfileEdit() {
     $("#myAccountProfileFirstName").val(userInfo.firstName);
     $("#myAccountProfileLastName").val(userInfo.lastName);
     $("#myAccountProfileEmail").val(userInfo.email);
@@ -254,36 +305,29 @@ function populateProfile() {
         $("#myAccountProfilePancard").prop('disabled', true);
     }
 
-    $("#profileSaveButton").on({
-        click: function () {
-            if (isPancardValid($("#myAccountProfilePancard").val())) {
-                $.post("./php/users/updateuserprofile.php", {
-                    username: sessionStorage.username,
-                    firstName: $("#myAccountProfileFirstName").val(),
-                    lastName: $("#myAccountProfileLastName").val(),
-                    gender: $("#myAccountProfileGender").val(),
-                    DOB: $("#myAccountProfileDOB").val(),
-                    mobileAlt: $("#myAccountProfileMobileAlt").val(),
-                    address: $("#myAccountProfileAddress").val(),
-                    city: $("#myAccountProfileCity").val(),
-                    pincode: $("#myAccountProfilePincode").val(),
-                    state: $("#myAccountProfileState").val(),
-                    country: $("#myAccountProfileCountry").val(),
-                    pancard: $("#myAccountProfilePancard").val()
-                }, function(response) {
-                    if (response == 'success') {
-                        displayMessage('info', 'Your profile has been saved');
-                    } else {
-                        displayMessage('error', 'Error saving your profile changes. Please contact the web admin to notify them of this problem');
-                    }
-                }).fail(function (request, textStatus, errorThrown) {
-                    //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
-                });
-            } else {
-                displayMessage('info', "The pancard entered is invalid. The valid format is 5 letters then 4 numbers then 1 letter.");
-            }
-        }
-    });
+    $("#profileView").hide();
+    $("#profileEdit").show();
+    window.scrollTo(0, 0);
+}
+
+function showProfileView() {
+    $("#myAccountProfileFirstNameView").text(userInfo.firstName);
+    $("#myAccountProfileLastNameView").text(userInfo.lastName);
+    $("#myAccountProfileEmailView").text(userInfo.email);
+    $("#myAccountProfileGenderView").text(userInfo.gender);
+    $("#myAccountProfileDOBView").text(userInfo.DOB);
+    $("#myAccountProfileMobileView").text(userInfo.mobile);
+    $("#myAccountProfileMobileAltView").text(userInfo.mobileAlt);
+    $("#myAccountProfileAddressView").text(userInfo.homeAddress);
+    $("#myAccountProfileCityView").text(userInfo.city);
+    $("#myAccountProfilePincodeView").text(userInfo.pincode);
+    $("#myAccountProfileStateView").text(userInfo.state);
+    $("#myAccountProfileCountryView").text(userInfo.country);
+    $("#myAccountProfilePancardView").text(userInfo.pancard);
+
+    $("#profileView").show();
+    $("#profileEdit").hide();
+    window.scrollTo(0, 0);
 }
 
 function tidyColumnName(column) {
@@ -317,12 +361,12 @@ function removeProfilePicture() {
     }, function(response) {
         if (response == 'success') {
             $("#myAccountProfileImage").prop('src', "./images/users/missing.png");
-            displayMessage('info', 'Your profile picture has been removed');
+            displayMessage('info', '', 'Your profile picture has been removed');
         } else {
-            displayMessage('info', 'There was a problem removing your profile picture. Please contact the web admin to inform them of this problem');
+            displayMessage('error', '', 'There was a problem removing your profile picture. Please contact the web admin to inform them of this problem');
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+        //displayMessage('error', 'Error', 'Error', "Error: Something went wrong with  AJAX POST");
     });
 }
 
@@ -485,15 +529,15 @@ function changePassword() {
             newPassword: $("#newPassword").val()
         }, function(response) {
             if (response == 'success') {
-                displayMessage('info', 'Your password has been changed.')
+                displayMessage('info', 'Password Changed', 'Your password has been changed successfully.')
             } else {
-                displayMessage('error', 'Error: ' + response);
+                displayMessage('error', 'Error', 'Error: ' + response);
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', "Err or: Something went wrong with changePassword function");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with changePassword function");
         });
     } else {
-        displayMessage('info', 'Please make sure your current password is correct and the passwords entered in the other text boxes are the same.')
+        displayMessage('warning', '', 'Please make sure your current password is correct and the passwords entered in the other text boxes are the same.')
     }
 }
 
@@ -504,12 +548,12 @@ function changeEmail() {
         emailCode: createEmailCode()
     }, function(response) {
         if (response == 'success') {
-            displayMessage('info', 'Your email has been changed and a verification email has been sent to your new email.')
+            displayMessage('info', '', 'Your email has been changed and a verification email has been sent to your new email.')
         } else {
-            displayMessage('error', 'Error: ' + response);
+            displayMessage('error', 'Error', 'Error: ' + response);
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Err or: Something went wrong with login function");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with login function");
     });
 }
 
@@ -557,20 +601,20 @@ function showWithdraw() {
                         code: createEmailCode()
                     }, function(response) {
                         if (response == 'success') {
-                            displayMessage('info', "A verification email has been sent to the entered email address. Please click it to be allowed to redeem your real quizetos for money.");
+                            displayMessage('info', 'Verification Email Sent', "A verification email has been sent to the entered email address. Please click it to be allowed to redeem your real quizetos for money.");
                         } else {
-                            displayMessage('error', "Err or sending verification email. Please try again.");
+                            displayMessage('error', 'Error', "Err or sending verification email. Please try again.");
                         }
                     }).fail(function (request, textStatus, errorThrown) {
-                        //displayMessage('error', "Err or: Something went wrong with sending verification email.");
+                        //displayMessage('error', 'Error', "Err or: Something went wrong with sending verification email.");
                     });
                 } else if (response == 'notexists') {
-                    displayMessage('info', "The email entered doesn't match the email attached to your account.");
+                    displayMessage('warning', 'Incorrect Email', "The email entered doesn't match the email attached to your account.");
                 } else {
-                    displayMessage('error', "Err or checking email. Please try again.");
+                    displayMessage('error', 'Error', "Err or checking email. Please try again.");
                 }
             }).fail(function (request, textStatus, errorThrown) {
-                //displayMessage('error', "Err or: Something went wrong with sending verification email.");
+                //displayMessage('error', 'Error', "Err or: Something went wrong with sending verification email.");
             });
         }
     }
@@ -589,15 +633,15 @@ function convertFreePoints() {
     }, function(response) {
         if (response.substr(0, 7) == 'success') {
             updatePoints();
-            displayMessage('info', response.substr(7) + " Bonus Quizetos have been converted to Real Quizetos");
+            displayMessage('info', 'Conversion Successful', response.substr(7) + " Bonus Quizetos have been converted to Real Quizetos");
         } else if (response == 'notenoughpoints') {
             updatePoints();
-            displayMessage('info', "You don't have enough bonus quizetos. Please enter a amount lower than the amount in the header.");
+            displayMessage('warning', 'Insufficient Qzuietos', "You don't have enough bonus quizetos. Please enter a amount lower than the amount in the header.");
         } else {
-            displayMessage('error', 'Error converting Bonus quizetos to Real quizetos. Please contact the web admin to inform them of this problem');
+            displayMessage('error', 'Error', 'Error converting Bonus quizetos to Real quizetos. Please contact the web admin to inform them of this problem');
         }
     }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Err or: Something went wrong with convertFreePoints function");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with convertFreePoints function");
     });
 }
 
@@ -633,18 +677,18 @@ function submitCheque() {
             method: 'Cheque'
         }, function(response) {
             if (response == 'success') {
-                displayMessage('info', "Your redeem request has been sent. You will receive an email when the cheque has been sent.");
+                displayMessage('info', 'Redeem Successful', "Your redeem request for the amount " + amount + " has been received and will be processed in 10 working days");
                 updatePoints();
             } else if (response == 'notenoughpoints') {
-                displayMessage('info', "You tried redeeming more points than you have. Please try redeeming a smaller amount.");
+                displayMessage('info', 'Insufficient Quizetos', "You tried redeeming more points than you have. Please try redeeming a smaller amount.");
             } else {
-                displayMessage('error', "Err or sending redeem request. Please try again later.");
+                displayMessage('error', 'Error', "Err or sending redeem request. Please try again later.");
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', "Err or: Something went wrong with redeemCheque function");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with redeemCheque function");
         });
     } else {
-        displayMessage('info', valid[1]);
+        displayMessage('info', 'warning', valid[1]);
     }
 }
 
@@ -668,18 +712,18 @@ function submitBankTransfer() {
             method: 'Bank Transfer'
         }, function(response) {
             if (response == 'success') {
-                displayMessage('info', "Your redeem request has been sent. You will receive an email when the transfer has been completed.");
+                displayMessage('info', 'Redeem Successful', "Your redeem request for the amount " + amount + " has been received and will be processed in 10 working days");
                 updatePoints();
             } else if (response == 'notenoughpoints') {
-                displayMessage('info', "You tried redeeming more points than you have. Please try redeeming a smaller amount.");
+                displayMessage('info', 'Insufficient Quizetos', "You tried redeeming more points than you have. Please try redeeming a smaller amount.");
             } else {
-                displayMessage('error', "Err or sending redeem request. Please try again later.");
+                displayMessage('error', 'Error', "Err or sending redeem request. Please try again later.");
             }
         }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', "Err or: Something went wrong with redeemCheque function");
+            //displayMessage('error', 'Error', "Err or: Something went wrong with redeemCheque function");
         });
     } else {
-        displayMessage('info', valid[1]);
+        displayMessage('warning', '', valid[1]);
     }
 }
 

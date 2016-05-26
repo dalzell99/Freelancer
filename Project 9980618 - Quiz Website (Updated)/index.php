@@ -210,9 +210,9 @@
 
 <!-- Start Promotions -->
 
-<div class=" container margin-top" >
+<div class=" container margin-top" style='padding: 10px;'>
     <h2 class="h2-heading1 animated fadeInDown wow margin-35">Promotion <br/>  <img src="images/line.png" alt="" class="mbl-none" /></h2>
-    <div class="row" id='promotions'>
+    <div class="row" id='promotions' style='margin-left:0; margin-right:0;'>
         <!--
         <div id="promotionCarousel" class="carousel slide" data-ride="carousel">
 

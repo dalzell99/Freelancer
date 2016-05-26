@@ -4,6 +4,8 @@
         <title>Admin</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="css/external/toastr.min.css" />
         <link href="assets/css/admin-bootstrap.css" rel="stylesheet" type="text/css" />
 
         <link href='css/external/datetimepicker.css' rel='stylesheet'>
@@ -14,6 +16,7 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js' type="application/javascript"></script>
         <script src="js/external/datetimepicker.js" type="application/javascript"></script>
         <script src="js/external/tablesort.js" type="application/javascript"></script>
+        <script type="text/javascript" src="js/external/toastr.min.js"></script>
         <?php echo '<script type="text/javascript" src="js/admin.js?' . filemtime('js/admin.js') . '"></script>'; ?>
     </head>
     <body>
