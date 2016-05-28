@@ -20,13 +20,13 @@
 
             <td>
                 <div class='profile' onclick='window.location = "#my-profile"'>
-                    My Profile
+                    Profile
                 </div>
             </td>
 
             <td>
                 <div class='properties' onclick='window.location = "#my-properties"'>
-                    My Properties
+                    Properties
                 </div>
             </td>
 
@@ -39,12 +39,6 @@
             <td>
                 <div class='directBooking' onclick='window.location = "#direct-booking"'>
                     Direct Booking
-                </div>
-            </td>
-
-            <td>
-                <div class='password' onclick='window.location = "#change-password"'>
-                    Change Password
                 </div>
             </td>
 

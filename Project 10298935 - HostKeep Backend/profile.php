@@ -1,12 +1,9 @@
-<p>
-    Avoid missing out on important updates or settlement monies by updating your details below.
-</p>
-
-<p>
-    HostKeep's preferred method of correspondence is email.
-</p>
-
 <table>
+    <tr>
+        <td colspan='3'>
+            <strong>Personal Details</strong>
+        </td>
+    </tr>
     <tr>
         <td>
             Salutation
@@ -37,22 +34,30 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="2">
             Company (if applicable)
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="2">
             <input id='profileCompany' class='changeable company' type='text' />
         </td>
     </tr>
+    <tr class='profileSeparator'>
+
+    </tr>
     <tr>
-        <td colspan="3">
-            Username (email address)
+        <td colspan='3'>
+            <strong>Contact Details</strong>
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td colspan="2">
+            Email address
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
             <input id='profileEmail' type='email' disabled="true" />
         </td>
     </tr>
@@ -73,66 +78,40 @@
         </td>
     </tr>
     <tr>
-        <td>
-            Bank Name
-        </td>
-        <td>
-            BSB
-        </td>
-        <td>
-            Account Number
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <input id='profileBankName' class='changeable bankName' type='text' />
-        </td>
-        <td>
-            <input id='profileBSB' class='changeable BSB' type='text' />
-        </td>
-        <td>
-            <input id='profileAccountNumber' class='changeable accountNumber' type='text' />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
+        <td colspan="2">
             Postal Address
         </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            <textarea id='profileAddress' class='changeable address' lines='3'></textarea>
-        </td>
-    </tr>
-    <tr>
         <td>
             Suburb
         </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input id='profileAddress' class='changeable address'></input>
+        </td>
+        <td>
+            <input id='profileSuburb' class='changeable suburb' type='text' />
+        </td>
+    </tr>
+    <tr>
         <td>
             State
         </td>
         <td>
             Postcode
         </td>
+        <td>
+            Country
+        </td>
     </tr>
     <tr>
-        <td>
-            <input id='profileSuburb' class='changeable suburb' type='text' />
-        </td>
         <td>
             <input id='profileState' class='changeable state' type='text' />
         </td>
         <td>
             <input id='profilePostcode' class='changeable postcode' type='text' />
         </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            Country
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
+        <td>
             <select id='profileCountry' class='changeable country'>
                 <option value="Australia">Australia</option>
                 <option value="Canada">Canada</option>
@@ -385,8 +364,39 @@
             </select>
         </td>
     </tr>
+    <tr class='profileSeparator'>
+
+    </tr>
+    <tr>
+        <td colspan='3'>
+            <strong>Bank Details</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Bank Name
+        </td>
+        <td>
+            BSB
+        </td>
+        <td>
+            Account Number
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input id='profileBankName' class='changeable bankName' type='text' />
+        </td>
+        <td>
+            <input id='profileBSB' class='changeable BSB' type='text' />
+        </td>
+        <td>
+            <input id='profileAccountNumber' class='changeable accountNumber' type='text' />
+        </td>
+    </tr>
 </table>
 
 <button id='profileButton'>Save Changes</button>
+<a href='#change-password'>Change password</a>
 
 <p id='profileLastModified'></p>

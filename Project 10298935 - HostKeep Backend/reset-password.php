@@ -17,9 +17,6 @@
                 </header>
 
                 <main>
-                    <p>
-                        HostKeep's user dashboard is always open for you to keep your details up to date or view important documents relating to your claim.
-                    </p>
                     <div id='resetpasswordGetTempPassword'>
                         <p>
                             If you have forgotten your password, enter your email address below and a new temporary password will be sent to you inbox immediately. You will be asked to change this temporary password after login.
@@ -28,7 +25,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <label for'#resetpasswordEmailInput'>Username (email address)</label>
+                                    <label for'#resetpasswordEmailInput'>Email address</label>
                                 </td>
                                 <td>
                                     <input id='resetpasswordEmailInput' type='email' />
@@ -50,15 +47,6 @@
                                 </td>
                                 <td>
                                     <a href='/index.php'>Return to login</a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <!-- Empty -->
-                                </td>
-                                <td>
-                                    <a href='/register.php'>Register new account</a>
                                 </td>
                             </tr>
                         </table>

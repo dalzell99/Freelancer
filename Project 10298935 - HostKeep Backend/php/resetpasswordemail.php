@@ -1,11 +1,15 @@
 <?php
 $message = "
 <p>
+    You have requested to reset your HostKeep Owners Portal password.
+</p>
+
+<p>
     You can either click the link below or copy and paste it into the address bar of your browser. You will be prompted to change your password.
 </p>
 
 <p>
-    <a href='$dashboardWebaddress/reset-password.php?username=$username&password=$password'>$dashboardWebaddress/reset-password.php?username=$username&password=$password</a>
+    <a href='http://owners.hostkeep.com.au/reset-password.php?username=$username&password=$password'>http://owners.hostkeep.com.au/reset-password.php?username=$username&password=$password</a>
 </p>
 
 <p>

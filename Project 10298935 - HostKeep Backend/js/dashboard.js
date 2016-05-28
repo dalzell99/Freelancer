@@ -34,11 +34,11 @@ $(function() {
                     case 'documents':
                         documents();
                         break;
-                    case 'change-password':
-                        password();
-                        break;
                     case 'direct-booking':
                         directBooking();
+                        break;
+                    case 'change-password':
+                        password();
                         break;
                     case 'admin':
                         admin();
@@ -79,10 +79,10 @@ $(function() {
             // Show admin section of dashboard if logged in as admin
             $(".admin").show();
             // Change the nav item widths to accommodate the Admin nav
-            $("nav table td").css('width', '14.28%');
+            $("nav table td").css('width', '16.67%');
         } else if (sessionStorage.lastLogin != '') {
             // If the user isn't admin, show username and last login time and IP address
-            $("#headerCustomerInfo").html(sessionStorage.username + "<br />" + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + " [" + sessionStorage.lastLoginIP + "]");
+            $("#headerCustomerInfo").html(sessionStorage.username;
         }
 
         // Get customer list if admin logged in
@@ -284,7 +284,7 @@ function welcome() {
 
 // Show profile container, set title, and active nav item and populate the input fields
 function profile() {
-    $("div#headerTitle").text("My Profile");
+    $("div#headerTitle").text("Profile");
     $("nav .active").removeClass("active");
     $("nav .profile").addClass("active");
 
@@ -368,7 +368,7 @@ function profile() {
                 displayMessage('error', "Error: Something went wrong with  AJAX POST");
             });
         }
-    })
+    });
 
     hideAllContainers();
     $("div#profile").show();
@@ -376,7 +376,7 @@ function profile() {
 
 // Show properties container, set title, and active nav item, dynamically create property table
 function properties() {
-    $("div#headerTitle").text("My Properties");
+    $("div#headerTitle").text("Properties");
     $("nav .active").removeClass("active");
     $("nav .properties").addClass("active");
 
@@ -391,7 +391,7 @@ function properties() {
         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
         html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + value.description + "</td>";
         html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + value.address + "</td>";
-        html += "    <td class='minimumNightlyPrice' contenteditable=true>" + value.minimumNightlyPrice + "</td>";
+        html += "    <td class='minimumNightlyPrice'><div contenteditable=true>" + value.minimumNightlyPrice + "</div></td>";
         html += "</tr>";
     });
 
@@ -454,7 +454,7 @@ function properties() {
                     html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddName").val() + "</td>";
                     html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddDescription").val() + "</td>";
                     html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddAddress").val() + "</td>";
-                    html += "    <td class='minimumNightlyPrice' contenteditable=true>" + $("#propertiesAddPrice").val() + "</td>";
+                    html += "    <td class='minimumNightlyPrice'><div contenteditable=true>" + $("#propertiesAddPrice").val() + "</div></td>";
                     html += "</tr>";
 
                     $("#properties tbody").append(html);
@@ -512,10 +512,10 @@ function documents() {
         html += "    <td class='month' sorttable_customkey='" + months.indexOf(value.month) + "'>" + value.month + "</td>";
         html += "    <td class='dateUploaded'>" + moment(value.dateUploaded).format("Do MMM YYYY") + "</td>";
         html += "    <td class='notes' contenteditable=true>" + value.notes + "</td>";
-        html += "    <td><button onclick='viewDocument(\"" + value.documentFilename + "\")'>View</button></td>";
         if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
             html += "    <td><button onclick='deleteDocument(" + value.documentID + ")'>Delete</button></td>";
         }
+        html += "    <td><button onclick='viewDocument(\"" + value.documentFilename + "\")'>View</button></td>";
         html += "    <td style='display:none'>" + value.documentID + "</td>";
         html += "</tr>";
     });
@@ -598,8 +598,8 @@ function documents() {
                         html += "    <td class='month' sorttable_customkey='" + months.indexOf($("#documentsAddMonth").val()) + "'>" + $("#documentsAddMonth").val() + "</td>";
                         html += "    <td class='dateUploaded'>" + moment().format("Do MMM YYYY") + "</td>";
                         html += "    <td class='notes' contenteditable=true>" + $("#documentsAddNotes").val() + "</td>";
-                        html += "    <td><button onclick='viewDocument(\"" + filename + "\")'>View</button></td>";
                         html += "    <td><button onclick='deleteDocument(" + response.substr(7) + ")'>Delete</button></td>";
+                        html += "    <td><button onclick='viewDocument(\"" + filename + "\")'>View</button></td>";
                         html += "    <td style='display:none'>" + response.substr(7) + "</td>";
                         html += "</tr>";
 
@@ -673,11 +673,8 @@ function deleteDocument(id) {
     });
 }
 
-// Show change password container, set title, and active nav item
 function password() {
     $("div#headerTitle").text("Change Password");
-    $("nav .active").removeClass("active");
-    $("nav .password").addClass("active");
 
     // Set timer to check current password
     $("#changepasswordCurrentPassword").on({
@@ -786,7 +783,7 @@ function directBooking() {
         html += "    <td class='guestCheckIn'>" + moment(value.guestCheckIn).format('ddd Do MMM YYYY') + "</td>";
         html += "    <td class='guestCheckOut'>" +  moment(value.guestCheckOut).format('ddd Do MMM YYYY') + "</td>";
         html += "    <td class='invoiced'><input type='checkbox' " + (value.invoiced == 'true' ? 'checked' : '') + " /></td>";
-        html += "    <td class='cleanUp'><input type='checkbox' " + (value.cleanUp == 'true' ? 'checked' : '') + " /></td>";
+        html += "    <td class='cleanUp'>" + value.cleanUp + "</td>";
         html += "    <td><button onclick='deleteBooking(" + value.bookingID + ")'>Delete</button>";
         html += "</tr>";
     });
@@ -821,7 +818,7 @@ function directBooking() {
                 guestCheckIn: $("#directBooking input[type='hidden']:eq(0)").val(), // The datepicker dates are stored in a hidden input. This gets the first one
                 guestCheckOut: $("#directBooking input[type='hidden']:eq(1)").val(), // and this one gets the second hidden input
                 invoiced: $("#directBookingAddInvoice").prop('checked'),
-                cleanUp: $("#directBookingAddCleanUp").prop('checked'),
+                cleanUp: $("#directBookingAddCleanUp").val(),
                 notes: $("#directBookingAddNotes").val()
             }, function(response) {
                 if (response.substr(0, 7) == 'success') {
@@ -835,7 +832,7 @@ function directBooking() {
                     html += "    <td class='guestCheckIn'>" + $("#directBookingAddCheckIn").val() + "</td>";
                     html += "    <td class='guestCheckOut'>" + $("#directBookingAddCheckOut").val() + "</td>";
                     html += "    <td class='invoiced'><input type='checkbox' " + ($("#directBookingAddInvoice").prop('checked') == true ? 'checked' : '') + " /></td>";
-                    html += "    <td class='cleanUp'><input type='checkbox' " + ($("#directBookingAddCleanUp").prop('checked') == true ? 'checked' : '') + " /></td>";
+                    html += "    <td class='cleanUp'>" + $("#directBookingAddCleanUp").val() + "</td>";
                     html += "    <td><button onclick='deleteBooking(" + response.substr(7) + ")'>Delete</button>";
                     html += "</tr>";
 
@@ -851,7 +848,7 @@ function directBooking() {
                         'guestCheckIn': $("#directBooking input[type='hidden']:eq(0)").val(),
                         'guestCheckOut': $("#directBooking input[type='hidden']:eq(1)").val(),
                         'invoiced': $("#directBookingAddInvoice").prop('checked'),
-                        'cleanUp': $("#directBookingAddCleanUp").prop('checked'),
+                        'cleanUp': $("#directBookingAddCleanUp").val(),
                         'notes': $("#directBookingAddNotes").val()
                     });
 
@@ -862,7 +859,6 @@ function directBooking() {
                     checkinDatePicker.pickadate('clear');
                     checkoutDatePicker.pickadate('clear');
                     $("#directBookingAddInvoice").prop('checked', false);
-                    $("#directBookingAddCleanUp").prop('checked', false);
                     $("#directBookingAddNotes").val('');
                 } else {
                     displayMessage('error', 'Something went wrong added the booking. The web admin has been notified and will fix the problem as soon as possible.');

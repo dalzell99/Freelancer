@@ -18,6 +18,26 @@ main > div {
   margin-top: 10px;
 }
 
+main > div#profile .profileSeparator {
+  height: 30px;
+}
+
+main > div#profile table {
+  width: 70%;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  main > div#profile table {
+    width: 100%;
+  }
+}
+
+main > div#profile table th,
+main > div#profile table td {
+  width: 33.33%;
+}
+
 main > div#properties #propertiesAdd,
 main > div#properties #propertiesAddNewProperty {
   display: none;
@@ -37,16 +57,29 @@ main > div#properties table td {
   text-align: center;
 }
 
-main > div#properties table th:nth-child(3), main > div#properties table th:nth-child(4),
-main > div#properties table td:nth-child(3),
+main > div#properties table th:nth-child(2),
+main > div#properties table td:nth-child(2) {
+  width: 7.5%;
+}
+
+main > div#properties table th:nth-child(3),
+main > div#properties table td:nth-child(3) {
+  width: 12.5%;
+}
+
+main > div#properties table th:nth-child(4),
 main > div#properties table td:nth-child(4) {
+  width: 20%;
+}
+
+main > div#properties table th:nth-child(5),
+main > div#properties table td:nth-child(5) {
   width: 30%;
 }
 
-main > div#properties table th:nth-child(2), main > div#properties table th:nth-child(5),
-main > div#properties table td:nth-child(2),
-main > div#properties table td:nth-child(5) {
-  width: 20%;
+main > div#properties table th:nth-child(6) > div,
+main > div#properties table td:nth-child(6) > div {
+  border: 1px solid #00b7a6;
 }
 
 main > div#properties table img {
@@ -71,60 +104,52 @@ main > div#documents table {
 
 main > div#documents table th {
   font-size: 1.2em;
+  cursor: pointer;
 }
 
 main > div#documents table th,
 main > div#documents table td {
   padding: 5px;
-  text-align: center;
+  text-align: left;
 }
 
-main > div#documents table th:nth-child(1), main > div#documents table th:nth-child(2), main > div#documents table th:nth-child(3),
-main > div#documents table td:nth-child(1),
+main > div#documents table th:nth-child(1),
+main > div#documents table td:nth-child(1) {
+  width: 26%;
+}
+
+main > div#documents table th:nth-child(2), main > div#documents table th:nth-child(3),
 main > div#documents table td:nth-child(2),
 main > div#documents table td:nth-child(3) {
-  width: 15%;
+  width: 13%;
 }
 
 main > div#documents table th:nth-child(4),
 main > div#documents table td:nth-child(4) {
-  width: 18%;
+  width: 15%;
 }
 
 main > div#documents table th:nth-child(5),
 main > div#documents table td:nth-child(5) {
-  width: 37%;
+  width: 33%;
 }
 
-main > div#directBooking table {
-  width: 100%;
-}
-
-main > div#directBooking table th {
-  font-size: 1.2em;
-}
-
-main > div#directBooking table th,
-main > div#directBooking table td {
-  padding: 5px;
+main > div#directBooking table:not(#bookingTable) th {
   text-align: center;
 }
 
-main > div#directBooking table th:nth-child(1), main > div#directBooking table th:nth-child(2), main > div#directBooking table th:nth-child(3),
-main > div#directBooking table td:nth-child(1),
-main > div#directBooking table td:nth-child(2),
-main > div#directBooking table td:nth-child(3) {
-  width: 15%;
+main > div#directBooking table#bookingTable {
+  width: 100%;
 }
 
-main > div#directBooking table th:nth-child(4),
-main > div#directBooking table td:nth-child(4) {
-  width: 18%;
+main > div#directBooking table#bookingTable th {
+  font-size: 1.2em;
 }
 
-main > div#directBooking table th:nth-child(5),
-main > div#directBooking table td:nth-child(5) {
-  width: 37%;
+main > div#directBooking table#bookingTable th,
+main > div#directBooking table#bookingTable td {
+  padding: 5px;
+  text-align: center;
 }
 
 main > div#admin button {

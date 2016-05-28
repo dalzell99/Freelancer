@@ -2,6 +2,9 @@
     Friends or family coming to stay at your HostKeep managed property? Please let us know below. Requests take up to 24hrs to be processed and calendar blocked out.
 </p>
 
+<p>
+    <strong>Please note, the calendar does not display existing guest booking. If there is an conflict with dates, we will be in touch.</strong>
+</p>
 
 <div id='directBookingAddNewBooking'>
     <div>
@@ -40,13 +43,16 @@
     </div>
 
     <div>
-        <label for="#directBookingAddInvoice">Guest Invoiced?</label>
-        <input id='directBookingAddInvoice' type='checkbox' />
+        <label for="#directBookingAddCleanUp">Post check-out cleanup</label>
+        <select id='directBookingAddCleanUp'>
+            <option value="Guest">Guest will complete the clean and laundry ready for next guest</option>
+            <option value="HostKeep">HostKeep to complete clean and invoice guest</option>
+        </select>
     </div>
 
     <div>
-        <label for="#directBookingAddCleanUp">Post check-out cleanup needed?</label>
-        <input id='directBookingAddCleanUp' type='checkbox' />
+        <input id='directBookingAddInvoice' type='checkbox' />
+        <label for="#directBookingAddInvoice">Does your guest need to be be invoiced for this booking?</label>
     </div>
 
     <div>

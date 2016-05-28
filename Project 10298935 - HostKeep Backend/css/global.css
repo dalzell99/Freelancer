@@ -54,7 +54,8 @@ nav table {
 }
 
 nav table td {
-  width: 16.67%;
+  width: 20%;
+  padding: 0;
 }
 
 nav table td div {
@@ -70,7 +71,7 @@ nav table td div {
 
 @media (max-width: 1200px) {
   nav table td div {
-    font-size: .85em;
+    font-size: .65em;
   }
 }
 
@@ -83,20 +84,14 @@ nav table td div.active {
   color: #fff;
 }
 
-@media (max-width: 601px) {
-  nav table td:nth-child(5) div {
-    padding-top: .75em;
-  }
-}
-
-@media (max-width: 474px) {
-  nav table td:nth-child(3) div {
-    padding-top: .75em;
-  }
-}
-
 nav table td .admin {
   display: none;
+}
+
+@media (max-width: 399px) {
+  nav table td:nth-child(5) > div {
+    padding-top: .7em;
+  }
 }
 
 input,
