@@ -1,7 +1,6 @@
 <?php include('header.php'); ?>
 <?php
-echo '<link rel="stylesheet" type="text/css" href="css/termsofuse.css?' . filemtime('css/termsofuse.css') . '" />';
-echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/termsofuse.js') . '"></script>';
+echo '<script type="text/javascript" src="js/contact-us.js?' . filemtime('js/contact-us.js') . '"></script>';
 ?>
 
 <div class="container margin-top" style=" background: url(images/backgrond.png); min-height:600px;">
@@ -12,73 +11,90 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
 
 
         <p class="margin-top">
-       <form id="contact" name="contact" method="post" novalidate>
-            <fieldset class="cont-field">
+            <div id="contactForm" class="cont-field">
+                <div class="row">
 
-              <div class="row">
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="name" id="name" class="control-label">First Name </label>
-                    <input type="text" name="name" id="name" class="form-control" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="name" id="name" class="control-label">Last Name </label>
-                    <input type="text" name="name" id="name" class="form-control" required>
-                  </div>
-                </div>
-
-              </div>
-              <div class="row">
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="email" id="email" class="control-label">Email <span>(Required)</span></label>
-                    <input type="email" name="email" id="email" class="form-control" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="phone" id="phone" class="control-label">Phone Number </label>
-                    <input type="phone" name="phone" id="phone" class="form-control" required>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="row">
-
-                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="Message" id="message" class="control-label">Address </label>
-                    <textarea type="text" name="message" id="message" class="form-control"  required="" rows="4"></textarea>
-                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="#contactFormUsername" class="control-label">Username </label>
+                      <input type="text" id="contactFormUsername" class="form-control">
+                    </div>
                   </div>
                   <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="Message" id="message" class="control-label">Enquiry </label>
-                    <textarea type="text" name="message" id="message" class="form-control"  required="" rows="4"></textarea>
+                    <div class="form-group">
+                      <label for="#contactFormSubject" class="control-label">Subject </label>
+                      <select id="contactFormSubject" class="form-control" >
+                        <option value="info@iqzeto.com">Website related issues/query</option>
+                        <option value="rewards@iqzeto.com">Rewards related query</option>
+                        <option value="redeem@iqzeto.com">Redeem request related query</option>
+                        <option value="quiz@iqzeto.com">Quiz related query</option>
+                        <option value="query@iqzeto.com">Any other specific query</option>
+                        <option value="feedback@iqzeto.com">Any feedback</option>
+                      </select>
+                    </div>
                   </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="#contactFormFirstName" class="control-label">First Name </label>
+                      <input type="text" id="contactFormFirstName" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="#contactFormLastName" id="name" class="control-label">Last Name </label>
+                      <input type="text" id="contactFormLastName" class="form-control">
+                    </div>
                   </div>
 
-              </div>
+                </div>
+                <div class="row">
 
-              <div class="row">
-              <div class="col-md-6">
-              <input id="submit" type="submit" class="btn btn-danger btn-md" name="submit" value="Submit" style=" margin:0px;">
-             <input id="submit" type="submit" class="btn btn-danger btn-md" name="clear" value="Clear" style=" margin:0px;">
-             </div></div>
-            </fieldset>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="#contactFormEmail" class="control-label">Email <span>(Required)</span></label>
+                      <input type="email" id="contactFormEmail" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="#contactFormPhone" class="control-label">Phone Number </label>
+                      <input type="phone" id="contactFormPhone" class="form-control">
+                    </div>
+                  </div>
 
-          </form>
+                </div>
+
+                <div class="row">
+
+                   <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="#contactFormAddress" class="control-label">Address </label>
+                      <textarea id="contactFormAddress" class="form-control" rows="4"></textarea>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="#contactFormMessage" id="message" class="control-label">Enquiry </label>
+                      <textarea type="text" id="contactFormMessage" class="form-control" rows="4"></textarea>
+                    </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <button id="contactFormSubmitButton" class="btn btn-danger btn-md" style=" margin:0px;">Submit</button>
+                        <button id="contactFormClearButton" class="btn btn-danger btn-md" style=" margin:0px;">Clear</button>
+                    </div>
+                </div>
+
+            </div>
         </p>
-    </div>
-
-    <div class=" col-md-4 col-xs-12 col-lg-4 col-sm-4  margin-top-30" style="margin-top: 55px;">
-     <p class=" margin-top"><i class="fa fa-envelope" aria-hidden="true"></i> Email - info@iqzetovirus.com</p>
-     <p class=" margin-top"><i class="fa fa-phone" aria-hidden="true"></i> Phone - +91 - 987654321</p>
     </div>
 
 

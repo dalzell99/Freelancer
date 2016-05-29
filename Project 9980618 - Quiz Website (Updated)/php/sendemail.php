@@ -6,7 +6,7 @@ function sendEmail($to, $from, $subject, $message) {
 
     $mail->IsSMTP();                                      // Set mailer to use SMTP
     //$mail->SMTPDebug  = 1;
-    $mail->Host = "mail.quizeto.com";                 // Specify main and backup server
+    $mail->Host = "mail.iqzeto.com";                 // Specify main and backup server
     $mail->Port = 26;                                    // Set the SMTP port
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
     $mail->Username = $from;                // SMTP username

@@ -82,7 +82,7 @@ $(function() {
             $("nav table td").css('width', '16.67%');
         } else if (sessionStorage.lastLogin != '') {
             // If the user isn't admin, show username and last login time and IP address
-            $("#headerCustomerInfo").html(sessionStorage.username;
+            $("#headerCustomerInfo").html(sessionStorage.username);
         }
 
         // Get customer list if admin logged in
