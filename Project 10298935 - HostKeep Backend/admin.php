@@ -1,6 +1,11 @@
 <table>
     <tr>
         <td>
+            <strong>Create new user</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>
             Username
         </td>
         <td>
@@ -26,20 +31,20 @@
             <button id='adminCreateNewCustomerButton'>Create New Customer</button>
         </td>
     </tr>
-    <tr>
-        <td colspan="3">
-            <button id='adminSendWelcomeEmailToNewCustomerButton'>Send Welcome Email to All New Users</button>
-        </td>
-    </tr>
 </table>
 
+<div class='usersLabel'>
+    <strong>Users</strong>
+</div>
 <table id='userTable'>
     <thead>
         <tr>
             <th>Owner Name</th>
             <th>Email Address</th>
             <th>Properties</th>
+            <th>Last Login</th>
             <th>Status</th>
+            <th colspan="2">Action</th>
         </tr>
     </thead>
     <tbody></tbody>

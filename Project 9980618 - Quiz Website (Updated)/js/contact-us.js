@@ -3,9 +3,11 @@ $(function() {
     // php scripts to email the info
     $("#contactFormSubmitButton").click(function () {
         if (allFieldsFilled()) {
+            var toEmail = $("#contactFormSubject").val();
+
             $.post("./php/contact-us.php", {
                 username: $("#contactFormUsername").val(),
-                toEmail: $("#contactFormSubject").val(),
+                toEmail: toEmail,
                 subject: $("#contactFormSubject").children(':selected').text(),
                 firstName: $("#contactFormFirstName").val(),
                 lastName: $("#contactFormLastName").val(),
@@ -14,8 +16,11 @@ $(function() {
                 address: $("#contactFormAddress").val(),
                 message: $("#contactFormMessage").val()
             }, function(response) {
-                if (response == 'success') {
+                if (response == 'success' && toEmail.substr(0, 8) != 'feedback') {
                     displayMessage('info', 'Message Sent', 'Your query has been received, One of our support team will get back to you shortly');
+                    clearContactForm();
+                } else if (response == 'success' && toEmail.substr(0, 8) == 'feedback') {
+                    displayMessage('info', 'Message Sent', 'Thanks for your valuable feedback');
                     clearContactForm();
                 } else {
                     displayMessage('error', '', 'There was an error sending the message');
@@ -24,7 +29,7 @@ $(function() {
                 //displayMessage('error', "Error: Something went wrong with  AJAX POST");
             });
         } else {
-            displayMessage('warning', '', 'All fields except username are required');
+            displayMessage('warning', '', 'All fields are required');
         }
     });
 
@@ -44,6 +49,7 @@ function clearContactForm() {
 
 function allFieldsFilled() {
     if (
+    $("#contactFormUsername").val() == '' ||
     $("#contactFormFirstName").val() == '' ||
     $("#contactFormLastName").val() == '' ||
     $("#contactFormEmail").val() == '' ||

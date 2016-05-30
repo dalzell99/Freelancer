@@ -16,7 +16,7 @@ $sql = "INSERT INTO Customer(username, firstName, lastName) VALUES ('$email', '$
 
 // Insert new customer
 if ($result = mysqli_query($con, $sql)) {
-    echo 'success';
+    echo 'success' . mysqli_insert_id($con);
 } else {
     // Check if it failed because the username/email is already in the database
     $sql2 = "SELECT 1 FROM Customer WHERE username = '$email'";

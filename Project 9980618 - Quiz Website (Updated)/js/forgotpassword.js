@@ -10,6 +10,7 @@ window.onload = function () {
         var password = getUrlVars()['password'];
         if (password != undefined) {
             $("#forgotPassword").hide();
+            $("#createNewPassword").show();
             checkTempPassword(username, password);
             $("#confirmPassword").on({
                 blur: areSamePassword
@@ -18,8 +19,6 @@ window.onload = function () {
             $("#newPassword").on({
                 blur: areSamePassword
             });
-        } else {
-            $("#createNewPassword").hide();
         }
     }
 }
@@ -31,8 +30,6 @@ function createNewPassword() {
         newPassword: createEmailCode()
     }, function (response) {
         if (response == 'success') {
-            $("#forgotPassword").hide();
-            $("#createNewPassword").show();
             displayMessage('info', 'Password Reset', "Your password has been reset. Check your emails for the link to set your new password.");
         } else if (response == 'incorrect') {
             displayMessage('warning', 'Incorrect Login Details', "The username or email entered is incorrect")
@@ -50,7 +47,7 @@ function checkTempPassword(username, password) {
         password: password
     }, function (response) {
         if (response == 'incorrect') {
-            displayMessage('warning', 'Incorrect Password', "The password included in the web address is incorrect. Please contact the web admin to inform them of this error.");
+            displayMessage('warning', 'Incorrect Password', "The password included in the web address is incorrect. Please use the link included in the email sent to you. If you did then contact the web admin to inform them of this error.");
             $("#createNewPassword").hide();
         }
     }).fail(function (request, textStatus, errorThrown) {
@@ -61,8 +58,7 @@ function checkTempPassword(username, password) {
 function changePassword() {
     if (areSamePassword()) {
         $.post('./php/users/changepassword.php', {
-            //username: getUrlVars()['username'],
-            username: $("#forgotPasswordUsername").val(),
+            username: getUrlVars()['username'],
             newPassword: $("#newPassword").val()
         }, function (response) {
             if (response == 'success') {

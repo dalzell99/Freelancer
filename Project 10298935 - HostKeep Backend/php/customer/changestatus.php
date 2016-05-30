@@ -16,23 +16,7 @@ $sqlUser = "SELECT status, username FROM Customer WHERE customerID = '$customerI
 if ($resultUser = mysqli_query($con, $sqlUser)) {
     $sql = "UPDATE Customer SET status = '$status' WHERE customerID = '$customerID'";
     if ($result = mysqli_query($con, $sql)) {
-        // check if status was changed from proposal to active.
-        $rowUser = mysqli_fetch_assoc($resultUser);
-        if ($rowUser['status'] == 'proposal' && $status == 'active') {
-            // If yes then send welcome email
-            if (sendWelcomeEmail($con, $rowUser['username'])) {
-                echo 'success';
-            } else {
-                sendErrorEmail("
-                changestatus.php<br />
-                Mail fail
-                ");
-                echo 'fail';
-            }
-        } else {
-            // If not, then echo success
-            echo 'success';
-        }
+        echo 'success';
     } else {
         sendErrorEmail("
         changestatus.php<br />

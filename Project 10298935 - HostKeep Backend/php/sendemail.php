@@ -5,12 +5,12 @@ require_once("global.php");
 function sendWelcomeEmail($con, $email) {
     $password = substr(md5(rand()), 0, 7); // A random 7 character password
 
-    mysqli_query($con, "INSERT INTO Customer(username, password) VALUES ('$email', '" . hashPassword($con, $password) . "') ON DUPLICATE KEY UPDATE password = '" . hashPassword($con, $password) . "'");
+    $sql = "INSERT INTO Customer(username, password) VALUES ('$email', '" . hashPassword($con, $password) . "') ON DUPLICATE KEY UPDATE password = '" . hashPassword($con, $password) . "'";
 
     require("../welcomeemail.php");
 
     // Send welcome email with login details
-    if (sendEmail($email, $noReplyEmail, 'Welcome to HostKeep', $message)) {
+    if (mysqli_query($con, $sql) && sendEmail($email, $noReplyEmail, 'Welcome to HostKeep', $message)) {
         return true;
     } else {
         return false;

@@ -7,53 +7,146 @@
 </p>
 
 <div id='directBookingAddNewBooking'>
-    <div>
-        <label for="#directBookingAddProperty">Property</label>
-        <select id='directBookingAddProperty'></select>
-    </div>
+    <table>
+        <tr>
+            <td>
+                <p>
+                    <strong>Property</strong>
+                </p>
+            </td>
+            <td>
 
-    <div>
-        <label for="#directBookingAddGuestName">Guest Name</label>
-        <input id='directBookingAddGuestName' type='text' />
-    </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select id='directBookingAddProperty'></select>
+            </td>
+            <td>
 
-    <div>
-        <label for="#directBookingAddGuestMobile">Guest Mobile</label>
-        <input id='directBookingAddGuestMobile' type='text' />
-    </div>
+            </td>
+        </tr>
 
-    <div>
-        <label for="#directBookingAddGuestEmail">Guest Email</label>
-        <input id='directBookingAddGuestEmail' type='text' />
-    </div>
+        <tr class='bookingSeparator'></tr>
 
-    <div>
-        <label for="#directBookingAddCheckIn">Check-in Date</label>
-        <input id='directBookingAddCheckIn' type='date' />
-    </div>
+        <tr>
+            <td>
+                <p>
+                    <strong>Guest Details</strong>
+                </p>
+            </td>
+            <td>
 
-    <div>
-        <label for="#directBookingAddCheckOut">Check-out Date</label>
-        <input id='directBookingAddCheckOut' type='date' />
-    </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Guest Name
+            </td>
+            <td>
 
-    <div>
-        <label for="#directBookingAddNotes">Notes</label>
-        <textarea id='directBookingAddNotes' rows='4'></textarea>
-    </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id='directBookingAddGuestName' type='text' />
+            </td>
+            <td>
 
-    <div>
-        <label for="#directBookingAddCleanUp">Post check-out cleanup</label>
-        <select id='directBookingAddCleanUp'>
-            <option value="Guest">Guest will complete the clean and laundry ready for next guest</option>
-            <option value="HostKeep">HostKeep to complete clean and invoice guest</option>
-        </select>
-    </div>
+            </td>
+        </tr>
 
-    <div>
-        <input id='directBookingAddInvoice' type='checkbox' />
-        <label for="#directBookingAddInvoice">Does your guest need to be be invoiced for this booking?</label>
-    </div>
+        <tr>
+            <td>
+                Guest Mobile
+            </td>
+            <td>
+                Guest Email
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id='directBookingAddGuestMobile' type='text' />
+            </td>
+            <td>
+                <input id='directBookingAddGuestEmail' type='text' />
+            </td>
+        </tr>
+
+        <tr class='bookingSeparator'></tr>
+
+        <tr>
+            <td colspan="2">
+                <p>
+                    <strong>Dates</strong>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Check-in Date
+            </td>
+            <td>
+                Check-out Date
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id='directBookingAddCheckIn' type='date' />
+            </td>
+            <td>
+                <input id='directBookingAddCheckOut' type='date' />
+            </td>
+        </tr>
+
+        <tr class='bookingSeparator'></tr>
+
+        <tr>
+            <td colspan="2">
+                <p>
+                    <strong>Additional Information</strong>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <p>Guest to be invoiced for booking:</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <form>
+                    <input type='radio' name='invoice' id='directBookingAddInvoiceYes' checked /> Yes<br />
+                    <input type='radio' name='invoice' id='directBookingAddInvoiceNo' /> No
+                </form>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <p>Turnover (cleaning and laundry) to be completed by:</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <form>
+                    <input type='radio' name='cleaning' id='directBookingAddInvoiceHostkeep' checked /> HostKeep (invoiced to guest)<br />
+                    <input type='radio' name='cleaning' id='directBookingAddInvoiceGuest' /> Guest
+                </form>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style='padding-top: 10px'>
+                Notes
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <textarea id='directBookingAddNotes' rows='4'></textarea>
+            </td>
+        </tr>
+    </table>
 
     <div>
         <button id='directBookingAddButton'>Add New Booking</button>

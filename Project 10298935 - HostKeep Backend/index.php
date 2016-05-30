@@ -32,7 +32,7 @@
                     <table>
                         <tr>
                             <td>
-                                <label for='#loginEmailInput'>Username (email address)</label>
+                                <label for='#loginEmailInput'>Email address</label>
                             </td>
                             <td>
                                 <input id='loginEmailInput' type='email' />

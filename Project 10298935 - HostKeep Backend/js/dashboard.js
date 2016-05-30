@@ -59,20 +59,6 @@ $(function() {
             }
         });
 
-        $("#adminSendWelcomeEmailToNewCustomerButton").on({
-            click: function () {
-                // Creates a random password and sends a welcome email to all admin created users
-                $.post("./php/customer/sendwelcomeemailtonewusers.php", {
-                }, function (response) {
-                    if (response == 'success') {
-                        displayMessage('info', "Welcome messages have been sent to all new users");
-                    } else {
-                        displayMessage('error', 'Something went wrong sending the welcome emails to the new users. The web admin has been notified and will fix the problem as soon as possible.');
-                    }
-                });
-            }
-        });
-
         // Set the admin sessionStorage vaiable to true if the admin account is used.
         if (sessionStorage.username == adminUsername) {
             sessionStorage.admin = 'true';
@@ -278,7 +264,7 @@ function welcome() {
     $("div#headerTitle").text("Welcome");
     $("nav .active").removeClass("active");
     $("nav .welcome").addClass("active");
-    $("#welcomeLastLogin").text("[Last login: " + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + "]")
+    $("#welcomeLastLogin").text(sessionStorage.lastLogin != '' ? "[Last login: " + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + "]" : "");
     $("div#welcome").show();
 }
 
@@ -391,7 +377,7 @@ function properties() {
         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
         html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + value.description + "</td>";
         html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + value.address + "</td>";
-        html += "    <td class='minimumNightlyPrice'><div contenteditable=true>" + value.minimumNightlyPrice + "</div></td>";
+        html += "    <td class='minimumNightlyPrice'><div contenteditable=true>$" + value.minimumNightlyPrice + "</div></td>";
         html += "</tr>";
     });
 
@@ -432,64 +418,99 @@ function properties() {
                 $("#propertiesAddImageURL").val() :
                 "http://owners.hostkeep.com.au/images/properties/" + $("#propertiesDropzone").find(".dz-filename:first > *").text();
 
-            $.post("./php/properties/addproperty.php", {
-                username: sessionStorage.username,
-                propertyID: $("#propertiesAddID").val(),
-                name: $("#propertiesAddName").val(),
-                description: $("#propertiesAddDescription").val(),
-                address: $("#propertiesAddAddress").val(),
-                price: $("#propertiesAddPrice").val(),
-                imageURL: filename
-            }, function(response) {
-                if (response.substr(0, 7) == 'success') {
-                    displayMessage('info', 'The property has been added to the current customer');
+            var valid = arePropertyInputsValid();
+            if (valid[0]) {
+                $.post("./php/properties/addproperty.php", {
+                    username: sessionStorage.username,
+                    propertyID: $("#propertiesAddID").val(),
+                    name: $("#propertiesAddName").val(),
+                    description: $("#propertiesAddDescription").val(),
+                    address: $("#propertiesAddAddress").val(),
+                    price: $("#propertiesAddPrice").val(),
+                    imageURL: filename
+                }, function(response) {
+                    if (response.substr(0, 7) == 'success') {
+                        displayMessage('info', 'The property has been added to the current customer');
 
-                    // Add new property to table
-                    var html = '';
-                    var a = (sessionStorage.admin == 'true' ? true : false);
-                    var imageURL = (filename == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : filename);
-                    html += "<tr>";
-                    html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
-                    html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddID").val() + "</td>";
-                    html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddName").val() + "</td>";
-                    html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddDescription").val() + "</td>";
-                    html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddAddress").val() + "</td>";
-                    html += "    <td class='minimumNightlyPrice'><div contenteditable=true>" + $("#propertiesAddPrice").val() + "</div></td>";
-                    html += "</tr>";
+                        // Add new property to table
+                        var html = '';
+                        var a = (sessionStorage.admin == 'true' ? true : false);
+                        var imageURL = (filename == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : filename);
+                        html += "<tr>";
+                        html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
+                        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddID").val() + "</td>";
+                        html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddName").val() + "</td>";
+                        html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddDescription").val() + "</td>";
+                        html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddAddress").val() + "</td>";
+                        html += "    <td class='minimumNightlyPrice'><div contenteditable=true>$" + $("#propertiesAddPrice").val() + "</div></td>";
+                        html += "</tr>";
 
-                    $("#properties tbody").append(html);
+                        $("#properties tbody").append(html);
 
-                    propertyList.push({
-                        'propertyID': $("#propertiesAddID").val(),
-                        'name': $("#propertiesAddName").val(),
-                        'description': $("#propertiesAddDescription").val(),
-                        'address': $("#propertiesAddAddress").val(),
-                        'minimumNightlyPrice': $("#propertiesAddPrice").val()
-                    });
+                        propertyList.push({
+                            'propertyID': $("#propertiesAddID").val(),
+                            'name': $("#propertiesAddName").val(),
+                            'description': $("#propertiesAddDescription").val(),
+                            'address': $("#propertiesAddAddress").val(),
+                            'minimumNightlyPrice': $("#propertiesAddPrice").val()
+                        });
 
-                    // Clear inputs
-                    $("#propertiesAddID").val('');
-                    $("#propertiesAddName").val('');
-                    $("#propertiesAddDescription").val('');
-                    $("#propertiesAddAddress").val('');
-                    $("#propertiesAddPrice").val('');
+                        // Clear inputs
+                        $("#propertiesAddID").val('');
+                        $("#propertiesAddName").val('');
+                        $("#propertiesAddDescription").val('');
+                        $("#propertiesAddAddress").val('');
+                        $("#propertiesAddPrice").val('');
 
-                    // Add contenteditable change event to the just added table row
-                    addPropertyChangeEvent();
+                        // Add contenteditable change event to the just added table row
+                        addPropertyChangeEvent();
 
-                    // Remove image from upload box
-                    $("#propertiesDropzone > .dz-preview").remove();
-                } else {
-                    displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
-                }
-            }).fail(function (request, textStatus, errorThrown) {
-                //displayMessage('error', "Error: Something went wrong with addproperty AJAX POST");
-            });
+                        // Remove image from upload box
+                        $("#propertiesDropzone > .dz-preview").remove();
+                    } else {
+                        displayMessage('error', 'Something went wrong added the property to the current user. The web admin has been notified and will fix the problem as soon as possible.');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    //displayMessage('error', "Error: Something went wrong with addproperty AJAX POST");
+                });
+            } else {
+                displayMessage("warning", valid[1]);
+            }
         }
     });
 
     hideAllContainers();
     $("div#properties").show();
+}
+
+function arePropertyInputsValid() {
+    if ($("#propertiesAddID").val() == '') {
+        return [false, "Please enter an ID"];
+    }
+
+    if ($("#propertiesAddName").val() == '') {
+        return [false, "Please enter a property name"];
+    }
+
+    if ($("#propertiesAddDescription").val() == '') {
+        return [false, "Please enter a description"];
+    }
+
+    if ($("#propertiesAddAddress").val() == '') {
+        return [false, "Please enter an address"];
+    }
+
+    if ($("#propertiesAddPrice").val() == '') {
+        return [false, "Please enter a minimum nightly price"];
+    } else if (!isInt($("#propertiesAddPrice").val().substr(1))) {
+        return [false, "The minimum nightly price must be a whole number"];
+    }
+
+    if ($("#propertiesDropzone").find(".dz-filename:first > *").text() == '' && $("#propertiesAddImageURL").val() == '') {
+        return [false, "Please add an image"];
+    }
+
+    return [true];
 }
 
 // Show documents container, set title, and active nav item
@@ -507,15 +528,14 @@ function documents() {
 
 
         html += "<tr>";
-        html += "    <td class='name'>" + value.name + "</td>";
+        html += "    <td class='name'><div onclick='viewDocument(\"" + value.documentFilename + "\")'>" + value.name + "</div></td>";
         html += "    <td class='propertyID'>" + value.propertyName + "</td>";
         html += "    <td class='month' sorttable_customkey='" + months.indexOf(value.month) + "'>" + value.month + "</td>";
-        html += "    <td class='dateUploaded'>" + moment(value.dateUploaded).format("Do MMM YYYY") + "</td>";
-        html += "    <td class='notes' contenteditable=true>" + value.notes + "</td>";
+        html += "    <td><img src='images/download.png' alt='' onclick='viewDocument(\"" + value.documentFilename + "\")' /></td>";
         if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
-            html += "    <td><button onclick='deleteDocument(" + value.documentID + ")'>Delete</button></td>";
+            html += "    <td><img src='images/delete.png' alt='' onclick='deleteDocument(\"" + value.documentID + "\")' /></td>";
         }
-        html += "    <td><button onclick='viewDocument(\"" + value.documentFilename + "\")'>View</button></td>";
+        html += "    <td></td>";
         html += "    <td style='display:none'>" + value.documentID + "</td>";
         html += "</tr>";
     });
@@ -592,14 +612,12 @@ function documents() {
                         var html = '';
                         var a = (sessionStorage.admin == 'true' ? true : false);
                         html += "<tr>";
-                        //html += "    <td class='name'>" + $("#documentsAddName").val() + "</td>";
-                        html += "    <td class='name'>" + filenameMinusExtension + "</td>";
+                        html += "    <td class='name'><div onclick='viewDocument(\"" + filename + "\")'>" + filenameMinusExtension + "</div></td>";
                         html += "    <td class='propertyID'>" + $("#documentsAddPropertyID option:selected").text() + "</td>";
                         html += "    <td class='month' sorttable_customkey='" + months.indexOf($("#documentsAddMonth").val()) + "'>" + $("#documentsAddMonth").val() + "</td>";
-                        html += "    <td class='dateUploaded'>" + moment().format("Do MMM YYYY") + "</td>";
-                        html += "    <td class='notes' contenteditable=true>" + $("#documentsAddNotes").val() + "</td>";
-                        html += "    <td><button onclick='deleteDocument(" + response.substr(7) + ")'>Delete</button></td>";
-                        html += "    <td><button onclick='viewDocument(\"" + filename + "\")'>View</button></td>";
+                        html += "    <td><img src='images/download.png' alt='' onclick='viewDocument(\"" + filename + "\")' /></td>";
+                        html += "    <td><img src='images/delete.png' alt='' onclick='deleteDocument(\"" + response.substr(7) + "\")' /></td>";
+                        html += "    <td></td>";
                         html += "    <td style='display:none'>" + response.substr(7) + "</td>";
                         html += "</tr>";
 
@@ -725,6 +743,7 @@ function checkCurrentPassword() {
         password: $("#changepasswordCurrentPassword").val()
     }, function(response) {
         if (response == 'correct') {
+            toastr.clear();
             currentPasswordCorrect = true;
             $("#changepasswordCurrentPasswordCross").hide();
             $("#changepasswordCurrentPasswordCheck").show();
@@ -750,6 +769,7 @@ function doPasswordsMatch() {
     var confirmPassword = $("#changepasswordConfirmPassword").val();
     if (newPassword != '' && confirmPassword != '') {
         if (newPassword == confirmPassword) {
+            toastr.clear();
             passwordsMatch = true;
             $("#changepasswordConfirmPasswordCross").hide();
             $("#changepasswordConfirmPasswordCheck").show();
@@ -809,68 +829,100 @@ function directBooking() {
     // Add property to the current user
     $("#directBookingAddButton").on({
         click: function () {
-            $.post("./php/directbooking/addbooking.php", {
-                customerID: sessionStorage.customerID,
-                propertyID: $("#directBookingAddProperty").val(),
-                guestName: $("#directBookingAddGuestName").val(),
-                guestMobile: $("#directBookingAddGuestMobile").val(),
-                guestEmail: $("#directBookingAddGuestEmail").val(),
-                guestCheckIn: $("#directBooking input[type='hidden']:eq(0)").val(), // The datepicker dates are stored in a hidden input. This gets the first one
-                guestCheckOut: $("#directBooking input[type='hidden']:eq(1)").val(), // and this one gets the second hidden input
-                invoiced: $("#directBookingAddInvoice").prop('checked'),
-                cleanUp: $("#directBookingAddCleanUp").val(),
-                notes: $("#directBookingAddNotes").val()
-            }, function(response) {
-                if (response.substr(0, 7) == 'success') {
-                    displayMessage('info', 'The booking has been added');
+            var valid = areDirectBookingInputsValid();
 
-                    // Add new property to table
-                    var html = '';
-                    html += "<tr>";
-                    html += "    <td class='propertyID'>" + $("#directBookingAddProperty").children(":selected").text() + "</td>";
-                    html += "    <td class='guestName'>" + $("#directBookingAddGuestName").val() + "</td>";
-                    html += "    <td class='guestCheckIn'>" + $("#directBookingAddCheckIn").val() + "</td>";
-                    html += "    <td class='guestCheckOut'>" + $("#directBookingAddCheckOut").val() + "</td>";
-                    html += "    <td class='invoiced'><input type='checkbox' " + ($("#directBookingAddInvoice").prop('checked') == true ? 'checked' : '') + " /></td>";
-                    html += "    <td class='cleanUp'>" + $("#directBookingAddCleanUp").val() + "</td>";
-                    html += "    <td><button onclick='deleteBooking(" + response.substr(7) + ")'>Delete</button>";
-                    html += "</tr>";
+            if (valid[0]) {
+                var invoice = ($("#directBookingAddInvoiceYes").prop('checked') ? 'true' : 'false');
+                var cleanUp = ($("#directBookingAddInvoiceHostkeep").prop('checked') ? 'HostKeep' : 'Guest');
+                $.post("./php/directbooking/addbooking.php", {
+                    customerID: sessionStorage.customerID,
+                    propertyID: $("#directBookingAddProperty").val(),
+                    guestName: $("#directBookingAddGuestName").val(),
+                    guestMobile: $("#directBookingAddGuestMobile").val(),
+                    guestEmail: $("#directBookingAddGuestEmail").val(),
+                    guestCheckIn: $("#directBooking input[type='hidden']:eq(0)").val(), // The datepicker dates are stored in a hidden input. This gets the first one
+                    guestCheckOut: $("#directBooking input[type='hidden']:eq(1)").val(), // and this one gets the second hidden input
+                    invoiced: invoice,
+                    cleanUp: cleanUp,
+                    notes: $("#directBookingAddNotes").val()
+                }, function(response) {
+                    if (response.substr(0, 7) == 'success') {
+                        displayMessage('info', 'The booking has been added');
 
-                    $("#directBooking #bookingTable tbody").append(html);
+                        // Add new property to table
+                        var html = '';
+                        html += "<tr>";
+                        html += "    <td class='propertyID'>" + $("#directBookingAddProperty").children(":selected").text() + "</td>";
+                        html += "    <td class='guestName'>" + $("#directBookingAddGuestName").val() + "</td>";
+                        html += "    <td class='guestCheckIn'>" + $("#directBookingAddCheckIn").val() + "</td>";
+                        html += "    <td class='guestCheckOut'>" + $("#directBookingAddCheckOut").val() + "</td>";
+                        html += "    <td class='invoiced'><input type='checkbox' " + (invoice == 'true' ? 'checked' : '') + " /></td>";
+                        html += "    <td class='cleanUp'>" + cleanUp + "</td>";
+                        html += "    <td><button onclick='deleteBooking(" + response.substr(7) + ")'>Delete</button>";
+                        html += "</tr>";
 
-                    bookingList.push({
-                        'customerID': sessionStorage.customerID,
-                        'propertyID': $("#directBookingAddProperty").val(),
-                        'propertyName': $("#directBookingAddProperty").children(':selected').text(),
-                        'guestName': $("#directBookingAddGuestName").val(),
-                        'guestMobile': $("#directBookingAddGuestMobile").val(),
-                        'guestEmail': $("#directBookingAddGuestEmail").val(),
-                        'guestCheckIn': $("#directBooking input[type='hidden']:eq(0)").val(),
-                        'guestCheckOut': $("#directBooking input[type='hidden']:eq(1)").val(),
-                        'invoiced': $("#directBookingAddInvoice").prop('checked'),
-                        'cleanUp': $("#directBookingAddCleanUp").val(),
-                        'notes': $("#directBookingAddNotes").val()
-                    });
+                        $("#directBooking #bookingTable tbody").append(html);
 
-                    // Clear inputs
-                    $("#directBookingAddGuestName").val('');
-                    $("#directBookingAddGuestMobile").val('');
-                    $("#directBookingAddGuestEmail").val('');
-                    checkinDatePicker.pickadate('clear');
-                    checkoutDatePicker.pickadate('clear');
-                    $("#directBookingAddInvoice").prop('checked', false);
-                    $("#directBookingAddNotes").val('');
-                } else {
-                    displayMessage('error', 'Something went wrong added the booking. The web admin has been notified and will fix the problem as soon as possible.');
-                }
-            }).fail(function (request, textStatus, errorThrown) {
-                //displayMessage('error', "Error: Something went wrong with addproperty AJAX POST");
-            });
+                        bookingList.push({
+                            'customerID': sessionStorage.customerID,
+                            'propertyID': $("#directBookingAddProperty").val(),
+                            'propertyName': $("#directBookingAddProperty").children(':selected').text(),
+                            'guestName': $("#directBookingAddGuestName").val(),
+                            'guestMobile': $("#directBookingAddGuestMobile").val(),
+                            'guestEmail': $("#directBookingAddGuestEmail").val(),
+                            'guestCheckIn': $("#directBooking input[type='hidden']:eq(0)").val(),
+                            'guestCheckOut': $("#directBooking input[type='hidden']:eq(1)").val(),
+                            'invoiced': invoice,
+                            'cleanUp': cleanUp,
+                            'notes': $("#directBookingAddNotes").val()
+                        });
+
+                        // Clear inputs
+                        $("#directBookingAddGuestName").val('');
+                        $("#directBookingAddGuestMobile").val('');
+                        $("#directBookingAddGuestEmail").val('');
+                        checkinDatePicker.pickadate('clear');
+                        checkoutDatePicker.pickadate('clear');
+                        $("#directBookingAddInvoice").prop('checked', false);
+                        $("#directBookingAddNotes").val('');
+                    } else {
+                        displayMessage('error', 'Something went wrong added the booking. The web admin has been notified and will fix the problem as soon as possible.');
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    //displayMessage('error', "Error: Something went wrong with addproperty AJAX POST");
+                });
+            } else {
+                displayMessage('warning', valid[1]);
+            }
         }
     });
 
     hideAllContainers();
     $("div#directBooking").show();
+}
+
+function areDirectBookingInputsValid() {
+    if ($("#directBookingAddGuestName").val() == '') {
+        return [false, "Please enter the guests name"];
+    }
+
+    if ($("#directBookingAddGuestMobile").val() == '') {
+        return [false, "Please enter the guest mobile number"];
+    }
+
+    if ($("#directBookingAddGuestEmail").val() == '') {
+        return [false, "Please enter the guests email"];
+    }
+
+    if ($("#directBooking input[type='hidden']:eq(0)").val() == '') {
+        return [false, "Please enter the check-in date"];
+    }
+
+    if ($("#directBooking input[type='hidden']:eq(1)").val() == '') {
+        return [false, "Please enter the check-out date"];
+    }
+
+    return [true];
 }
 
 function deleteBooking(id) {
@@ -908,6 +960,7 @@ function admin() {
         html += "    <td>" + value.firstName + " " + value.lastName + "</td>";
         html += "    <td>" + value.username + "</td>";
         html += "    <td>" + propertyString + "</td>";
+        html += "    <td>" + (value.lastLogin != '' ? moment(value.lastLogin).format("ddd Do MMM YYYY h:mm a") : "Hasn't logged in yet") + "</td>";
         html += "    <td>";
         html += "        <select class='status " + value.customerID + "'>";
         html += "            <option value='active'>Active</option>";
@@ -915,6 +968,8 @@ function admin() {
         html += "            <option value='proposal'>Proposal</option>";
         html += "        </select>";
         html += "    </td>";
+        html += "    <td><img class='sendWelcomeEmail' src='images/envelope.png' alt='' onclick='sendWelcomeEmail(\"" + value.username + "\")' /></td>";
+        html += "    <td><img class='deleteCustomer' src='images/delete.png' alt='' onclick='deleteCustomer(\"" + value.username + "\")' /></td>";
         html += "</tr>";
 
         $("#userTable tbody").append(html);
@@ -941,6 +996,35 @@ function admin() {
 
     hideAllContainers();
     $("div#admin").show();
+}
+
+function sendWelcomeEmail(username) {
+    $.post("./php/customer/sendwelcomeemail.php", {
+        username: username
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('info', 'The welcome email has been sent');
+        } else {
+            displayMessage('error', 'Error sending the welcome email. The web admin has been notified and will fix the problem as soon as possible.');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+function deleteCustomer(username) {
+    $.post("./php/customer/deletecustomer.php", {
+        username: username
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('info', 'The client has been deleted');
+            location.reload();
+        } else {
+            displayMessage('error', 'Error deleting the client. The web admin has been notified and will fix the problem as soon as possible.');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
 }
 
 // Add focus and blur events to the contenteditable elements
@@ -978,24 +1062,35 @@ function addPropertyChangeEvent() {
 
     $("#properties [contenteditable=true]").on({
         blur: function() {
-            if ($(this).text != sessionStorage.contenteditable) {
-                var column = this.classList[0];
-                $.post("./php/properties/changepropertyinfo.php", {
-                    admin: sessionStorage.admin,
-                    username: sessionStorage.username,
-                    propertyName: $(this).parent().children(':nth-child(3)').text(),
-                    propertyID: $(this).parent().children(':nth-child(2)').text(),
-                    column: column,
-                    value: $(this).text()
-                }, function(response) {
-                    if (response == 'success') {
-                        displayMessage('info', 'The property ' + column + ' has been updated');
-                    } else {
-                        displayMessage('error', 'Something went wrong updating the property ' + column);
-                    }
-                }).fail(function (request, textStatus, errorThrown) {
-                    //displayMessage('error', "Error: Something went wrong with  AJAX POST");
-                });
+            if ($(this).text() != sessionStorage.contenteditable) {
+                var column = (this.classList[0] != undefined ? this.classList[0] : $(this).parents("td")[0].classList[0]);
+                if ((isInt($(this).text().substr(1)) && column == 'minimumNightlyPrice') ||
+                    column != 'minimumNightlyPrice') {
+                    // Remove the dollar sign from the price
+                    var value = (column == 'minimumNightlyPrice' ? $(this).text().substr(1) : $(this).text());
+                    $.post("./php/properties/changepropertyinfo.php", {
+                        admin: sessionStorage.admin,
+                        username: sessionStorage.username,
+                        propertyName: $(this).parents("tr").children(':nth-child(3)').text(),
+                        propertyID: $(this).parents("tr").children(':nth-child(2)').text(),
+                        column: column,
+                        value: value
+                    }, function(response) {
+                        if (response == 'success') {
+                            if (column == 'minimumNightlyPrice') {
+                                displayMessage('info', 'The minimum nightly price has been updated. Changes may take up to 48 hours to take effect.');
+                            } else {
+                                displayMessage('info', 'The property ' + column + ' has been updated.');
+                            }
+                        } else {
+                            displayMessage('error', 'Something went wrong updating the property ' + column);
+                        }
+                    }).fail(function (request, textStatus, errorThrown) {
+                        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                    });
+                } else {
+                    displayMessage("warning", "The minimum nightly price must be a whole number");
+                }
             }
         },
 
@@ -1042,8 +1137,29 @@ function createNewUser() {
         firstName: $("#adminNewCustomerFirstName").val(),
         lastName: $("#adminNewCustomerLastName").val()
     }, function(response) {
-        if (response == 'success') {
+        if (response.substr(0, 7) == 'success') {
             displayMessage('info', 'Customer has been created');
+
+            // Add new client to table
+            var html = '';
+
+            html += "<tr>";
+            html += "    <td>" + $("#adminNewCustomerFirstName").val() + " " + $("#adminNewCustomerLastName").val() + "</td>";
+            html += "    <td>" + $("#adminNewCustomerUsername").val() + "</td>";
+            html += "    <td></td>";
+            html += "    <td>Hasn't logged in yet</td>";
+            html += "    <td>";
+            html += "        <select class='status " + response.substr(7) + "'>";
+            html += "            <option value='active'>Active</option>";
+            html += "            <option value='retired'>Retired</option>";
+            html += "            <option value='proposal' selected>Proposal</option>";
+            html += "        </select>";
+            html += "    </td>";
+            html += "    <td><img class='sendWelcomeEmail' src='images/envelope.png' alt='' onclick='sendWelcomeEmail(\"" + $("#adminNewCustomerUsername").val() + "\")' /></td>";
+            html += "    <td><img class='deleteCustomer' src='images/delete.png' alt='' onclick='deleteCustomer(\"" + $("#adminNewCustomerUsername").val() + "\")' /></td>";
+            html += "</tr>";
+
+            $("#userTable tbody").append(html);
         } else if (response == 'alreadyexists') {
             displayMessage('error', 'There is already a customer with that email');
         } else {

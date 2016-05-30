@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$sql = "SELECT username, firstName, lastName, status, customerID FROM Customer";
+$sql = "SELECT username, firstName, lastName, status, customerID, lastLogin FROM Customer";
 
 if ($result = mysqli_query($con, $sql)) {
     $response = [];

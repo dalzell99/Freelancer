@@ -61,7 +61,7 @@
     <thead>
         <tr>
             <th>
-                Report
+                Document
             </th>
             <th>
                 Property
@@ -70,10 +70,13 @@
                 Month
             </th>
             <th>
-                Date Uploaded
+
             </th>
             <th>
-                Notes
+
+            </th>
+            <th>
+
             </th>
         </tr>
     </thead>
