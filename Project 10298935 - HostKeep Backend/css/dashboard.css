@@ -22,20 +22,37 @@ main > div#profile .profileSeparator {
   height: 30px;
 }
 
+main > div#profile .profileSeparator div {
+  border-bottom: 1px solid lightgrey;
+}
+
 main > div#profile table {
-  width: 70%;
+  width: 100%;
   margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-  main > div#profile table {
-    width: 100%;
+main > div#profile table th:not(:nth-child(4)),
+main > div#profile table td:not(:nth-child(4)) {
+  width: 23%;
+}
+
+@media (max-width: 992px) {
+  main > div#profile table th:not(:nth-child(4)),
+  main > div#profile table td:not(:nth-child(4)) {
+    width: 33.33%;
   }
 }
 
-main > div#profile table th,
-main > div#profile table td {
-  width: 33.33%;
+main > div#profile table th:nth-child(4),
+main > div#profile table td:nth-child(4) {
+  width: 31%;
+}
+
+@media (max-width: 992px) {
+  main > div#profile table th:nth-child(4),
+  main > div#profile table td:nth-child(4) {
+    display: none;
+  }
 }
 
 main > div#properties #propertiesAdd,
@@ -163,14 +180,23 @@ main > div#directBooking .bookingSeparator {
   height: 15px;
 }
 
-main > div#directBooking #directBookingAddNewBooking > table {
-  width: 60%;
+main > div#directBooking .bookingSeparator div {
+  border-bottom: 1px solid lightgrey;
+  margin-top: 10px;
 }
 
-@media (max-width: 768px) {
-  main > div#directBooking #directBookingAddNewBooking > table {
-    width: 100%;
-  }
+main > div#directBooking #directBookingDivider {
+  border-bottom: 3px solid #00b7a6;
+  height: 3px;
+  margin: 20px 0;
+}
+
+main > div#directBooking #directBookingAddButton {
+  margin-left: 5px;
+}
+
+main > div#directBooking #directBookingAddNewBooking > table {
+  width: 100%;
 }
 
 main > div#directBooking #directBookingAddNewBooking > table p {
@@ -179,6 +205,30 @@ main > div#directBooking #directBookingAddNewBooking > table p {
 
 main > div#directBooking #directBookingAddNewBooking > table input[type="radio"] {
   width: initial;
+}
+
+main > div#directBooking #directBookingAddNewBooking > table th:not(:nth-child(3)),
+main > div#directBooking #directBookingAddNewBooking > table td:not(:nth-child(3)) {
+  width: 30%;
+}
+
+@media (max-width: 992px) {
+  main > div#directBooking #directBookingAddNewBooking > table th:not(:nth-child(3)),
+  main > div#directBooking #directBookingAddNewBooking > table td:not(:nth-child(3)) {
+    width: 50%;
+  }
+}
+
+main > div#directBooking #directBookingAddNewBooking > table th:nth-child(3),
+main > div#directBooking #directBookingAddNewBooking > table td:nth-child(3) {
+  width: 40%;
+}
+
+@media (max-width: 992px) {
+  main > div#directBooking #directBookingAddNewBooking > table th:nth-child(3),
+  main > div#directBooking #directBookingAddNewBooking > table td:nth-child(3) {
+    display: none;
+  }
 }
 
 main > div#directBooking table.picker__table th {

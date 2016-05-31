@@ -1,6 +1,12 @@
 <table>
     <tr>
-        <td colspan='3'>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td colspan='4'>
             <strong>Personal Details</strong>
         </td>
     </tr>
@@ -44,10 +50,12 @@
         </td>
     </tr>
     <tr class='profileSeparator'>
-
+        <td colspan='4'>
+            <div></div>
+        </td>
     </tr>
     <tr>
-        <td colspan='3'>
+        <td colspan='4'>
             <strong>Contact Details</strong>
         </td>
     </tr>
@@ -365,10 +373,12 @@
         </td>
     </tr>
     <tr class='profileSeparator'>
-
+        <td colspan='4'>
+            <div></div>
+        </td>
     </tr>
     <tr>
-        <td colspan='3'>
+        <td colspan='4'>
             <strong>Bank Details</strong>
         </td>
     </tr>

@@ -22,16 +22,26 @@ main > div
     .profileSeparator
       height: 30px
 
-    table
-      width: 70%
-      margin-bottom: 20px
+      div
+        border-bottom: 1px solid lightgrey
 
-      @media (max-width: 768px)
-        width: 100%
+    table
+      width: 100%
+      margin-bottom: 20px
 
       th,
       td
-        width: 33.33%
+        &:not(:nth-child(4))
+          width: 23%
+
+          @media (max-width: 992px)
+            width: 33.33%
+
+        &:nth-child(4)
+          width: 31%
+
+          @media (max-width: 992px)
+            display: none
 
   &#properties
     #propertiesAdd,
@@ -123,18 +133,41 @@ main > div
     .bookingSeparator
       height: 15px
 
+      div
+        border-bottom: 1px solid lightgrey
+        margin-top: 10px
+
+    #directBookingDivider
+      border-bottom: 3px solid $company-color
+      height: 3px
+      margin: 20px 0
+
+    #directBookingAddButton
+      margin-left: 5px
+
     #directBookingAddNewBooking
       & > table
-        width: 60%
-
-        @media (max-width: 768px)
-          width: 100%
+        width: 100%
 
         p
           margin: 8px 0
 
         input[type="radio"]
           width: initial
+
+        th,
+        td
+          &:not(:nth-child(3))
+            width: 30%
+
+            @media (max-width: 992px)
+              width: 50%
+
+          &:nth-child(3)
+            width: 40%
+
+            @media (max-width: 992px)
+              display: none
 
     table.picker__table th
       text-align: center

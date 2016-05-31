@@ -142,7 +142,7 @@ foreach ($quizArray as $quiz) {
     }
 
     // Mark quiz as paid out, archived and set winningUserID
-    $sqlQuizPaidOut = "UPDATE Quizzes SET paidOut = 'y', archived = 'y', winningUserID = '$winningUserID' WHERE quizID = '" . $quiz['quizID'] . "'";
+    $sqlQuizPaidOut = "UPDATE Quizzes SET paidOut = 'y', winningUserID = '$winningUserID' WHERE quizID = '" . $quiz['quizID'] . "'";
     if (!mysqli_query($con, $sqlQuizPaidOut)) {
         echo 'fail6. ' . $sqlQuizPaidOut;
     }

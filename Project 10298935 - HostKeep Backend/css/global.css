@@ -75,6 +75,12 @@ nav table td div {
 
 @media (max-width: 1200px) {
   nav table td div {
+    font-size: .85em;
+  }
+}
+
+@media (max-width: 768px) {
+  nav table td div {
     font-size: .65em;
   }
 }

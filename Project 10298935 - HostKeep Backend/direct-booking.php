@@ -9,50 +9,44 @@
 <div id='directBookingAddNewBooking'>
     <table>
         <tr>
-            <td>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td colspan="2">
                 <p>
                     <strong>Property</strong>
                 </p>
             </td>
-            <td>
-
-            </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="2">
                 <select id='directBookingAddProperty'></select>
             </td>
-            <td>
+        </tr>
 
+        <tr class='bookingSeparator'>
+            <td colspan="3">
+                <div></div>
             </td>
         </tr>
 
-        <tr class='bookingSeparator'></tr>
-
         <tr>
-            <td>
+            <td colspan="2">
                 <p>
                     <strong>Guest Details</strong>
                 </p>
             </td>
-            <td>
-
-            </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="2">
                 Guest Name
             </td>
-            <td>
-
-            </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="2">
                 <input id='directBookingAddGuestName' type='text' />
-            </td>
-            <td>
-
             </td>
         </tr>
 
@@ -73,7 +67,11 @@
             </td>
         </tr>
 
-        <tr class='bookingSeparator'></tr>
+        <tr class='bookingSeparator'>
+            <td colspan="3">
+                <div></div>
+            </td>
+        </tr>
 
         <tr>
             <td colspan="2">
@@ -99,7 +97,11 @@
             </td>
         </tr>
 
-        <tr class='bookingSeparator'></tr>
+        <tr class='bookingSeparator'>
+            <td colspan="3">
+                <div></div>
+            </td>
+        </tr>
 
         <tr>
             <td colspan="2">
@@ -153,6 +155,10 @@
     </div>
 </div>
 
+<div id='directBookingDivider'>
+
+</div>
+
 <table id='bookingTable'>
     <thead>
         <tr>
@@ -172,7 +178,7 @@
                 Invoice
             </th>
             <th>
-                Cleanup
+                Turnover
             </th>
         </tr>
     </thead>

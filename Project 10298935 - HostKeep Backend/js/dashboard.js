@@ -804,7 +804,7 @@ function directBooking() {
         html += "    <td class='guestCheckOut'>" +  moment(value.guestCheckOut).format('ddd Do MMM YYYY') + "</td>";
         html += "    <td class='invoiced'><input type='checkbox' " + (value.invoiced == 'true' ? 'checked' : '') + " /></td>";
         html += "    <td class='cleanUp'>" + value.cleanUp + "</td>";
-        html += "    <td><button onclick='deleteBooking(" + value.bookingID + ")'>Delete</button>";
+        html += "    <td><img src='images/delete.png' alt='' onclick='deleteBooking(" + value.bookingID + ")' />";
         html += "</tr>";
     });
     $("#directBooking #bookingTable tbody").empty().append(html);
@@ -858,7 +858,7 @@ function directBooking() {
                         html += "    <td class='guestCheckOut'>" + $("#directBookingAddCheckOut").val() + "</td>";
                         html += "    <td class='invoiced'><input type='checkbox' " + (invoice == 'true' ? 'checked' : '') + " /></td>";
                         html += "    <td class='cleanUp'>" + cleanUp + "</td>";
-                        html += "    <td><button onclick='deleteBooking(" + response.substr(7) + ")'>Delete</button>";
+                        html += "    <td><img src='images/delete.png' alt='' onclick='deleteBooking(" + response.substr(7) + ")' />";
                         html += "</tr>";
 
                         $("#directBooking #bookingTable tbody").append(html);
@@ -1013,18 +1013,20 @@ function sendWelcomeEmail(username) {
 }
 
 function deleteCustomer(username) {
-    $.post("./php/customer/deletecustomer.php", {
-        username: username
-    }, function(response) {
-        if (response == 'success') {
-            displayMessage('info', 'The client has been deleted');
-            location.reload();
-        } else {
-            displayMessage('error', 'Error deleting the client. The web admin has been notified and will fix the problem as soon as possible.');
-        }
-    }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
-    });
+    if (confirm("Click Ok to delete the customer")) {
+        $.post("./php/customer/deletecustomer.php", {
+            username: username
+        }, function(response) {
+            if (response == 'success') {
+                displayMessage('info', 'The client has been deleted');
+                location.reload();
+            } else {
+                displayMessage('error', 'Error deleting the client. The web admin has been notified and will fix the problem as soon as possible.');
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+        });
+    }
 }
 
 // Add focus and blur events to the contenteditable elements
