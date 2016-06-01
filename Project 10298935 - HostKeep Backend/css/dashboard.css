@@ -75,9 +75,14 @@ main > div#properties table td {
   text-align: center;
 }
 
-main > div#properties table th:nth-child(2),
-main > div#properties table td:nth-child(2) {
-  width: 7.5%;
+main > div#properties table th:nth-child(1),
+main > div#properties table td:nth-child(1) {
+  width: 18%;
+}
+
+main > div#properties table th:nth-child(1) img,
+main > div#properties table td:nth-child(1) img {
+  width: 100%;
 }
 
 main > div#properties table th:nth-child(3),
@@ -92,7 +97,7 @@ main > div#properties table td:nth-child(4) {
 
 main > div#properties table th:nth-child(5),
 main > div#properties table td:nth-child(5) {
-  width: 30%;
+  width: 40%;
 }
 
 main > div#properties table th:nth-child(6) > div,

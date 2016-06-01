@@ -54,9 +54,6 @@
                 Property
             </th>
             <th>
-                ID
-            </th>
-            <th>
                 Name
             </th>
             <th>

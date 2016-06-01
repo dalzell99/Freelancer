@@ -373,7 +373,7 @@ function properties() {
         var imageURL = (value.imageURL == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : value.imageURL);
         html += "<tr>";
         html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
-        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + value.propertyID + "</td>";
+        html += "    <td class='propertyID' style='display:none'>" + value.propertyID + "</td>";
         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
         html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + value.description + "</td>";
         html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + value.address + "</td>";
@@ -438,7 +438,7 @@ function properties() {
                         var imageURL = (filename == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : filename);
                         html += "<tr>";
                         html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
-                        html += "    <td class='propertyID' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddID").val() + "</td>";
+                        html += "    <td class='propertyID' style='display:none'>" + $("#propertiesAddID").val() + "</td>";
                         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddName").val() + "</td>";
                         html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddDescription").val() + "</td>";
                         html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddAddress").val() + "</td>";

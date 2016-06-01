@@ -71,6 +71,12 @@ nav table td div {
   padding-top: 1.3em;
   font-size: 1.1em;
   font-weight: bold;
+  /* Stop text selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 @media (max-width: 1200px) {
