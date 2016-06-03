@@ -27,6 +27,11 @@
         </div>
 
         <div>
+            <label for="#propertiesAddFee">Management Fee</label>
+            <input id='propertiesAddFee' type='number' />
+        </div>
+
+        <div>
             <label for="#propertiesAddImageURL">Image URL</label>
             <input id='propertiesAddImageURL'></input>
         </div>
@@ -61,6 +66,9 @@
             </th>
             <th>
                 Address
+            </th>
+            <th>
+                Management Fee
             </th>
             <th>
                 Minimum Nightly Price

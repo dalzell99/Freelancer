@@ -100,8 +100,8 @@ main > div#properties table td:nth-child(5) {
   width: 40%;
 }
 
-main > div#properties table th:nth-child(6) > div,
-main > div#properties table td:nth-child(6) > div {
+main > div#properties table th:nth-child(7) > div,
+main > div#properties table td:nth-child(7) > div {
   border: 1px solid #00b7a6;
 }
 

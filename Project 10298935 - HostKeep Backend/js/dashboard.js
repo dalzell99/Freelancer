@@ -377,6 +377,7 @@ function properties() {
         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
         html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + value.description + "</td>";
         html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + value.address + "</td>";
+        html += "    <td class='propertyFee' " + (a ? 'contenteditable=true' : '') + ">" + value.propertyFee + "%</td>";
         html += "    <td class='minimumNightlyPrice'><div contenteditable=true>$" + value.minimumNightlyPrice + "</div></td>";
         html += "</tr>";
     });
@@ -427,6 +428,7 @@ function properties() {
                     description: $("#propertiesAddDescription").val(),
                     address: $("#propertiesAddAddress").val(),
                     price: $("#propertiesAddPrice").val(),
+                    fee: $("#propertiesAddFee").val(),
                     imageURL: filename
                 }, function(response) {
                     if (response.substr(0, 7) == 'success') {
@@ -442,6 +444,7 @@ function properties() {
                         html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddName").val() + "</td>";
                         html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddDescription").val() + "</td>";
                         html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddAddress").val() + "</td>";
+                        html += "    <td class='propertyFee' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddFee").val() + "%</td>";
                         html += "    <td class='minimumNightlyPrice'><div contenteditable=true>$" + $("#propertiesAddPrice").val() + "</div></td>";
                         html += "</tr>";
 
@@ -452,7 +455,8 @@ function properties() {
                             'name': $("#propertiesAddName").val(),
                             'description': $("#propertiesAddDescription").val(),
                             'address': $("#propertiesAddAddress").val(),
-                            'minimumNightlyPrice': $("#propertiesAddPrice").val()
+                            'minimumNightlyPrice': $("#propertiesAddPrice").val(),
+                            'propertyFee': $("#propertiesAddFee").val()
                         });
 
                         // Clear inputs
@@ -461,6 +465,7 @@ function properties() {
                         $("#propertiesAddDescription").val('');
                         $("#propertiesAddAddress").val('');
                         $("#propertiesAddPrice").val('');
+                        $("#propertiesAddFee").val();
 
                         // Add contenteditable change event to the just added table row
                         addPropertyChangeEvent();
@@ -833,7 +838,15 @@ function directBooking() {
 
             if (valid[0]) {
                 var invoice = ($("#directBookingAddInvoiceYes").prop('checked') ? 'true' : 'false');
-                var cleanUp = ($("#directBookingAddInvoiceHostkeep").prop('checked') ? 'HostKeep' : 'Guest');
+
+                if ($("#directBookingAddInvoiceHostkeep").prop('checked')) {
+                    var cleanUp = 'HostKeep - Guest Invoiced';
+                } else if ($("#directBookingAddInvoiceHostkeepBilled").prop('checked')) {
+                    var cleanUp = 'HostKeep - Owners Billed';
+                } else {
+                    var cleanUp = 'Guest';
+                }
+
                 $.post("./php/directbooking/addbooking.php", {
                     customerID: sessionStorage.customerID,
                     propertyID: $("#directBookingAddProperty").val(),
@@ -844,7 +857,10 @@ function directBooking() {
                     guestCheckOut: $("#directBooking input[type='hidden']:eq(1)").val(), // and this one gets the second hidden input
                     invoiced: invoice,
                     cleanUp: cleanUp,
-                    notes: $("#directBookingAddNotes").val()
+                    notes: $("#directBookingAddNotes").val(),
+                    admin: sessionStorage.admin,
+                    username: sessionStorage.username,
+                    propertyName: $("#directBookingAddProperty option:selected").text()
                 }, function(response) {
                     if (response.substr(0, 7) == 'success') {
                         displayMessage('info', 'The booking has been added');
@@ -1067,9 +1083,18 @@ function addPropertyChangeEvent() {
             if ($(this).text() != sessionStorage.contenteditable) {
                 var column = (this.classList[0] != undefined ? this.classList[0] : $(this).parents("td")[0].classList[0]);
                 if ((isInt($(this).text().substr(1)) && column == 'minimumNightlyPrice') ||
-                    column != 'minimumNightlyPrice') {
+                    (isInt($(this).text().substr(0, $(this).text().length - 1)) && column == 'propertyFee') ||
+                    (column != 'minimumNightlyPrice' && column != 'propertyFee')) {
+
                     // Remove the dollar sign from the price
-                    var value = (column == 'minimumNightlyPrice' ? $(this).text().substr(1) : $(this).text());
+                    if (column == 'minimumNightlyPrice') {
+                        var value = $(this).text().substr(1);
+                    } else if (column == 'propertyFee') {
+                        var value = $(this).text().substr(0, $(this).text().length - 1);
+                    } else {
+                        var value = $(this).text();
+                    }
+
                     $.post("./php/properties/changepropertyinfo.php", {
                         admin: sessionStorage.admin,
                         username: sessionStorage.username,
@@ -1091,7 +1116,11 @@ function addPropertyChangeEvent() {
                         //displayMessage('error', "Error: Something went wrong with  AJAX POST");
                     });
                 } else {
-                    displayMessage("warning", "The minimum nightly price must be a whole number");
+                    if (!isInt($(this).text().substr(1)) && column == 'minimumNightlyPrice') {
+                        displayMessage("warning", "The minimum nightly price must be a whole number");
+                    } else {
+                        displayMessage("warning", "The management fee must be a whole number");
+                    }
                 }
             }
         },

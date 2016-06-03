@@ -24,7 +24,6 @@ function sendErrorEmail($message) {
 function sendEmail($to, $from, $subject, $message) {
     $mail = new PHPMailer;
 
-
     $mail->IsSMTP();                                      // Set mailer to use SMTP
     //$mail->SMTPDebug  = 1;
     $mail->Host = "box306.bluehost.com";                 // Specify main and backup server

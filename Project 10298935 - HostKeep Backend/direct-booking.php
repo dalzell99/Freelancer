@@ -133,6 +133,7 @@
             <td colspan="2">
                 <form>
                     <input type='radio' name='cleaning' id='directBookingAddInvoiceHostkeep' checked /> HostKeep (invoiced to guest)<br />
+                    <input type='radio' name='cleaning' id='directBookingAddInvoiceHostkeepBilled'  /> HostKeep (owner billed)<br />
                     <input type='radio' name='cleaning' id='directBookingAddInvoiceGuest' /> Guest
                 </form>
             </td>
