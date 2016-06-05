@@ -65,14 +65,14 @@ main > div#properties table {
 }
 
 main > div#properties table th {
-  font-size: 1.2em;
+  font-size: 0.9em;
   cursor: pointer;
 }
 
 main > div#properties table th,
 main > div#properties table td {
   padding: 5px;
-  text-align: center;
+  text-align: left;
 }
 
 main > div#properties table th:nth-child(1),
@@ -116,7 +116,7 @@ main > div#documents #documentsAddFilename {
 }
 
 main > div#documents #orText {
-  text-align: center;
+  text-align: left;
   font-size: 2em;
   font-weight: bold;
 }
@@ -126,7 +126,7 @@ main > div#documents table {
 }
 
 main > div#documents table th {
-  font-size: 1.2em;
+  font-size: 0.9em;
   cursor: pointer;
 }
 
@@ -151,7 +151,7 @@ main > div#documents table th:nth-child(4), main > div#documents table th:nth-ch
 main > div#documents table td:nth-child(4),
 main > div#documents table td:nth-child(5) {
   width: 10%;
-  text-align: center;
+  text-align: left;
 }
 
 main > div#documents table th:nth-child(4) img, main > div#documents table th:nth-child(5) img,
@@ -245,14 +245,14 @@ main > div#directBooking table#bookingTable {
 }
 
 main > div#directBooking table#bookingTable th {
-  font-size: 1.2em;
+  font-size: 0.9em;
   cursor: pointer;
 }
 
 main > div#directBooking table#bookingTable th,
 main > div#directBooking table#bookingTable td {
   padding: 5px;
-  text-align: center;
+  text-align: left;
 }
 
 main > div#admin button {
@@ -269,7 +269,7 @@ main > div#admin table#userTable {
 }
 
 main > div#admin table#userTable th {
-  font-size: 1.2em;
+  font-size: 0.9em;
 }
 
 main > div#admin table#userTable th,
@@ -281,7 +281,7 @@ main > div#admin table#userTable td {
 main > div#admin table#userTable th:nth-child(6), main > div#admin table#userTable th:nth-child(7),
 main > div#admin table#userTable td:nth-child(6),
 main > div#admin table#userTable td:nth-child(7) {
-  text-align: center;
+  text-align: left;
 }
 
 main > div#admin table#userTable img.sendWelcomeEmail {
