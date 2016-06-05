@@ -21,8 +21,9 @@ $notes = $_POST['notes'];
 $admin = $_POST['admin'];
 $username = $_POST['username'];
 $propertyName = $_POST['propertyName'];
+$nightlyRate = $_POST['nightlyRate'];
 
-$sql = "INSERT INTO DirectBookings VALUES (DEFAULT, '$customerID', '$propertyID', '$guestName', '$guestMobile', '$guestEmail', '$guestCheckIn', '$guestCheckOut', '$invoiced', '$cleanUp', '$notes')";
+$sql = "INSERT INTO DirectBookings VALUES (DEFAULT, '$customerID', '$propertyID', '$guestName', '$guestMobile', '$guestEmail', '$guestCheckIn', '$guestCheckOut', '$invoiced', '$cleanUp', '$notes', '$nightlyRate')";
 if (mysqli_query($con, $sql)) {
     echo 'success' . mysqli_insert_id($con);
 
@@ -36,6 +37,7 @@ if (mysqli_query($con, $sql)) {
         Check-in: " . substr($guestCheckIn, 6, 2) . '/' . substr($guestCheckIn, 4, 2) . '/' . substr($guestCheckIn, 0, 4) . "<br />
         Check-out: " . substr($guestCheckOut, 6, 2) . '/' . substr($guestCheckOut, 4, 2) . '/' . substr($guestCheckOut, 0, 4) . "<br />
         Invoiced: $invoiced <br />
+        " . ($invoiced == 'true' ? "Nightly Rate: $nightlyRate <br />" : "") . "
         Cleanup: $cleanUp <br />
         Notes: $notes
         ");

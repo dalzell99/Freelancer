@@ -106,7 +106,7 @@
         <tr>
             <td colspan="2">
                 <p>
-                    <strong>Additional Information</strong>
+                    <strong>Invoice & nightly rate</strong>
                 </p>
             </td>
         </tr>
@@ -123,6 +123,17 @@
                 </form>
             </td>
         </tr>
+        <tr id='nightlyRateRow'>
+            <td colspan="2">
+                <p>Nightly Rate: <input id='directBookingNightlyRate' type='number' /></p>
+            </td>
+        </tr>
+
+        <tr class='bookingSeparator'>
+            <td colspan="3">
+                <div></div>
+            </td>
+        </tr>
 
         <tr>
             <td colspan="2">
@@ -136,6 +147,12 @@
                     <input type='radio' name='cleaning' id='directBookingAddInvoiceHostkeepBilled'  /> HostKeep (owner billed)<br />
                     <input type='radio' name='cleaning' id='directBookingAddInvoiceGuest' /> Guest
                 </form>
+            </td>
+        </tr>
+
+        <tr class='bookingSeparator'>
+            <td colspan="3">
+                <div></div>
             </td>
         </tr>
 
@@ -180,6 +197,9 @@
             </th>
             <th>
                 Turnover
+            </th>
+            <th>
+                Nightly Rate
             </th>
         </tr>
     </thead>

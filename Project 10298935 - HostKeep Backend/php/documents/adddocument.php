@@ -8,13 +8,14 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$username = $_POST['username'];
 $name = mysqli_real_escape_string($con, $_POST['name']);
 $propertyID = $_POST['propertyID'];
 $month = $_POST['month'];
 $dateUploaded = date('c');
 $notes = mysqli_real_escape_string($con, $_POST['notes']);
 $filename = $_POST['filename'];
+
+$username = mysqli_fetch_assoc(mysqli_query($con, "SELECT username FROM Properties WHERE propertyID = '$propertyID'"))['username'];
 
 $sql = "INSERT INTO Documents VALUES (DEFAULT, '$username', '$name', '$propertyID', '$month', '$dateUploaded', '$notes', '$filename')";
 

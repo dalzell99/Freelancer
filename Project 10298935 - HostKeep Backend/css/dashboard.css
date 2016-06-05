@@ -10,7 +10,7 @@ header > :first-child select {
   color: initial;
   margin-top: 5px;
   padding: 5px;
-  width: 50%;
+  width: 85%;
 }
 
 main > div {
@@ -210,6 +210,10 @@ main > div#directBooking #directBookingAddNewBooking > table p {
 
 main > div#directBooking #directBookingAddNewBooking > table input[type="radio"] {
   width: initial;
+}
+
+main > div#directBooking #directBookingAddNewBooking > table #directBookingNightlyRate {
+  width: 30%;
 }
 
 main > div#directBooking #directBookingAddNewBooking > table th:not(:nth-child(3)),
