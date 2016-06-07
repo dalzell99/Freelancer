@@ -399,6 +399,7 @@ function properties() {
 
     // Create property table
     var html = '';
+    var htmlMobile = '';
     userPropertyList.forEach(function(value, index, array) {
         var a = (sessionStorage.admin == 'true' ? true : false);
         var imageURL = (value.imageURL == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : value.imageURL);
@@ -411,12 +412,23 @@ function properties() {
         html += "    <td class='propertyFee' " + (a ? 'contenteditable=true' : '') + ">" + value.propertyFee + "%</td>";
         html += "    <td class='minimumNightlyPrice'><div contenteditable=true>$" + value.minimumNightlyPrice + "</div></td>";
         html += "</tr>";
+
+        htmlMobile += "<tr>";
+        htmlMobile += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
+        htmlMobile += "    <td class='propertyID' style='display:none'>" + value.propertyID + "</td>";
+        htmlMobile += "    <td>";
+        htmlMobile += "        <div><span class='name'><strong>" + value.name + "</strong></span>: " + value.description + "</div>";
+        htmlMobile += "        <div>" + value.address + "</div>";
+        htmlMobile += "        <div>Min. nightly price <strong class='minimumNightlyPrice'>$<div contenteditable=true>" + value.minimumNightlyPrice + "</div></strong></div>";
+        htmlMobile += "    </td>";
+        htmlMobile += "</tr>";
     });
 
-    $("#properties tbody").empty().append(html);
+    $("#propertyTable tbody").empty().append(html);
+    $("#propertyMobile tbody").empty().append(htmlMobile);
 
     // Make table sortable
-    var newTableObject = $("#properties table")[0];
+    var newTableObject = $("#properties #propertyTable")[0];
     sorttable.makeSortable(newTableObject);
 
     // Add contenteditable change events
@@ -647,33 +659,35 @@ function documents() {
                     notes: $("#documentsAddNotes").val(),
                     filename: filename
                 }, function(response) {
-                    if (response.substr(0, 7) == 'success') {
+                    if (response[0] == 'success') {
                         displayMessage('info', 'The document has been added to the current customer');
 
-                        // Add new document to table
-                        var html = '';
-                        var a = (sessionStorage.admin == 'true' ? true : false);
-                        html += "<tr>";
-                        html += "    <td class='name'><div onclick='viewDocument(\"" + filename + "\")'>" + filenameMinusExtension + "</div></td>";
-                        html += "    <td class='propertyID'>" + $("#documentsAddPropertyID option:selected").text() + "</td>";
-                        html += "    <td class='month' sorttable_customkey='" + months.indexOf($("#documentsAddMonth").val()) + "'>" + $("#documentsAddMonth").val() + "</td>";
-                        html += "    <td><img src='images/download.png' alt='' onclick='viewDocument(\"" + filename + "\")' /></td>";
-                        html += "    <td><img src='images/delete.png' alt='' onclick='deleteDocument(\"" + response.substr(7) + "\")' /></td>";
-                        html += "    <td></td>";
-                        html += "    <td style='display:none'>" + response.substr(7) + "</td>";
-                        html += "</tr>";
+                        if (response[1] == sessionStorage.username) {
+                            // Add new document to table
+                            var html = '';
+                            var a = (sessionStorage.admin == 'true' ? true : false);
+                            html += "<tr>";
+                            html += "    <td class='name'><div onclick='viewDocument(\"" + filename + "\")'>" + filenameMinusExtension + "</div></td>";
+                            html += "    <td class='propertyID'>" + $("#documentsAddPropertyID option:selected").text() + "</td>";
+                            html += "    <td class='month' sorttable_customkey='" + months.indexOf($("#documentsAddMonth").val()) + "'>" + $("#documentsAddMonth").val() + "</td>";
+                            html += "    <td><img src='images/download.png' alt='' onclick='viewDocument(\"" + filename + "\")' /></td>";
+                            html += "    <td><img src='images/delete.png' alt='' onclick='deleteDocument(\"" + response[2] + "\")' /></td>";
+                            html += "    <td></td>";
+                            html += "    <td style='display:none'>" + response[2] + "</td>";
+                            html += "</tr>";
 
-                        $("#documents tbody").append(html);
+                            $("#documents tbody").append(html);
 
-                        documentList.push({
-                            'documentID': response.substr(7),
-                            'name': $("#documentsAddName").val(),
-                            'propertyID': $("#documentsAddPropertyID").val(),
-                            'month': $("#documentsAddMonth").val(),
-                            'dateUploaded': moment(),
-                            'notes': $("#documentsAddNotes").val(),
-                            'documentFilename': filename
-                        });
+                            documentList.push({
+                                'documentID': response[2],
+                                'name': $("#documentsAddName").val(),
+                                'propertyID': $("#documentsAddPropertyID").val(),
+                                'month': $("#documentsAddMonth").val(),
+                                'dateUploaded': moment(),
+                                'notes': $("#documentsAddNotes").val(),
+                                'documentFilename': filename
+                            });
+                        }
 
                         // Clear inputs
                         //$("#documentsAddName").val('');
@@ -695,7 +709,7 @@ function documents() {
                     } else {
                         displayMessage('error', 'Something went wrong added the document to the current user. The web admin has been notified and will fix the problem as soon as possible.');
                     }
-                }).fail(function (request, textStatus, errorThrown) {
+                }, 'json').fail(function (request, textStatus, errorThrown) {
                     //displayMessage('error', "Error: Something went wrong with  AJAX POST");
                 });
             } else {
@@ -1133,31 +1147,70 @@ function addPropertyChangeEvent() {
     $("#properties [contenteditable=true]").on({
         blur: function() {
             if ($(this).text() != sessionStorage.contenteditable) {
-                var column = (this.classList[0] != undefined ? this.classList[0] : $(this).parents("td")[0].classList[0]);
-                if ((isInt($(this).text().substr(1)) && column == 'minimumNightlyPrice') ||
-                    (isInt($(this).text().substr(0, $(this).text().length - 1)) && column == 'propertyFee') ||
+                var column;
+                var layout = 'desktop';
+                if (this.classList[0] != undefined) {
+                    column = this.classList[0];
+                } else if ($(this).parents("td")[0].classList[0] != undefined) {
+                    column = $(this).parents("td")[0].classList[0];
+                } else {
+                    column = 'minimumNightlyPrice';
+                    layout = 'mobile';
+                }
+
+                var minPrice = 0;
+                if (column == 'minimumNightlyPrice') {
+                    var price = $(this).text();
+                    var i = price.indexOf("$");
+                    minPrice = (i != -1 ? price.substr(i + 1) : price);
+                }
+
+                var propertyFee = 0;
+                if (column == 'propertyFee') {
+                    var fee = $(this).text();
+                    var j = fee.lastIndexOf("%");
+                    propertyFee = (j != -1 ? fee.substr(0, j) : fee);
+                }
+
+                if ((isInt(minPrice) && column == 'minimumNightlyPrice') ||
+                    (isInt(propertyFee) && column == 'propertyFee') ||
                     (column != 'minimumNightlyPrice' && column != 'propertyFee')) {
 
                     // Remove the dollar sign from the price
                     if (column == 'minimumNightlyPrice') {
-                        var value = $(this).text().substr(1);
+                        var value = minPrice;
                     } else if (column == 'propertyFee') {
-                        var value = $(this).text().substr(0, $(this).text().length - 1);
+                        var value = propertyFee;
                     } else {
                         var value = $(this).text();
                     }
 
+                    if ($(this).parents("tr").children(':nth-child(3)')[0].className == 'name') {
+                        var propertyName = $(this).parents("tr").children(':nth-child(3)').text();
+                    } else {
+                        var propertyName = $(this).parents('tr').children(":nth-child(3)").find("span.name").text();
+                    }
+
+                    var propertyID = $(this).parents('tr').children(":nth-child(2)").text();
+
                     $.post("./php/properties/changepropertyinfo.php", {
                         admin: sessionStorage.admin,
                         username: sessionStorage.username,
-                        propertyName: $(this).parents("tr").children(':nth-child(3)').text(),
-                        propertyID: $(this).parents("tr").children(':nth-child(2)').text(),
+                        propertyName: propertyName,
+                        propertyID: propertyID,
                         column: column,
                         value: value
                     }, function(response) {
                         if (response == 'success') {
                             if (column == 'minimumNightlyPrice') {
                                 displayMessage('info', 'The minimum nightly price has been updated. Changes may take up to 48 hours to take effect.');
+
+                                // Update price input for other layout
+                                if (layout == 'desktop') {
+                                    $("#propertyMobile td.propertyID:contains(" + propertyID + ")").parent().find("strong.minimumNightlyPrice > div").text(value);
+                                } else {
+                                    $("#propertyTable td.propertyID:contains(" + propertyID + ")").siblings("td.minimumNightlyPrice").children("div").text("$" + value);
+                                }
                             } else {
                                 displayMessage('info', 'The property ' + column + ' has been updated.');
                             }
@@ -1168,7 +1221,7 @@ function addPropertyChangeEvent() {
                         //displayMessage('error', "Error: Something went wrong with  AJAX POST");
                     });
                 } else {
-                    if (!isInt($(this).text().substr(1)) && column == 'minimumNightlyPrice') {
+                    if (!isInt(minPrice) && column == 'minimumNightlyPrice') {
                         displayMessage("warning", "The minimum nightly price must be a whole number");
                     } else {
                         displayMessage("warning", "The management fee must be a whole number");

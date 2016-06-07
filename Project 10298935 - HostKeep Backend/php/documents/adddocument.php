@@ -22,13 +22,13 @@ $sql = "INSERT INTO Documents VALUES (DEFAULT, '$username', '$name', '$propertyI
 // Insert document into database
 if (mysqli_query($con, $sql)) {
     // Get documentID of last insert document
-    echo 'success' . mysqli_insert_id($con);
+    echo json_encode(array('success', $username, mysqli_insert_id($con)));
 } else {
     sendErrorEmail("
     adddocument.php<br />
     sql: $sql
     ");
-    echo 'fail insert sql';
+    echo json_encode('fail insert sql');
 }
 
 mysqli_close($con);

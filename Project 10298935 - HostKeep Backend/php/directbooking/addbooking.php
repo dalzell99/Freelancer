@@ -22,8 +22,9 @@ $admin = $_POST['admin'];
 $username = $_POST['username'];
 $propertyName = $_POST['propertyName'];
 $nightlyRate = $_POST['nightlyRate'];
+$creationDate = date('c');
 
-$sql = "INSERT INTO DirectBookings VALUES (DEFAULT, '$customerID', '$propertyID', '$guestName', '$guestMobile', '$guestEmail', '$guestCheckIn', '$guestCheckOut', '$invoiced', '$cleanUp', '$notes', '$nightlyRate')";
+$sql = "INSERT INTO DirectBookings VALUES (DEFAULT, '$customerID', '$propertyID', '$guestName', '$guestMobile', '$guestEmail', '$guestCheckIn', '$guestCheckOut', '$invoiced', '$cleanUp', '$notes', '$nightlyRate', '$creationDate')";
 if (mysqli_query($con, $sql)) {
     echo 'success' . mysqli_insert_id($con);
 

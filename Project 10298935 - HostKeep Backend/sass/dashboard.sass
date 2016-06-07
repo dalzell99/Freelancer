@@ -45,10 +45,18 @@ main > div
 
   &#properties
     #propertiesAdd,
-    #propertiesAddNewProperty
+    #propertiesAddNewProperty,
+    #propertyMobile
       display: none
 
-    table
+    @media (max-width: 500px)
+      #propertyMobile
+        display: block
+
+      #propertyTable
+        display: none
+
+    table#propertyTable
       width: 100%
 
       th
@@ -80,6 +88,31 @@ main > div
 
       img
         width: 200px
+
+    table#propertyMobile
+      width: 100%
+      font-size: .8em
+
+      tr:not(:first-child)
+        border-top: 1px solid lightgrey
+
+      td
+        padding: 15px 5px
+        text-align: left
+
+        &:nth-child(2)
+          width: 40%
+
+          img
+            width: 100%
+
+        &:nth-child(3)
+          width: 60%
+
+          & > div:nth-child(3) div
+            border: 1px solid $company-color
+            width: 20%
+            display: inline-block
 
   &#documents
     #documentsAdd,
@@ -161,8 +194,8 @@ main > div
         #directBookingNightlyRate
           width: 30%
 
-        th,
-        td
+        & > tbody > tr > th,
+        & > tbody > tr > td
           &:not(:nth-child(3))
             width: 30%
 

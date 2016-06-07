@@ -56,57 +56,99 @@ main > div#profile table td:nth-child(4) {
 }
 
 main > div#properties #propertiesAdd,
-main > div#properties #propertiesAddNewProperty {
+main > div#properties #propertiesAddNewProperty,
+main > div#properties #propertyMobile {
   display: none;
 }
 
-main > div#properties table {
+@media (max-width: 500px) {
+  main > div#properties #propertyMobile {
+    display: block;
+  }
+  main > div#properties #propertyTable {
+    display: none;
+  }
+}
+
+main > div#properties table#propertyTable {
   width: 100%;
 }
 
-main > div#properties table th {
+main > div#properties table#propertyTable th {
   font-size: 0.9em;
   cursor: pointer;
 }
 
-main > div#properties table th,
-main > div#properties table td {
+main > div#properties table#propertyTable th,
+main > div#properties table#propertyTable td {
   padding: 5px;
   text-align: left;
 }
 
-main > div#properties table th:nth-child(1),
-main > div#properties table td:nth-child(1) {
+main > div#properties table#propertyTable th:nth-child(1),
+main > div#properties table#propertyTable td:nth-child(1) {
   width: 18%;
 }
 
-main > div#properties table th:nth-child(1) img,
-main > div#properties table td:nth-child(1) img {
+main > div#properties table#propertyTable th:nth-child(1) img,
+main > div#properties table#propertyTable td:nth-child(1) img {
   width: 100%;
 }
 
-main > div#properties table th:nth-child(3),
-main > div#properties table td:nth-child(3) {
+main > div#properties table#propertyTable th:nth-child(3),
+main > div#properties table#propertyTable td:nth-child(3) {
   width: 12.5%;
 }
 
-main > div#properties table th:nth-child(4),
-main > div#properties table td:nth-child(4) {
+main > div#properties table#propertyTable th:nth-child(4),
+main > div#properties table#propertyTable td:nth-child(4) {
   width: 20%;
 }
 
-main > div#properties table th:nth-child(5),
-main > div#properties table td:nth-child(5) {
+main > div#properties table#propertyTable th:nth-child(5),
+main > div#properties table#propertyTable td:nth-child(5) {
   width: 40%;
 }
 
-main > div#properties table th:nth-child(7) > div,
-main > div#properties table td:nth-child(7) > div {
+main > div#properties table#propertyTable th:nth-child(7) > div,
+main > div#properties table#propertyTable td:nth-child(7) > div {
   border: 1px solid #00b7a6;
 }
 
-main > div#properties table img {
+main > div#properties table#propertyTable img {
   width: 200px;
+}
+
+main > div#properties table#propertyMobile {
+  width: 100%;
+  font-size: .8em;
+}
+
+main > div#properties table#propertyMobile tr:not(:first-child) {
+  border-top: 1px solid lightgrey;
+}
+
+main > div#properties table#propertyMobile td {
+  padding: 15px 5px;
+  text-align: left;
+}
+
+main > div#properties table#propertyMobile td:nth-child(2) {
+  width: 40%;
+}
+
+main > div#properties table#propertyMobile td:nth-child(2) img {
+  width: 100%;
+}
+
+main > div#properties table#propertyMobile td:nth-child(3) {
+  width: 60%;
+}
+
+main > div#properties table#propertyMobile td:nth-child(3) > div:nth-child(3) div {
+  border: 1px solid #00b7a6;
+  width: 20%;
+  display: inline-block;
 }
 
 main > div#documents #documentsAdd,
@@ -216,26 +258,26 @@ main > div#directBooking #directBookingAddNewBooking > table #directBookingNight
   width: 30%;
 }
 
-main > div#directBooking #directBookingAddNewBooking > table th:not(:nth-child(3)),
-main > div#directBooking #directBookingAddNewBooking > table td:not(:nth-child(3)) {
+main > div#directBooking #directBookingAddNewBooking > table > tbody > tr > th:not(:nth-child(3)),
+main > div#directBooking #directBookingAddNewBooking > table > tbody > tr > td:not(:nth-child(3)) {
   width: 30%;
 }
 
 @media (max-width: 992px) {
-  main > div#directBooking #directBookingAddNewBooking > table th:not(:nth-child(3)),
-  main > div#directBooking #directBookingAddNewBooking > table td:not(:nth-child(3)) {
+  main > div#directBooking #directBookingAddNewBooking > table > tbody > tr > th:not(:nth-child(3)),
+  main > div#directBooking #directBookingAddNewBooking > table > tbody > tr > td:not(:nth-child(3)) {
     width: 50%;
   }
 }
 
-main > div#directBooking #directBookingAddNewBooking > table th:nth-child(3),
-main > div#directBooking #directBookingAddNewBooking > table td:nth-child(3) {
+main > div#directBooking #directBookingAddNewBooking > table > tbody > tr > th:nth-child(3),
+main > div#directBooking #directBookingAddNewBooking > table > tbody > tr > td:nth-child(3) {
   width: 40%;
 }
 
 @media (max-width: 992px) {
-  main > div#directBooking #directBookingAddNewBooking > table th:nth-child(3),
-  main > div#directBooking #directBookingAddNewBooking > table td:nth-child(3) {
+  main > div#directBooking #directBookingAddNewBooking > table > tbody > tr > th:nth-child(3),
+  main > div#directBooking #directBookingAddNewBooking > table > tbody > tr > td:nth-child(3) {
     display: none;
   }
 }

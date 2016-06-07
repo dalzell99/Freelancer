@@ -52,7 +52,7 @@
     </div>
 </div>
 
-<table>
+<table id='propertyTable'>
     <thead>
         <tr>
             <th>
@@ -80,6 +80,11 @@
     </tbody>
 </table>
 
+<table id='propertyMobile'>
+    <tbody>
+        <!-- Properties dynamically added here -->
+    </tbody>
+</table>
 
 <!-- Modal Code -->
 <div id='newPropertyImageContainer' class="modal" style="display:none">
