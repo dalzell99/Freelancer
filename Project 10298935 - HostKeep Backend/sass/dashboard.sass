@@ -49,7 +49,7 @@ main > div
     #propertyMobile
       display: none
 
-    @media (max-width: 500px)
+    @media (max-width: 600px)
       #propertyMobile
         display: block
 
@@ -100,7 +100,7 @@ main > div
         padding: 15px 5px
         text-align: left
 
-        &:nth-child(2)
+        &:nth-child(1)
           width: 40%
 
           img
@@ -109,10 +109,60 @@ main > div
         &:nth-child(3)
           width: 60%
 
+          & > div:nth-child(2)
+            margin-bottom: 1em
+
           & > div:nth-child(3) div
             border: 1px solid $company-color
             width: 20%
             display: inline-block
+
+    #propertySubpage
+      img
+        &.propertyImage
+          width: 100%
+          max-width: 300px
+
+        &.airbnbButtonImage
+          margin-right: 5px
+          width: 24px
+
+      .row
+        border-bottom: 1px solid lightgrey
+
+        &:last-child
+          border: 0
+
+        & > div
+          margin: 15px 0
+
+      #propertySubpagePropertyStatus
+        width: 120px
+
+      #propertySubpageCommencementFeeReceivedYes,
+      #propertySubpageCommencementFeeReceivedNo
+        width: 30px
+
+      table
+        width: 100%
+
+        &#propertySubpageImageAndButton td
+          text-align: center
+          color: white
+
+        td
+          padding: 5px 0
+
+          &:first-child
+            width: 160px
+
+        div[contenteditable='true']
+          display: inline-block
+          width: 70px
+
+        [contenteditable='true']
+          padding-left: 2px
+          border: 1px solid $company-color
 
   &#documents
     #documentsAdd,

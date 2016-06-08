@@ -10,7 +10,7 @@ if (mysqli_connect_errno()) {
 
 $propertyID = $_POST['propertyID'];
 $column = $_POST['column'];
-$value = $_POST['value'];
+$value = mysqli_real_escape_string(con, $_POST['value']);
 
 $sql = "UPDATE Properties SET $column = '$value' WHERE propertyID = '$propertyID'";
 

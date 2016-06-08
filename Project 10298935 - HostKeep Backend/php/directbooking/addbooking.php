@@ -10,17 +10,17 @@ if (mysqli_connect_errno()) {
 
 $customerID = $_POST['customerID'];
 $propertyID = $_POST['propertyID'];
-$guestName = $_POST['guestName'];
-$guestMobile = $_POST['guestMobile'];
-$guestEmail = $_POST['guestEmail'];
+$guestName = mysqli_real_escape_string(con, $_POST['guestName']);
+$guestMobile = mysqli_real_escape_string(con, $_POST['guestMobile']);
+$guestEmail = mysqli_real_escape_string(con, $_POST['guestEmail']);
 $guestCheckIn = $_POST['guestCheckIn'];
 $guestCheckOut = $_POST['guestCheckOut'];
 $invoiced = $_POST['invoiced'];
 $cleanUp = $_POST['cleanUp'];
-$notes = $_POST['notes'];
+$notes = mysqli_real_escape_string(con, $_POST['notes']);
 $admin = $_POST['admin'];
 $username = $_POST['username'];
-$propertyName = $_POST['propertyName'];
+$propertyName = mysqli_real_escape_string(con, $_POST['propertyName']);
 $nightlyRate = $_POST['nightlyRate'];
 $creationDate = date('c');
 

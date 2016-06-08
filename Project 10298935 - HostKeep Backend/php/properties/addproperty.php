@@ -9,15 +9,15 @@ if (mysqli_connect_errno()) {
 }
 
 $username = $_POST['username'];
-$code = mysqli_real_escape_string($con, $_POST['propertyID']);
+$propertyID = mysqli_real_escape_string($con, $_POST['propertyID']);
 $name = mysqli_real_escape_string($con, $_POST['name']);
 $description = mysqli_real_escape_string($con, $_POST['description']);
 $address = mysqli_real_escape_string($con, $_POST['address']);
-$price = $_POST['price'];
-$fee = $_POST['fee'];
+$minimumNightlyPrice = $_POST['minimumNightlyPrice'];
+$propertyFee = $_POST['propertyFee'];
 $imageURL = mysqli_real_escape_string($con, $_POST['imageURL']);
 
-$sql = "INSERT INTO Properties VALUES ('$code', '$username', '$name', '$description', '$address', '$price', '$imageURL', '$fee')";
+$sql = "INSERT INTO Properties VALUES ('$propertyID', '$username', '$name', '$description', '$address', '$minimumNightlyPrice', '', '$imageURL', '$propertyFee', '', '', '', '', '', '', '', '')";
 
 // Insert property into database
 if (mysqli_query($con, $sql)) {

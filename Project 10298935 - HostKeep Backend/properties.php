@@ -86,6 +86,10 @@
     </tbody>
 </table>
 
+<div id='propertySubpage' class='row'>
+
+</div>
+
 <!-- Modal Code -->
 <div id='newPropertyImageContainer' class="modal" style="display:none">
     <form id='newPropertyImageDropzone' class='dropzone' action='php/properties/uploadpropertyimage.php'>

@@ -61,7 +61,7 @@ main > div#properties #propertyMobile {
   display: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   main > div#properties #propertyMobile {
     display: block;
   }
@@ -133,11 +133,11 @@ main > div#properties table#propertyMobile td {
   text-align: left;
 }
 
-main > div#properties table#propertyMobile td:nth-child(2) {
+main > div#properties table#propertyMobile td:nth-child(1) {
   width: 40%;
 }
 
-main > div#properties table#propertyMobile td:nth-child(2) img {
+main > div#properties table#propertyMobile td:nth-child(1) img {
   width: 100%;
 }
 
@@ -145,10 +145,72 @@ main > div#properties table#propertyMobile td:nth-child(3) {
   width: 60%;
 }
 
+main > div#properties table#propertyMobile td:nth-child(3) > div:nth-child(2) {
+  margin-bottom: 1em;
+}
+
 main > div#properties table#propertyMobile td:nth-child(3) > div:nth-child(3) div {
   border: 1px solid #00b7a6;
   width: 20%;
   display: inline-block;
+}
+
+main > div#properties #propertySubpage img.propertyImage {
+  width: 100%;
+  max-width: 300px;
+}
+
+main > div#properties #propertySubpage img.airbnbButtonImage {
+  margin-right: 5px;
+  width: 24px;
+}
+
+main > div#properties #propertySubpage .row {
+  border-bottom: 1px solid lightgrey;
+}
+
+main > div#properties #propertySubpage .row:last-child {
+  border: 0;
+}
+
+main > div#properties #propertySubpage .row > div {
+  margin: 15px 0;
+}
+
+main > div#properties #propertySubpage #propertySubpagePropertyStatus {
+  width: 120px;
+}
+
+main > div#properties #propertySubpage #propertySubpageCommencementFeeReceivedYes,
+main > div#properties #propertySubpage #propertySubpageCommencementFeeReceivedNo {
+  width: 30px;
+}
+
+main > div#properties #propertySubpage table {
+  width: 100%;
+}
+
+main > div#properties #propertySubpage table#propertySubpageImageAndButton td {
+  text-align: center;
+  color: white;
+}
+
+main > div#properties #propertySubpage table td {
+  padding: 5px 0;
+}
+
+main > div#properties #propertySubpage table td:first-child {
+  width: 160px;
+}
+
+main > div#properties #propertySubpage table div[contenteditable='true'] {
+  display: inline-block;
+  width: 70px;
+}
+
+main > div#properties #propertySubpage table [contenteditable='true'] {
+  padding-left: 2px;
+  border: 1px solid #00b7a6;
 }
 
 main > div#documents #documentsAdd,

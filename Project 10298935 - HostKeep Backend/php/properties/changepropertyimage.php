@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {
 }
 
 $propertyID = $_POST['propertyID'];
-$imageURL = $_POST['imageURL'];
+$imageURL = mysqli_real_escape_string(con, $_POST['imageURL']);
 
 $sql = "UPDATE Properties SET imageURL = '$imageURL' WHERE propertyID = '$propertyID'";
 if ($result = mysqli_query($con, $sql)) {
