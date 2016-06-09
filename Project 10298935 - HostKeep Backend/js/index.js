@@ -50,8 +50,6 @@ function setUserInfo(response, index) {
     sessionStorage.salutation = userInfo['salutation'];
     sessionStorage.firstName = userInfo['firstName'];
     sessionStorage.lastName = userInfo['lastName'];
-    sessionStorage.propertyIDs = userInfo['propertyIDs'];
-    sessionStorage.documentIDs = userInfo['documentIDs'];
     sessionStorage.company = userInfo['company'];
     sessionStorage.phoneNumber = userInfo['phoneNumber'];
     sessionStorage.mobileNumber = userInfo['mobileNumber'];
@@ -66,4 +64,5 @@ function setUserInfo(response, index) {
     sessionStorage.lastModified = userInfo['lastModified'];
     sessionStorage.lastLogin = userInfo['lastLogin'];
     sessionStorage.lastLoginIP = userInfo['lastLoginIP'];
+    sessionStorage.status = userInfo['status'];
 }

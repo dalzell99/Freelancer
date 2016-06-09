@@ -18,6 +18,10 @@ main > div {
   margin-top: 10px;
 }
 
+main > div#welcome .proposalUser {
+  display: none;
+}
+
 main > div#profile .profileSeparator {
   height: 30px;
 }
@@ -200,7 +204,7 @@ main > div#properties #propertySubpage table td {
 }
 
 main > div#properties #propertySubpage table td:first-child {
-  width: 160px;
+  width: 130px;
 }
 
 main > div#properties #propertySubpage table div[contenteditable='true'] {
@@ -211,6 +215,11 @@ main > div#properties #propertySubpage table div[contenteditable='true'] {
 main > div#properties #propertySubpage table [contenteditable='true'] {
   padding-left: 2px;
   border: 1px solid #00b7a6;
+}
+
+main > div#properties #propertySubpage iframe .nav-table td:nth-child(5), main > div#properties #propertySubpage iframe .nav-table td:nth-child(6), main > div#properties #propertySubpage iframe .nav-table td.calendar-nav,
+main > div#properties #propertySubpage iframe .nav-table td.date-nav-buttons .today-button {
+  display: none;
 }
 
 main > div#documents #documentsAdd,

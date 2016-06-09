@@ -20,6 +20,7 @@ cleaningFee = '" . mysqli_real_escape_string($con, $_POST['cleaningFee']) . "',
 airbnbURL = '" . mysqli_real_escape_string($con, $_POST['airbnbURL']) . "',
 guestGreetURL = '" . mysqli_real_escape_string($con, $_POST['guestGreetURL']) . "',
 selfCheckinURL = '" . mysqli_real_escape_string($con, $_POST['selfCheckinURL']) . "',
+icalURL = '" . mysqli_real_escape_string($con, $_POST['icalURL']) . "',
 status = '" . $_POST['status'] . "',
 commencementFee = '" . mysqli_real_escape_string($con, $_POST['commencementFee']) . "',
 commencementFeeReceived = '" . mysqli_real_escape_string($con, $_POST['commencementFeeReceived']) . "'

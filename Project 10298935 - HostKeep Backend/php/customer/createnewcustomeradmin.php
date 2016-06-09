@@ -12,7 +12,7 @@ $email = mysqli_real_escape_string($con, $_POST['username']);
 $firstName = mysqli_real_escape_string($con, $_POST['firstName']);
 $lastName = mysqli_real_escape_string($con, $_POST['lastName']);
 
-$sql = "INSERT INTO Customer(username, firstName, lastName) VALUES ('$email', '$firstName', '$lastName')";
+$sql = "INSERT INTO Customer(username, firstName, lastName, status) VALUES ('$email', '$firstName', '$lastName', 'proposal')";
 
 // Insert new customer
 if ($result = mysqli_query($con, $sql)) {

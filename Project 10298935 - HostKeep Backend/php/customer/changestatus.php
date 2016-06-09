@@ -9,7 +9,7 @@ if (mysqli_connect_errno()) {
 }
 
 $customerID = $_POST['customerID'];
-$status = mysqli_real_escape_string(con, $_POST['status']);
+$status = mysqli_real_escape_string($con, $_POST['status']);
 
 // Get status before changing it
 $sqlUser = "SELECT status, username FROM Customer WHERE customerID = '$customerID'";

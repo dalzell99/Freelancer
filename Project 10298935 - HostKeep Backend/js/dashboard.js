@@ -152,6 +152,13 @@ $(function() {
             }).fail(function (request, textStatus, errorThrown) {
                 displayMessage('error', "Error: Something went wrong with getallcustomers AJAX POST");
             });
+        } else {
+            // Restrict the access of a user with a proposal account status
+            if (sessionStorage.status == 'proposal') {
+                $("#welcome .nonProposalUser").hide();
+                $("#welcome .proposalUser").show();
+                $("nav .properties, nav .documents, nav .directBooking").hide();
+            }
         }
 
         // Get the direct bookings for the logged in user
@@ -594,7 +601,7 @@ function propertySubpage() {
 
         var html = '';
 
-        html += "<div class='col-sm-4 col-sm-push-8 col-xs-12'>";
+        html += "<div class='col-md-5 col-md-push-7 col-xs-12'>";
         html += "    <table id='propertySubpageImageAndButton'>";
         html += "        <tr>";
         html += "            <td><img class='propertyImage' src='" + imageURL + "' alt=''></td>";
@@ -602,10 +609,13 @@ function propertySubpage() {
         html += "        <tr>";
         html += "            <td><button onclick='viewListingPage(" + propertyInfo.airbnbURL + ")'><img class='airbnbButtonImage' src='./images/airbnbLogo.png' alt='' />View Airbnb listing</button></td>";
         html += "        </tr>";
+        html += "        <tr>";
+        html += "            <td><iframe src='https://calendar.google.com/calendar/embed?showTitle=0&amp;showDate=0&amp;showPrint=0&amp;showCalendars=0&amp;height=350&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=" + propertyInfo.icalURL + "&amp;color=%232952A3&amp;ctz=Australia%2FSydney' style='border-width:0' width='100%' height='350' frameborder='0' scrolling='no'></iframe></td>";
+        html += "        </tr>";
         html += "    </table>";
         html += "</div>";
 
-        html += "<div class='col-sm-8 col-sm-pull-4 col-xs-12'>";
+        html += "<div class='col-md-7 col-md-pull-5 col-xs-12'>";
         html += "    <div class='row'>";
         html += "        <div class='col-xs-12'>";
         html += "            <table>";
@@ -701,6 +711,12 @@ function propertySubpage() {
         html += "                    <td>Self-check-in URL</td>";
         html += "                    <td id='propertySubpageSelfCheckinURL' " + (a ? 'contenteditable=true' : '') + ">" + propertyInfo.selfCheckinURL + "</td>";
         html += "                </tr>";
+        if (a) {
+            html += "            <tr>";
+            html += "                <td>iCal URL</td>";
+            html += "                <td id='propertySubpageIcalURL' contenteditable=true>" + propertyInfo.icalURL + "</td>";
+            html += "            </tr>";
+        }
         html += "            </table>";
         html += "        </div>";
         html += "    </div>";
@@ -786,6 +802,7 @@ function saveSubpageInfo() {
         airbnbURL: $("#propertySubpageAirbnbURL").text(),
         guestGreetURL: $("#propertySubpageGuestGreetURL").text(),
         selfCheckinURL: $("#propertySubpageSelfCheckinURL").text(),
+        icalURL: $("#propertySubpageIcalURL").text(),
         status: $("#propertySubpagePropertyStatus").val(),
         commencementFee: $("#propertySubpageCommencementFee").text(),
         commencementFeeReceived: commencementFeeReceived
