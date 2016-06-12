@@ -87,6 +87,7 @@ main > div#properties table#propertyTable th,
 main > div#properties table#propertyTable td {
   padding: 5px;
   text-align: left;
+  cursor: pointer;
 }
 
 main > div#properties table#propertyTable th:nth-child(1),
@@ -135,6 +136,7 @@ main > div#properties table#propertyMobile tr:not(:first-child) {
 main > div#properties table#propertyMobile td {
   padding: 15px 5px;
   text-align: left;
+  cursor: pointer;
 }
 
 main > div#properties table#propertyMobile td:nth-child(1) {
@@ -161,7 +163,7 @@ main > div#properties table#propertyMobile td:nth-child(3) > div:nth-child(3) di
 
 main > div#properties #propertySubpage img.propertyImage {
   width: 100%;
-  max-width: 300px;
+  cursor: pointer;
 }
 
 main > div#properties #propertySubpage img.airbnbButtonImage {

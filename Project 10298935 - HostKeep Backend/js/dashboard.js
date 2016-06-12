@@ -445,16 +445,15 @@ function properties() {
     var html = '';
     var htmlMobile = '';
     userPropertyList.forEach(function(value, index, array) {
-        var a = (sessionStorage.admin == 'true' ? true : false);
-        var imageURL = (value.imageURL == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : value.imageURL);
+        var imageURL = (value.imageURL == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=No+Image&w=200&h=130&fm=png&txttrack=0' : value.imageURL);
         html += "<tr>";
         html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
         html += "    <td class='propertyID' style='display:none'>" + value.propertyID + "</td>";
-        html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + value.name + "</td>";
-        html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + value.description + "</td>";
-        html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + value.address + "</td>";
-        html += "    <td class='propertyFee' " + (a ? 'contenteditable=true' : '') + ">" + value.propertyFee + "%</td>";
-        html += "    <td class='minimumNightlyPrice'><div contenteditable=true>$" + value.minimumNightlyPrice + "</div></td>";
+        html += "    <td class='name'>" + value.name + "</td>";
+        html += "    <td class='description'>" + value.description + "</td>";
+        html += "    <td class='address'>" + value.address + "</td>";
+        html += "    <td class='propertyFee'>" + value.propertyFee + "%</td>";
+        html += "    <td class='minimumNightlyPrice'>$" + value.minimumNightlyPrice + "</td>";
         html += "</tr>";
 
         htmlMobile += "<tr>";
@@ -463,7 +462,7 @@ function properties() {
         htmlMobile += "    <td>";
         htmlMobile += "        <div><span class='name'><strong>" + value.name + "</strong></span>: " + value.description + "</div>";
         htmlMobile += "        <div>" + value.address + "</div>";
-        htmlMobile += "        <div>Min. nightly price <strong class='minimumNightlyPrice'>$<div contenteditable=true>" + value.minimumNightlyPrice + "</div></strong></div>";
+        htmlMobile += "        <div>Min. nightly price <strong class='minimumNightlyPrice'>$" + value.minimumNightlyPrice + "</strong></div>";
         htmlMobile += "    </td>";
         htmlMobile += "</tr>";
     });
@@ -475,8 +474,7 @@ function properties() {
     var newTableObject = $("#properties #propertyTable")[0];
     sorttable.makeSortable(newTableObject);
 
-    // Add contenteditable change events
-    addPropertyChangeEvent();
+    addPropertySubpageEvent();
 
     // Show add property button if user is admin
     if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
@@ -524,15 +522,15 @@ function properties() {
                         // Add new property to table
                         var html = '';
                         var a = (sessionStorage.admin == 'true' ? true : false);
-                        var imageURL = (filename == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=Click+To+Upload+Image&w=200&h=130&fm=png&txttrack=0' : filename);
+                        var imageURL = (filename == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=No+Image&w=200&h=130&fm=png&txttrack=0' : filename);
                         html += "<tr>";
                         html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
                         html += "    <td class='propertyID' style='display:none'>" + $("#propertiesAddID").val() + "</td>";
-                        html += "    <td class='name' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddName").val() + "</td>";
-                        html += "    <td class='description' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddDescription").val() + "</td>";
-                        html += "    <td class='address' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddAddress").val() + "</td>";
-                        html += "    <td class='propertyFee' " + (a ? 'contenteditable=true' : '') + ">" + $("#propertiesAddFee").val() + "%</td>";
-                        html += "    <td class='minimumNightlyPrice'><div contenteditable=true>$" + $("#propertiesAddPrice").val() + "</div></td>";
+                        html += "    <td class='name'>" + $("#propertiesAddName").val() + "</td>";
+                        html += "    <td class='description'>" + $("#propertiesAddDescription").val() + "</td>";
+                        html += "    <td class='address'>" + $("#propertiesAddAddress").val() + "</td>";
+                        html += "    <td class='propertyFee'>" + $("#propertiesAddFee").val() + "%</td>";
+                        html += "    <td class='minimumNightlyPrice'>$" + $("#propertiesAddPrice").val() + "</td>";
                         html += "</tr>";
 
                         $("#properties tbody").append(html);
@@ -554,8 +552,7 @@ function properties() {
                         $("#propertiesAddPrice").val('');
                         $("#propertiesAddFee").val();
 
-                        // Add contenteditable change event to the just added table row
-                        addPropertyChangeEvent();
+                        addPropertySubpageEvent();
 
                         // Remove image from upload box
                         $("#propertiesDropzone > .dz-preview").remove();
@@ -678,17 +675,34 @@ function propertySubpage() {
             if (propertyInfo.commencementDate != '') {
                 html += "            <td>" + moment(propertyInfo.commencementDate).format('ddd Do MMM YYYY') + "</td>";
             } else {
-                html += "            <td>Commencement date hasn't been set</td>";
+                html += "            <td>Hasn't been set yet</td>";
             }
         }
         html += "                </tr>";
         html += "                <tr>";
         html += "                    <td>Management fee</td>";
-        html += "                    <td><div id='propertySubpagePropertyFee' " + (a ? 'contenteditable=true' : '') + ">" + propertyInfo.propertyFee + "</div>%</td>";
+        if (a) {
+            html += "                    <td><div id='propertySubpagePropertyFee' contenteditable=true>" + propertyInfo.propertyFee + "</div>%</td>";
+        } else {
+            if (propertyInfo.propertyFee == '') {
+                html += "                    <td><span id='propertySubpagePropertyFee'></span>Hasn't been set yet</td>";
+            } else {
+                html += "                    <td><span id='propertySubpagePropertyFee'>" + propertyInfo.propertyFee + "</span>%</td>";
+            }
+        }
         html += "                </tr>";
         html += "                <tr>";
         html += "                    <td>Cleaning fee</td>";
-        html += "                    <td>$<div id='propertySubpageCleaningFee' " + (a ? 'contenteditable=true' : '') + ">" + propertyInfo.cleaningFee + "</div></td>";
+        if (a) {
+            html += "                    <td>$<div id='propertySubpageCleaningFee' contenteditable=true>" + propertyInfo.cleaningFee + "</div></td>";
+        } else {
+            if (propertyInfo.cleaningFee == '') {
+                html += "                    <td><span id='propertySubpageCleaningFee'></span>Hasn't been set yet</td>";
+            } else {
+                html += "                    <td>$<span id='propertySubpageCleaningFee'>" + propertyInfo.cleaningFee + "</span></td>";
+            }
+        }
+
         html += "                </tr>";
         html += "            </table>";
         html += "        </div>";
@@ -701,20 +715,49 @@ function propertySubpage() {
         html += "                </tr>";
         html += "                <tr>";
         html += "                    <td>Airbnb URL</td>";
-        html += "                    <td>" + AIRBNB_URL + "<div id='propertySubpageAirbnbURL' " + (a ? 'contenteditable=true' : '') + ">" + propertyInfo.airbnbURL + "</div></td>";
+        if (a) {
+            html += "                    <td>" + AIRBNB_URL + "<div id='propertySubpageAirbnbURL' contenteditable=true>" + propertyInfo.airbnbURL + "</div></td>";
+        } else {
+            if (propertyInfo.airbnbURL == '') {
+                html += "                    <td><span id='propertySubpageAirbnbURL'></span>Hasn't been set yet</td>";
+            } else {
+                html += "                    <td><a href='" + AIRBNB_URL + propertyInfo.airbnbURL + "' target='_blank'>" + AIRBNB_URL + "<span id='propertySubpageAirbnbURL'>" + propertyInfo.airbnbURL + "</span></a></td>";
+            }
+        }
+
         html += "                </tr>";
         html += "                <tr>";
         html += "                    <td>Guest greet guide</td>";
-        html += "                    <td id='propertySubpageGuestGreetURL' " + (a ? 'contenteditable=true' : '') + ">" + propertyInfo.guestGreetURL + "</td>";
+        if (a) {
+            html += "                    <td id='propertySubpageGuestGreetURL' contenteditable=true>" + propertyInfo.guestGreetURL + "</td>";
+        } else {
+            if (propertyInfo.guestGreetURL == '') {
+                html += "                    <td><span id='propertySubpageGuestGreetURL'></span>Hasn't been set yet</td>";
+            } else {
+                html += "                    <td><a href='" + propertyInfo.guestGreetURL + "' target='_blank'><span id='propertySubpageGuestGreetURL'>" + propertyInfo.guestGreetURL + "</span></a></td>";
+            }
+        }
         html += "                </tr>";
         html += "                <tr>";
         html += "                    <td>Self-check-in URL</td>";
-        html += "                    <td id='propertySubpageSelfCheckinURL' " + (a ? 'contenteditable=true' : '') + ">" + propertyInfo.selfCheckinURL + "</td>";
+        if (a) {
+            html += "                    <td id='propertySubpageSelfCheckinURL' contenteditable=true>" + propertyInfo.selfCheckinURL + "</td>";
+        } else {
+            if (propertyInfo.selfCheckinURL == '') {
+                html += "                    <td><span id='propertySubpageSelfCheckinURL'></span>Hasn't been set yet</td>";
+            } else {
+                html += "                    <td><a href='" + propertyInfo.selfCheckinURL + "' target='_blank'><span id='propertySubpageSelfCheckinURL'>" + propertyInfo.selfCheckinURL + "</span></a></td>";
+            }
+        }
         html += "                </tr>";
         if (a) {
             html += "            <tr>";
             html += "                <td>iCal URL</td>";
             html += "                <td id='propertySubpageIcalURL' contenteditable=true>" + propertyInfo.icalURL + "</td>";
+            html += "            </tr>";
+        } else {
+            html += "            <tr style='display:none'>";
+            html += "                <td id='propertySubpageIcalURL'" + propertyInfo.icalURL + "</td>";
             html += "            </tr>";
         }
         html += "            </table>";
@@ -729,22 +772,38 @@ function propertySubpage() {
         html += "                <tr>";
         html += "                    <td>Property status</td>";
         html += "                    <td>";
-        html += "                        <select id='propertySubpagePropertyStatus'>";
-        html += "                            <option value='proposed'>Proposed</option>";
-        html += "                            <option value='active'>Active</option>";
-        html += "                            <option value='retired'>Retired</option>";
-        html += "                        </select>";
+        if (a) {
+            html += "                    <select id='propertySubpagePropertyStatus'>";
+            html += "                        <option value='proposed'>Proposed</option>";
+            html += "                        <option value='active'>Active</option>";
+            html += "                        <option value='retired'>Retired</option>";
+            html += "                    </select>";
+        } else {
+            html += "                    <span id='propertySubpagePropertyStatus'>" + propertyInfo.status + "</span>";
+        }
         html += "                    </td>";
         html += "                </tr>";
         html += "                <tr>";
         html += "                    <td>Commencement Fee</td>";
-        html += "                    <td>$<div id='propertySubpageCommencementFee' " + (a ? 'contenteditable=true' : '') + ">" + propertyInfo.commencementFee + "</div></td>";
+        if (a) {
+            html += "                    <td>$<div id='propertySubpageCommencementFee' contenteditable=true>" + propertyInfo.commencementFee + "</div></td>";
+        } else {
+            if (propertyInfo.commencementFee == '') {
+                html += "                    <td><span id='propertySubpageCommencementFee'></span>Hasn't been set yet</td>";
+            } else {
+                html += "                    <td>$<span id='propertySubpageCommencementFee'>" + propertyInfo.commencementFee + "</span></td>";
+            }
+        }
         html += "                </tr>";
         html += "                <tr>";
         html += "                    <td>Fee received</td>";
         html += "                    <td>";
-        html += "                        <input id='propertySubpageCommencementFeeReceivedYes' type='radio' name='commencementFee'>Yes";
-        html += "                        <input id='propertySubpageCommencementFeeReceivedNo' type='radio' name='commencementFee'>No";
+        if (a) {
+            html += "                        <input id='propertySubpageCommencementFeeReceivedYes' type='radio' name='commencementFee'>Yes";
+            html += "                        <input id='propertySubpageCommencementFeeReceivedNo' type='radio' name='commencementFee'>No";
+        } else {
+            html += propertyInfo.commencementFeeReceived;
+        }
         html += "                    </td>";
         html += "                </tr>";
         html += "            </table>";
@@ -758,19 +817,23 @@ function propertySubpage() {
         $("#propertyTable, #propertyMobile, #propertiesAdd").hide();
         $("#propertySubpage").empty().append(html).show();
 
-        $("#propertySubpageCommencementDate").pickadate({
-            format: 'ddd d mmm yyyy',
-            formatSubmit: 'yyyymmdd',
-            hiddenName: true
-        });
+        if (a) {
+            $("#propertySubpageCommencementDate").pickadate({
+                format: 'ddd d mmm yyyy',
+                formatSubmit: 'yyyymmdd',
+                hiddenName: true
+            });
 
-        $("#propertySubpagePropertyStatus").val(propertyInfo.status);
+            $("#propertySubpagePropertyStatus").val(propertyInfo.status);
 
-        if (propertyInfo.commencementFeeReceived == 'true') {
-            $("#propertySubpageCommencementFeeReceivedYes").prop('checked', true);
-        } else {
-            $("#propertySubpageCommencementFeeReceivedNo").prop('checked', true);
+            if (propertyInfo.commencementFeeReceived == 'true') {
+                $("#propertySubpageCommencementFeeReceivedYes").prop('checked', true);
+            } else {
+                $("#propertySubpageCommencementFeeReceivedNo").prop('checked', true);
+            }
         }
+
+        addPropertySubpageImageEvent();
 
         $("div#properties").show();
     } else {
@@ -789,6 +852,19 @@ function saveSubpageInfo() {
         var commencementFeeReceived = 'false';
     }
 
+    if (sessionStorage.admin == 'true') {
+        var status = $("#propertySubpagePropertyStatus").val();
+    } else {
+        var status = $("#propertySubpagePropertyStatus").text();
+    }
+
+    if ($("#propertySubpage input[type='hidden']:eq(0)").val() == 'undefined') {
+        var commencementDate = '';
+    } else {
+        // The datepicker dates are stored in a hidden input. This gets the first one
+        var commencementDate = $("#propertySubpage input[type='hidden']:eq(0)").val();
+    }
+
     $.post("./php/properties/savesubpagechanges.php", {
         propertyID: $("#propertySubpagePropertyID").text(),
         name: $("#propertySubpageName").text(),
@@ -796,14 +872,14 @@ function saveSubpageInfo() {
         address: $("#propertySubpageAddress").text(),
         basePrice: $("#propertySubpageBasePrice").text(),
         minimumNightlyPrice: $("#propertySubpageMinimumNightlyPrice").text(),
-        commencementDate: $("#propertySubpage input[type='hidden']:eq(0)").val(), // The datepicker dates are stored in a hidden input. This gets the first one
+        commencementDate: commencementDate,
         propertyFee: $("#propertySubpagePropertyFee").text(),
         cleaningFee: $("#propertySubpageCleaningFee").text(),
         airbnbURL: $("#propertySubpageAirbnbURL").text(),
         guestGreetURL: $("#propertySubpageGuestGreetURL").text(),
         selfCheckinURL: $("#propertySubpageSelfCheckinURL").text(),
         icalURL: $("#propertySubpageIcalURL").text(),
-        status: $("#propertySubpagePropertyStatus").val(),
+        status: status,
         commencementFee: $("#propertySubpageCommencementFee").text(),
         commencementFeeReceived: commencementFeeReceived
     }, function(response) {
@@ -983,7 +1059,7 @@ function documents() {
                         $("#documentsAddNotes").val('');
 
                         // Add contenteditable change event to the just added table row
-                        addPropertyChangeEvent();
+                        addDocumentChangeEvent();
 
                         // Remove document from upload box
                         $("#documentsDropzone > .dz-preview").remove();
@@ -1397,8 +1473,8 @@ function deleteCustomer(username) {
     }
 }
 
-// Add focus and blur events to the contenteditable elements
-function addPropertyChangeEvent() {
+// Add click event to display property subpage
+function addPropertySubpageEvent() {
     $("#properties #propertyTable tr, #properties #propertyMobile tr").on({
         click: function () {
             var propertyID = $(this).children("td:nth-child(2)").text();
@@ -1411,11 +1487,14 @@ function addPropertyChangeEvent() {
             });
         }
     });
+}
 
+// Add property image change event to image on property subpage
+function addPropertySubpageImageEvent() {
     // Remove click event added above so the subpage isn't loaded when img is clicked then add show modal to allow users to choose another image.
-    $("#properties table img").off("click").on({
+    $("#propertySubpage table#propertySubpageImageAndButton img.propertyImage").on({
         click: function () {
-            currentProperty = $(this).parent().siblings(":eq(0)").text();
+            currentProperty = $("#propertySubpage #propertySubpagePropertyID").text();
 
             $("#newPropertyImageContainer").modal({
                 fadeDuration: 250
@@ -1432,7 +1511,7 @@ function addPropertyChangeEvent() {
                     }, function(response) {
                         if (response == 'success') {
                             displayMessage('info', 'The property image has been changed');
-                            $("td:contains('" + currentProperty + "')").siblings(":eq(0)").children().prop("src", imageURL);
+                            $("#propertySubpage table#propertySubpageImageAndButton img.propertyImage").prop("src", imageURL);
                         } else {
                             displayMessage('error', 'There was a problem changing the property image.');
                         }
@@ -1443,101 +1522,6 @@ function addPropertyChangeEvent() {
             })
         }
     });
-
-
-    // Remove click event added above so the subpage isn't loaded when contacteditable is clicked then add blur and focus events to upload changes made
-    $("#properties [contenteditable=true]").off("click").on({
-        blur: function() {
-            if ($(this).text() != sessionStorage.contenteditable) {
-                var column;
-                var layout = 'desktop';
-                if (this.classList[0] != undefined) {
-                    column = this.classList[0];
-                } else if ($(this).parents("td")[0].classList[0] != undefined) {
-                    column = $(this).parents("td")[0].classList[0];
-                } else {
-                    column = 'minimumNightlyPrice';
-                    layout = 'mobile';
-                }
-
-                var minPrice = 0;
-                if (column == 'minimumNightlyPrice') {
-                    var price = $(this).text();
-                    var i = price.indexOf("$");
-                    minPrice = (i != -1 ? price.substr(i + 1) : price);
-                }
-
-                var propertyFee = 0;
-                if (column == 'propertyFee') {
-                    var fee = $(this).text();
-                    var j = fee.lastIndexOf("%");
-                    propertyFee = (j != -1 ? fee.substr(0, j) : fee);
-                }
-
-                if ((isInt(minPrice) && column == 'minimumNightlyPrice') ||
-                    (isInt(propertyFee) && column == 'propertyFee') ||
-                    (column != 'minimumNightlyPrice' && column != 'propertyFee')) {
-
-                    // Remove the dollar sign from the price
-                    if (column == 'minimumNightlyPrice') {
-                        var value = minPrice;
-                    } else if (column == 'propertyFee') {
-                        var value = propertyFee;
-                    } else {
-                        var value = $(this).text();
-                    }
-
-                    if ($(this).parents("tr").children(':nth-child(3)')[0].className == 'name') {
-                        var propertyName = $(this).parents("tr").children(':nth-child(3)').text();
-                    } else {
-                        var propertyName = $(this).parents('tr').children(":nth-child(3)").find("span.name").text();
-                    }
-
-                    var propertyID = $(this).parents('tr').children(":nth-child(2)").text();
-
-                    $.post("./php/properties/changepropertyinfo.php", {
-                        admin: sessionStorage.admin,
-                        username: sessionStorage.username,
-                        propertyName: propertyName,
-                        propertyID: propertyID,
-                        column: column,
-                        value: value
-                    }, function(response) {
-                        if (response == 'success') {
-                            if (column == 'minimumNightlyPrice') {
-                                displayMessage('info', 'The minimum nightly price has been updated. Changes may take up to 48 hours to take effect.');
-
-                                // Update price input for other layout
-                                if (layout == 'desktop') {
-                                    $("#propertyMobile td.propertyID:contains(" + propertyID + ")").parent().find("strong.minimumNightlyPrice > div").text(value);
-                                } else {
-                                    $("#propertyTable td.propertyID:contains(" + propertyID + ")").siblings("td.minimumNightlyPrice").children("div").text("$" + value);
-                                }
-                            } else {
-                                displayMessage('info', 'The property ' + column + ' has been updated.');
-                            }
-                        } else {
-                            displayMessage('error', 'Something went wrong updating the property ' + column);
-                        }
-                    }).fail(function (request, textStatus, errorThrown) {
-                        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
-                    });
-                } else {
-                    if (!isInt(minPrice) && column == 'minimumNightlyPrice') {
-                        displayMessage("warning", "The minimum nightly price must be a whole number");
-                    } else {
-                        displayMessage("warning", "The management fee must be a whole number");
-                    }
-                }
-            }
-        },
-
-        focus: function () {
-            sessionStorage.contenteditable = $(this).text();
-        }
-    });
-
-
 }
 
 // Add focus and blur events to the contenteditable elements

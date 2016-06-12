@@ -17,7 +17,7 @@ $minimumNightlyPrice = $_POST['minimumNightlyPrice'];
 $propertyFee = $_POST['propertyFee'];
 $imageURL = mysqli_real_escape_string($con, $_POST['imageURL']);
 
-$sql = "INSERT INTO Properties VALUES ('$propertyID', '$username', '$name', '$description', '$address', '$minimumNightlyPrice', '', '$imageURL', '$propertyFee', '', '', '', '', '', '', '', '')";
+$sql = "INSERT INTO Properties (propertyID, username, name, description, address, minimumNightlyPrice, imageURL, propertyFee, status) VALUES ('$propertyID', '$username', '$name', '$description', '$address', '$minimumNightlyPrice', '$imageURL', '$propertyFee', 'proposal')";
 
 // Insert property into database
 if (mysqli_query($con, $sql)) {
