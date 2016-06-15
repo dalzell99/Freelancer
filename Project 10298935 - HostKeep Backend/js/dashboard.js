@@ -331,6 +331,9 @@ function hideAllContainers() {
     $("div#password").hide();
     $("div#directBooking").hide();
     $("div#admin").hide();
+
+    // Hide calender icon link from footer
+    $("#footer #calendarIconLink").hide();
 }
 
 // Show welcome container, set title, and active nav item and add last login time to bottom of page
@@ -604,10 +607,16 @@ function propertySubpage() {
         html += "            <td><img class='propertyImage' src='" + imageURL + "' alt=''></td>";
         html += "        </tr>";
         html += "        <tr>";
-        html += "            <td><button onclick='viewListingPage(" + propertyInfo.airbnbURL + ")'><img class='airbnbButtonImage' src='./images/airbnbLogo.png' alt='' />View Airbnb listing</button></td>";
+        html += "            <td class='propertySubpageSeparator'></td>";
         html += "        </tr>";
         html += "        <tr>";
-        html += "            <td><iframe src='https://calendar.google.com/calendar/embed?showTitle=0&amp;showDate=0&amp;showPrint=0&amp;showCalendars=0&amp;height=350&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=" + propertyInfo.icalURL + "&amp;color=%232952A3&amp;ctz=Australia%2FSydney' style='border-width:0' width='100%' height='350' frameborder='0' scrolling='no'></iframe></td>";
+        html += "            <td><div class='calendar-container'><iframe src='https://calendar.google.com/calendar/embed?showTitle=0&amp;showDate=0&amp;showPrint=0&amp;showCalendars=0&amp;height=350&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=" + propertyInfo.icalURL + "&amp;color=%232952A3&amp;ctz=Australia%2FSydney' style='border-width:0' width='100%' height='350' frameborder='0' scrolling='no'></iframe></div></td>";
+        html += "        </tr>";
+        html += "        <tr>";
+        html += "            <td>";
+        html += "                <button class='propertySubpageLinkButtons' onclick='viewListingPage(" + propertyInfo.airbnbURL + ")'><img class='airbnbButtonImage' src='./images/airbnbLogo.png' alt='' />View Airbnb listing</button>";
+        html += "                <button id='propertySubpageMakeBookingButton' class='propertySubpageLinkButtons' onclick='window.location.hash = \"#direct-booking\";'><img class='makeBookingButtonImage' src='./images/makeBooking.png' alt='' />Make a booking</button>";
+        html += "            </td>";
         html += "        </tr>";
         html += "    </table>";
         html += "</div>";
@@ -835,6 +844,7 @@ function propertySubpage() {
 
         addPropertySubpageImageEvent();
 
+        $("#footer #calendarIconLink").show();
         $("div#properties").show();
     } else {
         displayMessage("warning", "You don't have permission to access that property subpage. If this is an error please send an email to hello@hostkeep.com.au");
@@ -1206,6 +1216,11 @@ function directBooking() {
     });
     $("#directBookingAddProperty").empty().append(htmlProp);
 
+    // Change the blocked out dates in datepickers when property is changed
+    $("#directBookingAddProperty").on({
+        change: setDisabledDates
+    });
+
     // Create booking table
     var html = '';
     bookingList.forEach(function(value, index, array) {
@@ -1230,7 +1245,6 @@ function directBooking() {
     var newTableObject = $("#directBooking #bookingTable")[0];
     sorttable.makeSortable(newTableObject);
 
-    // Create datepickers
     checkinDatePicker = $("#directBookingAddCheckIn").pickadate({
         format: 'ddd d mmm yyyy',
         formatSubmit: 'yyyymmdd',
@@ -1242,6 +1256,8 @@ function directBooking() {
         formatSubmit: 'yyyymmdd',
         hiddenName: true
     });
+
+    setDisabledDates();
 
     $("#directBookingAddInvoiceYes").on({
         click: function () {
@@ -1367,6 +1383,51 @@ function areDirectBookingInputsValid() {
     }
 
     return [true];
+}
+
+function setDisabledDates() {
+    var propertyID = $("select#directBookingAddProperty").children(":selected").val();
+
+    $.get("./php/ics/getbookeddates.php", {
+        propertyID: propertyID
+    }, function(response) {
+        var disabledDates = [];
+
+        response.forEach(function (dateArray) {
+            var f = dateArray[0];
+            var fromArray;
+            if (f.substr(4, 2) == "00") {
+                fromArray = [f.substr(0, 4) - 1, "12", f.substr(6, 2)];
+            } else {
+                fromArray = [f.substr(0, 4), f.substr(4, 2) - 1, f.substr(6, 2)];
+            }
+
+            var t = dateArray[1];
+            var toArray;
+            if (t.substr(4, 2) == "00") {
+                toArray = [t.substr(0, 4) - 1, "12", t.substr(6, 2)];
+            } else {
+                toArray = [t.substr(0, 4), t.substr(4, 2) - 1, t.substr(6, 2) - 1];
+            }
+
+            // Add property dropdown change event
+
+            disabledDates.push({
+                from: fromArray,
+                to: toArray
+            });
+        });
+
+        // Enable all dates then disable the dates in disabledDates array
+        $('#directBookingAddCheckIn').pickadate().pickadate('picker').set('enable', true);
+        $('#directBookingAddCheckIn').pickadate().pickadate('picker').set('disable', disabledDates);
+
+        $('#directBookingAddCheckOut').pickadate().pickadate('picker').set('enable', true);
+        $('#directBookingAddCheckOut').pickadate().pickadate('picker').set('disable', disabledDates);
+
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
 }
 
 function deleteBooking(id) {

@@ -124,14 +124,48 @@ main > div
             display: inline-block
 
     #propertySubpage
+      .calendar-container
+        position: relative
+        padding-bottom: 100%
+        height: 0
+        overflow: hidden
+
+        @media (max-width: 992px)
+          padding-bottom: 50%
+
+        @media (min-width: 1200px)
+          padding-bottom: 75%
+
+        @media (max-width: 650px)
+          padding-bottom: 75%
+
+        iframe
+          position: absolute
+          top:0
+          left: 0
+          width: 100%
+          height: 100%
+
       img
         &.propertyImage
           width: 100%
           cursor: pointer
 
-        &.airbnbButtonImage
+        &.airbnbButtonImage,
+        &.makeBookingButtonImage
           margin-right: 5px
           width: 24px
+
+      .propertySubpageSeparator
+        height: 2px
+        border-bottom: 1px solid lightgrey
+
+      .propertySubpageLinkButtons
+        width: 49%
+        padding: 5px 0
+
+      #propertySubpageMakeBookingButton
+        background-color: #668cd9
 
       .row
         border-bottom: 1px solid lightgrey
