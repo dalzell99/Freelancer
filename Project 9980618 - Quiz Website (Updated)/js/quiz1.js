@@ -8,9 +8,6 @@ var endTimeMoment;
 var timeLeftTimer;
 var currentQuestion = 0;
 
-var count;
-var counter; //1000 will  run it every 1 second
-
 window.onload = function() {
     $.post('./php/quizzes/getquizinfo.php', {
         id: sessionStorage.quizID
@@ -20,9 +17,9 @@ window.onload = function() {
             quiz = response[1];
             answersGiven = newFilledArray(JSON.parse(quiz.questions).length, -1);
             createQuestions();
-            startQuiz();
+            displayCountdown();
         } else {
-            displayMessage('error', 'Error', "Error: " + response[1])
+            displayMessage('error', 'Error', "Err or: " + response[1])
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', 'Error', "Err or: Something went wrong with startQuiz function");
@@ -46,92 +43,81 @@ function disableCopying() {
 function createQuestions() {
     var htmlQuestions = '';
     var htmlFooter = '';
-    var htmlQuestionList = '';
     var questions = JSON.parse(quiz.questions);
 
     for (var i = 0; i < questions.length; i += 1) {
-        htmlQuestions += "<div class='bg-inner questionContainer " + i + "'>";
-		htmlQuestions += "	<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12 bg-info'>";
-		htmlQuestions += "		<div class='bg-data-ques'>";
-		htmlQuestions += "			<div class='wow fadeInLeft question' data-wow-delay='.5s'>";
-		htmlQuestions += "				<p>" + (i + 1) + ": <span>" + questions[i][0] + "</span></p>";
-		htmlQuestions += "			</div>";
-		htmlQuestions += "		</div>";
-		htmlQuestions += "	</div>";
-		htmlQuestions += "	<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>";
-		htmlQuestions += "		<div class='col-md-5 col-lg-5 col-sm-5 col-xs-12 bg-info'>";
-        htmlQuestions += "                <div class='bg-data-ans'>";
-    	htmlQuestions += "					<div class='wow fadeInLeft answer 0' onclick='selectAnswer(0)' data-wow-delay='1s'>";
-    	htmlQuestions += "						<p>A: <span>" + questions[i][1][0] + "</span></p>";
-    	htmlQuestions += "					</div>";
-        htmlQuestions += "                </div>";
-        htmlQuestions += "                <div class='bg-data-ans'>";
-    	htmlQuestions += "					<div class='wow fadeInLeft answer 1' onclick='selectAnswer(1)' data-wow-delay='1.5s'>";
-    	htmlQuestions += "						<p>B: <span>" + questions[i][1][1] + "</span></p>";
-    	htmlQuestions += "					</div>";
-        htmlQuestions += "                </div>";
-		htmlQuestions += "		</div>";
+        htmlQuestions += "<div class='questionContainer " + i + "  text-center'>";
+        htmlQuestions += "    <div class='question'>" + questions[i][0] + "</div>";
+        htmlQuestions += "    <div class='answer 0' onclick='selectAnswer(0)'>" + questions[i][1][0] + "</div>";
+        htmlQuestions += "    <div class='answer 1' onclick='selectAnswer(1)'>" + questions[i][1][1] + "</div>";
+        htmlQuestions += "    <div class='answer 2' onclick='selectAnswer(2)'>" + questions[i][1][2] + "</div>";
+        htmlQuestions += "    <div class='answer 3' onclick='selectAnswer(3)'>" + questions[i][1][3] + "</div>";
+        htmlQuestions += "    <div class='buttonContainer'>";
 
-        htmlQuestions += "        <div class='col-md-2 col-lg-2 col-sm-2 col-xs-12' style='padding:0;'>";
-        htmlQuestions += "            <div class=' bg-timer'>";
-        htmlQuestions += "                <div class='wow fadeInLeft' data-wow-delay='3s'>";
-        htmlQuestions += "                    <span class='timer'></span>";
-        htmlQuestions += "                </div>";
-        htmlQuestions += "            </div>";
-        htmlQuestions += "        </div>";
+        htmlQuestions += "        <button class='btn btn-default btn-md margin-top skipButton' style='color:#fff !important' onclick='skipQuestion(" + i + ")'>Skip Question</button>";
+        htmlQuestions += "        <button class='btn btn-danger  btn-md margin-top submitButton' style='color:#fff !important'  onclick='nextQuestion(" + i + ")'>Next Question</button>";
 
-		htmlQuestions += "		<div class='col-md-5 col-lg-5 col-sm-5 col-xs-12 bg-info'>";
-        htmlQuestions += "                <div class='bg-data-ans'>";
-    	htmlQuestions += "					<div class='wow fadeInLeft answer 2' onclick='selectAnswer(2)' data-wow-delay='2s'>";
-    	htmlQuestions += "						<p>C: <span>" + questions[i][1][2] + "</span></p>";
-    	htmlQuestions += "					</div>";
-        htmlQuestions += "                </div>";
-        htmlQuestions += "                <div class='bg-data-ans'>";
-    	htmlQuestions += "					<div class='wow fadeInLeft answer 3' onclick='selectAnswer(3)' data-wow-delay='2.5s'>";
-    	htmlQuestions += "						<p>D: <span>" + questions[i][1][3] + "</span></p>";
-    	htmlQuestions += "					</div>";
-        htmlQuestions += "                </div>";
-		htmlQuestions += "		</div>";
-		htmlQuestions += "	</div>";
-		htmlQuestions += "</div>";
+        htmlQuestions += "    </div>";
+        htmlQuestions += "</div>";
 
-        htmlFooter += "<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12 footer-button " + i + "'>";
-		htmlFooter += "    <div class='col-md-6 col-lg-6 col-sm-6 col-xs-6'>";
-        // Don't show previous button on first question
-        if (i != 0) {
-            htmlFooter += "        <div class='footer-button-bck'  onclick='previousQuestion(" + i + ")'></div>";
-        }
-		htmlFooter += "	   </div>";
-		htmlFooter += "	   <div class='col-md-6 col-lg-6 col-sm-6 col-xs-6'>";
-        htmlFooter += "        <div class='footer-button-nxt'  onclick='nextQuestion(" + i + ")'></div>";
-		htmlFooter += "	   </div>";
-		htmlFooter += "</div>";
-
-        htmlQuestionList += "<div class='questionButton " + i + " col-xs-12 col-md-6'>";
-        htmlQuestionList += "    <button onclick='goToQuestion(" + i + ")'>" + (i + 1) + "</button>";
-        htmlQuestionList += "</div>";
+        htmlFooter += "<button class='btn btn-default pagination questionButton " + i + " col-xs-2 col-sm-1' style='color:#fff !important'  onclick='goToQuestion(" + i + ")'>" + (i + 1) + "</button>";
     }
 
-    htmlQuestions += "<div class='bg-inner questionContainer " + questions.length + "'>";
-    htmlQuestions += "    <button class='btn btn-default submitAnswersButtonCenter' onclick='submitAnswers()'>End Quiz and Submit Answers</button>";
-    htmlQuestions += "</div>";
+     htmlFooter += "<button style='box-shadow: 0 0 3px 1px rgba(0,0,0,.35); float: right;' class='btn btn-danger btn-lg submitAnswersButton' onclick='submitAnswers()'>End Quiz and Submit Answers</button>";
 
-    $("#submitQuizContainer").empty().append("<button class='btn btn-default submitAnswersButtonHeader' onclick='submitAnswers()'>End Quiz and Submit Answers</button>")
 
     $("#questionsContainer").empty().append(htmlQuestions);
     $("#quizFooter").empty().append(htmlFooter);
-    $("#questionList").empty().append(htmlQuestionList);
+}
+
+
+function createQuestionsold() {
+    var htmlQuestions = '';
+    var htmlFooter = '';
+    var questions = JSON.parse(quiz.questions);
+
+    for (var i = 0; i < questions.length; i += 1) {
+        htmlQuestions += "<div class='questionContainer " + i + "'>";
+        htmlQuestions += "    <div class='question'>" + questions[i][0] + "</div>";
+        htmlQuestions += "    <div class='answer 0' onclick='selectAnswer(0)'>" + questions[i][1][0] + "</div>";
+        htmlQuestions += "    <div class='answer 1' onclick='selectAnswer(1)'>" + questions[i][1][1] + "</div>";
+        htmlQuestions += "    <div class='answer 2' onclick='selectAnswer(2)'>" + questions[i][1][2] + "</div>";
+        htmlQuestions += "    <div class='answer 3' onclick='selectAnswer(3)'>" + questions[i][1][3] + "</div>";
+        htmlQuestions += "    <div class='buttonContainer'>";
+        htmlQuestions += "        <button class='btn btn-default btn-lg skipButton' onclick='skipQuestion(" + i + ")'>Skip Question</button>";
+        htmlQuestions += "        <button class='btn btn-default btn-lg submitButton' onclick='nextQuestion(" + i + ")'>Next Question</button>";
+        htmlQuestions += "    </div>";
+        htmlQuestions += "</div>";
+
+        htmlFooter += "<button class='btn btn-default questionButton " + i + " col-xs-2 col-sm-1' onclick='goToQuestion(" + i + ")'>" + (i + 1) + "</button>";
+    }
+
+    htmlFooter += "<button class='btn btn-default submitAnswersButton' onclick='submitAnswers()'>End Quiz and Submit Answers</button>";
+
+    $("#questionsContainer").empty().append(htmlQuestions);
+    $("#quizFooter").empty().append(htmlFooter);
+}
+
+function displayCountdown() {
+    $("#countdown").text("5");
+    setTimeout(function() { $("#countdown").text("4"); }, 1000);
+    setTimeout(function() { $("#countdown").text("3"); }, 2000);
+    setTimeout(function() { $("#countdown").text("2"); }, 3000);
+    setTimeout(function() { $("#countdown").text("1"); }, 4000);
+    setTimeout(function() { startQuiz(); }, 5000);
+    if (!(quiz.quizID == 1 || quiz.quizID == 2)) {
+        endTimer = setTimeout(endQuiz, moment(quiz.endTime).diff(moment()));
+    }
 }
 
 function startQuiz() {
     $("#countdown").hide();
     $("#questionsContainer").show();
     $("#quizFooter").show();
-    $(".footer-button.0").show();
     $(".questionContainer.0").addClass('currentQuestion');
     startQuizTime = moment();
     if (quiz.quizID == 1 || quiz.quizID == 2) {
-        $(".timer").hide();
+        $("#timeLeft").hide();
     } else {
         updateCountdownTimers();
     }
@@ -161,9 +147,7 @@ function submitAnswers() {
 
 function endQuiz() {
     $("#questionsContainer").hide();
-    // Hide question buttons without missing up bootstrap by hiding a col-xs-2 div
-    $("#questionList > *").hide();
-    $(".submitAnswersButtonHeader").hide();
+    $("#timeLeft").hide();
     clearTimeout(endTimer);
     clearTimeout(timeLeftTimer);
     endQuizTime = moment();
@@ -286,7 +270,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                 $("#resultsLeaderboard").empty().append(html);
 
                 if (userInTop10 != -1) {
-                    $(".leaderboard." + userInTop10).addClass('userRank');
+                    $(".leaderboard." + userInTop10).css('backgroundColor', 'rgba(255, 255, 192, 0.44)');
                 } else {
                     var usersRank = -1;
                     for (var k = 10; k < users.length && usersRank == -1; k += 1) {
@@ -327,35 +311,9 @@ function nextQuestion(n) {
     $(".selectedAnswer").removeClass('selectedAnswer');
     $(".questionContainer." + n).removeClass('currentQuestion');
     $(".questionContainer." + (n + 1)).addClass('currentQuestion');
-
-    $(".footer-button." + n).hide();
-    $(".footer-button." + (n + 1)).show();
-
     currentQuestion += 1;
 
     updateQuizFooterQuestionColours();
-    selectAnswer(answersGiven[currentQuestion]);
-
-    if (n == JSON.parse(quiz.questions).length - 1) {
-        // Hide header submit button if submit button is shown in center of screen
-        $(".submitAnswersButtonHeader").hide();
-    }
-}
-
-function previousQuestion(n) {
-    answersGiven[n] = selectedAnswer;
-    selectedAnswer = -1;
-    $(".selectedAnswer").removeClass('selectedAnswer');
-    $(".questionContainer." + n).removeClass('currentQuestion');
-    $(".questionContainer." + (n - 1)).addClass('currentQuestion');
-
-    $(".footer-button." + n).hide();
-    $(".footer-button." + (n - 1)).show();
-
-    currentQuestion -= 1;
-
-    updateQuizFooterQuestionColours();
-    selectAnswer(answersGiven[currentQuestion]);
 }
 
 function skipQuestion(n) {
@@ -376,19 +334,7 @@ function goToQuestionReview(n) {
 function goToQuestion(n) {
     $(".currentQuestion").removeClass('currentQuestion');
     $(".questionContainer." + n).addClass('currentQuestion');
-
-    $(".footer-button").hide();
-    $(".footer-button." + n).show();
-
-    currentQuestion = n;
-
     updateQuizFooterQuestionColours();
-    selectAnswer(answersGiven[currentQuestion]);
-
-    if (n != JSON.parse(quiz.questions).length) {
-        // Show header submit button if submit button isn't shown in center of screen
-        $(".submitAnswersButtonHeader").show();
-    }
 }
 
 function updateQuizFooterQuestionColours() {
@@ -398,13 +344,13 @@ function updateQuizFooterQuestionColours() {
     answersGiven.forEach(function(element, index, array) {
         if (index < currentQuestion) {
             if (element == -1) {
-                $(".questionButton." + index + " button").css('backgroundColor', redBackground);
+                $(".questionButton." + index).css('backgroundColor', redBackground);
             } else if (element != -1) {
-                $(".questionButton." + index + " button").css('backgroundColor', greenBackground);
+                $(".questionButton." + index).css('backgroundColor', greenBackground);
             }
         } else {
             if (element != -1) {
-                $(".questionButton." + index + " button").css('backgroundColor', greenBackground);
+                $(".questionButton." + index).css('backgroundColor', greenBackground);
             }
         }
     });
@@ -420,5 +366,5 @@ function newFilledArray(len, val) {
 
 function updateCountdownTimers() {
     var secondsLeft = Math.floor(moment(quiz.endTime).diff(moment()) / 1000);
-    $(".timer").text(pad(secondsLeft, 2));
+    $("#timeLeft").text(Math.floor(secondsLeft / 60) + ':' + pad(secondsLeft % 60, 2));
 }
