@@ -116,7 +116,7 @@ function createQuestions() {
     htmlQuestions += "    <button class='btn btn-default submitAnswersButtonCenter' onclick='submitAnswers()'>End Quiz and Submit Answers</button>";
     htmlQuestions += "</div>";
 
-    $("#submitQuizContainer").empty().append("<button class='btn btn-default submitAnswersButtonHeader' onclick='submitAnswers()'>End Quiz and Submit Answers</button>")
+    $("#submitQuizContainer").empty().append("<button class='btn btn-default submitAnswersButtonHeader' onclick='submitAnswers()'>End Quiz and<br />Submit Answers</button>")
 
     $("#questionsContainer").empty().append(htmlQuestions);
     $("#quizFooter").empty().append(htmlFooter);

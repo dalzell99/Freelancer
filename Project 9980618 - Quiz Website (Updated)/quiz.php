@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Design</title>
+    <title>Quiz</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, intial-scale=1"/>
 

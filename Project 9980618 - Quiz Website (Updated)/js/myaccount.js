@@ -104,12 +104,16 @@ window.onload = function() {
     });
 
     $("#purchaseButton").click(function(e) {
-        options.amount = parseInt($("#numQuizetos").val()) * 100;
-        options.notes.userID = sessionStorage.userID;
-        options.notes.username = sessionStorage.username;
-        rzp1 = new Razorpay(options)
-        rzp1.open();
-        e.preventDefault();
+        if ($("#numQuizetos").val() % 50 == 0) {
+            options.amount = parseInt($("#numQuizetos").val()) * 100;
+            options.notes.userID = sessionStorage.userID;
+            options.notes.username = sessionStorage.username;
+            rzp1 = new Razorpay(options)
+            rzp1.open();
+            e.preventDefault();
+        } else {
+            displayMessage("warning", "", "You can only purchase quizetos in multiples of 50");
+        }
     });
 
     $("#numFreeQuizetos").on({
@@ -667,6 +671,7 @@ function submitCheque() {
         address += ($("#withdrawChequeAddress2").val() ? ', ' + $("#withdrawChequeAddress2").val() : '');
         address += ($("#withdrawChequeAddress3").val() ? ', ' + $("#withdrawChequeAddress3").val() : '');
         address += ($("#withdrawChequeAddress4").val() ? ', ' + $("#withdrawChequeAddress4").val() : '');
+        var pancard = $("#withdrawChequePancard").val();
 
         $.post("./php/withdrawals/redeemCheque.php", {
             username: username,
@@ -674,6 +679,7 @@ function submitCheque() {
             address: address,
             phone: phone,
             amount: amount,
+            pancard: pancard,
             method: 'Cheque'
         }, function(response) {
             if (response == 'success') {
@@ -688,7 +694,7 @@ function submitCheque() {
             //displayMessage('error', 'Error', "Err or: Something went wrong with redeemCheque function");
         });
     } else {
-        displayMessage('info', 'warning', valid[1]);
+        displayMessage('warning', 'Problem redeeming', valid[1]);
     }
 }
 
@@ -701,6 +707,7 @@ function submitBankTransfer() {
         var phone = $("#withdrawBankTransferPhone").intlTelInput("getNumber");
         var accountNum = $("#withdrawBankTransferAccountNumber").val();
         var code = $("#withdrawBankTransferCode").val();
+        var pancard = $("#withdrawChequePancard").val();
 
         $.post("./php/withdrawals/redeemBankTransfer.php", {
             username: username,
@@ -709,6 +716,7 @@ function submitBankTransfer() {
             code: code,
             phone: phone,
             amount: amount,
+            pancard: pancard,
             method: 'Bank Transfer'
         }, function(response) {
             if (response == 'success') {
@@ -723,7 +731,7 @@ function submitBankTransfer() {
             //displayMessage('error', 'Error', "Err or: Something went wrong with redeemCheque function");
         });
     } else {
-        displayMessage('warning', '', valid[1]);
+        displayMessage('warning', 'Problem redeeming', valid[1]);
     }
 }
 
@@ -807,28 +815,44 @@ function checkMobileBankTransfer() {
 }
 
 function checkPancardCheque() {
-    if (userInfo.pancard != '' && $("#withdrawChequePancard").val() != userInfo.pancard && isPancardValid($("#withdrawChequePancard").val())) {
-        $("#withdrawChequePancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
-        isPancardCorrect = false;
+    // Check if the entered pancard is a valid pancard
+    if (isPancardValid($("#withdrawChequePancard").val())) {
+        if (userInfo.pancard != '' && $("#withdrawChequePancard").val() != userInfo.pancard) {
+            // If user has previously entered a pancard and the pancard entered is different from the previously entered pancard
+            $("#withdrawChequePancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
+            isPancardCorrect = false;
+        } else {
+            // User hasn't entered a pancard before or the one entered matches the one associated with this account
+            $("#withdrawChequePancard").css('border', green).attr('title', 'This pancard matches the number associated with your account.');
+            isPancardCorrect = true;
+        }
     } else {
-        $("#withdrawChequePancard").css('border', green).attr('title', 'This pancard matches the number associated with your account.');
-        isPancardCorrect = true;
+        $("#withdrawChequePancard").css('border', red).attr('title', 'This pancard is invalid. The correct format is 5 letters then 4 numbers then 1 letter');
+        isPancardCorrect = false;
     }
 }
 
 function checkPancardBankTransfer() {
-    if (userInfo.pancard != '' && $("#withdrawBankTransferPancard").val() != userInfo.pancard && isPancardValid($("#withdrawBankTransferPancard").val())) {
-        $("#withdrawBankTransferPancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
-        isPancardCorrect = false;
+    // Check if the entered pancard is a valid pancard
+    if (isPancardValid($("#withdrawBankTransferPancard").val())) {
+        if (userInfo.pancard != '' && $("#withdrawBankTransferPancard").val() != userInfo.pancard) {
+            // If user has previously entered a pancard and the pancard entered is different from the previously entered pancard
+            $("#withdrawBankTransferPancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
+            isPancardCorrect = false;
+        } else {
+            // User hasn't entered a pancard before or the one entered matches the one associated with this account
+            $("#withdrawBankTransferPancard").css('border', green).attr('title', 'This pancard matches the number associated with your account.');
+            isPancardCorrect = true;
+        }
     } else {
-        $("#withdrawBankTransferPancard").css('border', green).attr('title', 'This pancard matches the number associated with your account.');
-        isPancardCorrect = true;
+        $("#withdrawBankTransferPancard").css('border', red).attr('title', 'This pancard is invalid. The correct format is 5 letters then 4 numbers then 1 letter');
+        isPancardCorrect = false;
     }
 }
 
 function isPancardValid(pancard) {
     // Check if pancard is 10 charaters long and the format is AAAAANNNNA where A is letter and N is number. If the user hasn't entered a pancard don't raise an error by setting the pancard as invalid
-    if (pancard.length == 0 || (pancard.length == 10 && pancard.substr(0, 5).search(/[a-zA-Z]/) != -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[a-zA-Z]/) != -1)) {
+    if (pancard.length == 0 || (pancard.length == 10 && pancard.substr(0, 5).search(/[0-9]/) == -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[0-9]/) == -1)) {
         return true;
     } else {
         return false;

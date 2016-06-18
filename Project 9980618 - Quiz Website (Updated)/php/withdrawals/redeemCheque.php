@@ -13,6 +13,7 @@ $name = mysqli_real_escape_string($con, $_POST['name']);
 $phone = mysqli_real_escape_string($con, $_POST['phone']);
 $address = mysqli_real_escape_string($con, $_POST['address']);
 $amount = mysqli_real_escape_string($con, $_POST['amount']);
+$pancard = mysqli_real_escape_string($con, $_POST['pancard']);
 $method = $_POST['method'];
 
 $sql = "SELECT paidPointsBalance, email FROM Users WHERE username = '$username'";
@@ -21,7 +22,7 @@ if ($result = mysqli_query($con, $sql)) {
     $row = mysqli_fetch_assoc($result);
     if ($row['paidPointsBalance'] >= $amount) {
         $email = $row['email'];
-        $sqlConvert = "UPDATE Users SET paidPointsBalance = paidPointsBalance - " . $amount . " WHERE username = '$username'";
+        $sqlConvert = "UPDATE Users SET pancard = '$pancard', paidPointsBalance = paidPointsBalance - " . $amount . " WHERE username = '$username'";
         $sqlWithdrawal = "INSERT INTO Withdrawal VALUES (Default, '$username', $amount, 'cheque', '$phone', '$email', '$address', '', '', '" . date('c') . "', 'n')";
         if (mysqli_query($con, $sqlConvert) && mysqli_query($con, $sqlWithdrawal)) {
             $to = array($databasephpWithdrawalEmail, $email);
