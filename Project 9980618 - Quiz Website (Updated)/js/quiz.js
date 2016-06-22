@@ -22,14 +22,14 @@ window.onload = function() {
             createQuestions();
             startQuiz();
         } else {
-            displayMessage('error', 'Error', "Error: " + response[1])
+            displayMessage('error', 'Error', "Error: " + response[1]);
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', 'Error', "Err or: Something went wrong with startQuiz function");
     });
 
     disableCopying();
-}
+};
 
 function disableCopying() {
     $(document).on({
@@ -51,26 +51,26 @@ function createQuestions() {
 
     for (var i = 0; i < questions.length; i += 1) {
         htmlQuestions += "<div class='bg-inner questionContainer " + i + "'>";
-		htmlQuestions += "	<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12 bg-info'>";
-		htmlQuestions += "		<div class='bg-data-ques'>";
-		htmlQuestions += "			<div class='wow fadeInLeft question' data-wow-delay='.5s'>";
-		htmlQuestions += "				<p>" + (i + 1) + ": <span>" + questions[i][0] + "</span></p>";
-		htmlQuestions += "			</div>";
-		htmlQuestions += "		</div>";
-		htmlQuestions += "	</div>";
-		htmlQuestions += "	<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>";
-		htmlQuestions += "		<div class='col-md-5 col-lg-5 col-sm-5 col-xs-12 bg-info'>";
+    		htmlQuestions += "	<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12 bg-info'>";
+    		htmlQuestions += "		<div class='bg-data-ques'>";
+    		htmlQuestions += "			<div class='wow fadeInLeft question' data-wow-delay='.5s'>";
+    		htmlQuestions += "				<p>" + (i + 1) + ": <span>" + questions[i][0] + "</span></p>";
+    		htmlQuestions += "			</div>";
+    		htmlQuestions += "		</div>";
+    		htmlQuestions += "	</div>";
+    		htmlQuestions += "	<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>";
+    		htmlQuestions += "		<div class='col-md-5 col-lg-5 col-sm-5 col-xs-12 bg-info'>";
         htmlQuestions += "                <div class='bg-data-ans'>";
-    	htmlQuestions += "					<div class='wow fadeInLeft answer 0' onclick='selectAnswer(0)' data-wow-delay='1s'>";
-    	htmlQuestions += "						<p>A: <span>" + questions[i][1][0] + "</span></p>";
-    	htmlQuestions += "					</div>";
+      	htmlQuestions += "					<div class='wow fadeInLeft answer 0' onclick='selectAnswer(0)' data-wow-delay='1s'>";
+      	htmlQuestions += "						<p>A: <span>" + questions[i][1][0] + "</span></p>";
+      	htmlQuestions += "					</div>";
         htmlQuestions += "                </div>";
         htmlQuestions += "                <div class='bg-data-ans'>";
-    	htmlQuestions += "					<div class='wow fadeInLeft answer 1' onclick='selectAnswer(1)' data-wow-delay='1.5s'>";
-    	htmlQuestions += "						<p>B: <span>" + questions[i][1][1] + "</span></p>";
-    	htmlQuestions += "					</div>";
+      	htmlQuestions += "					<div class='wow fadeInLeft answer 1' onclick='selectAnswer(1)' data-wow-delay='1.5s'>";
+      	htmlQuestions += "						<p>B: <span>" + questions[i][1][1] + "</span></p>";
+      	htmlQuestions += "					</div>";
         htmlQuestions += "                </div>";
-		htmlQuestions += "		</div>";
+		    htmlQuestions += "		</div>";
 
         htmlQuestions += "        <div class='col-md-2 col-lg-2 col-sm-2 col-xs-12' style='padding:0;'>";
         htmlQuestions += "            <div class=' bg-timer'>";
@@ -80,34 +80,34 @@ function createQuestions() {
         htmlQuestions += "            </div>";
         htmlQuestions += "        </div>";
 
-		htmlQuestions += "		<div class='col-md-5 col-lg-5 col-sm-5 col-xs-12 bg-info'>";
+		    htmlQuestions += "		<div class='col-md-5 col-lg-5 col-sm-5 col-xs-12 bg-info'>";
         htmlQuestions += "                <div class='bg-data-ans'>";
-    	htmlQuestions += "					<div class='wow fadeInLeft answer 2' onclick='selectAnswer(2)' data-wow-delay='2s'>";
-    	htmlQuestions += "						<p>C: <span>" + questions[i][1][2] + "</span></p>";
-    	htmlQuestions += "					</div>";
+    	  htmlQuestions += "					<div class='wow fadeInLeft answer 2' onclick='selectAnswer(2)' data-wow-delay='2s'>";
+    	  htmlQuestions += "						<p>C: <span>" + questions[i][1][2] + "</span></p>";
+    	  htmlQuestions += "					</div>";
         htmlQuestions += "                </div>";
         htmlQuestions += "                <div class='bg-data-ans'>";
-    	htmlQuestions += "					<div class='wow fadeInLeft answer 3' onclick='selectAnswer(3)' data-wow-delay='2.5s'>";
-    	htmlQuestions += "						<p>D: <span>" + questions[i][1][3] + "</span></p>";
-    	htmlQuestions += "					</div>";
+    	  htmlQuestions += "					<div class='wow fadeInLeft answer 3' onclick='selectAnswer(3)' data-wow-delay='2.5s'>";
+      	htmlQuestions += "						<p>D: <span>" + questions[i][1][3] + "</span></p>";
+      	htmlQuestions += "					</div>";
         htmlQuestions += "                </div>";
-		htmlQuestions += "		</div>";
-		htmlQuestions += "	</div>";
-		htmlQuestions += "</div>";
+		    htmlQuestions += "		</div>";
+		    htmlQuestions += "	</div>";
+	     	htmlQuestions += "</div>";
 
         htmlFooter += "<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12 footer-button " + i + "'>";
-		htmlFooter += "    <div class='col-md-6 col-lg-6 col-sm-6 col-xs-6'>";
+		    htmlFooter += "    <div class='col-md-6 col-lg-6 col-sm-6 col-xs-6'>";
         // Don't show previous button on first question
-        if (i != 0) {
+        if (i !== 0) {
             htmlFooter += "        <div class='footer-button-bck'  onclick='previousQuestion(" + i + ")'></div>";
         }
-		htmlFooter += "	   </div>";
-		htmlFooter += "	   <div class='col-md-6 col-lg-6 col-sm-6 col-xs-6'>";
+		    htmlFooter += "	   </div>";
+		    htmlFooter += "	   <div class='col-md-6 col-lg-6 col-sm-6 col-xs-6'>";
         htmlFooter += "        <div class='footer-button-nxt'  onclick='nextQuestion(" + i + ")'></div>";
-		htmlFooter += "	   </div>";
-		htmlFooter += "</div>";
+		    htmlFooter += "	   </div>";
+		    htmlFooter += "</div>";
 
-        htmlQuestionList += "<div class='questionButton " + i + " col-xs-12 col-md-6'>";
+        htmlQuestionList += "<div class='questionButton " + i + " col-xs-3 col-sm-4'>";
         htmlQuestionList += "    <button onclick='goToQuestion(" + i + ")'>" + (i + 1) + "</button>";
         htmlQuestionList += "</div>";
     }
@@ -116,7 +116,7 @@ function createQuestions() {
     htmlQuestions += "    <button class='btn btn-default submitAnswersButtonCenter' onclick='submitAnswers()'>End Quiz and Submit Answers</button>";
     htmlQuestions += "</div>";
 
-    $("#submitQuizContainer").empty().append("<button class='btn btn-default submitAnswersButtonHeader' onclick='submitAnswers()'>End Quiz and<br />Submit Answers</button>")
+    $("#submitQuizContainer").empty().append("<button class='btn btn-default submitAnswersButtonHeader' onclick='submitAnswers()'>End Quiz and<br />Submit Answers</button>");
 
     $("#questionsContainer").empty().append(htmlQuestions);
     $("#quizFooter").empty().append(htmlFooter);
@@ -234,14 +234,15 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                 correctPercent: correctPercent
             }, function(response) {
                 if (response == 'success') {
+                    var extra;
                     if (correctPercent == 100) {
-                        var extra = 5;
+                        extra = 5;
                     } else if (correctPercent >= 90) {
-                        var extra = 4;
+                        extra = 4;
                     } else if (correctPercent >= 80) {
-                        var extra = 3;
+                        extra = 3;
                     } else {
-                        var extra = 0;
+                        extra = 0;
                     }
                     $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct. " + extra + " bonus quizetos have been added to your account.");
                 } else {
@@ -281,7 +282,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
                     html += "         <td>" + (users[i].timeTaken / 1000) + "</td>";
                     html += "    </tr>";
                 }
-                html += "</table>"
+                html += "</table>";
 
                 $("#resultsLeaderboard").empty().append(html);
 
@@ -318,7 +319,7 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
 function selectAnswer(n) {
     selectedAnswer = n;
     $(".selectedAnswer").removeClass('selectedAnswer');
-    $(".answer." + n).addClass('selectedAnswer');
+    $(".answer." + n).parent().addClass('selectedAnswer');
 }
 
 function nextQuestion(n) {

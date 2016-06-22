@@ -26,13 +26,13 @@
     <div class="bg">
 
         <div class='row rowfix'>
-            <div id='questionList' class="col-xs-12 col-sm-2">
-
+            <div class="col-xs-12 col-sm-8 col-sm-push-2 logo-area">
+        			<div class="logo">
+        				<img class="text-img" src="images/logo.png" class="img responsive" />
+        			</div>
             </div>
-            <div class="col-xs-12 col-sm-8 logo-area">
-    			<div class="logo">
-    				<img class="text-img" src="images/logo.png" class="img responsive" />
-    			</div>
+            <div id='questionList' class="col-xs-12 col-sm-2 col-sm-pull-8">
+
             </div>
             <div id='submitQuizContainer' class="col-xs-12 col-sm-2">
 
