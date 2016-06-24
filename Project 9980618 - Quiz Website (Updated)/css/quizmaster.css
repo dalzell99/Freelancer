@@ -1,0 +1,25 @@
+#quizMasterModal, #quizMasterButtons {
+    display: none;
+}
+
+.modal {
+    top: 50px;
+}
+
+.modal-dialog {
+    width: 60%;
+    height: initial;
+    margin: auto;
+}
+
+.modal-content {
+    color: black;
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.btn-default {
+    background-color: #FFF;
+}

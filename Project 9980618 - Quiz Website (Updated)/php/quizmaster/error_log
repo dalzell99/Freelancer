@@ -1,0 +1,12 @@
+[22-Jun-2016 04:52:06 UTC] PHP Notice:  Undefined index: userID in /home/quizetoc/public_html/php/quizmaster/charge.php on line 27
+[22-Jun-2016 04:52:06 UTC] PHP Notice:  Undefined index: username in /home/quizetoc/public_html/php/quizmaster/charge.php on line 28
+[22-Jun-2016 04:52:07 UTC] PHP Notice:  Undefined variable: paymentAmount in /home/quizetoc/public_html/php/quizmaster/charge.php on line 31
+[22-Jun-2016 04:52:08 UTC] PHP Fatal error:  Uncaught exception 'Razorpay\Api\Errors\BadRequestError' with message 'The amount field is required.' in /home/quizetoc/public_html/php/razorpay-php/src/Request.php:131
+Stack trace:
+#0 /home/quizetoc/public_html/php/razorpay-php/src/Request.php(87): Razorpay\Api\Request->processError(Array, 400, Object(Requests_Response))
+#1 /home/quizetoc/public_html/php/razorpay-php/src/Request.php(42): Razorpay\Api\Request->checkErrors(Object(Requests_Response))
+#2 /home/quizetoc/public_html/php/razorpay-php/src/Entity.php(59): Razorpay\Api\Request->request('POST', 'payments/pay_5l...', Array)
+#3 /home/quizetoc/public_html/php/razorpay-php/src/Payment.php(37): Razorpay\Api\Entity->request('POST', 'payments/pay_5l...', Array)
+#4 /home/quizetoc/public_html/php/quizmaster/charge.php(31): Razorpay\Api\Payment->capture(Array)
+#5 {main}
+  thrown in /home/quizetoc/public_html/php/razorpay-php/src/Request.php on line 131

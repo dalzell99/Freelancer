@@ -13,5 +13,6 @@ $databasephpNoReplyEmail = 'noreply@iqzeto.com';
 $databasephpQueryEmail = 'query@iqzeto.com';
 $databasephpInfoEmail = 'info@iqzeto.com';
 $databasephpWithdrawalEmail = 'redeem@iqzeto.com';
+$databasephpQuizMasterEmail = 'quizmaster@iqzeto.com';
 $salt = '$&%&^sf65g41fg65fds1GSGDvbedghGGRGSDGDGsdY^#(*&#^*&^f1gf';
 ?>

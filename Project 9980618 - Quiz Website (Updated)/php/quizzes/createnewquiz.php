@@ -7,6 +7,7 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
+$username = $_POST['username'];
 $type = $_POST['type'];
 $questions = mysqli_real_escape_string($con, $_POST['questions']);
 $category = mysqli_real_escape_string($con, $_POST['category']);
@@ -29,7 +30,7 @@ $pointsRewards = json_encode(
     )
 );
 
-$sql = "INSERT INTO Quizzes (type, questions, category, pointsRewards, pointsCost, startTime, endTime, rules, minPlayers) VALUES ('$type', '$questions', '$category', '$pointsRewards', $pointsCost, '$startTime', '$endTime', '$rules', $minPlayers)";
+$sql = "INSERT INTO Quizzes (creatorUsername, type, questions, category, pointsRewards, pointsCost, startTime, endTime, rules, minPlayers) VALUES ('$username', '$type', '$questions', '$category', '$pointsRewards', $pointsCost, '$startTime', '$endTime', '$rules', $minPlayers)";
 
 if ($result = mysqli_query($con, $sql)) {
     echo 'success';

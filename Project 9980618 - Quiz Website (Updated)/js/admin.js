@@ -33,7 +33,7 @@ window.onload = function() {
         "hideMethod": "fadeOut"
     };
 
-    if (sessionStorage.loggedIn == null) {
+    if (sessionStorage.loggedIn === null) {
         sessionStorage.loggedIn = 'false';
     } else if (sessionStorage.loggedIn == 'true') {
         switch (sessionStorage.page) {
@@ -48,8 +48,8 @@ window.onload = function() {
             default: users();
         }
     }
-    if (sessionStorage.page == null) { sessionStorage.page = 'users'; }
-    if (sessionStorage.fileUploaded != undefined) {
+    if (sessionStorage.page === null) { sessionStorage.page = 'users'; }
+    if (sessionStorage.fileUploaded !== undefined) {
         if (sessionStorage.page == 'promotions') {
             if (sessionStorage.fileUploaded == 'success') {
                 displayMessage('info', "Promotion successfully added.");
@@ -74,7 +74,7 @@ window.onload = function() {
     }
     populateTables();
     addDateTimePickers();
-}
+};
 
 // Display a notification message with bootstrap message types
 function displayMessage(type, message) {
@@ -188,7 +188,7 @@ function populateQuizzes() {
             html += '        <th>Start Time</th>';
             html += '        <th>End Time</th>';
             html += '        <th>Rules</th>';
-            html += '        <th>Min Num Players</th>'
+            html += '        <th>Min Num Players</th>';
             html += '        <th></th>';
             html += '        <th></th>';
             html += '        <th></th>';
@@ -197,7 +197,7 @@ function populateQuizzes() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.quizzes; quizzesArray != null && i < quizzesArray.length && i < 20 * (tablePages.quizzes + 1); i += 1) {
+            for (var i = 20 * tablePages.quizzes; quizzesArray !== null && i < quizzesArray.length && i < 20 * (tablePages.quizzes + 1); i += 1) {
                 var questionsString = '';
                 var questionsArray = JSON.parse(quizzesArray[i].questions);
                 var pointsRewards = '';
@@ -218,8 +218,8 @@ function populateQuizzes() {
                     pointsRewards = "5 quizeto = 100%<br />3 quizeto = 95-99%<br />1 quizeto = 90-94%";
                 }
 
-                for (var l = 0; l < rulesArray.length; l += 1) {
-                    rules += (l + 1) + ') ' + rulesArray[l] + '<br>';
+                for (var m = 0; m < rulesArray.length; m += 1) {
+                    rules += (m + 1) + ') ' + rulesArray[m] + '<br>';
                 }
 
                 var startTime = moment(quizzesArray[i].startTime).format("ddd Do MMM YYYY h:mm a");
@@ -245,7 +245,7 @@ function populateQuizzes() {
             html += '</tbody>';
 
             $("#quizTable").empty().append(html);
-            var newTableObject = document.getElementById('quizTable')
+            var newTableObject = document.getElementById('quizTable');
             sorttable.makeSortable(newTableObject);
 
             $("#createQuizType").on({
@@ -347,11 +347,11 @@ function addDateTimePickers() {
 
 function addNewQuestion() {
     var answers = [$("#createQuizAnswer1Input").val(), $("#createQuizAnswer2Input").val(),
-                   $("#createQuizAnswer3Input").val(), $("#createQuizAnswer4Input").val()]
+                   $("#createQuizAnswer3Input").val(), $("#createQuizAnswer4Input").val()];
     questionsArray.push([$("#createQuizQuestionInput").val(), answers]);
     refreshQuestionTable();
 
-    $("#createQuizQuestionInput").val('')
+    $("#createQuizQuestionInput").val('');
     $("#createQuizAnswer1Input").val('');
     $("#createQuizAnswer1Input").val('');
     $("#createQuizAnswer1Input").val('');
@@ -435,7 +435,7 @@ function refreshQuestionTable() {
 function addNewRule() {
     rules.push($("#createQuizRuleInput").val());
     refreshRuleTable();
-    $("#createQuizRuleInput").val('')
+    $("#createQuizRuleInput").val('');
 }
 
 function deleteRule(index) {
@@ -488,6 +488,7 @@ function uploadQuiz() {
         }
 
         $.post('./php/quizzes/createnewquiz.php', {
+            username: 'admin',
             type: $("#createQuizType").val(),
             questions: JSON.stringify(questionsArray),
             category: $("#createQuizCategory").val(),
@@ -610,21 +611,21 @@ function updateQuiz() {
 }
 
 function areInputsValidQuizzes() {
-    if ($("#createQuizCategory").val() == '') {
+    if ($("#createQuizCategory").val() === '') {
         return [false, "Please enter a quiz name"];
     }
 
-    if ($("#createQuizPointsCost").val() == '') {
+    if ($("#createQuizPointsCost").val() === '') {
         return [false, "Please enter a registration fee"];
     }
 
     for (var i = 0; i < questionsArray.length; i += 1) {
-        if (questionsArray[i][2] == undefined) {
+        if (questionsArray[i][2] === undefined) {
             return [false, "Some questions don't have answers"];
         }
     }
 
-    if ($("#createQuizMinPlayers").val() == '') {
+    if ($("#createQuizMinPlayers").val() === '') {
         return [false, "Please enter the minimum number of users needed"];
     }
 
@@ -639,7 +640,7 @@ function addPromotionForQuiz(id, name) {
 }
 
 function addRandomQuestions() {
-    if ($("#createQuizQuestionsRandomNum").val() != '' && $("#createQuizQuestionsRandomCategory").val() != '') {
+    if ($("#createQuizQuestionsRandomNum").val() !== '' && $("#createQuizQuestionsRandomCategory").val() !== '') {
         $.post("./php/questions/getrandomquestions.php", {
             numQuestions: $("#createQuizQuestionsRandomNum").val(),
             category: $("#createQuizQuestionsRandomCategory").val()
@@ -647,7 +648,7 @@ function addRandomQuestions() {
             if (response[0] == 'success') {
                 var tempArray = [];
                 response[1].forEach(function (value) {
-                    if (value != null){
+                    if (value !== null){
                         tempArray.push([value.question, JSON.parse(value.answers), parseInt(value.correctAnswer)]);
                     }
                 });
@@ -715,7 +716,7 @@ function populateQuestions() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.questions; allQuestionsArray != null && i < allQuestionsArray.length && i < 20 * (tablePages.questions + 1); i += 1) {
+            for (var i = 20 * tablePages.questions; allQuestionsArray !== null && i < allQuestionsArray.length && i < 20 * (tablePages.questions + 1); i += 1) {
                 var answersArray = JSON.parse(allQuestionsArray[i].answers);
                 var answerString = 'Answers: ' + answersArray[0] + ', ' + answersArray[1] + ', ' + answersArray[2] + ', ' + answersArray[3] + '<br>Correct Answer: ' + answersArray[parseInt(allQuestionsArray[i].correctAnswer)];
 
@@ -731,7 +732,7 @@ function populateQuestions() {
             html += '</tbody>';
 
             $("#questionsTable").empty().append(html);
-            var newTableObject = document.getElementById('questionsTable')
+            var newTableObject = document.getElementById('questionsTable');
             sorttable.makeSortable(newTableObject);
 
             $("input[type='radio']").on({
@@ -807,10 +808,11 @@ function uploadQuestion() {
     var valid = areInputsValidQuestion();
     if (valid[0]) {
         var answers = JSON.stringify([$("#createQuestionAnswer1").val(), $("#createQuestionAnswer2").val(), $("#createQuestionAnswer3").val(), $("#createQuestionAnswer4").val()]);
-        if ($("#createQuestionCategory").val() != '') {
-            var category = $("#createQuestionCategory").val();
+        var category;
+        if ($("#createQuestionCategory").val() !== '') {
+            category = $("#createQuestionCategory").val();
         } else {
-            var category = $("#createQuestionCategorySelect").val();
+            category = $("#createQuestionCategorySelect").val();
         }
         $.post('./php/questions/createnewquestion.php', {
             question: $("#createQuestionQuestion").val(),
@@ -847,10 +849,11 @@ function updateQuestion() {
     var valid = areInputsValidQuestion();
     if (valid[0]) {
         var answers = JSON.stringify([$("#createQuestionAnswer1").val(), $("#createQuestionAnswer2").val(), $("#createQuestionAnswer3").val(), $("#createQuestionAnswer4").val()]);
-        if ($("#createQuestionCategory").val() != '') {
-            var category = $("#createQuestionCategory").val();
+        var category;
+        if ($("#createQuestionCategory").val() !== '') {
+            category = $("#createQuestionCategory").val();
         } else {
-            var category = $("#createQuestionCategorySelect").val();
+            category = $("#createQuestionCategorySelect").val();
         }
         $.post('./php/questions/updatequestion.php', {
             questionID: updateQuestionID,
@@ -890,27 +893,27 @@ function deleteQuestion(id) {
 }
 
 function areInputsValidQuestion() {
-    if ($("#createQuestionCategory").val() == '' && $("#createQuestionCategorySelect").val() == '') {
+    if ($("#createQuestionCategory").val() === '' && $("#createQuestionCategorySelect").val() === '') {
         return [false, "Please enter a question category"];
     }
 
-    if ($("#createQuestionQuestion").val() == '') {
+    if ($("#createQuestionQuestion").val() === '') {
         return [false, "Please enter a question"];
     }
 
-    if ($("#createQuestionAnswer1").val() == '') {
+    if ($("#createQuestionAnswer1").val() === '') {
         return [false, "Please enter answer 1"];
     }
 
-    if ($("#createQuestionAnswer2").val() == '') {
+    if ($("#createQuestionAnswer2").val() === '') {
         return [false, "Please enter answer 2"];
     }
 
-    if ($("#createQuestionAnswer3").val() == '') {
+    if ($("#createQuestionAnswer3").val() === '') {
         return [false, "Please enter answer 3"];
     }
 
-    if ($("#createQuestionAnswer4").val() == '') {
+    if ($("#createQuestionAnswer4").val() === '') {
         return [false, "Please enter answer 4"];
     }
 
@@ -962,7 +965,7 @@ function populateTestimonials() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.testimonials; testimonialsArray != null && i < testimonialsArray.length && i < 20 * (tablePages.testimonials + 1); i += 1) {
+            for (var i = 20 * tablePages.testimonials; testimonialsArray !== null && i < testimonialsArray.length && i < 20 * (tablePages.testimonials + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td>' + testimonialsArray[i].testimonialID + '</td>';
                 html += '    <td contenteditable="true">' + testimonialsArray[i].username + '</td>';
@@ -974,7 +977,7 @@ function populateTestimonials() {
             html += '</tbody>';
 
             $("#testimonialTable").empty().append(html);
-            var newTableObject = document.getElementById('testimonialTable')
+            var newTableObject = document.getElementById('testimonialTable');
             sorttable.makeSortable(newTableObject);
 
             $("#testimonialTable td").on({
@@ -1098,7 +1101,7 @@ function populateUsers() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.users; userArray != null && i < userArray.length && i < 20 * (tablePages.users + 1); i += 1) {
+            for (var i = 20 * tablePages.users; userArray !== null && i < userArray.length && i < 20 * (tablePages.users + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td style="display: none">' + userArray[i].userID + '</td>';
                 html += '    <td>' + userArray[i].username + '</td>';
@@ -1115,13 +1118,13 @@ function populateUsers() {
                 html += '    <td contenteditable="true">' + userArray[i].pincode + '</td>';
                 html += '    <td contenteditable="true">' + userArray[i].state + '</td>';
                 html += '    <td contenteditable="true">' + userArray[i].country + '</td>';
-                html += '    <td><img class="userProfileImages" src="./images/users/' + (userArray[i].imageURL == '' ? 'missing.png' : userArray[i].imageURL) + '" alt="" /></td>';
+                html += '    <td><img class="userProfileImages" src="./images/users/' + (userArray[i].imageURL === '' ? 'missing.png' : userArray[i].imageURL) + '" alt="" /></td>';
                 html += '</tr>';
             }
             html += '</tbody>';
 
             $("#userTable").empty().append(html);
-            var newTableObject = document.getElementById('userTable')
+            var newTableObject = document.getElementById('userTable');
             sorttable.makeSortable(newTableObject);
 
             $("#convertRate").val(response[2].rate);
@@ -1135,7 +1138,7 @@ function populateUsers() {
                             if (response == 'success') {
                                 displayMessage('info', "Conversion rate changed");
                             } else {
-                                displayMessage('error', 'Error', "Err or changing conversion rate. Contact the web admin to inform them of this error.")
+                                displayMessage('error', 'Error', "Err or changing conversion rate. Contact the web admin to inform them of this error.");
                             }
                         }).fail(function (request, textStatus, errorThrown) {
                             //displayMessage('error', 'Error', "Err or: Something went wrong with conversion rate change function");
@@ -1170,7 +1173,7 @@ function populateUsers() {
                 focus: function() {
                     sessionStorage.contentEditable = $(this).text();
                 }
-            })
+            });
         } else {
             displayMessage('error', 'Error', 'Error: ' + response[1]);
         }
@@ -1224,7 +1227,7 @@ function populatePromotions() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.promotions; promotionArray != null && i < promotionArray.length && i < 20 * (tablePages.promotions + 1); i += 1) {
+            for (var i = 20 * tablePages.promotions; promotionArray !== null && i < promotionArray.length && i < 20 * (tablePages.promotions + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td>' + promotionArray[i].promotionID + '</td>';
                 html += '    <td>' + promotionArray[i].quizID + '</td>';
@@ -1235,7 +1238,7 @@ function populatePromotions() {
             html += '</tbody>';
 
             $("#promotionTable").empty().append(html);
-            var newTableObject = document.getElementById('promotionTable')
+            var newTableObject = document.getElementById('promotionTable');
             sorttable.makeSortable(newTableObject);
         } else {
             displayMessage('error', 'Error', 'Error: ' + response[1]);
@@ -1312,7 +1315,7 @@ function populateWithdrawal() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.withdrawals; withdrawalArray != null && i < withdrawalArray.length && i < 20 * (tablePages.withdrawals + 1); i += 1) {
+            for (var i = 20 * tablePages.withdrawals; withdrawalArray !== null && i < withdrawalArray.length && i < 20 * (tablePages.withdrawals + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td>' + withdrawalArray[i].withdrawalID + '</td>';
                 html += '    <td>' + withdrawalArray[i].username + '</td>';
@@ -1439,14 +1442,14 @@ function populateTaxation() {
 
     }, function(response) {
         if (response == 'fail') {
-            displayMessage('error', 'Error', "Err or getting taxations")
+            displayMessage('error', 'Error', "Err or getting taxations");
         } else {
             taxationArray = response;
 
             // Add pagination buttons
             var htmlPage = '';
 
-            for (var m = 0; taxationArray != null && taxationArray.length > 20 && m < taxationArray.length / 20; m += 1) {
+            for (var m = 0; taxationArray !== null && taxationArray.length > 20 && m < taxationArray.length / 20; m += 1) {
                 htmlPage += "<button class='paginationButton" + m + "' onclick='changeTaxationPage(" + m + ")'>" + (m + 1) + "</button>";
             }
 
@@ -1469,7 +1472,7 @@ function populateTaxation() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.taxation; taxationArray != null && i < taxationArray.length && i < 20 * (tablePages.taxation + 1); i += 1) {
+            for (var i = 20 * tablePages.taxation; taxationArray !== null && i < taxationArray.length && i < 20 * (tablePages.taxation + 1); i += 1) {
                 html += '<tr>';
                 html += '    <td>' + taxationArray[i].taxID + '</td>';
                 html += '    <td>' + taxationArray[i].username + '</td>';

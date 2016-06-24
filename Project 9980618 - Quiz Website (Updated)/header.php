@@ -194,6 +194,7 @@
                                                 <ul class="dropdown-menu">
                                                     <li><a href="quizzes.php?type=free"> Free Quizzes</a></li>
                                                     <li><a href="quizzes.php?type=paid">Paid Quizzes </a></li>
+                                                    <li><a href="quizmaster.php">Quiz Master</a></li>
                                                 </ul>
                                             </li>
                                             <li id='myAccountMenuItem' ><a href="myaccount.php" class=""><img src="images/account-icon.png" class="menu-icons">My Account</a></li>
