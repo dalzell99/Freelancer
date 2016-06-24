@@ -7,7 +7,7 @@ include('../library/Requests.php');
 Requests::register_autoloader();
 
 // Set up our session
-$session = new Requests_Session('http://httpbin.org/');
+$session = new Requests_Session('https://httpbin.org/');
 $session->headers['Accept'] = 'application/json';
 $session->useragent = 'Awesomesauce';
 

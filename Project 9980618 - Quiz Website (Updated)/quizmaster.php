@@ -67,10 +67,10 @@ Register today and start taking quizzes on IQzeto.com Your one stop for learning
     </div>
 	<div id='quizMasterButtons' class='col-xs-12'>
 		<div class='col-xs-6'>
-			<button id='quizMasterButton' data-toggle="modal" data-target="#quizMasterModal">Quiz Master</button>
+			<button id='quizMasterButton' data-toggle="modal" data-target="#quizMasterModal">Activate as QuizMaster</button>
 		</div>
 		<div class='col-xs-6'>
-			<button onclick='goToQuizMasterPage()'>User</button>
+			<button onclick='goToQuizMasterPage("user")'>Activate as User</button>
 		</div>
 	</div>
 </div>

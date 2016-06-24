@@ -7,7 +7,7 @@ include('../library/Requests.php');
 Requests::register_autoloader();
 
 // Now let's make a request!
-$request = Requests::get('http://httpbin.org/get', array('Accept' => 'application/json'));
+$request = Requests::get('https://httpbin.org/get', array('Accept' => 'application/json'));
 
 // Check what we received
 var_dump($request);

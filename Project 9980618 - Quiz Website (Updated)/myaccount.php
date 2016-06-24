@@ -20,6 +20,7 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
                         <li><a href="javascript:void(0)" onclick='showDeposit()'><strong style="text-align:center">Purchase</strong>  </a></li>
                         <li><a href="javascript:void(0)" onclick='showWithdraw()'><strong style="text-align:center">Redeem</strong>  </a></li>
                         <li><a href="javascript:void(0)" onclick='showTaxation()'><strong style="text-align:center">Taxations</strong>  </a></li>
+                        <li><a href="javascript:void(0)" onclick='showQuizMaster()'><strong style="text-align:center">Quiz Master</strong>  </a></li>
                     </ul>
                     <div class="tab-content tabs-login col-lg-12 col-md-12 col-sm-12 cols-xs-12" style="box-shadow: 10px 21px 11px rgba(50, 50, 50, 0.15)">
                         <div id="login-access" class="tab-pane fade active in">
@@ -296,6 +297,8 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
                             </div>
 
                             <div id="myAccountTaxation" class="col-xs-12"></div>
+
+                            <div id="myAccountQuizMaster" class="col-xs-12"></div>
 
 
                         </div>

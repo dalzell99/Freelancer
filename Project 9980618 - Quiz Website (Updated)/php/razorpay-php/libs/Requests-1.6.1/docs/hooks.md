@@ -88,5 +88,5 @@ and pass this in via the 'hooks' option.
 $hooks = new Requests_Hooks();
 $hooks->register('requests.after_request', 'mycallback');
 
-$request = Requests::get('http://httpbin.org/get', array(), array('hooks' => $hooks));
+$request = Requests::get('https://httpbin.org/get', array(), array('hooks' => $hooks));
 ```

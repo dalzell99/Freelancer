@@ -9,7 +9,7 @@ class RequestsTest_Requests extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testDefaultTransport() {
-		$request = Requests::get('http://httpbin.org/get');
+		$request = Requests::get('https://httpbin.org/get');
 		$this->assertEquals(200, $request->status_code);
 	}
 
@@ -34,7 +34,7 @@ class RequestsTest_Requests extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 		$expected = new Requests_Response_Headers();
 		$expected['host'] = 'localhost,ambiguous';
 		$expected['nospace'] = 'here';
@@ -61,7 +61,7 @@ class RequestsTest_Requests extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 		$this->assertEquals($transport->data, $response->raw);
 	}
 
@@ -75,7 +75,7 @@ class RequestsTest_Requests extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 		$this->assertEquals('value', $response->headers['test']);
 		$this->assertEquals('value', $response->headers['another-test']);
 	}
@@ -95,7 +95,7 @@ class RequestsTest_Requests extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 	}
 
 	/**
@@ -110,7 +110,7 @@ class RequestsTest_Requests extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 	}
 
 	/**
@@ -123,7 +123,7 @@ class RequestsTest_Requests extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 	}
 
 	public function test30xWithoutLocation() {
@@ -133,7 +133,7 @@ class RequestsTest_Requests extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 		$this->assertEquals(302, $response->status_code);
 		$this->assertEquals(0, $response->redirects);
 	}

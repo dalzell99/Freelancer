@@ -11,6 +11,7 @@ var quizResults = [];
 var withdrawals = [];
 var purchaseHistory = [];
 var taxations = [];
+var quizMasterInfo = [];
 
 var options = {
     "key": "rzp_test_DMtkjnzZPVHfJI",
@@ -59,6 +60,9 @@ window.onload = function() {
     if (sessionStorage.buypoints == 'true') {
         showDeposit();
         sessionStorage.buypoints = 'false';
+    } else if (sessionStorage.showQuizMaster == 'true') {
+        showQuizMaster();
+        sessionStorage.showQuizMaster = 'false';
     }
 
     $('li.active').removeClass('active');
@@ -104,11 +108,11 @@ window.onload = function() {
     });
 
     $("#purchaseButton").click(function(e) {
-        if ($("#numQuizetos").val() % 50 == 0) {
+        if ($("#numQuizetos").val() % 50 === 0) {
             options.amount = parseInt($("#numQuizetos").val()) * 100;
             options.notes.userID = sessionStorage.userID;
             options.notes.username = sessionStorage.username;
-            rzp1 = new Razorpay(options)
+            rzp1 = new Razorpay(options);
             rzp1.open();
             e.preventDefault();
         } else {
@@ -128,10 +132,11 @@ window.onload = function() {
         }
     });
 
+    /*
     $("#withdrawChequePhone").intlTelInput({
         initialCountry: "auto",
         geoIpLookup: function(callback) {
-            $.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
                 var countryCode = (resp && resp.country) ? resp.country : "";
                 callback(countryCode);
             });
@@ -142,14 +147,14 @@ window.onload = function() {
     $("#withdrawBankTransferPhone").intlTelInput({
         initialCountry: "auto",
         geoIpLookup: function(callback) {
-            $.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
                 var countryCode = (resp && resp.country) ? resp.country : "";
                 callback(countryCode);
             });
         },
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
     });
-
+    */
     $("#withdrawChequePhone").on({
         input: function() {
             checkMobileTimer = setTimeout(checkMobileCheque, 1000);
@@ -208,23 +213,28 @@ window.onload = function() {
                 taxations = response[1][4];
             }
 
+            if (response[1][5].length > 0) {
+                quizMasterInfo = response[1][5];
+            }
+
             populateProfile();
             populateQuizzes();
             populateWithdrawals();
             populatePurchases();
             populateTaxations();
+            populateQuizMaster();
         } else {
             displayMessage('error', 'Error', 'Error getting account info');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', 'Error', 'Error', "Error: Something went wrong with  AJAX POST");
     });
-}
+};
 
 function populateProfile() {
     $("#myAccountProfileImageUsername").val(userInfo.username);
     // Check to see if users image exists
-    if (userInfo.imageURL != '') {
+    if (userInfo.imageURL !== '') {
         // Show image if it exists on server
         $("#myAccountProfileImage").prop('src', "./images/users/" + userInfo.imageURL);
         $("#myAccountProfileImage").show();
@@ -236,7 +246,7 @@ function populateProfile() {
         $("#myAccountProfileImage").show();
         $("#myAccountProfileImageForm").show();
         $("#myAccountRemoveProfileImageButton").hide();
-    };
+    }
 
     showProfileView();
 
@@ -305,7 +315,7 @@ function showProfileEdit() {
 
     $("#myAccountProfileEmail").prop('disabled', true);
     $("#myAccountProfileMobile").prop('disabled', true);
-    if (userInfo.pancard != '') {
+    if (userInfo.pancard !== '') {
         $("#myAccountProfilePancard").prop('disabled', true);
     }
 
@@ -390,12 +400,12 @@ function populateQuizzes() {
     html += "        <th>Rank</th>";
     html += "    </tr>";
 
-    for (var i = 20 * tablePages.quizzes; quizResults != null && i < quizResults.length && i < 20 * (tablePages.quizzes + 1); i += 1) {
+    for (var i = 20 * tablePages.quizzes; quizResults !== null && i < quizResults.length && i < 20 * (tablePages.quizzes + 1); i += 1) {
         var resultObject = quizResults[i];
         html += "    <tr>";
         html += "        <td>" + resultObject.name + "</td>";
         html += "        <td>" + resultObject.fee + "</td>";
-        html += "        <td>" + (resultObject.userRank == '' ? "Quiz hasn't finished" : resultObject.userRank) + "</td>";
+        html += "        <td>" + (resultObject.userRank === '' ? "Quiz hasn't finished" : resultObject.userRank) + "</td>";
         html += "    </tr>";
     }
 
@@ -424,7 +434,7 @@ function populateWithdrawals() {
     html += "        <th>Processed</th>";
     html += "    </tr>";
 
-    for (var i = 20 * tablePages.withdrawals; withdrawals != null && i < withdrawals.length && i < 20 * (tablePages.withdrawals + 1); i += 1) {
+    for (var i = 20 * tablePages.withdrawals; withdrawals !== null && i < withdrawals.length && i < 20 * (tablePages.withdrawals + 1); i += 1) {
         var resultObject = withdrawals[i];
         html += "    <tr>";
         html += "        <td>" + moment(resultObject.time).format("Do MMM YYYY h:mm a") + "</td>";
@@ -456,7 +466,7 @@ function populatePurchases() {
     html += "        <th>Amount</th>";
     html += "    </tr>";
 
-    for (var i = 20 * tablePages.purchase; purchaseHistory != null && i < purchaseHistory.length && i < 20 * (tablePages.purchase + 1); i += 1) {
+    for (var i = 20 * tablePages.purchase; purchaseHistory !== null && i < purchaseHistory.length && i < 20 * (tablePages.purchase + 1); i += 1) {
         var resultObject = purchaseHistory[i];
         html += "    <tr>";
         html += "        <td>" + moment(resultObject.datePurchased).format("Do MMM YYYY h:mm a") + "</td>";
@@ -484,7 +494,7 @@ function populateTaxations() {
     html += "        <th>Net Quizetos</th>";
     html += "    </tr>";
 
-    for (var i = 20 * tablePages.taxation; taxations != null && i < taxations.length && i < 20 * (tablePages.taxation + 1); i += 1) {
+    for (var i = 20 * tablePages.taxation; taxations !== null && i < taxations.length && i < 20 * (tablePages.taxation + 1); i += 1) {
         var resultObject = taxations[i];
         html += "    <tr>";
         html += "        <td>" + resultObject.grossQuizetos + "</td>";
@@ -506,10 +516,11 @@ function hideAllContainers() {
     $("#myAccountWithdraw").hide();
     $("#myAccountQuizzes").hide();
     $("#myAccountTaxation").hide();
+    $("#myAccountQuizMaster").hide();
 }
 
 function areSamePassword() {
-    if ($("#confirmPassword").val() != '' && $("#newPassword").val() != '') {
+    if ($("#confirmPassword").val() !== '' && $("#newPassword").val() !== '') {
         if ($("#confirmPassword").val() != $("#newPassword").val()) {
             $("#confirmPassword").css('border', red);
             $("#newPassword").css('border', red);
@@ -533,7 +544,7 @@ function changePassword() {
             newPassword: $("#newPassword").val()
         }, function(response) {
             if (response == 'success') {
-                displayMessage('info', 'Password Changed', 'Your password has been changed successfully.')
+                displayMessage('info', 'Password Changed', 'Your password has been changed successfully.');
             } else {
                 displayMessage('error', 'Error', 'Error: ' + response);
             }
@@ -541,7 +552,7 @@ function changePassword() {
             //displayMessage('error', 'Error', "Err or: Something went wrong with changePassword function");
         });
     } else {
-        displayMessage('warning', '', 'Please make sure your current password is correct and the passwords entered in the other text boxes are the same.')
+        displayMessage('warning', '', 'Please make sure your current password is correct and the passwords entered in the other text boxes are the same.');
     }
 }
 
@@ -552,7 +563,7 @@ function changeEmail() {
         emailCode: createEmailCode()
     }, function(response) {
         if (response == 'success') {
-            displayMessage('info', '', 'Your email has been changed and a verification email has been sent to your new email.')
+            displayMessage('info', '', 'Your email has been changed and a verification email has been sent to your new email.');
         } else {
             displayMessage('error', 'Error', 'Error: ' + response);
         }
@@ -593,7 +604,7 @@ function showWithdraw() {
     } else {
         var result = prompt("You haven't verified your email. You can either enter your email below or click the link in the welcome email you received.");
 
-        if (result != null) {
+        if (result !== null) {
             $.post('./php/users/checkemailredeem.php', {
                 userID: sessionStorage.userID,
                 email: result
@@ -744,12 +755,12 @@ function areInputsValidCheque() {
         return [false, "The phone number you entered doesn't match the number with your account."];
     }
 
-    if($("#numRealRedeemQuizetos").val() == '') {
+    if($("#numRealRedeemQuizetos").val() === '') {
         return [false, "Please enter an amount of Quizetos you want to redeem."];
     }
 
-    if($("#withdrawChequeAddress1").val() == '' && $("#withdrawChequeAddress2").val() == '' &&
-       $("#withdrawChequeAddress3").val() == '' && $("#withdrawChequeAddress3").val() == '') {
+    if($("#withdrawChequeAddress1").val() === '' && $("#withdrawChequeAddress2").val() === '' &&
+       $("#withdrawChequeAddress3").val() === '' && $("#withdrawChequeAddress3").val() === '') {
         return [false, "Please enter an address to send the cheque to."];
     }
 
@@ -765,7 +776,7 @@ function areInputsValidBankTransfer() {
         return [false, "The phone number you entered doesn't match the number with your account."];
     }
 
-    if($("#numRealRedeemQuizetos").val() == '') {
+    if($("#numRealRedeemQuizetos").val() === '') {
         return [false, "Please enter an amount of Quizetos you want to redeem."];
     }
 
@@ -773,11 +784,11 @@ function areInputsValidBankTransfer() {
         return [false, "The IFSC code you entered is invalid."];
     }
 
-    if($("#withdrawBankTransferName").val() == '') {
+    if($("#withdrawBankTransferName").val() === '') {
         return [false, "Please enter your name."];
     }
 
-    if($("#withdrawBankTransferAccountNumber").val() == '') {
+    if($("#withdrawBankTransferAccountNumber").val() === '') {
         return [false, "Please enter a bank account number."];
     }
 
@@ -817,7 +828,7 @@ function checkMobileBankTransfer() {
 function checkPancardCheque() {
     // Check if the entered pancard is a valid pancard
     if (isPancardValid($("#withdrawChequePancard").val())) {
-        if (userInfo.pancard != '' && $("#withdrawChequePancard").val() != userInfo.pancard) {
+        if (userInfo.pancard !== '' && $("#withdrawChequePancard").val() != userInfo.pancard) {
             // If user has previously entered a pancard and the pancard entered is different from the previously entered pancard
             $("#withdrawChequePancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
             isPancardCorrect = false;
@@ -835,7 +846,7 @@ function checkPancardCheque() {
 function checkPancardBankTransfer() {
     // Check if the entered pancard is a valid pancard
     if (isPancardValid($("#withdrawBankTransferPancard").val())) {
-        if (userInfo.pancard != '' && $("#withdrawBankTransferPancard").val() != userInfo.pancard) {
+        if (userInfo.pancard !== '' && $("#withdrawBankTransferPancard").val() != userInfo.pancard) {
             // If user has previously entered a pancard and the pancard entered is different from the previously entered pancard
             $("#withdrawBankTransferPancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
             isPancardCorrect = false;
@@ -852,7 +863,7 @@ function checkPancardBankTransfer() {
 
 function isPancardValid(pancard) {
     // Check if pancard is 10 charaters long and the format is AAAAANNNNA where A is letter and N is number. If the user hasn't entered a pancard don't raise an error by setting the pancard as invalid
-    if (pancard.length == 0 || (pancard.length == 10 && pancard.substr(0, 5).search(/[0-9]/) == -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[0-9]/) == -1)) {
+    if (pancard.length === 0 || (pancard.length == 10 && pancard.substr(0, 5).search(/[0-9]/) == -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[0-9]/) == -1)) {
         return true;
     } else {
         return false;
@@ -877,4 +888,68 @@ function changeWithdrawalPage(page) {
 function changeTaxationPage(page) {
     tablePages.taxation = page;
     populateTaxations();
+}
+
+function showQuizMaster() {
+    hideAllContainers();
+    $("#myAccountQuizMaster").show();
+}
+
+function populateQuizMaster() {
+    var html = '';
+    // Check if user activated as quiz master
+    var qm = sessionStorage.quizMaster == 'y' ? true : false;
+    var totalQuizzesSchedulable, numQuizzesAlreadyScheduled, quizBalance;
+
+    // TODO: Get user info in load function
+
+    html += "<table>";
+
+    if (qm) {
+        // number of quizzes purchased
+        totalQuizzesSchedulable = quizMasterInfo.numQuizzesPurchased;
+        // number of quizzes scheduled
+        numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduled;
+        // remaining balance
+        quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
+
+        html += "<tr>";
+        html += "    <th>Number of quiz purchased</th>";
+        html += "    <th>Number of quiz already scheduled</th>";
+        html += "    <th>Number fo quiz left to schedule</th>";
+        html += "<tr>";
+        html += "<tr>";
+        html += "    <td>" + totalQuizzesSchedulable + "</td>";
+        html += "    <td>" + numQuizzesAlreadyScheduled + "</td>";
+        html += "    <td>" + quizBalance + "</td>";
+        html += "<tr>";
+    } else {
+        // number of quizzes that can be scheduled
+        totalQuizzesSchedulable = numQuizzesScheduled + Math.floor(sessionStorage.numQuizzesTakenRemaining / sessionStorage.quizScheduleTarget);
+        // number of quizzes scheduled
+        numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduled;
+        // remaining balance
+        quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
+
+        html += "<tr>";
+        html += "    <th>Number of Paid Quizzes Played</th>";
+        html += "    <th>Number of quiz which can be scheduled</th>";
+        html += "    <th>Number of quiz already scheduled</th>";
+        html += "    <th>Number of quiz left to schedule</th>";
+        html += "    <th>Number of questions approved</th>";
+        html += "    <th>Number of questions rejected</th>";
+        html += "<tr>";
+        html += "<tr>";
+        html += "    <td>" + sessionStorage.numQuizzesTaken + "</td>";
+        html += "    <td>" + totalQuizzesSchedulable + "</td>";
+        html += "    <td>" + numQuizzesAlreadyScheduled + "</td>";
+        html += "    <td>" + quizBalance + "</td>";
+        html += "    <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
+        html += "    <td>" + JSON.parse(quizMasterInfo.rejectedQuestions.length) + "</td>";
+        html += "<tr>";
+    }
+
+    html += "</table>";
+
+    $("#myAccountQuizMaster").empty().append(html);
 }

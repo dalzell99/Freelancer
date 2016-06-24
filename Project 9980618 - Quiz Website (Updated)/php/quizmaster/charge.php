@@ -22,7 +22,7 @@ if (isset($_POST['razorpay_payment_id']) === false) {
 }
 
 $id = $_POST['razorpay_payment_id'];
-$cost = $_POST['cost'];
+$paymentAmount = $_POST['amount'];
 $numQuizzes = $_POST['numQuizzes'];
 $userID = $_POST['userID'];
 $username = $_POST['username'];

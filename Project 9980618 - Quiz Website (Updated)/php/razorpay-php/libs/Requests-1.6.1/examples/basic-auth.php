@@ -10,7 +10,7 @@ Requests::register_autoloader();
 $options = array(
 	'auth' => array('someuser', 'password')
 );
-$request = Requests::get('http://httpbin.org/basic-auth/someuser/password', array(), $options);
+$request = Requests::get('https://httpbin.org/basic-auth/someuser/password', array(), $options);
 
 // Check what we received
 var_dump($request);

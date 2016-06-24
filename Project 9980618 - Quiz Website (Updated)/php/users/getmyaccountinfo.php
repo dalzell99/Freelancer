@@ -59,7 +59,18 @@ if ($resultUsers = mysqli_query($con, $sql1)) {
                     }
                     array_push($response, $quizTaxation);
 
-                    echo json_encode(array('success', $response));
+                    $sql6 = "SELECT numQuizzesTaken, numQuizzesScheduled, numQuizzesPurchased, approvedQuestionCount, rejectedQuestions FROM User WHERE username = '$username'";
+                    if ($resultQuizMaster = mysqli_query($con, $sql6)) {
+                        $quizQuizMaster = [];
+                        while ($rowQuizMaster = mysqli_fetch_assoc($resultQuizMaster)) {
+                            $quizQuizMaster[] = $rowQuizMaster;
+                        }
+                        array_push($response, $quizQuizMaster);
+
+                        echo json_encode(array('success', $response));
+                    } else {
+                        echo 'fail QuizMaster' . $sql6;
+                    }
                 } else {
                     echo 'fail Taxation' . $sql5;
                 }

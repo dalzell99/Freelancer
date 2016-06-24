@@ -2,7 +2,7 @@
 #withdrawChequeAddress, #withdrawBankTransferDetails,
 #myAccountQuizzes, #myAccountChangePassword,
 #myAccountProfileImage, #myAccountProfileImageForm,
-#myAccountTaxation {
+#myAccountTaxation, #myAccountQuizMaster {
   display: none;
 }
 

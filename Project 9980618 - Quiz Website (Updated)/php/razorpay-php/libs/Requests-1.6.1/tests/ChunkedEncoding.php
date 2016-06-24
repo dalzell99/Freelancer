@@ -29,7 +29,7 @@ class RequestsTest_ChunkedDecoding extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 
 		$this->assertEquals($expected, $response->body);
 	}
@@ -45,7 +45,7 @@ class RequestsTest_ChunkedDecoding extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 
 		$this->assertEquals($transport->body, $response->body);
 	}
@@ -62,7 +62,7 @@ class RequestsTest_ChunkedDecoding extends PHPUnit_Framework_TestCase {
 		$options = array(
 			'transport' => $transport
 		);
-		$response = Requests::get('http://example.com/', array(), $options);
+		$response = Requests::get('https://example.com/', array(), $options);
 		$this->assertEquals($transport->body, $response->body);
 	}
 }

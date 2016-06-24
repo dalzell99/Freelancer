@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "a42b85c8f1039ccb9565bc0f744ad4c2",
@@ -39,11 +39,11 @@
             "authors": [
                 {
                     "name": "Ryan McCue",
-                    "homepage": "http://ryanmccue.info"
+                    "homepage": "https://ryanmccue.info"
                 }
             ],
             "description": "A HTTP library written in PHP, for human beings.",
-            "homepage": "http://github.com/rmccue/Requests",
+            "homepage": "https://github.com/rmccue/Requests",
             "keywords": [
                 "curl",
                 "fsockopen",

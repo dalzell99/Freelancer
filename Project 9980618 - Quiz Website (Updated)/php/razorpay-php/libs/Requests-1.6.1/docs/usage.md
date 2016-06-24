@@ -61,18 +61,18 @@ Make a POST Request
 Making a POST request is very similar to making a GET:
 
 ```php
-$response = Requests::post('http://httpbin.org/post');
+$response = Requests::post('https://httpbin.org/post');
 ```
 
 You'll probably also want to pass in some data. You can pass in either a
 string, an array or an object (Requests uses [`http_build_query`][build_query]
 internally) as the third parameter (after the URL and headers):
 
-[build_query]: http://php.net/http_build_query
+[build_query]: https://php.net/http_build_query
 
 ```php
 $data = array('key1' => 'value1', 'key2' => 'value2');
-$response = Requests::post('http://httpbin.org/post', array(), $data);
+$response = Requests::post('https://httpbin.org/post', array(), $data);
 var_dump($response->body);
 ```
 
@@ -94,7 +94,7 @@ This gives the output:
 	    "Host": "httpbin.org", 
 	    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
 	  }, 
-	  "url": "http://httpbin.org/post", 
+	  "url": "https://httpbin.org/post", 
 	  "args": {}, 
 	  "data": ""
 	}"

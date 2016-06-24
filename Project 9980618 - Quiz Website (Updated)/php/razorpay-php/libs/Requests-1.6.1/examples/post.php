@@ -7,7 +7,7 @@ include('../library/Requests.php');
 Requests::register_autoloader();
 
 // Now let's make a request!
-$request = Requests::post('http://httpbin.org/post', array(), array('mydata' => 'something'));
+$request = Requests::post('https://httpbin.org/post', array(), array('mydata' => 'something'));
 
 // Check what we received
 var_dump($request);

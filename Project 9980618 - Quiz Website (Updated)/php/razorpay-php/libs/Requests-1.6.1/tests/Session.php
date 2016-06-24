@@ -19,8 +19,8 @@ class RequestsTest_Session extends PHPUnit_Framework_TestCase {
 			'foo' => 'bar'
 		);
 
-		$session = new Requests_Session('http://example.com/', $headers, $data, $options);
-		$this->assertEquals('http://example.com/', $session->url);
+		$session = new Requests_Session('https://example.com/', $headers, $data, $options);
+		$this->assertEquals('https://example.com/', $session->url);
 		$this->assertEquals($headers, $session->headers);
 		$this->assertEquals($data, $session->data);
 		$this->assertEquals($options['testoption'], $session->options['testoption']);
@@ -47,21 +47,21 @@ class RequestsTest_Session extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testURLResolution() {
-		$session = new Requests_Session('http://httpbin.org/');
+		$session = new Requests_Session('https://httpbin.org/');
 
 		// Set the cookies up
 		$response = $session->get('/get');
 		$this->assertTrue($response->success);
-		$this->assertEquals('http://httpbin.org/get', $response->url);
+		$this->assertEquals('https://httpbin.org/get', $response->url);
 
 		$data = json_decode($response->body, true);
 		$this->assertNotNull($data);
 		$this->assertArrayHasKey('url', $data);
-		$this->assertEquals('http://httpbin.org/get', $data['url']);
+		$this->assertEquals('https://httpbin.org/get', $data['url']);
 	}
 
 	public function testSharedCookies() {
-		$session = new Requests_Session('http://httpbin.org/');
+		$session = new Requests_Session('https://httpbin.org/');
 
 		$options = array(
 			'follow_redirects' => false

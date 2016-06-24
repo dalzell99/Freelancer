@@ -3,13 +3,13 @@ Requests for PHP
 
 Requests is a HTTP library written in PHP, for human beings. It is roughly
 based on the API from the excellent [Requests Python
-library](http://python-requests.org/). Requests is [ISC
+library](https://python-requests.org/). Requests is [ISC
 Licensed](https://github.com/rmccue/Requests/blob/master/LICENSE) (similar to
 the new BSD license) and has no dependencies, except for PHP 5.2+.
 
 Despite PHP's use as a language for the web, its tools for sending HTTP requests
 are severely lacking. cURL has an
-[interesting API](http://php.net/manual/en/function.curl-setopt.php), to say the
+[interesting API](https://php.net/manual/en/function.curl-setopt.php), to say the
 least, and you can't always rely on it being available. Sockets provide only low
 level access, and require you to build most of the HTTP response parsing
 yourself.
@@ -108,16 +108,16 @@ After that, take a look at [the documentation for
 `Requests::request()`][request_method], where all the parameters are fully
 documented.
 
-Requests is [100% documented with PHPDoc](http://requests.ryanmccue.info/api/).
+Requests is [100% documented with PHPDoc](https://requests.ryanmccue.info/api/).
 If you find any problems with it, [create a new
 issue](https://github.com/rmccue/Requests/issues/new)!
 
 [prose-based documentation]: https://github.com/rmccue/Requests/blob/master/docs/README.md
-[request_method]: http://requests.ryanmccue.info/api/class-Requests.html#_request
+[request_method]: https://requests.ryanmccue.info/api/class-Requests.html#_request
 
 Testing
 -------
-[![Build Status](https://secure.travis-ci.org/rmccue/Requests.png?branch=master)](http://travis-ci.org/rmccue/Requests)
+[![Build Status](https://secure.travis-ci.org/rmccue/Requests.png?branch=master)](https://travis-ci.org/rmccue/Requests)
 [![Coverage Status](https://coveralls.io/repos/rmccue/Requests/badge.png?branch=master)][coveralls]
 
 Requests strives to have 100% code-coverage of the library with an extensive

@@ -20,6 +20,6 @@
     padding: 15px;
 }
 
-.btn-default {
+.btn-default:not(.dropdown-toggle) {
     background-color: #FFF;
 }

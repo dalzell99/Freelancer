@@ -58,5 +58,5 @@ and pass this in via the &#39;hooks&#39; option.</p>
 <pre><code class="lang-php">$hooks = new Requests_Hooks();
 $hooks-&gt;register(&#39;requests.after_request&#39;, &#39;mycallback&#39;);
 
-$request = Requests::get(&#39;http://httpbin.org/get&#39;, array(), array(&#39;hooks&#39; =&gt; $hooks));
+$request = Requests::get(&#39;https://httpbin.org/get&#39;, array(), array(&#39;hooks&#39; =&gt; $hooks));
 </code></pre>

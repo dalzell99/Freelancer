@@ -154,7 +154,9 @@ function login() {
             sessionStorage.emailVerified = response[1].emailConfirmed;
             sessionStorage.notifications = response[1].notificationsArray;
             sessionStorage.notificationsViewed = response[1].timeNotificationsViewed;
-            sessionStorage.profileImageURL = response[1].imageURL;
+            sessionStorage.numQuizzesScheduledRemaining = response[1].numQuizzesScheduledRemaining;
+            sessionStorage.numQuizzesTakenRemaining = response[1].numQuizzesTakenRemaining;
+            sessionStorage.quizMaster = response[1].quizMaster;
             sessionStorage.loggedIn = 'true';
             location.reload();
         } else if (response[0] == 'incorrect') {

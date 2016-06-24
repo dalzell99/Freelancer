@@ -24,7 +24,7 @@ $session-&gt;options[&#39;useragent&#39;] = &#39;My-Awesome-App&#39;;
 <p>By default, HTTPS requests will use the most secure options available:</p>
 <pre><code class="lang-php">$response = Requests::get(&#39;https://httpbin.org/&#39;);
 </code></pre>
-<p>Requests bundles certificates from the <a href="http://www.mozilla.org/projects/security/certs/">Mozilla certificate authority list</a>,
+<p>Requests bundles certificates from the <a href="https://www.mozilla.org/projects/security/certs/">Mozilla certificate authority list</a>,
 which is the same list of root certificates used in most browsers. If you&#39;re
 accessing sites with certificates from other CAs, or self-signed certificates,
 you can point Requests to a custom CA list in PEM form (the same format

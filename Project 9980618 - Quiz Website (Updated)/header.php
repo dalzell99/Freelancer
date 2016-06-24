@@ -8,17 +8,15 @@
         <link rel="SHORTCUT ICON" href="images/favicon.png" />
         <!-- Le styles -->
 
-        <link href="assets/css/bootstrap.css" rel="stylesheet">
         <link href="assets/css/parallax_slider/style.css" rel="stylesheet">
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/animate.css" rel="stylesheet"/>
         <noscript>
         <link rel="stylesheet" type="text/css" href="css/parallax_slider/nojs.html" />
         </noscript>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
         <link href="assets/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet" id="colors">
-        <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <style>
             .morecontent span {

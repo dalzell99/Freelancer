@@ -31,13 +31,13 @@ associative array as the second parameter:</p>
 </code></pre>
 <h2 id="make-a-post-request">Make a POST Request</h2>
 <p>Making a POST request is very similar to making a GET:</p>
-<pre><code class="lang-php">$response = Requests::post(&#39;http://httpbin.org/post&#39;);
+<pre><code class="lang-php">$response = Requests::post(&#39;https://httpbin.org/post&#39;);
 </code></pre>
 <p>You&#39;ll probably also want to pass in some data. You can pass in either a
-string, an array or an object (Requests uses <a href="http://php.net/http_build_query"><code>http_build_query</code></a>
+string, an array or an object (Requests uses <a href="https://php.net/http_build_query"><code>http_build_query</code></a>
 internally) as the third parameter (after the URL and headers):</p>
 <pre><code class="lang-php">$data = array(&#39;key1&#39; =&gt; &#39;value1&#39;, &#39;key2&#39; =&gt; &#39;value2&#39;);
-$response = Requests::post(&#39;http://httpbin.org/post&#39;, array(), $data);
+$response = Requests::post(&#39;https://httpbin.org/post&#39;, array(), $data);
 var_dump($response-&gt;body);
 </code></pre>
 <p>This gives the output:</p>
@@ -57,7 +57,7 @@ var_dump($response-&gt;body);
     &quot;Host&quot;: &quot;httpbin.org&quot;, 
     &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded; charset=UTF-8&quot;
   }, 
-  &quot;url&quot;: &quot;http://httpbin.org/post&quot;, 
+  &quot;url&quot;: &quot;https://httpbin.org/post&quot;, 
   &quot;args&quot;: {}, 
   &quot;data&quot;: &quot;&quot;
 }&quot;

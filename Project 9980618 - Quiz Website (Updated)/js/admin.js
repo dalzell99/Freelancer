@@ -117,6 +117,11 @@ function checkPassword() {
                 case 'quizzes': quizzes(); break;
                 case 'testimonials': testimonials(); break;
                 case 'promotions': promotions(); break;
+                case 'questions': questions(); break;
+                case 'withdrawal': withdrawal(); break;
+                case 'distribution': distribution(); break;
+                case 'taxation': taxation(); break;
+                default: users(); break;
             }
         } else if (response == 'incorrect') {
             $("#password").val('');

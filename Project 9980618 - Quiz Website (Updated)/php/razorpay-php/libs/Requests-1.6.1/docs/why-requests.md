@@ -66,7 +66,7 @@ Why should I use Requests?
 [hooking system]: hooks.md
 [requests_ssl]: https://github.com/rmccue/Requests/blob/master/library/Requests/SSL.php
 [travis]: https://travis-ci.org/rmccue/Requests
-[wpssl]: http://core.trac.wordpress.org/ticket/25007
+[wpssl]: https://core.trac.wordpress.org/ticket/25007
 
 
 Why shouldn't I use...
@@ -122,7 +122,7 @@ instead of something else, in our opinion.
    will suit you perfectly. On the other hand, if you want a HTTP client without
    all the rest, Requests is the way to go.
 
-[wpstats]: http://wordpress.org/about/stats/
+[wpstats]: https://wordpress.org/about/stats/
 
 
 ### Buzz
