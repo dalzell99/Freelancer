@@ -2,7 +2,11 @@
 #withdrawChequeAddress, #withdrawBankTransferDetails,
 #myAccountQuizzes, #myAccountChangePassword,
 #myAccountProfileImage, #myAccountProfileImageForm,
-#myAccountTaxation, #myAccountQuizMaster {
+#myAccountTaxation, #myAccountQuizMaster,
+#quizMasterPreviouslyScheduledQuizzes,
+#quizMasterUserInfo, #quizMasterQuizMasterInfo,
+#quizMasterRejectedQuestions, #quizMasterQuestionSubmission,
+#quizMasterScheduleQuiz {
   display: none;
 }
 
@@ -43,4 +47,37 @@
 
 .tablePaginationContainer {
   color: black;
+}
+
+table:not(#quizMasterQuizDate) {
+  width: 100%;
+}
+
+#quizMasterQuestionSubmission th,
+#quizMasterQuestionSubmission td,
+#quizMasterQuizStartTimeTable td {
+  border: 1px solid white;
+  text-align: center;
+  padding: 10px;
+}
+
+.selectedTimeSlot {
+  background-color: rgb(156, 255, 176);
+}
+
+.usedTimeSlot {
+  background-color: rgb(255, 193, 193);
+}
+
+#quizMasterQuizDate {
+  width: 50%;
+}
+
+.bootstrap-datetimepicker-widget {
+  height: 420px;
+}
+
+.table-condensed th,
+.table-condensed td {
+  padding: 10px;
 }

@@ -12,6 +12,7 @@ var withdrawals = [];
 var purchaseHistory = [];
 var taxations = [];
 var quizMasterInfo = [];
+var usedTimeSlots = [];
 
 var options = {
     "key": "rzp_test_DMtkjnzZPVHfJI",
@@ -25,12 +26,12 @@ var options = {
             userID: sessionStorage.userID,
             username: sessionStorage.username
         }, function(response2) {
-            if (response2[1] == 'success') {
+            if (response2[1] === 'success') {
                 updatePoints();
                 displayMessage('info', 'Purchase Successful', options.amount / 100 + " Real Quizetos have been added to your account.");
-            } else if (response2[1] == 'sqlfail') {
+            } else if (response2[1] === 'sqlfail') {
                 displayMessage('error', 'Error', "Err or adding points to your account. Please contact the web admin to inform them of this error.");
-            } else if (response2[1] == 'sqlfail') {
+            } else if (response2[1] === 'sqlfail') {
                 displayMessage('error', 'Error', "Err or capturing payment. Please contact the web admin to inform them of this error.");
             } else {
                 displayMessage('error', 'Error', "Err or connecting to database. Please contact the web admin to inform them of this error.");
@@ -57,10 +58,10 @@ var tablePages = {
 window.onload = function() {
     global();
 
-    if (sessionStorage.buypoints == 'true') {
+    if (sessionStorage.buypoints === 'true') {
         showDeposit();
         sessionStorage.buypoints = 'false';
-    } else if (sessionStorage.showQuizMaster == 'true') {
+    } else if (sessionStorage.showQuizMaster === 'true') {
         showQuizMaster();
         sessionStorage.showQuizMaster = 'false';
     }
@@ -74,12 +75,12 @@ window.onload = function() {
                 username: sessionStorage.username,
                 currentPassword: $("#currentPassword").val()
             }, function(response) {
-                if (response == 'incorrect') {
+                if (response === 'incorrect') {
                     $("#currentPassword").css('border', red);
                     $("<span class='message'>The password you entered is incorrect</span>").insertAfter('#currentPassword');
                     setTimeout(function() { $(".message").remove(); }, 2000);
                     currentPasswordCorrect = false;
-                } else if (response == 'correct') {
+                } else if (response === 'correct') {
                     $("#currentPassword").css('border', green);
                     currentPasswordCorrect = true;
                 } else {
@@ -180,9 +181,8 @@ window.onload = function() {
     });
 
     $.post('./php/conversionrate/getconversionrate.php', {
-
     }, function(response) {
-        if (response[0] == 'success') {
+        if (response[0] === 'success') {
             conversionRate = parseInt(response[1]);
             $("#conversionRateText").text(conversionRate);
             $("#myAccountConversionButton").prop('disabled', false);
@@ -191,10 +191,21 @@ window.onload = function() {
         //displayMessage('error', 'Error', "Err or: Something went wrong with capturing payment");
     });
 
+    $.get("./php/quizzes/getstarttimefromalluserscheduledquizzes.php", {
+    }, function(response) {
+        if (response.substr(0, 4) === 'fail') {
+            displayMessage('error', '', 'Error getting the used timeslots. Please use the contact form to inform the web admin of this problem.');
+        } else {
+            usedTimeSlots = JSON.parse(response);
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX GET");
+    });
+
     $.post("./php/users/getmyaccountinfo.php", {
         username: sessionStorage.username
     }, function(response) {
-        if (response[0] == 'success') {
+        if (response[0] === 'success') {
             userInfo = response[1][0][0];
 
             if (response[1][1].length > 0) {
@@ -214,7 +225,7 @@ window.onload = function() {
             }
 
             if (response[1][5].length > 0) {
-                quizMasterInfo = response[1][5];
+                quizMasterInfo = response[1][5][0];
             }
 
             populateProfile();
@@ -282,7 +293,7 @@ function populateProfile() {
                     country: userInfo.country,
                     pancard: userInfo.pancard
                 }, function(response) {
-                    if (response == 'success') {
+                    if (response === 'success') {
                         displayMessage('info', 'Profile Saved', 'Your profile has been saved');
                         showProfileView();
                     } else {
@@ -373,7 +384,7 @@ function removeProfilePicture() {
     $.post("./php/users/removeprofilepicture.php", {
         username: sessionStorage.username
     }, function(response) {
-        if (response == 'success') {
+        if (response === 'success') {
             $("#myAccountProfileImage").prop('src', "./images/users/missing.png");
             displayMessage('info', '', 'Your profile picture has been removed');
         } else {
@@ -440,7 +451,7 @@ function populateWithdrawals() {
         html += "        <td>" + moment(resultObject.time).format("Do MMM YYYY h:mm a") + "</td>";
         html += "        <td>₹" + resultObject.amount + "</td>";
         html += "        <td>" + resultObject.method + "</td>";
-        html += "        <td>" + (resultObject.done == 'y' ? 'Yes' : 'No') + "</td>";
+        html += "        <td>" + (resultObject.done === 'y' ? 'Yes' : 'No') + "</td>";
         html += "    </tr>";
     }
 
@@ -521,7 +532,7 @@ function hideAllContainers() {
 
 function areSamePassword() {
     if ($("#confirmPassword").val() !== '' && $("#newPassword").val() !== '') {
-        if ($("#confirmPassword").val() != $("#newPassword").val()) {
+        if ($("#confirmPassword").val() !== $("#newPassword").val()) {
             $("#confirmPassword").css('border', red);
             $("#newPassword").css('border', red);
             $("<span class='message'>The passwords don't match</span>").insertAfter('#confirmPassword');
@@ -543,7 +554,7 @@ function changePassword() {
             username: sessionStorage.username,
             newPassword: $("#newPassword").val()
         }, function(response) {
-            if (response == 'success') {
+            if (response === 'success') {
                 displayMessage('info', 'Password Changed', 'Your password has been changed successfully.');
             } else {
                 displayMessage('error', 'Error', 'Error: ' + response);
@@ -562,7 +573,7 @@ function changeEmail() {
         email: $("#newEmail").val(),
         emailCode: createEmailCode()
     }, function(response) {
-        if (response == 'success') {
+        if (response === 'success') {
             displayMessage('info', '', 'Your email has been changed and a verification email has been sent to your new email.');
         } else {
             displayMessage('error', 'Error', 'Error: ' + response);
@@ -598,7 +609,7 @@ function showConversion() {
 }
 
 function showWithdraw() {
-    if (sessionStorage.emailVerified == 'y') {
+    if (sessionStorage.emailVerified === 'y') {
         hideAllContainers();
         $("#myAccountWithdraw").show();
     } else {
@@ -609,13 +620,13 @@ function showWithdraw() {
                 userID: sessionStorage.userID,
                 email: result
             }, function(response) {
-                if (response == 'exists') {
+                if (response === 'exists') {
                     $.post('./php/users/sendverificationemail.php', {
                         userID: sessionStorage.userID,
                         email: result,
                         code: createEmailCode()
                     }, function(response) {
-                        if (response == 'success') {
+                        if (response === 'success') {
                             displayMessage('info', 'Verification Email Sent', "A verification email has been sent to the entered email address. Please click it to be allowed to redeem your real quizetos for money.");
                         } else {
                             displayMessage('error', 'Error', "Err or sending verification email. Please try again.");
@@ -623,7 +634,7 @@ function showWithdraw() {
                     }).fail(function (request, textStatus, errorThrown) {
                         //displayMessage('error', 'Error', "Err or: Something went wrong with sending verification email.");
                     });
-                } else if (response == 'notexists') {
+                } else if (response === 'notexists') {
                     displayMessage('warning', 'Incorrect Email', "The email entered doesn't match the email attached to your account.");
                 } else {
                     displayMessage('error', 'Error', "Err or checking email. Please try again.");
@@ -646,10 +657,10 @@ function convertFreePoints() {
         userID: sessionStorage.userID,
         freePoints: $("#numFreeQuizetos").val()
     }, function(response) {
-        if (response.substr(0, 7) == 'success') {
+        if (response.substr(0, 7) === 'success') {
             updatePoints();
             displayMessage('info', 'Conversion Successful', response.substr(7) + " Bonus Quizetos have been converted to Real Quizetos");
-        } else if (response == 'notenoughpoints') {
+        } else if (response === 'notenoughpoints') {
             updatePoints();
             displayMessage('warning', 'Insufficient Qzuietos', "You don't have enough bonus quizetos. Please enter a amount lower than the amount in the header.");
         } else {
@@ -661,10 +672,10 @@ function convertFreePoints() {
 }
 
 function redeemRealPoints(method) {
-    if (method == 'cheque') {
+    if (method === 'cheque') {
         $("#withdrawChequeAddress").slideDown();
         $("#withdrawBankTransferDetails").slideUp();
-    } else if (method == 'banktransfer') {
+    } else if (method === 'banktransfer') {
         $("#withdrawBankTransferDetails").slideDown();
         $("#withdrawChequeAddress").slideUp();
     }
@@ -693,10 +704,10 @@ function submitCheque() {
             pancard: pancard,
             method: 'Cheque'
         }, function(response) {
-            if (response == 'success') {
+            if (response === 'success') {
                 displayMessage('info', 'Redeem Successful', "Your redeem request for the amount " + amount + " has been received and will be processed in 10 working days");
                 updatePoints();
-            } else if (response == 'notenoughpoints') {
+            } else if (response === 'notenoughpoints') {
                 displayMessage('info', 'Insufficient Quizetos', "You tried redeeming more points than you have. Please try redeeming a smaller amount.");
             } else {
                 displayMessage('error', 'Error', "Err or sending redeem request. Please try again later.");
@@ -730,10 +741,10 @@ function submitBankTransfer() {
             pancard: pancard,
             method: 'Bank Transfer'
         }, function(response) {
-            if (response == 'success') {
+            if (response === 'success') {
                 displayMessage('info', 'Redeem Successful', "Your redeem request for the amount " + amount + " has been received and will be processed in 10 working days");
                 updatePoints();
-            } else if (response == 'notenoughpoints') {
+            } else if (response === 'notenoughpoints') {
                 displayMessage('info', 'Insufficient Quizetos', "You tried redeeming more points than you have. Please try redeeming a smaller amount.");
             } else {
                 displayMessage('error', 'Error', "Err or sending redeem request. Please try again later.");
@@ -780,7 +791,7 @@ function areInputsValidBankTransfer() {
         return [false, "Please enter an amount of Quizetos you want to redeem."];
     }
 
-    if($("#withdrawBankTransferCode").val().length != 11) {
+    if($("#withdrawBankTransferCode").val().length !== 11) {
         return [false, "The IFSC code you entered is invalid."];
     }
 
@@ -800,7 +811,7 @@ function checkMobileCheque() {
         userID: sessionStorage.userID,
         mobile: $("#withdrawChequePhone").intlTelInput("getNumber")
     }, function(response) {
-        if (response == 'correct') {
+        if (response === 'correct') {
             $("#withdrawChequePhone").css('border', green).attr('title', 'This number matches the number associated with your account.');
             isMobileNumberCorrect = true;
         } else {
@@ -815,7 +826,7 @@ function checkMobileBankTransfer() {
         userID: sessionStorage.userID,
         mobile: $("#withdrawBankTransferPhone").intlTelInput("getNumber")
     }, function(response) {
-        if (response == 'correct') {
+        if (response === 'correct') {
             $("#withdrawBankTransferPhone").css('border', green).attr('title', 'This number matches the number associated with your account.');
             isMobileNumberCorrect = true;
         } else {
@@ -828,7 +839,7 @@ function checkMobileBankTransfer() {
 function checkPancardCheque() {
     // Check if the entered pancard is a valid pancard
     if (isPancardValid($("#withdrawChequePancard").val())) {
-        if (userInfo.pancard !== '' && $("#withdrawChequePancard").val() != userInfo.pancard) {
+        if (userInfo.pancard !== '' && $("#withdrawChequePancard").val() !== userInfo.pancard) {
             // If user has previously entered a pancard and the pancard entered is different from the previously entered pancard
             $("#withdrawChequePancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
             isPancardCorrect = false;
@@ -846,7 +857,7 @@ function checkPancardCheque() {
 function checkPancardBankTransfer() {
     // Check if the entered pancard is a valid pancard
     if (isPancardValid($("#withdrawBankTransferPancard").val())) {
-        if (userInfo.pancard !== '' && $("#withdrawBankTransferPancard").val() != userInfo.pancard) {
+        if (userInfo.pancard !== '' && $("#withdrawBankTransferPancard").val() !== userInfo.pancard) {
             // If user has previously entered a pancard and the pancard entered is different from the previously entered pancard
             $("#withdrawBankTransferPancard").css('border', red).attr('title', 'This pancard doesn\'t matches the number associated with your account.');
             isPancardCorrect = false;
@@ -863,7 +874,7 @@ function checkPancardBankTransfer() {
 
 function isPancardValid(pancard) {
     // Check if pancard is 10 charaters long and the format is AAAAANNNNA where A is letter and N is number. If the user hasn't entered a pancard don't raise an error by setting the pancard as invalid
-    if (pancard.length === 0 || (pancard.length == 10 && pancard.substr(0, 5).search(/[0-9]/) == -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[0-9]/) == -1)) {
+    if (pancard.length === 0 || (pancard.length === 10 && pancard.substr(0, 5).search(/[0-9]/) === -1 && !isNaN(pancard.substr(5, 4)) && pancard.substr(9).search(/[0-9]/) === -1)) {
         return true;
     } else {
         return false;
@@ -890,6 +901,8 @@ function changeTaxationPage(page) {
     populateTaxations();
 }
 
+//---------------------------- QUIZ MASTER -------------------------------------
+
 function showQuizMaster() {
     hideAllContainers();
     $("#myAccountQuizMaster").show();
@@ -898,58 +911,283 @@ function showQuizMaster() {
 function populateQuizMaster() {
     var html = '';
     // Check if user activated as quiz master
-    var qm = sessionStorage.quizMaster == 'y' ? true : false;
+    var qm = sessionStorage.quizMaster === 'y' ? true : false;
     var totalQuizzesSchedulable, numQuizzesAlreadyScheduled, quizBalance;
 
-    // TODO: Get user info in load function
+    // Create yes and no buttons so user can choose which account to show
+    html += "<span>User registered as quizmaster</span>";
+    html += "<button onclick='showQuizMasterInfo()'>Yes</button>";
+    html += "<button onclick='showUserInfo()'>No</button>";
 
-    html += "<table>";
-
-    if (qm) {
-        // number of quizzes purchased
-        totalQuizzesSchedulable = quizMasterInfo.numQuizzesPurchased;
-        // number of quizzes scheduled
-        numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduled;
-        // remaining balance
-        quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
-
-        html += "<tr>";
-        html += "    <th>Number of quiz purchased</th>";
-        html += "    <th>Number of quiz already scheduled</th>";
-        html += "    <th>Number fo quiz left to schedule</th>";
-        html += "<tr>";
-        html += "<tr>";
-        html += "    <td>" + totalQuizzesSchedulable + "</td>";
-        html += "    <td>" + numQuizzesAlreadyScheduled + "</td>";
-        html += "    <td>" + quizBalance + "</td>";
-        html += "<tr>";
-    } else {
-        // number of quizzes that can be scheduled
-        totalQuizzesSchedulable = numQuizzesScheduled + Math.floor(sessionStorage.numQuizzesTakenRemaining / sessionStorage.quizScheduleTarget);
-        // number of quizzes scheduled
-        numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduled;
-        // remaining balance
-        quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
-
-        html += "<tr>";
-        html += "    <th>Number of Paid Quizzes Played</th>";
-        html += "    <th>Number of quiz which can be scheduled</th>";
-        html += "    <th>Number of quiz already scheduled</th>";
-        html += "    <th>Number of quiz left to schedule</th>";
-        html += "    <th>Number of questions approved</th>";
-        html += "    <th>Number of questions rejected</th>";
-        html += "<tr>";
-        html += "<tr>";
-        html += "    <td>" + sessionStorage.numQuizzesTaken + "</td>";
-        html += "    <td>" + totalQuizzesSchedulable + "</td>";
-        html += "    <td>" + numQuizzesAlreadyScheduled + "</td>";
-        html += "    <td>" + quizBalance + "</td>";
-        html += "    <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
-        html += "    <td>" + JSON.parse(quizMasterInfo.rejectedQuestions.length) + "</td>";
-        html += "<tr>";
-    }
-
+    // Create Quiz master info
+    // number of quizzes purchased
+    totalQuizzesSchedulable = quizMasterInfo.numQuizzesPurchased;
+    // number of quizzes scheduled
+    numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduled;
+    // remaining balance
+    quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
+    html += "<table id='quizMasterQuizMasterInfo'>";
+    html += "    <tr>";
+    html += "        <th>Number of quiz purchased</th>";
+    html += "        <th>Number of quiz already scheduled</th>";
+    html += "        <th>Number of quiz left to schedule</th>";
+    html += "    <tr>";
+    html += "    <tr>";
+    html += "        <td>" + totalQuizzesSchedulable + "</td>";
+    html += "        <td onclick='showUsersScheduledQuizzes()'>" + numQuizzesAlreadyScheduled + "</td>";
+    html += "        <td>" + quizBalance + "</td>";
+    html += "    <tr>";
     html += "</table>";
 
+    // Create user info
+    // number of quizzes that can be scheduled
+    totalQuizzesSchedulable = parseInt(quizMasterInfo.numQuizzesScheduled) + Math.floor(sessionStorage.numQuizzesTakenRemaining / quizMasterInfo.quizScheduleTarget);
+    // number of quizzes scheduled
+    numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduled;
+    // remaining balance
+    quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
+
+    html += "<table id='quizMasterUserInfo'>";
+    html += "    <tr>";
+    html += "        <th>Number of Paid Quizzes Played</th>";
+    html += "        <th>Number of quiz which can be scheduled</th>";
+    html += "        <th>Number of quiz already scheduled</th>";
+    html += "        <th>Number of quiz left to schedule</th>";
+    html += "        <th>Number of questions approved</th>";
+    html += "        <th>Number of questions rejected</th>";
+    html += "    <tr>";
+    html += "    <tr>";
+    html += "        <td>" + quizMasterInfo.numQuizzesTaken + "</td>";
+    html += "        <td>" + totalQuizzesSchedulable + "</td>";
+    html += "        <td onclick='showUsersScheduledQuizzes()'>" + numQuizzesAlreadyScheduled + "</td>";
+    html += "        <td>" + quizBalance + "</td>";
+    html += "        <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
+    html += "        <td>" + JSON.parse(quizMasterInfo.rejectedQuestions).length + "</td>";
+    html += "    <tr>";
+    html += "</table>";
+
+    // Create table showing inof about users previously scheduled quizzes
+    html += "<table id='quizMasterPreviouslyScheduledQuizzes'>";
+    html += "    <tr>";
+    html += "        <th>Quiz Name</th>";
+    html += "        <th>Date</th>";
+    html += "        <th>Start Time</th>";
+    html += "        <th>Total registered users</th>";
+    html += "        <th>Winner</th>";
+    html += "        <th>Earnings</th>";
+    html += "    <tr>";
+
+    quizMasterInfo.previouslyScheduledQuizzes.forEach(function (quiz) {
+        var date = moment(quiz.startTime).format('ddd Do MMM YY');
+        var startTime = moment(quiz.startTime).format('H:mm a');
+        var numRegisteredUsers = JSON.parse(quiz.userRegistered).length;
+        var earnings = (numRegisteredUsers * quiz.pointsCost) * (quiz.creatorEarnings / 100);
+        html += "<tr>";
+        html += "    <td>" + quiz.category + "</td>";
+        html += "    <td>" + date + "</td>";
+        html += "    <td>" + startTime + "</td>";
+        html += "    <td>" + numRegisteredUsers + "</td>";
+        html += "    <td>" + quiz.winner + "</td>";
+        html += "    <td>" + earnings + "</td>";
+        html += "</tr>";
+    });
+    html += "</table>";
+
+    // Create table showing info about users rejected questions
+    html += "<table id='quizMasterRejectedQuestions'>";
+    html += "    <tr>";
+    html += "        <th>Question</th>";
+    html += "        <th>Answers</th>";
+    html += "        <th>Correct Answer</th>";
+    html += "        <th>Reason</th>";
+    html += "    <tr>";
+
+    JSON.parse(quizMasterInfo.rejectedQuestions).forEach(function (question) {
+        html += "<tr>";
+        html += "    <td>" + 1 + "</td>";
+        html += "    <td>" + 1 + "</td>";
+        html += "    <td>" + 1 + "</td>";
+        html += "    <td>" + 1 + "</td>";
+        html += "</tr>";
+    });
+    html += "</table>";
+
+    html += "<button onclick='showUploadQuestion()'>Upload Question</button>";
+    html += "<button onclick='showScheduleQuiz()'>Schedule Quiz</button>";
+
+    // Add quiz submission form
+    html += "<table id='quizMasterQuestionSubmission'>";
+    html += "    <tr>";
+    html += "        <th>Question</th>";
+    html += "        <th>Answer 1</th>";
+    html += "        <th>Answer 2</th>";
+    html += "        <th>Answer 3</th>";
+    html += "        <th>Answer 4</th>";
+    html += "        <th>Correct Answer</th>";
+    html += "    </tr>";
+    for (var i = 0; i < 10; i += 1) {
+        html += "<tr id='question" + i + "'>";
+        html += "    <td contenteditable='true'></td>";
+        html += "    <td contenteditable='true'></td>";
+        html += "    <td contenteditable='true'></td>";
+        html += "    <td contenteditable='true'></td>";
+        html += "    <td contenteditable='true'></td>";
+        html += "    <td>";
+        html += "        <select>";
+        html += "            <option value=''></option>";
+        html += "            <option value='1'>1</option>";
+        html += "            <option value='2'>2</option>";
+        html += "            <option value='3'>3</option>";
+        html += "            <option value='4'>4</option>";
+        html += "        </select>";
+        html += "    </td>";
+        html += "</tr>";
+    }
+    html += "    <tr>";
+    html += "        <td colspan='6'><button onclick='submitQuestions()'>Submit Questions</button></td>";
+    html += "    </tr>";
+    html += "</table>";
+
+    // Add quiz scheduling stuff
+    html += "<div id='quizMasterScheduleQuiz'>";
+    html += "    <div>";
+    html += "        <label for='#quizMasterQuizName'>Name:</label>";
+    html += "        <input id='quizMasterQuizName' type='text'>";
+    html += "    </div>";
+    html += "    <div>";
+    html += "        <label for='#quizMasterQuizMinUsers'>Minimum number of user needed:</label>";
+    html += "        <input id='quizMasterQuizMinUsers' type='number'>";
+    html += "    </div>";
+    html += "    <div>";
+    html += "        <label for='#quizMasterQuizFee'>Registration fee:</label>";
+    html += "        <input id='quizMasterQuizFee' type='number' min='50'>";
+    html += "    </div>";
+    html += "    <div>";
+    html += "        <label for='#quizMasterQuizDate'>Date:</label>";
+    html += "        <div id='quizMasterQuizDate'></div>";
+    html += "    </div>";
+    html += "    <div>";
+    html += "        <label>Start time:</label><br />";
+    html += "        <table id='quizMasterQuizStartTimeTable'>";
+    for (var k = 0; k < 24; k += 1) {
+        html += "        <tr>";
+        for (var j = 0; j < 6; j += 1) {
+            html += "        <td class='ts" + pad(k, 2) + pad(j * 10, 2) +"' onclick='selectTimeSlot(this)'>" + (k > 12 ? k - 12 : (k === 0 ? 12 : k)) + ":" + pad(j * 10, 2) + (k > 12 ? 'pm' : 'am') + "</td>";
+        }
+        html += "        </tr>";
+    }
+    html += "        </table>";
+    html += "    </div>";
+    html += "    <div>";
+    html += "        <button onclick=''>Schedule Quiz</label>";
+    html += "    </div>";
+    html += "</div>";
+
     $("#myAccountQuizMaster").empty().append(html);
+
+    // Init the date picker
+    $("#quizMasterQuizDate").datetimepicker({
+        format: "dd/MM/YYYY",
+        inline: true
+    });
+
+    $("#quizMasterQuizDate").on('dp.change', function () {
+        // If the date is changed, disable the timeslots for the new date
+        disableTimeSlots();
+    });
+
+    disableTimeSlots();
+}
+
+function showQuizMasterInfo() {
+    $("#quizMasterQuizMasterInfo").show();
+    $("#quizMasterUserInfo").hide();
+    $("#quizMasterPreviouslyScheduledQuizzes").hide();
+}
+
+function showUserInfo() {
+    $("#quizMasterQuizMasterInfo").hide();
+    $("#quizMasterUserInfo").show();
+    $("#quizMasterPreviouslyScheduledQuizzes").hide();
+}
+
+function showUsersScheduledQuizzes() {
+    $("#quizMasterPreviouslyScheduledQuizzes").show();
+}
+
+function showUploadQuestion() {
+    $("#quizMasterQuestionSubmission").show();
+    $("#quizMasterScheduleQuiz").hide();
+}
+
+function showScheduleQuiz() {
+    $("#quizMasterQuestionSubmission").hide();
+    $("#quizMasterScheduleQuiz").show();
+}
+
+function submitQuestions() {
+    var questions = [];
+
+    // Retrieve info from table and add to questions array
+    for (var i = 0; i < 10; i += 1) {
+        // Check if all info for question has been given
+        var question = $("#question" + i + " td:eq(0)").text();
+        var answer1 = $("#question" + i + " td:eq(1)").text();
+        var answer2 = $("#question" + i + " td:eq(2)").text();
+        var answer3 = $("#question" + i + " td:eq(3)").text();
+        var answer4 = $("#question" + i + " td:eq(4)").text();
+        var correctAnswer = $("#question" + i + " td:eq(5) select").val();
+        var complete;
+
+        if (question !== '' && answer1 !== '' && answer2 !== '' && answer3 !== '' && answer4 !== '' && correctAnswer !== '') {
+            complete = true;
+        } else {
+            complete = false;
+        }
+
+        if (complete) {
+            // Add question to array
+            questions.push([question, [answer1, answer2, answer3, answer4], correctAnswer]);
+
+            // Clear this question from table
+            $("#question" + i + " td:eq(0)").text('');
+            $("#question" + i + " td:eq(1)").text('');
+            $("#question" + i + " td:eq(2)").text('');
+            $("#question" + i + " td:eq(3)").text('');
+            $("#question" + i + " td:eq(4)").text('');
+            $("#question" + i + " td:eq(5) select").val('');
+        } else {
+            // If user entered something in this row but left something out leave it there
+        }
+    }
+
+    $.post("./php/pendingquestions/addquestions.php", {
+        username: sessionStorage.username,
+        questions: JSON.stringify(questions)
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('success', '', 'Your question are submitted successfully. Once you have 10 approved questions, you can schedule a quiz.');
+        } else {
+            displayMessage('error', '', 'Error uploading questions for approval. Please use the contact form to inform the web admin of this problem.');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+function selectTimeSlot(elem) {
+    $(".selectedTimeSlot").removeClass('selectedTimeSlot');
+    $(elem).addClass('selectedTimeSlot');
+}
+
+function disableTimeSlots() {
+    $(".selectedTimeSlot").removeClass('selectedTimeSlot');
+    $(".usedTimeSlot").removeClass('usedTimeSlot').on('click', selectTimeSlot(this)).prop('disabled', false);//-------------------- TEST ---------------------
+
+    var date = $('#quizMasterQuizDate').data("DateTimePicker").date().utc().format("YYYY-MM-DD");
+    usedTimeSlots.forEach(function (time) {
+        if (time.startTime.substr(0, 10) === date) {
+            $(".ts" + time.startTime.substr(11, 2) + time.startTime.substr(14, 2)).addClass('usedTimeSlot').off('click').prop('disabled', true);//-------------------- TEST ---------------------
+        }
+    });
 }

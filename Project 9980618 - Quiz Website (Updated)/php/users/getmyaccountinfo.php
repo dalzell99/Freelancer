@@ -59,10 +59,24 @@ if ($resultUsers = mysqli_query($con, $sql1)) {
                     }
                     array_push($response, $quizTaxation);
 
-                    $sql6 = "SELECT numQuizzesTaken, numQuizzesScheduled, numQuizzesPurchased, approvedQuestionCount, rejectedQuestions FROM User WHERE username = '$username'";
+                    $sql6 = "SELECT numQuizzesTaken, numQuizzesScheduled, numQuizzesPurchased, approvedQuestionCount, rejectedQuestions FROM Users WHERE username = '$username'";
                     if ($resultQuizMaster = mysqli_query($con, $sql6)) {
                         $quizQuizMaster = [];
                         while ($rowQuizMaster = mysqli_fetch_assoc($resultQuizMaster)) {
+                            $resultScheduleTarget = mysqli_query($con, "SELECT quizScheduleTarget FROM QuizMaster WHERE id=1");
+                            $rowQuizMaster['quizScheduleTarget'] = mysqli_fetch_assoc($resultScheduleTarget)['quizScheduleTarget'];
+
+                            $quizzes = [];
+                            $resultScheduledQuizzes = mysqli_query($con, "SELECT category, startTime, userRegistered, winningUserID, creatorEarnings, pointsCost FROM Quizzes WHERE creatorUsername = '$username'");
+                            while ($rowScheduledQuizzes = mysqli_fetch_assoc($resultScheduledQuizzes)) {
+                                $resultQuizWinner = mysqli_query($con, "SELECT username FROM Users WHERE userID = " . $rowScheduledQuizzes['winningUserID']);
+                                $rowScheduledQuizzes['winner'] = mysqli_fetch_assoc($resultQuizWinner)['username'];
+
+                                $quizzes[] = $rowScheduledQuizzes;
+                            }
+
+                            $rowQuizMaster['previouslyScheduledQuizzes'] = $quizzes;
+
                             $quizQuizMaster[] = $rowQuizMaster;
                         }
                         array_push($response, $quizQuizMaster);

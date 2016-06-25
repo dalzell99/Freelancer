@@ -31,7 +31,7 @@ $username = $_POST['username'];
 $payment = $api->payment->fetch($id)->capture(array('amount'=>$paymentAmount));
 
 if ($payment['status'] == 'captured') {
-    $sql = "UPDATE Users SET purchasedQuizzesRemaining = purchasedQuizzesRemaining + $numQuizzes WHERE userID = '$userID'";
+    $sql = "UPDATE Users SET purchasedQuizzesRemaining = purchasedQuizzesRemaining + $numQuizzes, numQuizzesPurchased = numQuizzesPurchased + $numQuizzes WHERE userID = '$userID'";
     $sql2 = "SELECT email, username FROM Users WHERE userID = '$userID'";
     if (mysqli_query($con, $sql) && ($result = mysqli_query($con, $sql2))) {
         $row = mysqli_fetch_assoc($result);

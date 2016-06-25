@@ -13,7 +13,7 @@ $password = md5(md5($_POST['password'] . strtolower($username)) . $salt);
 $email = mysqli_real_escape_string($con, $_POST['email']);
 $mobile = mysqli_real_escape_string($con, $_POST['mobile']);
 $emailCode = $_POST['emailCode'];
-$sql = "INSERT INTO Users (userID, username, password, paidPointsBalance, freeConvertablePointsBalance,  freeUnconvertablePointsBalance, email, emailConfirmed, securityQuestions, notificationsArray, loggedInToday, mobile, submittedQuestionID, purchasedQuizzesRemaining, approvedQuestionCount, rejectedQuestions, numQuizzesTakenRemaining, quizMaster) VALUES (DEFAULT, '$username', '$password', 0, 0, 20, '$email', '$emailCode', '[]', '[]', 'y', '$mobile', '[]', 0, 0, '[]', 0, 'n')";
+$sql = "INSERT INTO Users (userID, username, password, paidPointsBalance, freeConvertablePointsBalance,  freeUnconvertablePointsBalance, email, emailConfirmed, securityQuestions, notificationsArray, loggedInToday, mobile, submittedQuestionID, purchasedQuizzesRemaining, approvedQuestionCount, rejectedQuestions, numQuizzesTakenRemaining, quizMaster, numQuizzesPurchased, numQuizzesScheduled, numQuizzesTaken) VALUES (DEFAULT, '$username', '$password', 0, 0, 20, '$email', '$emailCode', '[]', '[]', 'y', '$mobile', '[]', 0, 0, '[]', 0, 'n', 0, 0, 0)";
 
 $to = array($email);
 $from = $databasephpNoReplyEmail;

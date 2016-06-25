@@ -50,6 +50,10 @@
         <link rel="stylesheet" type="text/css" href="css/external/toastr.min.css" />
         <script type="text/javascript" src="js/external/toastr.min.js"></script>
 
+        <!-- DateTimePicker -->
+        <link href='css/external/datetimepicker.css' rel='stylesheet'>
+        <script src="js/external/datetimepicker.js" type="application/javascript"></script>
+
         <!-- User Script -->
     <?php echo '<link rel="stylesheet" type="text/css" href="css/global.css?' . filemtime('css/global.css') . '" />'; ?>
 
