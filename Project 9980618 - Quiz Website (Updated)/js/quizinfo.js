@@ -5,6 +5,7 @@ var registrationQuizTimer;
 var updatePrizesTimer;
 var endQuizTimer;
 var isLeaderboardExpanded = false;
+var editable;
 
 window.onload = function () {
     global();
@@ -12,7 +13,7 @@ window.onload = function () {
     $('li.active').removeClass('active');
     $("#quizzesMenuItem").addClass('active');
     //('#quizQnsDiv').hide();
-    var quizID = getUrlVars()['id'];
+    var quizID = getUrlVars().id;
 
     $.post('./php/quizzes/getquizinfo.php', {
         id: quizID
@@ -20,12 +21,45 @@ window.onload = function () {
             function (response) {
                 if (response[0] == 'success') {
                     quiz = response[1];
+
+                    // If the editable GET variable is true, the quiz doesn't start in the next 4 hours (1000 milliseconds * 60 seconds * 60 minutes * 4 hours) and the current user was the one to schedule the quiz then set editable to true. This makes all info editable.
+                    if (getUrlVars().editable == 'true' && moment(quiz.startTime).diff(moment()) > 1000 * 60 * 60 * 4 && sessionStorage.username == quiz.creatorUsername) {
+                        editable = true;
+                    } else {
+                        editable = false;
+                    }
+
                     populateTitle();
                     populateInfo();
                     populatePrizes();
                     populateLeaders();
                     populateRules();
                     $('#quizQnsDiv').hide();
+
+                    // Add focus and blur events to contenteditable fields so that they autosave
+                    $("[contenteditable=true]").on({
+                        blur: function () {
+                            var column = $(this)[0].className;
+
+                            // ---------------Upload value if it has changed-----------------
+                            $.post("./php/.php", {
+
+                            }, function(response) {
+                                if (response == 'success') {
+                                    displayMessage('info', '');
+                                } else {
+                                    displayMessage('error', '');
+                                }
+                            }).fail(function (request, textStatus, errorThrown) {
+                                displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                            });
+                        },
+
+                        focus: function () {
+                            sessionStorage.contenteditable = $(this).text();
+                        }
+                    });
+
                     //displayMessage('info', '', 'sdfdsf');
                     if (moment(quiz.endTime).diff(moment()) < 0) {
                         $('#quizQnsDiv').show();
@@ -46,14 +80,13 @@ window.onload = function () {
 
                     // Don't allow people to start quiz after it has ended
                     endQuizTimer = setTimeout(populateTitle, moment(quiz.endTime).diff(moment()));
-
                 } else {
-                    displayMessage('error', 'Error', "Err or: " + response[1])
+                    displayMessage('error', 'Error', "Err or: " + response[1]);
                 }
             }, 'json').fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
     });
-}
+};
 
 // Show the start button so user can start quiz
 function showQuizStart() {
@@ -93,7 +126,7 @@ function updatePrizes() {
 }
 
 function populateTitle() {
-    if (quiz['quizID'] == 1 || quiz['quizID'] == 2) { // These are the demo quizzes and users don't need to register for them
+    if (quiz.quizID == 1 || quiz.quizID == 2) { // These are the demo quizzes and users don't need to register for them
         var html = '';
         html += '<div class="row">';
         html += '    <div id="quizNameTitle" class="col-xs-6 col-xs-offset-3">' + quiz.category + '</div>';
@@ -110,9 +143,18 @@ function populateTitle() {
             var html = '';
             var secondsToStartTime = Math.floor((moment(quiz.startTime).diff(moment())) / 1000);
             var secondsToEndTime = Math.floor((moment(quiz.endTime).diff(moment())) / 1000);
+            // If editable is true, make the name part of the quiz name editable. User scheduled quiz names have ' by username' added to the quiz name.
+            var quizName;
+            if (editable) {
+                var n = quiz.category;
+                var index = n.indexOf(' by');
+                quizName = "<span class='category' contenteditable='true'>" + n.substr(0, index) + "</span>" + n.substr(index);
+            } else {
+                quizName = quiz.category;
+            }
 
             html += '<div class="row">';
-            html += '    <div id="quizNameTitle" class="col-xs-6 col-xs-offset-3">' + quiz.category + '</div>';
+            html += '    <div id="quizNameTitle" class="col-xs-6 col-xs-offset-3">' + quizName + '</div>';
 
             if (response == 'cancelled') {
                 html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ CANCELLED</div>';
@@ -199,7 +241,7 @@ function populateInfo() {
     html += '    </tr>';
     html += '    <tr>';
     html += '        <td>Registration Fee</td>';
-    html += '        <td>' + quiz.pointsCost + '</td>';
+    html += '        <td' + (editable ? " class='pointsCost' contenteditable='true'" : "") + '>' + quiz.pointsCost + '</td>';
     html += '    </tr>';
     html += '</table>';
     //  html += '</div>';
@@ -290,7 +332,7 @@ function populateLeaders() {
                         //  html += '<div class="panel-heading clickable"><h2 class="panel-title"> Quiz Leaders</h2><span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span></div>';
                         //   html += '<div class="panel-body line">';
                         html += '<table id="quizLeadersTable1" class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top"  style="background-color: #fff !important;">';
-                        for (var i = 0; results != null && i < 15 && i < results.length; i += 1) {
+                        for (var i = 0; results !== null && i < 15 && i < results.length; i += 1) {
                             html += '    <tr>';
                             html += '        <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
                             html += '        <td><img class="leaderboardUserImage" src="./images/users/' + results[i].imageURL + '" /></td>';
@@ -324,8 +366,8 @@ function populateLeaders() {
 }
 
 function populateQuestions() {
+    var html = '';
     if (moment(quiz.endTime).diff(moment()) < 0) {
-        var html = '';
         var questions = JSON.parse(quiz.questions);
         //html += '<div class="quizToggle" onclick="toggleQuizQuestions()">Quiz Questions</div>';
    //     html += '<table id="quizQuestionsTable" class="table">';
@@ -340,7 +382,6 @@ function populateQuestions() {
 
         $("#quizQuestions").empty().append(html);
     } else {
-        var html = '';
       //  html += '<div class="quizToggle" onclick="toggleQuizQuestions()">Quiz Questions</div>';
 		 html += '<table id="quizQuestionsTable1" class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top">';
         html += '    <tr>';
@@ -373,11 +414,12 @@ function populateQuestionsold() {
 }
 
 function registerQuiz(id, type) {
+    var balance;
     if (type == 'free') {
         if (confirm("Do you want to take the quizetos from your bonus quizetos balance?")) {
-            var balance = 'convertable';
+            balance = 'convertable';
         } else {
-            var balance = 'unconvertable';
+            balance = 'unconvertable';
         }
     }
     $.post('./php/quizzes/registerquiz.php', {

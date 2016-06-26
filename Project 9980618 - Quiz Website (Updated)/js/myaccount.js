@@ -1072,14 +1072,14 @@ function populateQuizMaster() {
     for (var k = 0; k < 24; k += 1) {
         html += "        <tr>";
         for (var j = 0; j < 6; j += 1) {
-            html += "        <td class='ts" + pad(k, 2) + pad(j * 10, 2) +"' onclick='selectTimeSlot(this)'>" + (k > 12 ? k - 12 : (k === 0 ? 12 : k)) + ":" + pad(j * 10, 2) + (k > 12 ? 'pm' : 'am') + "</td>";
+            html += "        <td class='ts" + pad(k, 2) + pad(j * 10, 2) +"' onclick='selectTimeSlot(this)'>" + (k > 12 ? k - 12 : (k === 0 ? 12 : k)) + ":" + pad(j * 10, 2) + (k > 11 ? 'pm' : 'am') + "</td>";
         }
         html += "        </tr>";
     }
     html += "        </table>";
     html += "    </div>";
     html += "    <div>";
-    html += "        <button onclick=''>Schedule Quiz</label>";
+    html += "        <button onclick='scheduleQuiz()'>Schedule Quiz</label>";
     html += "    </div>";
     html += "</div>";
 
@@ -1103,12 +1103,16 @@ function showQuizMasterInfo() {
     $("#quizMasterQuizMasterInfo").show();
     $("#quizMasterUserInfo").hide();
     $("#quizMasterPreviouslyScheduledQuizzes").hide();
+
+    sessionStorage.quizMaster = 'true';
 }
 
 function showUserInfo() {
     $("#quizMasterQuizMasterInfo").hide();
     $("#quizMasterUserInfo").show();
     $("#quizMasterPreviouslyScheduledQuizzes").hide();
+
+    sessionStorage.quizMaster = 'false';
 }
 
 function showUsersScheduledQuizzes() {
@@ -1182,12 +1186,57 @@ function selectTimeSlot(elem) {
 
 function disableTimeSlots() {
     $(".selectedTimeSlot").removeClass('selectedTimeSlot');
-    $(".usedTimeSlot").removeClass('usedTimeSlot').on('click', selectTimeSlot(this)).prop('disabled', false);//-------------------- TEST ---------------------
+    $(".usedTimeSlot").removeClass('usedTimeSlot').on('onclick', 'selectTimeSlot(this)');
 
-    var date = $('#quizMasterQuizDate').data("DateTimePicker").date().utc().format("YYYY-MM-DD");
+    var date = $('#quizMasterQuizDate').data("DateTimePicker").date().format("YYYY-MM-DD");
     usedTimeSlots.forEach(function (time) {
-        if (time.startTime.substr(0, 10) === date) {
-            $(".ts" + time.startTime.substr(11, 2) + time.startTime.substr(14, 2)).addClass('usedTimeSlot').off('click').prop('disabled', true);//-------------------- TEST ---------------------
+        // Get quiz start time as local time
+        var usedTime = moment(time.startTime).local();
+        // Check if the quiz is scheduled to start on the date selected by user
+        if (usedTime.format("YYYY-MM-DD") === date) {
+            // If it is then add usedTimeSlot class to the correct time slot for the users timezone and remove the click event for that timeslot
+            $(".ts" + usedTime.format("HH") + usedTime.format("mm")).addClass('usedTimeSlot').prop('onclick', '');
         }
     });
+}
+
+function scheduleQuiz() {
+    var valid = areScheduleQuizInputsValid();
+    if (valid[0]) {
+        // Get date as moment
+        var date = $('#quizMasterQuizDate').data("DateTimePicker").date();
+        // Get the selected timeslots class which contains the time as HHMM
+        var tc = $('.selectedTimeSlot')[0].className;
+        // Set the hours and minutes of the moment retrieved above
+        date.set({
+            'hour': parseInt(tc.substr(2, 2)),
+            'minute': parseInt(tc.substr(4, 2))
+        });
+        // Get the UTC ISO8601 string of the moment
+        var quizStartTime = date.utc().toISOString();
+        $.post("./php/quizzes/scheduleuserquiz.php", {
+            username: sessionStorage.username,
+            name: $("#quizMasterQuizName").val(),
+            minUsers: $("#quizMasterQuizMinUsers").val(),
+            fee: $("#quizMasterQuizFee").val(),
+            startTime: quizStartTime,
+            quizMaster: sessionStorage.quizMaster
+        }, function(response) {
+            if (response.substr(0, 7) == 'success') {
+                displayMessage('success', '', 'Your quiz has been scheduled successfully');
+                location.href = 'quizinfo.php?editable=true&id=' + response.substr(7);
+            } else {
+                displayMessage('error', '', 'Error scheduling the quiz. Please use the contact form to inform the web admin of this problem.');
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+        });
+    } else {
+        displayMessage('warning', '', valid[1]);
+    }
+}
+
+function areScheduleQuizInputsValid() {
+
+    return [true, ''];
 }

@@ -7,8 +7,8 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-if ($result = mysqli_query($con, "SELECT startTime FROM Quizzes WHERE creatorUsername != 'admin'")) {
-    
+if ($result = mysqli_query($con, "SELECT startTime FROM Quizzes WHERE creatorUsername <> 'admin'")) {
+
     while ($row = mysqli_fetch_assoc($result)) {
         $response[] = $row;
     }

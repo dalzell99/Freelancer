@@ -10,7 +10,7 @@ if (mysqli_connect_errno()) {
 $numQuestions = $_POST['numQuestions'];
 $category = $_POST['category'];
 
-$sql = "SELECT * FROM Questions WHERE category = '$category' OR category = 'Miscellaneous'";
+$sql = "SELECT * FROM Questions WHERE (category = '$category' OR category = 'Miscellaneous') AND creator = 'admin'";
 if ($result = mysqli_query($con, $sql)) {
     $response = [];
     while ($row = mysqli_fetch_assoc($result)) {

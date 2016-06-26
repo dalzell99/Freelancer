@@ -55,15 +55,8 @@
         <script src="js/external/datetimepicker.js" type="application/javascript"></script>
 
         <!-- User Script -->
-    <?php echo '<link rel="stylesheet" type="text/css" href="css/global.css?' . filemtime('css/global.css') . '" />'; ?>
-
+        <?php echo '<link rel="stylesheet" type="text/css" href="css/global.css?' . filemtime('css/global.css') . '" />'; ?>
         <?php echo '<script type="text/javascript" src="js/global.js?' . filemtime('js/global.js') . '"></script>'; ?>
-        <?php
-        echo '<link rel="stylesheet" type="text/css" href="css/index.css?' . filemtime('css/index.css') . '" />';
-        echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js') . '"></script>';
-        ?>
- <?php //echo '<script type="text/javascript" src="js/signup.js?' . filemtime('js/signup.js') . '"></script>'; ?>
-
     </head>
     <body>
         <!--START MAIN-WRAPPER-->

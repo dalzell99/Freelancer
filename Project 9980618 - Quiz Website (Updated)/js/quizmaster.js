@@ -73,13 +73,13 @@ window.onload = function () {
 // If no, display message
 function goToQuizMasterPage(type) {
     if (type == 'user') {
-        if (sessionStorage.numQuizzesTakenRemaining - sessionStorage.numQuizzesScheduledRemaining > quizScheduleTarget) {
+        if (sessionStorage.numQuizzesTakenRemaining > quizScheduleTarget) {
             // User has taken enough quizzes to schedule a quiz so redirect them to quiz master tab in my account
             sessionStorage.showQuizMaster = true;
             location.href = 'myaccount.php';
         } else {
             // User hasn't taken enough quizzes to schedule a quiz so display a message
-            var n = quizScheduleTarget - (sessionStorage.numQuizzesTakenRemaining - sessionStorage.numQuizzesScheduledRemaining);
+            var n = quizScheduleTarget - sessionStorage.numQuizzesTakenRemaining;
             displayMessage("warning", "", "You are not eligible to schedule a quiz. Please take " + n + " paid quizzes to unlock this facility");
         }
     } else {

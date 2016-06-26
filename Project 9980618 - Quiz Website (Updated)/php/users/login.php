@@ -27,7 +27,7 @@ if ($result = mysqli_query($con, $sql)) {
                 mysqli_query($con, $sql3);
             }
 
-            $sql2 = "SELECT userID, username, paidPointsBalance, freeConvertablePointsBalance, freeUnconvertablePointsBalance, email, emailConfirmed, notificationsArray, timeNotificationsViewed, numQuizzesScheduledRemaining, numQuizzesTakenRemaining, quizMaster FROM Users WHERE username = '$username'";
+            $sql2 = "SELECT userID, username, paidPointsBalance, freeConvertablePointsBalance, freeUnconvertablePointsBalance, email, emailConfirmed, notificationsArray, timeNotificationsViewed, numQuizzesTakenRemaining, quizMaster FROM Users WHERE username = '$username'";
             if ($result2 = mysqli_query($con, $sql2)) {
                 $row2 = mysqli_fetch_assoc($result2);
                 echo json_encode(array('correct', $row2));

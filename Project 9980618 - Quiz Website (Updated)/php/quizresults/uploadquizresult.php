@@ -15,11 +15,12 @@ $questions = mysqli_real_escape_string($con, json_encode($_POST['questions']));
 $correctPercent = $_POST['correctPercent'];
 
 $sql = "INSERT INTO QuizResults VALUES ('$userID', '$quizID', '$username', '$timeTaken', '$questions', '$correctPercent', '')";
+$sqlUser = "UPDATE Users SET numQuizzesTaken = numQuizzesTaken + 1 WHERE username = '$username'";
 
-if ($result = mysqli_query($con, $sql)) {
+if (mysqli_query($con, $sql) && mysqli_query($con, $sqlUser)) {
     echo 'success';
 } else {
-    echo 'fail' . $sql;
+    echo 'fail ------- ' . $sql . " ------- " . $sqlUser;
 }
 
 mysqli_close($con);
