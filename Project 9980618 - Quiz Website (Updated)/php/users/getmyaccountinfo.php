@@ -59,7 +59,7 @@ if ($resultUsers = mysqli_query($con, $sql1)) {
                     }
                     array_push($response, $quizTaxation);
 
-                    $sql6 = "SELECT numQuizzesTaken, numQuizzesScheduled, numQuizzesPurchased, approvedQuestionCount, rejectedQuestions FROM Users WHERE username = '$username'";
+                    $sql6 = "SELECT numQuizzesTaken, numQuizzesScheduledUser, numQuizzesScheduledQuizMaster, numQuizzesPurchased, approvedQuestionCount, rejectedQuestions, numQuizzesTakenRemaining, quizzesScheduledToday FROM Users WHERE username = '$username'";
                     if ($resultQuizMaster = mysqli_query($con, $sql6)) {
                         $quizQuizMaster = [];
                         while ($rowQuizMaster = mysqli_fetch_assoc($resultQuizMaster)) {

@@ -143,6 +143,24 @@ foreach ($quizArray as $quiz) {
 
     // Mark quiz as paid out, archived and set winningUserID
     $sqlQuizPaidOut = "UPDATE Quizzes SET paidOut = 'y', winningUserID = '$winningUserID' WHERE quizID = '" . $quiz['quizID'] . "'";
+
+    // if quiz was scheduled by a user, add their commission to their account
+    if ($quiz['creatorUsername'] != 'admin') {
+        // Retrieve commision rate from quiz master table
+        $sqlCommissionRate = "SELECT creatorEarnings FROM QuizMaster WHERE id = 1";
+        $resultCommissionRate = mysqli_query($con, $sqlCommissionRate);
+        $commissionRate = mysqli_fetch_assoc($resultCommissionRate)['creatorEarnings'];
+        $prizePool = 0;
+        foreach ($prizes as $prize) {
+            $prizePool += $prize;
+        }
+
+        $commission = $prizePool * ($commissionRate / 100);
+        $sqlCreatorCommission = "UPDATE Users SET paidPointsBalance = paidPointsBalance + $commission WHERE username = '" . $quiz['creatorUsername'] . "'";
+        if (!mysqli_query($con, $sqlCreatorCommission)) {
+            echo 'fail7. ' . $sqlCreatorCommission;
+        }
+    }
     if (!mysqli_query($con, $sqlQuizPaidOut)) {
         echo 'fail6. ' . $sqlQuizPaidOut;
     }

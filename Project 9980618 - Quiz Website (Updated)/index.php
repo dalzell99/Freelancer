@@ -1,4 +1,8 @@
 <?php include('header.php'); ?>
+<?php
+echo '<link rel="stylesheet" type="text/css" href="css/index.css?' . filemtime('css/index.css') . '" />';
+echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js') . '"></script>';
+?>
 <style>
     #services .span3{
         padding: 25px 6px;

@@ -6,6 +6,7 @@ var updatePrizesTimer;
 var endQuizTimer;
 var isLeaderboardExpanded = false;
 var editable;
+var count = 0;
 
 window.onload = function () {
     global();
@@ -35,30 +36,6 @@ window.onload = function () {
                     populateLeaders();
                     populateRules();
                     $('#quizQnsDiv').hide();
-
-                    // Add focus and blur events to contenteditable fields so that they autosave
-                    $("[contenteditable=true]").on({
-                        blur: function () {
-                            var column = $(this)[0].className;
-
-                            // ---------------Upload value if it has changed-----------------
-                            $.post("./php/.php", {
-
-                            }, function(response) {
-                                if (response == 'success') {
-                                    displayMessage('info', '');
-                                } else {
-                                    displayMessage('error', '');
-                                }
-                            }).fail(function (request, textStatus, errorThrown) {
-                                displayMessage('error', "Error: Something went wrong with  AJAX POST");
-                            });
-                        },
-
-                        focus: function () {
-                            sessionStorage.contenteditable = $(this).text();
-                        }
-                    });
 
                     //displayMessage('info', '', 'sdfdsf');
                     if (moment(quiz.endTime).diff(moment()) < 0) {
@@ -154,7 +131,20 @@ function populateTitle() {
             }
 
             html += '<div class="row">';
-            html += '    <div id="quizNameTitle" class="col-xs-6 col-xs-offset-3">' + quizName + '</div>';
+            html += '    <div id="quizNameTitle" class="col-xs-3">';
+            html += '        <!-- AddToAny BEGIN -->';
+            html += '        <div class="a2a_kit a2a_kit_size_32 a2a_default_style">';
+            html += '            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>';
+            html += '            <a class="a2a_button_facebook"></a>';
+            html += '            <a class="a2a_button_twitter"></a>';
+            html += '            <a class="a2a_button_google_plus"></a>';
+            html += '            <a class="a2a_button_pinterest"></a>';
+            html += '            <a class="a2a_button_linkedin"></a>';
+            html += '        </div>';
+            html += '        <script async src="https://static.addtoany.com/menu/page.js"></script>';
+            html += '        <!-- AddToAny END -->';
+            html += '    </div>';
+            html += '    <div id="quizNameTitle" class="col-xs-6">' + quizName + '</div>';
 
             if (response == 'cancelled') {
                 html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ CANCELLED</div>';
@@ -206,6 +196,13 @@ function populateTitle() {
                 $("#registerButton").hide();
                 $("#startButton").hide();
             }
+
+            if (count === 1) {
+                addContentEditableEvents();
+                count = 0;
+            } else {
+                count += 1;
+            }
         }).fail(function (request, textStatus, errorThrown) {
             //displayMessage('error', 'Error', "Err or: Something went wrong with populateTitles function");
         });
@@ -249,6 +246,12 @@ function populateInfo() {
     // html += '</div>';
 
     $("#quizInfo").empty().append(html);
+    if (count === 1) {
+        addContentEditableEvents();
+        count = 0;
+    } else {
+        count += 1;
+    }
 }
 
 function populatePrizes() {
@@ -492,4 +495,36 @@ function toggleQuizQuestions() {
 
 function toggleQuizRules() {
     $("#quizRulesTable").slideToggle();
+}
+
+function addContentEditableEvents() {
+    // Add focus and blur events to contenteditable fields so that they autosave
+    $("[contenteditable=true]").on({
+        blur: function () {
+            var column = $(this)[0].className;
+            var value = $(this).text();
+
+            if (column === 'category') {
+                value += ' by ' + sessionStorage.username;
+            }
+
+            $.post("./php/quizzes/updatequizinfo.php", {
+                quizID: quiz.quizID,
+                column: column,
+                value: value
+            }, function(response) {
+                if (response == 'success') {
+                    displayMessage('info', '', 'Quiz info updated');
+                } else {
+                    displayMessage('error', '', 'Error updating quiz info. Please use the contact form to inform the web admin of this problem.');
+                }
+            }).fail(function (request, textStatus, errorThrown) {
+                //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+            });
+        },
+
+        focus: function () {
+            sessionStorage.contenteditable = $(this).text();
+        }
+    });
 }

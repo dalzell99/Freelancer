@@ -29,7 +29,7 @@ $startTime = $_POST['startTime'];
 $endTime = $startTime;
 $endTime[15] = '2';
 
-$rules = ["User need real quizeto balance to register in this quiz","Prize pool contains redeemable real quizeto","Winners will be decided based on maximum number of correct answer given in minimum time","User can unregister from the quiz until 10 minutes before the start of the quiz","Incase of less number of participant, quiz will be automatically cancelled","Quizeto will be refunded to respective user account if quiz gets cancelled"];
+$rules = json_encode(["User need real quizeto balance to register in this quiz","Prize pool contains redeemable real quizeto","Winners will be decided based on maximum number of correct answer given in minimum time","User can unregister from the quiz until 10 minutes before the start of the quiz","Incase of less number of participant, quiz will be automatically cancelled","Quizeto will be refunded to respective user account if quiz gets cancelled"]);
 
 $sqlQuizMaster = "SELECT creatorEarnings, quizScheduleTarget FROM QuizMaster WHERE id = 1";
 $resultQuizMaster = mysqli_query($con, $sqlQuizMaster);
@@ -45,41 +45,42 @@ while ($row = mysqli_fetch_assoc($resultQuestion)) {
 }
 
 $questions = [];
-for ($i = 0; i < 10; i += 1) {
+for ($i = 0; $i < 10; $i += 1) {
     $rand = rand(0, count($questionArray) - 1);
     $questions[] = [
-        $questionArray[$rand]['question'],
-        $questionArray[$rand]['answers'],
-        $questionArray[$rand]['correctAnswer']
+        mysqli_real_escape_string($con, $questionArray[$rand]['question']),
+        json_decode($questionArray[$rand]['answers']),
+        json_decode($questionArray[$rand]['correctAnswer']),
+        $questionArray[$rand]['creator']
     ];
 
     // Delete question from database
-    mysqli_query($con, "DELETE FROM Questions WHERE questionID = '" . $questionArray[$rand]['questionID'] . "'");
+    //mysqli_query($con, "DELETE FROM Questions WHERE questionID = '" . $questionArray[$rand]['questionID'] . "'");
 
     // Delete question from question array
     array_splice($questionArray, $rand, 1);
 }
-$questions = json_encode($questions);
+$questions = str_replace("\\\\", "\\", json_encode($questions));
 
 $sqlQuiz = "INSERT INTO Quizzes (quizID, type, questions, category, pointsRewards, pointsCost, startTime, endTime, rules, minPlayers, creatorUsername, creatorEarnings) VALUES (DEFAULT, 'paid', '$questions', '$name', '$pointsRewards', $pointsCost, '$startTime', '$endTime', '$rules', $minPlayers, '$creatorUsername', '$creatorEarnings')";
 if (mysqli_query($con, $sqlQuiz)) {
-    $quizID = mysql_insert_id($con);
+    $quizID = mysqli_insert_id($con);
 
-    $sqlUser = "UPDATE Users SET approvedQuestionCount = approvedQuestionCount - 10, numQuizzesScheduled = numQuizzesScheduled + 1";
+    $sqlUser = "UPDATE Users SET approvedQuestionCount = approvedQuestionCount - 10, quizzesScheduledToday = quizzesScheduledToday + 1";
     if ($quizMaster == 'true') {
-        $sqlUser .= ", purchasedQuizzesRemaining = purchasedQuizzesRemaining - 1";
+        $sqlUser .= ", numQuizzesScheduledQuizMaster = numQuizzesScheduledQuizMaster + 1, purchasedQuizzesRemaining = purchasedQuizzesRemaining - 1";
     } else {
-        $sqlUser .= ", numQuizzesTakenRemaining = numQuizzesTakenRemaining - " . $quizScheduleTarget;
+        $sqlUser .= ", numQuizzesScheduledUser = numQuizzesScheduledUser + 1, numQuizzesTakenRemaining = numQuizzesTakenRemaining - " . $quizScheduleTarget;
     }
     $sqlUser .= " WHERE username = '$creatorUsername'";
 
     if (mysqli_query($con, $sqlUser)) {
         echo 'success' . $quizID;
     } else {
-        echo 'fail User';
+        echo 'fail User ' . $sqlUser;
     }
 } else {
-    echo 'fail Quiz';
+    echo 'fail Quiz ' . $sqlQuiz;
 }
 
 mysqli_close($con);

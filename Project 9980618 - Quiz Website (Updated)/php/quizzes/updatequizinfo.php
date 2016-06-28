@@ -7,13 +7,15 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$sql = "UPDATE Users SET loggedInToday = 'n', quizzesScheduledToday = 0";
+$quizID = $_POST['quizID'];
+$column = $_POST['column'];
+$value = $_POST['value'];
 
-
-if (mysqli_query($con, $sql)) {
+$sql = "UPDATE Quizzes SET $column = '$value' WHERE quizID = $quizID";
+if ($result = mysqli_query($con, $sql)) {
     echo 'success';
 } else {
-    echo 'fail. ' . $sql;
+    echo 'fail';
 }
 
 mysqli_close($con);

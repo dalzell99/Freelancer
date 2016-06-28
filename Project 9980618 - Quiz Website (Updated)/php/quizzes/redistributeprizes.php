@@ -34,7 +34,7 @@ while ($quiz = mysqli_fetch_assoc($resultQuizzes)) {
 
             mysqli_query($con, "UPDATE Quizzes SET checked = 'y', pointsRewards = '$rewards' WHERE quizID = " . $quiz['quizID']);
         } else {
-            // If less than 10 registered, refund registered users plus 1 bonus quizeto and cancel quiz and send them an email
+            // If less than minPlayers registered, refund registered users plus 1 bonus quizeto and cancel quiz and send them an email
             foreach (json_decode($quiz['userRegistered']) as $userID) {
                 // Refund fee to user plus 1 extra bonus quizeto (	freeConvertablePointsBalance)
                 mysqli_query($con, "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . $quiz['pointsCost'] . ", 	freeConvertablePointsBalance = 	freeConvertablePointsBalance + 1 WHERE userID = '$userID'");
@@ -51,6 +51,39 @@ while ($quiz = mysqli_fetch_assoc($resultQuizzes)) {
             }
 
             mysqli_query($con, "UPDATE Quizzes SET checked = 'y', cancelled = 'y' WHERE quizID = " . $quiz['quizID']);
+
+            // Add questions back into database
+            foreach ($quiz['questions'] as $question) {
+                $question = $question[0];
+                $answers = $question[1];
+                $correctAnswer = $question[2];
+                $creator = $question[3];
+                $category = 'Miscellaneous';
+
+                $sqlQuestion = "INSERT INTO Questions VALUES (DEFAULT, '$question', '$answers', '$correctAnswer', '$category', '$creator')";
+                mysqli_query($con, $sqlQuestion);
+            }
+
+            // Send email to creator of quiz
+            $resultCreator = mysqli_query($con, "SELECT email FROM Users WHERE username = '" . $quiz['creatorUsername'] . "'");
+            sendEmail(array(mysqli_fetch_assoc($resultCreator)['email']), $databasephpInfoEmail, "Cancelled Quiz",
+            "<html>
+                <body>
+                    <p>
+                        Dear " . $quiz['creatorUsername'] . "
+                    </p>
+                    <p>
+                        Your scheduled quiz has been cancelled as your submitted question did not pass our screening criteria. Please try submitting different question to schedule the quiz again
+                    </p>
+                    <p>
+                        Regards,
+                        IQzeto Quizmaster
+                    </p>
+
+
+                </body>
+            </html>
+            ");
         }
     }
 }

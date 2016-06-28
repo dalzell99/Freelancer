@@ -915,15 +915,14 @@ function populateQuizMaster() {
     var totalQuizzesSchedulable, numQuizzesAlreadyScheduled, quizBalance;
 
     // Create yes and no buttons so user can choose which account to show
-    html += "<span>User registered as quizmaster</span>";
-    html += "<button onclick='showQuizMasterInfo()'>Yes</button>";
-    html += "<button onclick='showUserInfo()'>No</button>";
+    html += "<button onclick='showQuizMasterInfo()'>Activate as Quiz Master</button>";
+    html += "<button onclick='showUserInfo()'>Activate as User</button>";
 
     // Create Quiz master info
     // number of quizzes purchased
     totalQuizzesSchedulable = quizMasterInfo.numQuizzesPurchased;
     // number of quizzes scheduled
-    numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduled;
+    numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduledQuizMaster;
     // remaining balance
     quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
     html += "<table id='quizMasterQuizMasterInfo'>";
@@ -931,19 +930,23 @@ function populateQuizMaster() {
     html += "        <th>Number of quiz purchased</th>";
     html += "        <th>Number of quiz already scheduled</th>";
     html += "        <th>Number of quiz left to schedule</th>";
-    html += "    <tr>";
+    html += "        <th>Number of questions approved</th>";
+    html += "        <th>Number of questions rejected</th>";
+    html += "    </tr>";
     html += "    <tr>";
     html += "        <td>" + totalQuizzesSchedulable + "</td>";
     html += "        <td onclick='showUsersScheduledQuizzes()'>" + numQuizzesAlreadyScheduled + "</td>";
     html += "        <td>" + quizBalance + "</td>";
-    html += "    <tr>";
+    html += "        <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
+    html += "        <td onclick='showUsersRejectedQuestions()'>" + JSON.parse(quizMasterInfo.rejectedQuestions).length + "</td>";
+    html += "    </tr>";
     html += "</table>";
 
     // Create user info
     // number of quizzes that can be scheduled
-    totalQuizzesSchedulable = parseInt(quizMasterInfo.numQuizzesScheduled) + Math.floor(sessionStorage.numQuizzesTakenRemaining / quizMasterInfo.quizScheduleTarget);
+    totalQuizzesSchedulable = parseInt(quizMasterInfo.numQuizzesScheduledUser) + Math.floor(quizMasterInfo.numQuizzesTakenRemaining / quizMasterInfo.quizScheduleTarget);
     // number of quizzes scheduled
-    numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduled;
+    numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduledUser;
     // remaining balance
     quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
 
@@ -955,15 +958,15 @@ function populateQuizMaster() {
     html += "        <th>Number of quiz left to schedule</th>";
     html += "        <th>Number of questions approved</th>";
     html += "        <th>Number of questions rejected</th>";
-    html += "    <tr>";
+    html += "    </tr>";
     html += "    <tr>";
     html += "        <td>" + quizMasterInfo.numQuizzesTaken + "</td>";
     html += "        <td>" + totalQuizzesSchedulable + "</td>";
     html += "        <td onclick='showUsersScheduledQuizzes()'>" + numQuizzesAlreadyScheduled + "</td>";
     html += "        <td>" + quizBalance + "</td>";
     html += "        <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
-    html += "        <td>" + JSON.parse(quizMasterInfo.rejectedQuestions).length + "</td>";
-    html += "    <tr>";
+    html += "        <td onclick='showUsersRejectedQuestions()'>" + JSON.parse(quizMasterInfo.rejectedQuestions).length + "</td>";
+    html += "    </tr>";
     html += "</table>";
 
     // Create table showing inof about users previously scheduled quizzes
@@ -975,7 +978,7 @@ function populateQuizMaster() {
     html += "        <th>Total registered users</th>";
     html += "        <th>Winner</th>";
     html += "        <th>Earnings</th>";
-    html += "    <tr>";
+    html += "    </tr>";
 
     quizMasterInfo.previouslyScheduledQuizzes.forEach(function (quiz) {
         var date = moment(quiz.startTime).format('ddd Do MMM YY');
@@ -1000,7 +1003,7 @@ function populateQuizMaster() {
     html += "        <th>Answers</th>";
     html += "        <th>Correct Answer</th>";
     html += "        <th>Reason</th>";
-    html += "    <tr>";
+    html += "    </tr>";
 
     JSON.parse(quizMasterInfo.rejectedQuestions).forEach(function (question) {
         html += "<tr>";
@@ -1013,7 +1016,7 @@ function populateQuizMaster() {
     html += "</table>";
 
     html += "<button onclick='showUploadQuestion()'>Upload Question</button>";
-    html += "<button onclick='showScheduleQuiz()'>Schedule Quiz</button>";
+    html += "<button id='quizMasterScheduleButton' onclick='showScheduleQuiz()'>Schedule Quiz</button>";
 
     // Add quiz submission form
     html += "<table id='quizMasterQuestionSubmission'>";
@@ -1104,6 +1107,10 @@ function showQuizMasterInfo() {
     $("#quizMasterUserInfo").hide();
     $("#quizMasterPreviouslyScheduledQuizzes").hide();
 
+    $("#quizMasterQuestionSubmission").hide();
+    $("#quizMasterScheduleQuiz").hide();
+    $("#quizMasterScheduleButton").show();
+
     sessionStorage.quizMaster = 'true';
 }
 
@@ -1112,11 +1119,19 @@ function showUserInfo() {
     $("#quizMasterUserInfo").show();
     $("#quizMasterPreviouslyScheduledQuizzes").hide();
 
+    $("#quizMasterQuestionSubmission").hide();
+    $("#quizMasterScheduleQuiz").hide();
+    $("#quizMasterScheduleButton").show();
+
     sessionStorage.quizMaster = 'false';
 }
 
 function showUsersScheduledQuizzes() {
     $("#quizMasterPreviouslyScheduledQuizzes").show();
+}
+
+function showUsersRejectedQuestions() {
+    $("#quizMasterRejectedQuestions").show();
 }
 
 function showUploadQuestion() {
@@ -1125,8 +1140,31 @@ function showUploadQuestion() {
 }
 
 function showScheduleQuiz() {
-    $("#quizMasterQuestionSubmission").hide();
-    $("#quizMasterScheduleQuiz").show();
+    // Check if user can schedule quiz
+    var quizBalance;
+    var qm = (sessionStorage.quizMaster == 'true' ? true : false);
+    if (qm) {
+        // Get quiz balnace from quiz master info table. It's the 3rd column in 2nd row
+        quizBalance = $("#quizMasterQuizMasterInfo tr:eq(1) td:eq(2)").text();
+    } else {
+        // Get quiz balance from user info table. It's the 4th column in 2nd row
+        quizBalance = $("#quizMasterUserInfo tr:eq(1) td:eq(3)").text();
+    }
+
+    if ($("#myAccountProfilePancardView").text() === '') {
+        displayMessage('warning', "You can't schedule a quiz", "Please update your PAN card under my profile section to start scheduling quiz");
+    } else if (quizMasterInfo.quizzesScheduledToday >= 2) {
+        displayMessage('warning', "You can't schedule a quiz", 'You have already scheduled 2 quiz for the day. Please try next day again');
+    } else if (quizBalance > 0 && quizMasterInfo.approvedQuestionCount >= 10) {
+        $("#quizMasterQuestionSubmission").hide();
+        $("#quizMasterScheduleQuiz").show();
+    } else if (quizMasterInfo.approvedQuestionCount < 10) {
+        displayMessage('warning', "You can't schedule a quiz", "You need to have 10 or more approved question before you can schedule a quiz");
+    } else if (qm) {
+        displayMessage('warning', "You can't schedule a quiz", "You need to purchase more quizzes or click 'Activate as User' above to change to your user quiz scheduling account");
+    } else {
+        displayMessage('warning', "You can't schedule a quiz", "You need to play more paid quizzes or click 'Activate as Quiz Master' above to change to your quizmaster quiz scheduling account if you have purchased some quizzes");
+    }
 }
 
 function submitQuestions() {

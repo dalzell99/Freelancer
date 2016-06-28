@@ -654,7 +654,7 @@ function addRandomQuestions() {
                 var tempArray = [];
                 response[1].forEach(function (value) {
                     if (value !== null){
-                        tempArray.push([value.question, JSON.parse(value.answers), parseInt(value.correctAnswer)]);
+                        tempArray.push([value.question, JSON.parse(value.answers), parseInt(value.correctAnswer), value.creator]);
                     }
                 });
 

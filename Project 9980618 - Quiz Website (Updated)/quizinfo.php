@@ -5,7 +5,7 @@ echo '<script src="js/external/flipclock.js" type="application/javascript"></scr
 echo '<link rel="stylesheet" type="text/css" href="css/quizinfo.css?' . filemtime('css/quizinfo.css') . '" />';
 echo '<script type="text/javascript" src="js/quizinfo.js?' . filemtime('js/quizinfo.js') . '"></script>';
 ?>
-<div class="container-fluid"  style=" background: url(images/backgrond.png); min-height:600px;"> 
+<div class="container-fluid"  style=" background: url(images/backgrond.png); min-height:600px;">
 
     <div class="container">
         <div id="no-more-tables" class="margin-top">
@@ -14,7 +14,7 @@ echo '<script type="text/javascript" src="js/quizinfo.js?' . filemtime('js/quizi
                 <thead class="cf table-head" >
                     <tr>
                         <th class="thead1" >
-                            <div id='quizTitle' class="col-xs-12 quizInfoPanels" style="margin-left:20px;">
+                            <div id='quizTitle' class="col-xs-12 quizInfoPanels">
                             </div></th>
                     </tr>
                 </thead>
