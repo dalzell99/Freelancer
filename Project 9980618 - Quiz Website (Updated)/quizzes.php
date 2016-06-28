@@ -3,7 +3,7 @@
 
 echo '<link rel="stylesheet" type="text/css" href="css/quizzes.css?' . filemtime('css/quizzes.css') . '" />';
 echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizzes.js') . '"></script>';
-?>   
+?>
 <style>
     .cover-card {
         border: 2px solid white;
@@ -31,7 +31,7 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
     .btn-demo:hover p{ background-color:#003a6e; color:#fff !important; }
     .demo-h3{ text-align: center; font-weight: bold; color: #003a6e;padding: 1px 0px 15px 1px;border-bottom: 1px solid #eee;}
     button#loginLoginButton {
-        padding: 4px 30px; 
+        padding: 4px 30px;
         border-radius: 0px;
     }
     /*<!--button#loginLoginButton:hover {
@@ -43,14 +43,23 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
     .cover-card:hover .btn-demo{    color: #003a6e !important;background-color: #fff !important;}
     .cover-card:hover text{ color:#fff !important;}
 
-</style>  
-<div class="container-fluid" style=" background: url(images/backgrond.png);"> 
+</style>
+<div class="container-fluid" style=" background: url(images/backgrond.png);">
 
     <div class="container" style=" min-height:625px;">
+        <div id='paidQuizTabs'>
+            <div onclick="showPaidAdminQuizzes()">
+                Admin
+            </div>
+            <div onclick="showPaidUserQuizzes()">
+                User
+            </div>
+        </div>
+
         <div class="" style=" margin-top: 30px;">
             <!--<strong>Category Title</strong>-->
             <div class="btn-group text-center">
-                <a href="#" id="list" class="btn btn-default btn-md" style=" color:#fff"></span>List</a> &nbsp; &nbsp; 
+                <a href="#" id="list" class="btn btn-default btn-md" style=" color:#fff"></span>List</a> &nbsp; &nbsp;
                 <a href="#" id="grid" class="btn btn-default btn-md" style=" color:#fff; margin-left:10px;"> Grid</a>
             </div>
         </div>
@@ -59,13 +68,13 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
         <div id="products" class="row list-group">
 
             <div id="quizTable" ></div>
-    <!--  
+    <!--
                   <div class="item  col-xs-12 col-lg-4 col-lg-4 col-sm-4">
                      <div class="thumbnail">
                          <div class="cover-card " style="">
                              <h3 class="demo-h3">Demo Free Quiz</h3>
                              <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">
-     
+
                                  <div><strong>Fee :</strong> 0</div>
                                  <div><strong>Register Users :</strong> 10</div>
                                  <div><strong>Quiz Start:</strong> Sat 2nd Apr 2016 9:09 pm</div>
@@ -73,49 +82,49 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
                                  <div><strong>end:</strong> Sat 2nd Apr 2016 9:09 pm</div>
                                  <div><strong>end:</strong> Sat 2nd Apr 2016 9:09 pm</div>
                              </div>
-     
+
                              <p>
                                  <span><button class="btn btn-demo view-btn" id="loginLoginButton" style="font-size:16px;" onclick="login()"><strong style="font-size:16px;">View</strong></button></span>
                              </p>
                          </div>
                      </div>
                  </div>
-            
-        
-               
+
+
+
                              <div class="item  col-xs-12 col-lg-4 col-lg-4 col-sm-4">
                                  <div class="thumbnail">
                                      <div class="cover-card " style="">
                                          <h3 class="demo-h3">Demo Free Quiz</h3>
                                          <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">
-                 
+
                                              <div><strong>Fee :</strong> 0</div>
                                              <div><strong>Register Users :</strong> 10</div>
-                 
+
                                              <div><strong>Quiz Start:</strong> Sat 2nd Apr 2016 9:09 pm</div>
                                              <div><strong>Quiz End:</strong> Sat 2nd Apr 2016 9:09 pm</div>
                                          </div>
-                 
+
                                          <p>
                                              <span><button class="btn btn-demo" id="loginLoginButton" style="font-size:16px;" onclick="login()"><strong style="font-size:16px;">View</strong></button></span>
                                          </p>
                                      </div>
                                  </div>
                              </div>
-                 
+
                              <div class="item  col-xs-12 col-lg-4 col-lg-4 col-sm-4">
                                  <div class="thumbnail">
                                      <div class="cover-card " style="">
                                          <h3 class="demo-h3">Demo Free Quiz</h3>
                                          <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">
-                 
+
                                              <div><strong>Fee :</strong> 0</div>
                                              <div><strong>Register Users :</strong> 10</div>
-                 
+
                                              <div><strong>Quiz Start:</strong> Sat 2nd Apr 2016 9:09 pm</div>
                                              <div><strong>Quiz End:</strong> Sat 2nd Apr 2016 9:09 pm</div>
                                          </div>
-                 
+
                                          <p>
                                              <span><button class="btn btn-demo" id="loginLoginButton" style="font-size:16px;" onclick="login()"><strong style="font-size:16px;">View</strong></button></span>
                                          </p>
@@ -127,14 +136,14 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
                                      <div class="cover-card " style="">
                                          <h3 class="demo-h3">Demo Free Quiz</h3>
                                          <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">
-                 
+
                                              <div><strong>Fee :</strong> 0</div>
                                              <div><strong>Register Users :</strong> 10</div>
-                 
+
                                              <div><strong>Quiz Start:</strong> Sat 2nd Apr 2016 9:09 pm</div>
                                              <div><strong>Quiz End:</strong> Sat 2nd Apr 2016 9:09 pm</div>
                                          </div>
-                 
+
                                          <p>
                                              <span><button class="btn btn-demo" id="loginLoginButton" style="font-size:16px;" onclick="login()"><strong style="font-size:16px;">View</strong></button></span>
                                          </p>
@@ -151,73 +160,73 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
     <!-- Start Quizzes-->
     <!--    <div class='row'>
             <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-    
-    
+
+
                 <div id="quizListPagination"></div>
                 <div id="products" class="row list-group">
                     <div id="quizTable" ></div>
                 </div>
             </div>
         </div>-->
-    <!-- End Quizzes 
-    
+    <!-- End Quizzes
+
             <div class="row">
         <div class=" col-md-12 col-xs-12 col-lg-12 col-sm-12" style=" margin-bottom:30px;">
         <div class="col-md-4 col-sm-4">
             <div class="cover-card " style="">
         <h3 class="demo-h3">Demo Free Quiz</h3>
         <div class="col-md-12 col-xs-12 text-center text">
-        
+
         <div><strong>Fee :</strong> 0</div>
         <div><strong>Register Users :</strong> 10</div>
-        
+
         <div><strong>Quiz Start:</strong> Sat 2nd Apr 2016 9:09 pm</div>
         <div><strong>Quiz End:</strong> Sat 2nd Apr 2016 9:09 pm</div>
         </div>
-     
+
                     <p>
                             <span><button class="btn btn-demo  " id="loginLoginButton" style="font-size:16px;" onclick="login()"><strong style="font-size:16px;">View</strong></button></span>
                     </p>
             </div></div>
-    
+
     <div class="col-md-4 col-sm-4">
             <div class="cover-card " style="">
         <h3 class="demo-h3">Demo Free Quiz</h3>
         <div class="col-md-12 col-xs-12 text-center">
-        
+
         <div><strong>Fee :</strong> 0</div>
         <div><strong>Register Users :</strong> 10</div>
-        
+
         <div><strong>Quiz Start:</strong> Sat 2nd Apr 2016 9:09 pm</div>
         <div><strong>Quiz End:</strong> Sat 2nd Apr 2016 9:09 pm</div>
         </div>
-     
+
                     <p>
                             <span><button class="btn btn-demo" id="loginLoginButton" style="font-size:16px;" onclick="login()"><strong style="font-size:16px;">View</strong></button></span>
                     </p>
             </div></div>
-    
+
     <div class="col-md-4 col-sm-4">
             <div class="cover-card " style="">
         <h3 class="demo-h3">Demo Free Quiz</h3>
         <div class="col-md-12 col-xs-12 text-center">
-        
+
         <div><strong>Fee :</strong> 0</div>
         <div><strong>Register Users :</strong> 10</div>
-        
+
         <div><strong>Quiz Start:</strong> Sat 2nd Apr 2016 9:09 pm</div>
         <div><strong>Quiz End:</strong> Sat 2nd Apr 2016 9:09 pm</div>
         </div>
-     
+
                     <p>
                             <span><button class="btn btn-demo" id="loginLoginButton" style="font-size:16px; "><strong style="font-size:16px;">View</strong></button></span>
                     </p>
             </div></div>
-    
+
     </div>
     </div>
-</div>-->                
-</div> 
+</div>-->
+</div>
 
 <script>
     $(document).ready(function () {

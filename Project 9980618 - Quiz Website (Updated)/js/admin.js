@@ -10,7 +10,8 @@ var tablePages = {
     testimonials: 0,
     promotions: 0,
     withdrawals: 0,
-    taxation: 0
+    taxation: 0,
+    quizMaster: 0
 };
 
 window.onload = function() {
@@ -45,6 +46,7 @@ window.onload = function() {
             case 'withdrawal': withdrawal(); break;
             case 'distribution': distribution(); break;
             case 'taxation': taxation(); break;
+            case 'quizMaster': quizMaster(); break;
             default: users();
         }
     }
@@ -91,6 +93,7 @@ function hideAllContainers() {
     $("#withdrawalContainer").hide();
     $("#distributionContainer").hide();
     $("#taxationContainer").hide();
+    $("#quizMasterContainer").hide();
 }
 
 function setActivePage(page) {
@@ -143,6 +146,7 @@ function populateTables() {
     populateWithdrawal();
     populateDistribution();
     populateTaxation();
+    populateQuizMaster();
 }
 
 /* -------------------------------------------------------------
@@ -1498,4 +1502,136 @@ function populateTaxation() {
     }, 'json').fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
     });
+}
+
+/* -------------------------------------------------------------
+----------------------- Quiz Master Page -----------------------
+---------------------------------------------------------------*/
+
+function quizMaster() {
+    if (sessionStorage.loggedIn == 'true') {
+        hideAllContainers();
+        setActivePage('quizMaster');
+        $("#quizMasterContainer").show();
+    }
+}
+
+function populateQuizMaster() {
+    $.post('./php/users/getquizmasterinfo.php', {},
+    function(response) {
+        if (response[0] == 'success') {
+            var userQuizMasterArray = response[1];
+            var quizMasterArray = response[2];
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var l = 0; userQuizMasterArray.length > 20 && l < userQuizMasterArray.length / 20; l += 1) {
+                htmlPage += "<button class='paginationButton" + l + "' onclick='changeQuizMasterPage(" + l + ")'>" + (l + 1) + "</button>";
+            }
+
+            $("#createQuizMasterPagination").empty().append(htmlPage);
+            $("#createQuizMasterPagination .paginationButton" + tablePages.quizMaster).addClass('active');
+
+            var html = '';
+            var i;
+
+            if (sessionStorage.quizMaster === 'true') {
+                html += '<thead>';
+                html += '    <tr>';
+                html += '        <th>Username</th>';
+                html += '        <th>Email</th>';
+                html += '        <th>Mobile</th>';
+                html += '        <th>Pancard</th>';
+                html += '        <th>Number of quiz which can be scheduled</th>';
+                html += '        <th>Number of quiz already scheduled</th>';
+                html += '        <th>Balance quiz number which can be scheduled</th>';
+                html += '    </tr>';
+                html += '</thead>';
+                html += '<tbody>';
+                for (i = 20 * tablePages.quizMaster; userQuizMasterArray !== null && i < userQuizMasterArray.length && i < 20 * (tablePages.quizMaster + 1); i += 1) {
+                    html += '<tr>';
+                    html += "    <td>" + userQuizMasterArray[i].username + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].email + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].mobile + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].pancard + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].numQuizzesPurchased + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].numQuizzesScheduledQuizMaster + "</td>";
+                    html += "    <td>" + (userQuizMasterArray[i].numQuizzesPurchased - userQuizMasterArray[i].numQuizzesScheduledQuizMaster) + "</td>";
+                    html += '</tr>';
+                }
+                html += '</tbody>';
+            } else {
+                html += '<thead>';
+                html += '    <tr>';
+                html += '        <th>Number of paid quiz played</th>';
+                html += '        <th>Number of quiz which can be scheduled </th>';
+                html += '        <th>Number of quiz already scheduled</th>';
+                html += '        <th>Balance quiz number which can be scheduled</th>';
+                html += '    </tr>';
+                html += '</thead>';
+                html += '<tbody>';
+                for (i = 20 * tablePages.quizMaster; userQuizMasterArray !== null && i < userQuizMasterArray.length && i < 20 * (tablePages.quizMaster + 1); i += 1) {
+                    html += '<tr>';
+                    html += "    <td>" + userQuizMasterArray[i].numQuizzesTaken + "</td>";
+                    html += "    <td>" + (userQuizMasterArray[i].numQuizzesScheduledUser + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget)) + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].numQuizzesScheduledUser + "</td>";
+                    html += "    <td>" + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget) + "</td>";
+                    html += '</tr>';
+                }
+                html += '</tbody>';
+            }
+
+            $("#quizMasterTable").empty().append(html);
+            var newTableObject = document.getElementById('quizMasterTable');
+            sorttable.makeSortable(newTableObject);
+
+            $("#quizMasterUserScheduleTarget").val(quizMasterArray.quizScheduleTarget);
+            $("#quizMasterCreatorCommission").val(quizMasterArray.creatorEarnings);
+            $("#quizMasterQuizPackCost").val(quizMasterArray.costPerPurchase);
+            $("#quizMasterQuizPackSize").val(quizMasterArray.numQuizzesPerPurchase);
+            $("input[type='radio'][name='useAdminQuestions'][value='" + quizMasterArray.userQuizzesUseAdminQuestions + "']").prop('checked', true);
+
+            $("#quizMasterSaveButton").on({
+                click: function () {
+                    $.post("./php/.php", {
+                        quizScheduleTarget: $("#quizMasterUserScheduleTarget").val(),
+                        creatorEarnings: $("#quizMasterCreatorCommission").val(),
+                        costPerPurchase: $("#quizMasterQuizPackCost").val(),
+                        numQuizzesPerPurchase: $("#quizMasterQuizPackSize").val(),
+                        userQuizzesUseAdminQuestions: $("input[type='radio'][name='useAdminQuestions'][checked='true']").val()
+                    }, function(response) {
+                        if (response == 'success') {
+                            displayMessage('info', '');
+                        } else {
+                            displayMessage('error', '');
+                        }
+                    }).fail(function (request, textStatus, errorThrown) {
+                        displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                    });
+
+                }
+            });
+
+            $("#quizMasterUserButton").on({
+                click: function () {
+
+                }
+            });
+
+            $("#quizMasterQuizMasterButton").on({
+                click: function () {
+
+                }
+            });
+        } else {
+            displayMessage('error', 'Error', 'Error: ' + response[1]);
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+function changeQuizMasterPage(page) {
+    tablePages.quizMaster = page;
+    populateQuizMaster();
 }

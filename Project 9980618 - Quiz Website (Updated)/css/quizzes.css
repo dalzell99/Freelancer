@@ -1,3 +1,7 @@
+#paidQuizTabs {
+  display: none;
+}
+
 #quizTypeSelect {
   margin: 10px;
   padding: 10px;

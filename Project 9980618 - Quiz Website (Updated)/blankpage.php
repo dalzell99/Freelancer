@@ -33,14 +33,15 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="users active" onclick='users()'><a href="#">Users</a></li>
-                            <li class="quizzes" onclick='quizzes()'><a href="#">Quizzes</a></li>
-                            <li class="questions" onclick='questions()'><a href="#">Questions</a></li>
-                            <li class="testimonials" onclick='testimonials()'><a href="#">Testimonials</a></li>
-                            <li class="promotions" onclick='promotions()'><a href="#">Promotions</a></li>
-                            <li class="withdrawal" onclick='withdrawal()'><a href="#">Withdrawal</a></li>
-                            <li class="distribution" onclick='distribution()'><a href="#">Distribution Percentages</a></li>
+                            <li class="users active" onclick='users()'><a>Users</a></li>
+                            <li class="quizzes" onclick='quizzes()'><a>Quizzes</a></li>
+                            <li class="questions" onclick='questions()'><a>Questions</a></li>
+                            <li class="testimonials" onclick='testimonials()'><a>Testimonials</a></li>
+                            <li class="promotions" onclick='promotions()'><a>Promotions</a></li>
+                            <li class="withdrawal" onclick='withdrawal()'><a>Withdrawal</a></li>
+                            <li class="distribution" onclick='distribution()'><a>Distribution Percentages</a></li>
                             <li class="taxation" onclick='taxation()'><a>Taxation</a></li>
+                            <li class="quizmaster" onclick='quizMaster()'><a>Quiz Master</a></li>
                         </ul>
                     </div>
                 </div>
@@ -286,6 +287,40 @@
             <div id="taxationContainer"  class="container">
                 <div class='tablePaginationContainer' id='createTaxationPagination'></div>
                 <table class='databaseTable table-bordered table-striped table-condensed cf' id="taxationTable" style="margin-top:20px;"></table>
+            </div>
+
+            <div id="quizMasterContainer"  class="container">
+                <div class="form-group">
+                    <label for="#quizMasterUserScheduleTarget">User must take n quizzes before scheduling 1 quiz</label>
+                    <input type="number" id='quizMasterUserScheduleTarget' class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label for="#quizMasterCreatorCommission">Quiz scheduler commission percentage</label>
+                    <div class="input-group">
+                        <input type="number" id='quizMasterCreatorCommission' class='form-control'>
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="#quizMasterQuizPackCost">Cost of buying a pack of quizzes</label>
+                    <input type="number" id='quizMasterQuizPackCost' class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label for="#quizMasterQuizPackSize">Number of quizzes in a pack</label>
+                    <input type="number" id='quizMasterQuizPackSize' class='form-control'>
+                </div>
+                <div class="form-group">
+                    <label for="#quizMasterUseAdminQuestions">Can user quizzes use admin questions?</label>
+                    <form>
+                        <input type="radio" value='yes' name='useAdminQuestions' class='form-control'> Yes
+                        <input type="radio" value='no' name='useAdminQuestions' class='form-control'> No
+                    </form>
+                </div>
+                <button id='quizMasterSaveButton' class='btn btn-default'>Save Changes</button>
+                <button id='quizMasterUserButton' class='btn btn-default'>Activate as User</button>
+                <button id='quizMasterQuizMasterButton' class='btn btn-default'>Activate as Quiz Master</button>
+                <div class='tablePaginationContainer' id='createQuizMasterPagination'></div>
+                <table class='databaseTable table-bordered table-striped table-condensed cf' id="quizMasterTable" style="margin-top:20px;"></table>
             </div>
         </main>
 

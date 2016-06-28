@@ -6,7 +6,7 @@
 #questionsContainer, #createQuestionContainer,
 #createQuestionUpdateButton, #createQuizQuestionsRandom,
 #distributionContainer, #taxationContainer,
-#myAccountRemoveProfileImageButton {
+#myAccountRemoveProfileImageButton, #quizMasterContainer {
   display: none;
 }
 
