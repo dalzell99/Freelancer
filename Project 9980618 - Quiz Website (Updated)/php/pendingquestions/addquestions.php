@@ -8,13 +8,14 @@ if (mysqli_connect_errno()) {
 }
 
 $username = $_POST['username'];
-$questions = mysqli_real_escape_string($con, json_decode($_POST['questions']));
+$questions = json_decode($_POST['questions']);
 $response = 'success';
 
 // Add each question to pendingQuestions table
 foreach ($questions as $question) {
-    if (!mysqli_query($con, "INSERT INTO PendingQuestions VALUES (DEFAULT, '$username', '" . $question[0] . "', '" . $question[1] . "', '" . $question[2] . "')")) {
-        $response = 'fail';
+    $q = mysqli_real_escape_string($con, $question);
+    if (!mysqli_query($con, "INSERT INTO PendingQuestions VALUES (DEFAULT, '$username', '$q')")) {
+        $response = "fail INSERT INTO PendingQuestions VALUES (DEFAULT, '$username', '$q')";
     }
 }
 

@@ -13,6 +13,7 @@ var purchaseHistory = [];
 var taxations = [];
 var quizMasterInfo = [];
 var usedTimeSlots = [];
+var rejectedQuestions = [];
 
 var options = {
     "key": "rzp_test_DMtkjnzZPVHfJI",
@@ -226,6 +227,10 @@ window.onload = function() {
 
             if (response[1][5].length > 0) {
                 quizMasterInfo = response[1][5][0];
+            }
+
+            if (response[1][6].length > 0) {
+                rejectedQuestions = response[1][6];
             }
 
             populateProfile();
@@ -915,8 +920,8 @@ function populateQuizMaster() {
     var totalQuizzesSchedulable, numQuizzesAlreadyScheduled, quizBalance;
 
     // Create yes and no buttons so user can choose which account to show
-    html += "<button onclick='showQuizMasterInfo()'>Activate as Quiz Master</button>";
-    html += "<button onclick='showUserInfo()'>Activate as User</button>";
+    html += "<button style='width:49.5%;' onclick='showQuizMasterInfo()'>Activate as Quiz Master</button>";
+    html += "<button style='width:49.5%;' onclick='showUserInfo()'>Activate as User</button>";
 
     // Create Quiz master info
     // number of quizzes purchased
@@ -938,7 +943,7 @@ function populateQuizMaster() {
     html += "        <td onclick='showUsersScheduledQuizzes()'>" + numQuizzesAlreadyScheduled + "</td>";
     html += "        <td>" + quizBalance + "</td>";
     html += "        <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
-    html += "        <td onclick='showUsersRejectedQuestions()'>" + JSON.parse(quizMasterInfo.rejectedQuestions).length + "</td>";
+    html += "        <td onclick='showUsersRejectedQuestions()'>" + rejectedQuestions.length + "</td>";
     html += "    </tr>";
     html += "</table>";
 
@@ -965,7 +970,7 @@ function populateQuizMaster() {
     html += "        <td onclick='showUsersScheduledQuizzes()'>" + numQuizzesAlreadyScheduled + "</td>";
     html += "        <td>" + quizBalance + "</td>";
     html += "        <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
-    html += "        <td onclick='showUsersRejectedQuestions()'>" + JSON.parse(quizMasterInfo.rejectedQuestions).length + "</td>";
+    html += "        <td onclick='showUsersRejectedQuestions()'>" + rejectedQuestions.length + "</td>";
     html += "    </tr>";
     html += "</table>";
 
@@ -1000,23 +1005,28 @@ function populateQuizMaster() {
     html += "<table id='quizMasterRejectedQuestions'>";
     html += "    <tr>";
     html += "        <th>Question</th>";
-    html += "        <th>Answers</th>";
+    html += "        <th>Answer 1</th>";
+    html += "        <th>Answer 2</th>";
+    html += "        <th>Answer 3</th>";
+    html += "        <th>Answer 4</th>";
     html += "        <th>Correct Answer</th>";
-    html += "        <th>Reason</th>";
     html += "    </tr>";
 
-    JSON.parse(quizMasterInfo.rejectedQuestions).forEach(function (question) {
+    rejectedQuestions.forEach(function (question) {
+        var q = JSON.parse(question.question);
         html += "<tr>";
-        html += "    <td>" + 1 + "</td>";
-        html += "    <td>" + 1 + "</td>";
-        html += "    <td>" + 1 + "</td>";
-        html += "    <td>" + 1 + "</td>";
+        html += "    <td>" + q[0] + "</td>";
+        html += "    <td>" + q[1][0] + "</td>";
+        html += "    <td>" + q[1][1] + "</td>";
+        html += "    <td>" + q[1][2] + "</td>";
+        html += "    <td>" + q[1][3] + "</td>";
+        html += "    <td>Answer " + (parseInt(q[2]) + 1) + "</td>";
         html += "</tr>";
     });
     html += "</table>";
 
-    html += "<button onclick='showUploadQuestion()'>Upload Question</button>";
-    html += "<button id='quizMasterScheduleButton' onclick='showScheduleQuiz()'>Schedule Quiz</button>";
+    html += "<button style='width:49.5%;' onclick='showUploadQuestion()'>Upload Question</button>";
+    html += "<button style='width:49.5%;' id='quizMasterScheduleButton' onclick='showScheduleQuiz()'>Schedule Quiz</button>";
 
     // Add quiz submission form
     html += "<table id='quizMasterQuestionSubmission'>";
@@ -1038,10 +1048,10 @@ function populateQuizMaster() {
         html += "    <td>";
         html += "        <select>";
         html += "            <option value=''></option>";
-        html += "            <option value='1'>1</option>";
-        html += "            <option value='2'>2</option>";
-        html += "            <option value='3'>3</option>";
-        html += "            <option value='4'>4</option>";
+        html += "            <option value='0'>Answer 1</option>";
+        html += "            <option value='1'>Answer 2</option>";
+        html += "            <option value='2'>Answer 3</option>";
+        html += "            <option value='3'>Answer 4</option>";
         html += "        </select>";
         html += "    </td>";
         html += "</tr>";
@@ -1189,7 +1199,7 @@ function submitQuestions() {
 
         if (complete) {
             // Add question to array
-            questions.push([question, [answer1, answer2, answer3, answer4], correctAnswer]);
+            questions.push(JSON.stringify([question, [answer1, answer2, answer3, answer4], correctAnswer, sessionStorage.username]));
 
             // Clear this question from table
             $("#question" + i + " td:eq(0)").text('');

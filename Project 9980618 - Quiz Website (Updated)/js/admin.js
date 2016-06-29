@@ -2,6 +2,7 @@ var promotionArray;
 var testimonialsArray;
 var quizzesArray;
 var userArray;
+var pendingQuestionArray;
 var place = ['st', 'nd', 'rd', 'th'];
 var tablePages = {
     quizzes: 0,
@@ -11,7 +12,8 @@ var tablePages = {
     promotions: 0,
     withdrawals: 0,
     taxation: 0,
-    quizMaster: 0
+    quizMaster: 0,
+    pendingQuestion: 0
 };
 
 window.onload = function() {
@@ -47,6 +49,7 @@ window.onload = function() {
             case 'distribution': distribution(); break;
             case 'taxation': taxation(); break;
             case 'quizMaster': quizMaster(); break;
+            case 'pendingQuestion': pendingQuestion(); break;
             default: users();
         }
     }
@@ -94,6 +97,7 @@ function hideAllContainers() {
     $("#distributionContainer").hide();
     $("#taxationContainer").hide();
     $("#quizMasterContainer").hide();
+    $("#pendingQuestionContainer").hide();
 }
 
 function setActivePage(page) {
@@ -147,6 +151,7 @@ function populateTables() {
     populateDistribution();
     populateTaxation();
     populateQuizMaster();
+    populatePendingQuestion();
 }
 
 /* -------------------------------------------------------------
@@ -700,11 +705,25 @@ function populateQuestions() {
     function(response) {
         if (response[0] == 'success') {
             allQuestionsArray = response[1];
+            var questionArray = [];
+            if (sessionStorage.adminQuestions === 'true' || sessionStorage.adminQuestions === undefined) {
+                allQuestionsArray.forEach(function (value) {
+                    if (value.creator === 'admin') {
+                        questionArray.push(value);
+                    }
+                });
+            } else {
+                allQuestionsArray.forEach(function (value) {
+                    if (value.creator !== 'admin') {
+                        questionArray.push(value);
+                    }
+                });
+            }
 
             // Add pagination buttons
             var htmlPage = '';
 
-            for (var m = 0; allQuestionsArray.length > 20 && m < allQuestionsArray.length / 20; m += 1) {
+            for (var m = 0; questionArray.length > 20 && m < questionArray.length / 20; m += 1) {
                 htmlPage += "<button class='paginationButton" + m + "' onclick='changeQuestionPage(" + m + ")'>" + (m + 1) + "</button>";
             }
 
@@ -725,17 +744,17 @@ function populateQuestions() {
             html += '</thead>';
 
             html += '<tbody>';
-            for (var i = 20 * tablePages.questions; allQuestionsArray !== null && i < allQuestionsArray.length && i < 20 * (tablePages.questions + 1); i += 1) {
-                var answersArray = JSON.parse(allQuestionsArray[i].answers);
-                var answerString = 'Answers: ' + answersArray[0] + ', ' + answersArray[1] + ', ' + answersArray[2] + ', ' + answersArray[3] + '<br>Correct Answer: ' + answersArray[parseInt(allQuestionsArray[i].correctAnswer)];
+            for (var i = 20 * tablePages.questions; questionArray !== null && i < questionArray.length && i < 20 * (tablePages.questions + 1); i += 1) {
+                var answersArray = JSON.parse(questionArray[i].answers);
+                var answerString = 'Answers: ' + answersArray[0] + ', ' + answersArray[1] + ', ' + answersArray[2] + ', ' + answersArray[3] + '<br>Correct Answer: ' + answersArray[parseInt(questionArray[i].correctAnswer)];
 
                 html += '<tr>';
-                html += '    <td>' + allQuestionsArray[i].questionID + '</td>';
-                html += '    <td>' + allQuestionsArray[i].question + '</td>';
+                html += '    <td>' + questionArray[i].questionID + '</td>';
+                html += '    <td>' + questionArray[i].question + '</td>';
                 html += '    <td>' + answerString + '</td>';
-                html += '    <td>' + allQuestionsArray[i].category + '</td>';
-                html += '    <td><button class="btn btn-default" onclick="editQuestion(' + allQuestionsArray[i].questionID + ')">Edit</button></td>';
-                html += '    <td><button class="btn btn-default" onclick="deleteQuestion(' + allQuestionsArray[i].questionID + ')">Delete</button></td>';
+                html += '    <td>' + questionArray[i].category + '</td>';
+                html += '    <td><button class="btn btn-default" onclick="editQuestion(' + questionArray[i].questionID + ')">Edit</button></td>';
+                html += '    <td><button class="btn btn-default" onclick="deleteQuestion(' + questionArray[i].questionID + ')">Delete</button></td>';
                 html += '</tr>';
             }
             html += '</tbody>';
@@ -931,6 +950,16 @@ function areInputsValidQuestion() {
     }
 
     return [true];
+}
+
+function showAdminQuestions() {
+    sessionStorage.adminQuestions = 'true';
+    populateQuestions();
+}
+
+function showUserQuestions() {
+    sessionStorage.adminQuestions = 'false';
+    populateQuestions();
 }
 
 /* -------------------------------------------------------------
@@ -1563,6 +1592,8 @@ function populateQuizMaster() {
             } else {
                 html += '<thead>';
                 html += '    <tr>';
+                html += '        <th>Username</th>';
+                html += '        <th>Email</th>';
                 html += '        <th>Number of paid quiz played</th>';
                 html += '        <th>Number of quiz which can be scheduled </th>';
                 html += '        <th>Number of quiz already scheduled</th>';
@@ -1572,8 +1603,10 @@ function populateQuizMaster() {
                 html += '<tbody>';
                 for (i = 20 * tablePages.quizMaster; userQuizMasterArray !== null && i < userQuizMasterArray.length && i < 20 * (tablePages.quizMaster + 1); i += 1) {
                     html += '<tr>';
+                    html += "    <td>" + userQuizMasterArray[i].username + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].email + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesTaken + "</td>";
-                    html += "    <td>" + (userQuizMasterArray[i].numQuizzesScheduledUser + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget)) + "</td>";
+                    html += "    <td>" + (parseInt(userQuizMasterArray[i].numQuizzesScheduledUser) + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget)) + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesScheduledUser + "</td>";
                     html += "    <td>" + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget) + "</td>";
                     html += '</tr>';
@@ -1593,20 +1626,20 @@ function populateQuizMaster() {
 
             $("#quizMasterSaveButton").on({
                 click: function () {
-                    $.post("./php/.php", {
+                    $.post("./php/quizmaster/updatequizmasterinfo.php", {
                         quizScheduleTarget: $("#quizMasterUserScheduleTarget").val(),
                         creatorEarnings: $("#quizMasterCreatorCommission").val(),
                         costPerPurchase: $("#quizMasterQuizPackCost").val(),
                         numQuizzesPerPurchase: $("#quizMasterQuizPackSize").val(),
-                        userQuizzesUseAdminQuestions: $("input[type='radio'][name='useAdminQuestions'][checked='true']").val()
+                        userQuizzesUseAdminQuestions: $("input[type='radio'][name='useAdminQuestions']:checked").val()
                     }, function(response) {
                         if (response == 'success') {
-                            displayMessage('info', '');
+                            displayMessage('info', 'Changes have been saved');
                         } else {
-                            displayMessage('error', '');
+                            displayMessage('error', 'Error saving changes. Please contact web admin to get fixed.');
                         }
                     }).fail(function (request, textStatus, errorThrown) {
-                        displayMessage('error', "Error: Something went wrong with  AJAX POST");
+                        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
                     });
 
                 }
@@ -1614,13 +1647,15 @@ function populateQuizMaster() {
 
             $("#quizMasterUserButton").on({
                 click: function () {
-
+                    sessionStorage.quizMaster = 'false';
+                    populateQuizMaster();
                 }
             });
 
             $("#quizMasterQuizMasterButton").on({
                 click: function () {
-
+                    sessionStorage.quizMaster = 'true';
+                    populateQuizMaster();
                 }
             });
         } else {
@@ -1634,4 +1669,118 @@ function populateQuizMaster() {
 function changeQuizMasterPage(page) {
     tablePages.quizMaster = page;
     populateQuizMaster();
+}
+
+/* -------------------------------------------------------------
+--------------------- Pending Question Page --------------------
+---------------------------------------------------------------*/
+
+function pendingQuestion() {
+    if (sessionStorage.loggedIn == 'true') {
+        hideAllContainers();
+        setActivePage('pendingQuestion');
+        $("#pendingQuestionContainer").show();
+    }
+}
+
+function populatePendingQuestion() {
+    $.get('./php/pendingquestions/getallquestions.php', {},
+    function(response) {
+        if (response[0] == 'success') {
+            pendingQuestionArray = response[1];
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var l = 0; pendingQuestionArray !== null && pendingQuestionArray.length > 20 && l < pendingQuestionArray.length / 20; l += 1) {
+                htmlPage += "<button class='paginationButton" + l + "' onclick='changePendingQuestionPage(" + l + ")'>" + (l + 1) + "</button>";
+            }
+
+            $("#createPendingQuestionPagination").empty().append(htmlPage);
+            $("#createPendingQuestionPagination .paginationButton" + tablePages.pendingQuestion).addClass('active');
+
+            var html = '';
+
+            html += '<thead>';
+            html += '    <tr>';
+            html += '        <th>Username</th>';
+            html += '        <th>Question</th>';
+            html += '        <th>Answers</th>';
+            html += '        <th>Correct Answer</th>';
+            html += '        <th></th>';
+            html += '        <th></th>';
+            html += '    </tr>';
+            html += '</thead>';
+            html += '<tbody>';
+            for (var i = 20 * tablePages.pendingQuestion; pendingQuestionArray !== null && i < pendingQuestionArray.length && i < 20 * (tablePages.pendingQuestion + 1); i += 1) {
+                var pq = pendingQuestionArray[i];
+                var q = JSON.parse(pq.question);
+                var a = 'ABCD';
+                var answers = '';
+                q[1].forEach(function (answer, index) {
+                    answers += a[index] + ") " + answer + (index < 4 ? "<br />" : "");
+                });
+                var correctAnswer = a[q[2]] + ") " + q[1][q[2]];
+
+                html += '<tr>';
+                html += "    <td>" + q[3] + "</td>";
+                html += "    <td>" + q[0] + "</td>";
+                html += "    <td>" + answers + "</td>";
+                html += "    <td>" + correctAnswer + "</td>";
+                html += "    <td><button onclick='acceptQuestion(" + i + ")'>Approve</button></td>";
+                html += "    <td><button onclick='rejectQuestion(" + i + ")'>Reject</button></td>";
+                html += '</tr>';
+            }
+            html += '</tbody>';
+
+            $("#pendingQuestionTable").empty().append(html);
+            var newTableObject = document.getElementById('pendingQuestionTable');
+            sorttable.makeSortable(newTableObject);
+        } else {
+            displayMessage('error', 'Error getting pending questions');
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', 'Error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+function changePendingQuestionPage(page) {
+    tablePages.pendingQuestion = page;
+    populatePendingQuestion();
+}
+
+function acceptQuestion(id) {
+    var q = JSON.parse(pendingQuestionArray[id].question);
+    var question = q[0];
+    var answers = JSON.stringify(q[1]);
+    var correctAnswer = q[2];
+    var creator = q[3];
+    $.post("./php/pendingquestions/acceptquestion.php", {
+        questionID: pendingQuestionArray[id].questionID,
+        question: question,
+        answers: answers,
+        correctAnswer: correctAnswer,
+        creator: creator
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('info', 'Question approved');
+        } else {
+            displayMessage('error', 'Error accepting question');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+function rejectQuestion(id) {
+    $.post("./php/pendingquestions/rejectquestion.php", {
+        questionID: pendingQuestionArray[id].questionID
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('info', 'Question rejected');
+        } else {
+            displayMessage('error', 'Error rejected question');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
 }

@@ -42,6 +42,7 @@
                             <li class="distribution" onclick='distribution()'><a>Distribution Percentages</a></li>
                             <li class="taxation" onclick='taxation()'><a>Taxation</a></li>
                             <li class="quizmaster" onclick='quizMaster()'><a>Quiz Master</a></li>
+                            <li class="pendingQuestion" onclick='pendingQuestion()'><a>Pending Questions</a></li>
                         </ul>
                     </div>
                 </div>
@@ -155,10 +156,13 @@
             <div id='questionsContainer' class="container">
 
                 <button class="btn btn-default" onclick='showCreateQuestion()'>Add New Question</button>
+                <button class="btn btn-default" onclick='showAdminQuestions()'>Show Admin Questions</button>
+                <button class="btn btn-default" onclick='showUserQuestions()'>Show User Questions</button>
 
                 <div class='tablePaginationContainer' id='createQuestionPagination'></div>
                 <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12" style="padding:0px">
-                    <table id="questionsTable" class="databaseTable table-bordered table-striped table-condensed cf"></table></div>
+                    <table id="questionsTable" class="databaseTable table-bordered table-striped table-condensed cf"></table>
+                </div>
                 <div id='createQuestionContainer' class='row rowfix'>
                     <div class="col-xs-10 col-xs-offset-1">
                         <div class="form-group">
@@ -321,6 +325,11 @@
                 <button id='quizMasterQuizMasterButton' class='btn btn-default'>Activate as Quiz Master</button>
                 <div class='tablePaginationContainer' id='createQuizMasterPagination'></div>
                 <table class='databaseTable table-bordered table-striped table-condensed cf' id="quizMasterTable" style="margin-top:20px;"></table>
+            </div>
+
+            <div id="pendingQuestionContainer"  class="container">
+                <div class='tablePaginationContainer' id='createPendingQuestionPagination'></div>
+                <table class='databaseTable table-bordered table-striped table-condensed cf' id="pendingQuestionTable" style="margin-top:20px;"></table>
             </div>
         </main>
 

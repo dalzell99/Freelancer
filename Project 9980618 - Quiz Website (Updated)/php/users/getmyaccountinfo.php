@@ -81,7 +81,18 @@ if ($resultUsers = mysqli_query($con, $sql1)) {
                         }
                         array_push($response, $quizQuizMaster);
 
-                        echo json_encode(array('success', $response));
+                        $sql7 = "SELECT * FROM PendingQuestions WHERE username = '$username' AND rejected = 'y'";
+                        if ($resultRejected = mysqli_query($con, $sql7)) {
+                            $quizRejected = [];
+                            while ($rowRejected = mysqli_fetch_assoc($resultRejected)) {
+                                $quizRejected[] = $rowRejected;
+                            }
+                            array_push($response, $quizRejected);
+
+                            echo json_encode(array('success', $response));
+                        } else {
+                            echo 'fail RejectedQuestions' . $sql7;
+                        }
                     } else {
                         echo 'fail QuizMaster' . $sql6;
                     }
