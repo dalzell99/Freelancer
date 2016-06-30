@@ -110,39 +110,23 @@
                                     <button class="btn btn-default" onclick='addRandomQuestions()'>Add Random Questions</button>
                                 </div>
                             </div>
-
-
-                        </div>
-
-
-                        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
                             <div class="form-group">
                                 <label for='#createQuizPointsCost'>Registration Fee:</label><input type="number" id="createQuizPointsCost" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for='#createQuizStartTime'>Start Time:</label>
-                                <div class='input-group date' id='createQuizStartTime'>
-                                    <input type='text' class="form-control" />
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for='#createQuizEndTime'>End Time:</label>
-                                <div class='input-group date' id='createQuizEndTime'>
-                                    <input type='text' class="form-control" />
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
                             </div>
                             <div class="form-group">
                                 <table class="table table-bordered" id="createQuizRules">
                                 </table>
                                 <label for='#createQuizRuleInput'>New Rule:</label><input type="text" id="createQuizRuleInput" class="form-control">
                                 <button class="btn btn-default" onclick='addNewRule()' style=" margin-top: 10px;border-radius: 0px;">Add Rule</button>
+                            </div>
+                        </div>
 
+
+                        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                            <div id='createQuizTimeSlot' class="form-group">
+
+                            </div>
+                            <div class="form-group">
                                 <button id='createQuizUploadButton' class="btn btn-default" onclick='uploadQuiz()' style=" margin-top: 10px;border-radius: 0px;">Upload Quiz</button>
                                 <button id='createQuizUpdateButton' class="btn btn-default" onclick='updateQuiz()'>Update Quiz</button>
                             </div>

@@ -23,3 +23,29 @@
 .btn-default:not(.dropdown-toggle) {
     background-color: #FFF;
 }
+
+.quizMasterButtons {
+  background-color: #003a6e;
+  border-color: #003a6e;
+  color: white;
+  padding: 10px;
+  font-size: 2em;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+.quizMasterButtons:hover {
+  background-color: #00b6f2;
+  border-color: #00b6f2;
+}
+
+.quizMasterButtons.left {
+  border-radius: 15px 0 0 15px;
+  margin: 10px 0 10px 10px;
+}
+
+.quizMasterButtons.right {
+  border-radius: 0 15px 15px 0;
+  margin: 10px 10px 10px 0;
+}

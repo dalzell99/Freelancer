@@ -954,11 +954,19 @@ function populateQuizMaster() {
 
     // Create user info
     // number of quizzes that can be scheduled
-    totalQuizzesSchedulable = parseInt(quizMasterInfo.numQuizzesScheduledUser) + Math.floor(quizMasterInfo.numQuizzesTakenRemaining / quizMasterInfo.quizScheduleTarget);
-    // number of quizzes scheduled
-    numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduledUser;
-    // remaining balance
-    quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
+    if (quizMasterInfo.quizScheduleTarget === "0") {
+        totalQuizzesSchedulable = "Unlimited";
+        // number of quizzes scheduled
+        numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduledUser;
+        // remaining balance
+        quizBalance = "Unlimited";
+    } else {
+        totalQuizzesSchedulable = parseInt(quizMasterInfo.numQuizzesScheduledUser) + Math.floor(quizMasterInfo.numQuizzesTakenRemaining / quizMasterInfo.quizScheduleTarget);
+        // number of quizzes scheduled
+        numQuizzesAlreadyScheduled = quizMasterInfo.numQuizzesScheduledUser;
+        // remaining balance
+        quizBalance = totalQuizzesSchedulable - numQuizzesAlreadyScheduled;
+    }
 
     html += "<table id='quizMasterUserInfo'>";
     html += "    <tr>";
@@ -1186,7 +1194,7 @@ function showScheduleQuiz() {
         displayMessage('warning', "You can't schedule a quiz", "Please update your PAN card under my profile section to start scheduling quiz");
     } else if (quizMasterInfo.quizzesScheduledToday >= 2) {
         displayMessage('warning', "You can't schedule a quiz", 'You have already scheduled 2 quiz for the day. Please try next day again');
-    } else if (quizBalance > 0 && quizMasterInfo.approvedQuestionCount >= 10) {
+    } else if ((quizBalance === "Unlimited" || quizBalance > 0) && quizMasterInfo.approvedQuestionCount >= 10) {
         $("#quizMasterQuestionSubmission").hide();
         $("#quizMasterScheduleQuiz").show();
     } else if (quizMasterInfo.approvedQuestionCount < 10) {

@@ -78,7 +78,6 @@ window.onload = function() {
         }
     }
     populateTables();
-    addDateTimePickers();
 };
 
 // Display a notification message with bootstrap message types
@@ -182,6 +181,7 @@ var rules = [];
 var startTimePicker;
 var endTimePicker;
 var updateQuizID;
+var doDisableTimeSlots = true;
 
 function quizzes() {
     if (sessionStorage.loggedIn == 'true') {
@@ -297,6 +297,38 @@ function populateQuizzes() {
             });
 
             $(".collapsable > div").hide();
+
+            var htmlTimeSlot = '';
+
+            htmlTimeSlot += "<div id='quizMasterQuizDate'></div>";
+            htmlTimeSlot += "<table id='quizMasterQuizStartTimeTable'>";
+            for (var n = 0; n < 24; n += 1) {
+                htmlTimeSlot += "<tr>";
+                for (var o = 0; o < 6; o += 1) {
+                    htmlTimeSlot += "<td class='ts" + pad(n, 2) + pad(o * 10 + 5, 2) +"' onclick='selectTimeSlot(this)'>" + (n > 12 ? n - 12 : (n === 0 ? 12 : n)) + ":" + pad(o * 10 + 5, 2) + (n > 11 ? 'pm' : 'am') + "</td>";
+                }
+                htmlTimeSlot += "</tr>";
+            }
+            htmlTimeSlot += "</table>";
+
+            $("#createQuizTimeSlot").empty().append(htmlTimeSlot);
+
+            // Init the date picker
+            startTimePicker = $("#quizMasterQuizDate").datetimepicker({
+                format: "dd/MM/YYYY",
+                inline: true
+            });
+
+            $("#quizMasterQuizDate").on('dp.change', function () {
+                if (doDisableTimeSlots) {
+                    // If the date is changed, disable the timeslots for the new date
+                    disableTimeSlots();
+                } else {
+                    doDisableTimeSlots = true;
+                }
+            });
+
+            disableTimeSlots();
         } else {
             displayMessage('error', 'Error', 'Error: ' + response[1]);
         }
@@ -355,26 +387,6 @@ function showCreateRandomQuiz() {
     $("#createQuizUploadButton").show();
     $("#createQuizQuestionsRandom").show();
     $("#createQuizQuestionsManual").hide();
-}
-
-function addDateTimePickers() {
-    startTimePicker = $("#createQuizStartTime").datetimepicker({
-        sideBySide: true,
-        format: 'ddd Do MMM YYYY h:mm a',
-        //stepping: 5,
-        showClear: true,
-        showClose: true,
-        showTodayButton: true
-    });
-
-    endTimePicker = $("#createQuizEndTime").datetimepicker({
-        sideBySide: true,
-        format: 'ddd Do MMM YYYY h:mm a',
-        //stepping: 5,
-        showClear: true,
-        showClose: true,
-        showTodayButton: true
-    });
 }
 
 function addNewQuestion() {
@@ -501,8 +513,18 @@ function refreshRuleTable() {
 function uploadQuiz() {
     var valid = areInputsValidQuizzes();
     if (valid[0]) {
-        var start = startTimePicker.data("DateTimePicker").date().utc().format();
-        var end = endTimePicker.data("DateTimePicker").date().utc().format();
+        // Get date as moment
+        var date = $('#quizMasterQuizDate').data("DateTimePicker").date();
+        // Get the selected timeslots class which contains the time as HHMM
+        var tc = $('.selectedTimeSlot')[0].className;
+        // Set the hours and minutes of the moment retrieved above
+        date.set({
+            'hour': parseInt(tc.substr(2, 2)),
+            'minute': parseInt(tc.substr(4, 2))
+        });
+        // Get the UTC ISO8601 string of the moment
+        var startTime = date.utc().toISOString();
+        var endTime = date.add(2, 'minutes').utc().toISOString();
 
         if ($("#createQuizType").val() == 'free') {
             rules.push("User need free quizeto balance to register in this quiz");
@@ -525,8 +547,8 @@ function uploadQuiz() {
             questions: JSON.stringify(questionsArray),
             category: $("#createQuizCategory").val(),
             pointsCost: $("#createQuizPointsCost").val(),
-            startTime: start,
-            endTime: end,
+            startTime: startTime,
+            endTime: endTime,
             rules: JSON.stringify(rules),
             minPlayers: $("#createQuizMinPlayers").val()
         }, function(response) {
@@ -554,8 +576,11 @@ function editQuiz(id) {
             $("#createQuizCategory").val(q.category);
             $("#createQuizPointsCost").val(q.pointsCost);
             $("#createQuizMinPlayers").val(q.minPlayers);
-            startTimePicker.data("DateTimePicker").date(moment(q.startTime));
-            endTimePicker.data("DateTimePicker").date(moment(q.endTime));
+            doDisableTimeSlots = false; // stops the change event being called when date is changed below
+            var st = moment(q.startTime);
+            startTimePicker.data("DateTimePicker").date(st);
+            selectTimeSlot($(".ts" + pad(st.get('hour')) + pad(st.get('minute')))[0]);
+            $(".ts" + pad(st.get('hour')) + pad(st.get('minute'))).removeClass("usedTimeSlot");
 
             rules = JSON.parse(q.rules);
             questionsArray = JSON.parse(q.questions);
@@ -578,8 +603,11 @@ function copyQuiz(id) {
             $("#createQuizCategory").val(q.category);
             $("#createQuizPointsCost").val(q.pointsCost);
             $("#createQuizMinPlayers").val(q.minPlayers);
-            startTimePicker.data("DateTimePicker").date(moment(q.startTime));
-            endTimePicker.data("DateTimePicker").date(moment(q.endTime));
+            doDisableTimeSlots = false; // stops the change event being called when date is changed below
+            var st = moment(q.startTime);
+            startTimePicker.data("DateTimePicker").date(st);
+            selectTimeSlot($(".ts" + pad(st.get('hour')) + pad(st.get('minute')))[0]);
+            $(".ts" + pad(st.get('hour')) + pad(st.get('minute'))).removeClass("usedTimeSlot");
 
             rules = [];
             questionsArray = JSON.parse(q.questions);
@@ -613,17 +641,26 @@ function deleteQuiz(id) {
 function updateQuiz() {
     var valid = areInputsValidQuizzes();
     if (valid[0]) {
-        // Get the ISO8601 formatted start and end datetimes with timezone set to UTC
-        var start = startTimePicker.data("DateTimePicker").date().utc().format();
-        var end = endTimePicker.data("DateTimePicker").date().utc().format();
+        // Get date as moment
+        var date = $('#quizMasterQuizDate').data("DateTimePicker").date();
+        // Get the selected timeslots class which contains the time as HHMM
+        var tc = $('.selectedTimeSlot')[0].className;
+        // Set the hours and minutes of the moment retrieved above
+        date.set({
+            'hour': parseInt(tc.substr(2, 2)),
+            'minute': parseInt(tc.substr(4, 2))
+        });
+        // Get the UTC ISO8601 string of the moment
+        var startTime = date.utc().toISOString();
+        var endTime = date.add(2, 'minutes').utc().toISOString();
         $.post('./php/quizzes/updatequiz.php', {
             quizID: updateQuizID,
             type: $("#createQuizType").val(),
             questions: JSON.stringify(questionsArray),
             category: $("#createQuizCategory").val(),
             pointsCost: $("#createQuizPointsCost").val(),
-            startTime: start,
-            endTime: end,
+            startTime: startTime,
+            endTime: endTime,
             rules: JSON.stringify(rules),
             minPlayers: $("#createQuizMinPlayers").val()
         }, function(response) {
@@ -659,6 +696,10 @@ function areInputsValidQuizzes() {
 
     if ($("#createQuizMinPlayers").val() === '') {
         return [false, "Please enter the minimum number of users needed"];
+    }
+
+    if ($('.selectedTimeSlot').length === 0) {
+        return [false, 'You need to select a start time for your quiz'];
     }
 
     return [true];
@@ -700,6 +741,91 @@ function addRandomQuestions() {
     } else {
         displayMessage('info', "Make sure you enter the number of questions and category then try again");
     }
+}
+
+function selectTimeSlot(elem) {
+    $(".selectedTimeSlot").removeClass('selectedTimeSlot');
+    $(elem).addClass('selectedTimeSlot');
+}
+
+function disableTimeSlots() {
+    $.get("./php/quizzes/getstarttimefromalladminscheduledquizzes.php", {
+    }, function(response) {
+        if (response.substr(0, 4) === 'fail') {
+            displayMessage('error', '', 'Error getting the used timeslots. Please use the contact form to inform the web admin of this problem.');
+        } else {
+            var usedTimeSlots = JSON.parse(response);
+            $(".selectedTimeSlot").removeClass('selectedTimeSlot');
+            $(".usedTimeSlot").removeClass('usedTimeSlot').on('onclick', 'selectTimeSlot(this)');
+
+            var date = $('#quizMasterQuizDate').data("DateTimePicker").date().format("YYYY-MM-DD");
+            usedTimeSlots.forEach(function (time) {
+                // Get quiz start time as local time
+                var usedTime = moment(time.startTime).local();
+                // Check if the quiz is scheduled to start on the date selected by user
+                if (usedTime.format("YYYY-MM-DD") === date) {
+                    // If it is then add usedTimeSlot class to the correct time slot for the users timezone and remove the click event for that timeslot
+                    $(".ts" + usedTime.format("HH") + usedTime.format("mm")).addClass('usedTimeSlot').prop('onclick', '');
+                }
+            });
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX GET");
+    });
+}
+
+function scheduleQuiz() {
+    var valid = areScheduleQuizInputsValid();
+    if (valid[0]) {
+        // Get date as moment
+        var date = $('#quizMasterQuizDate').data("DateTimePicker").date();
+        // Get the selected timeslots class which contains the time as HHMM
+        var tc = $('.selectedTimeSlot')[0].className;
+        // Set the hours and minutes of the moment retrieved above
+        date.set({
+            'hour': parseInt(tc.substr(2, 2)),
+            'minute': parseInt(tc.substr(4, 2))
+        });
+        // Get the UTC ISO8601 string of the moment
+        var quizStartTime = date.utc().toISOString();
+        $.post("./php/quizzes/scheduleuserquiz.php", {
+            username: sessionStorage.username,
+            name: $("#quizMasterQuizName").val(),
+            minUsers: $("#quizMasterQuizMinUsers").val(),
+            fee: $("#quizMasterQuizFee").val(),
+            startTime: quizStartTime,
+            quizMaster: sessionStorage.quizMaster
+        }, function(response) {
+            if (response.substr(0, 7) == 'success') {
+                displayMessage('success', '', 'Your quiz has been scheduled successfully');
+                location.href = 'quizinfo.php?editable=true&id=' + response.substr(7);
+            } else {
+                displayMessage('error', '', 'Error scheduling the quiz. Please use the contact form to inform the web admin of this problem.');
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+        });
+    } else {
+        displayMessage('warning', '', valid[1]);
+    }
+}
+
+function areScheduleQuizInputsValid() {
+    if ($("#quizMasterQuizName").val() === '') {
+        return [false, 'You need to enter a name for the quiz'];
+    }
+
+    if ($("#quizMasterQuizFee").val() < 50) {
+        return [false, 'The registration fee must be at least 50'];
+    }
+
+    if ($("#quizMasterQuizMinUsers").val() === '') {
+        return [false, 'You need to enter the minimum number of registered users required'];
+    }
+
+
+
+    return [true, ''];
 }
 
 /* -------------------------------------------------------------

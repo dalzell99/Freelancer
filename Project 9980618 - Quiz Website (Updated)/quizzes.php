@@ -48,10 +48,10 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
 
     <div class="container" id='showIfLoggedIn' style=" min-height:625px;">
         <div id='paidQuizTabs'>
-            <div onclick="showPaidAdminQuizzes()">
+            <div class='quizButtons left' onclick="showPaidAdminQuizzes()">
                 Admin
             </div>
-            <div onclick="showPaidUserQuizzes()">
+            <div class='quizButtons right' onclick="showPaidUserQuizzes()">
                 User
             </div>
         </div>
