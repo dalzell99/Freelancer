@@ -360,3 +360,7 @@ function isInt(value) {
          parseInt(Number(value)) == value &&
          !isNaN(parseInt(value, 10));
 }
+
+function get12HourTimeString(hour) {
+    return hour > 12 ? hour - 12 + "pm" : (hour === 0 ? 12 : hour) + 'am';
+}

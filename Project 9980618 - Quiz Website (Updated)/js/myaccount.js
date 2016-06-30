@@ -59,192 +59,197 @@ var tablePages = {
 window.onload = function() {
     global();
 
-    if (sessionStorage.buypoints === 'true') {
-        showDeposit();
-        sessionStorage.buypoints = 'false';
-    } else if (sessionStorage.showQuizMaster === 'true') {
-        showQuizMaster();
-        sessionStorage.showQuizMaster = 'false';
-    }
-
     $('li.active').removeClass('active');
     $("#myAccountMenuItem").addClass('active');
 
-    $("#currentPassword").on({
-        blur: function() {
-            $.post('./php/users/checkpassword.php', {
-                username: sessionStorage.username,
-                currentPassword: $("#currentPassword").val()
-            }, function(response) {
-                if (response === 'incorrect') {
-                    $("#currentPassword").css('border', red);
-                    $("<span class='message'>The password you entered is incorrect</span>").insertAfter('#currentPassword');
-                    setTimeout(function() { $(".message").remove(); }, 2000);
+    if (sessionStorage.loggedIn !== 'true') {
+        displayMessage("warning", "You must be logged in to see this.", "You need to either login above or signup for an account on the home page.");
+    } else {
+        $("#showIfLoggedIn").show();
+        if (sessionStorage.buypoints === 'true') {
+            showDeposit();
+            sessionStorage.buypoints = 'false';
+        } else if (sessionStorage.showQuizMaster === 'true') {
+            showQuizMaster();
+            sessionStorage.showQuizMaster = 'false';
+        }
+
+        $("#currentPassword").on({
+            blur: function() {
+                $.post('./php/users/checkpassword.php', {
+                    username: sessionStorage.username,
+                    currentPassword: $("#currentPassword").val()
+                }, function(response) {
+                    if (response === 'incorrect') {
+                        $("#currentPassword").css('border', red);
+                        $("<span class='message'>The password you entered is incorrect</span>").insertAfter('#currentPassword');
+                        setTimeout(function() { $(".message").remove(); }, 2000);
+                        currentPasswordCorrect = false;
+                    } else if (response === 'correct') {
+                        $("#currentPassword").css('border', green);
+                        currentPasswordCorrect = true;
+                    } else {
+                        displayMessage('error', 'Error', 'Error checking current password. Please try again later.');
+                        currentPasswordCorrect = false;
+                    }
+                }).fail(function (request, textStatus, errorThrown) {
+                    //displayMessage('error', 'Error', "Err or: Something went wrong with login function");
                     currentPasswordCorrect = false;
-                } else if (response === 'correct') {
-                    $("#currentPassword").css('border', green);
-                    currentPasswordCorrect = true;
-                } else {
-                    displayMessage('error', 'Error', 'Error checking current password. Please try again later.');
-                    currentPasswordCorrect = false;
+                });
+            }
+        });
+
+        $("#confirmPassword").on({
+            blur: areSamePassword
+        });
+
+        $("#newPassword").on({
+            blur: areSamePassword
+        });
+
+        $("#numQuizetos").on({
+            input: function() {
+                $("#costQuizetos").text($("#numQuizetos").val());
+            }
+        });
+
+        $("#purchaseButton").click(function(e) {
+            if ($("#numQuizetos").val() % 50 === 0) {
+                options.amount = parseInt($("#numQuizetos").val()) * 100;
+                options.notes.userID = sessionStorage.userID;
+                options.notes.username = sessionStorage.username;
+                rzp1 = new Razorpay(options);
+                rzp1.open();
+                e.preventDefault();
+            } else {
+                displayMessage("warning", "", "You can only purchase quizetos in multiples of 50");
+            }
+        });
+
+        $("#numFreeQuizetos").on({
+            input: function() {
+                $("#numRealQuizetos").text(Math.floor($("#numFreeQuizetos").val() / conversionRate));
+            }
+        });
+
+        $("#numRealRedeemQuizetos").on({
+            input: function() {
+                $("#cashAmount").text('₹' + $("#numRealRedeemQuizetos").val());
+            }
+        });
+
+        /*
+        $("#withdrawChequePhone").intlTelInput({
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
+        });
+
+        $("#withdrawBankTransferPhone").intlTelInput({
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
+        });
+        */
+        $("#withdrawChequePhone").on({
+            input: function() {
+                checkMobileTimer = setTimeout(checkMobileCheque, 1000);
+            }
+        });
+
+        $("#withdrawBankTransferPhone").on({
+            input: function() {
+                checkMobileTimer = setTimeout(checkMobileBankTransfer, 1000);
+            }
+        });
+
+        $("#withdrawChequePancard").on({
+            input: function() {
+                checkPancardTimer = setTimeout(checkPancardCheque, 1000);
+            }
+        });
+
+        $("#withdrawBankTransferPancard").on({
+            input: function() {
+                checkPancardTimer = setTimeout(checkPancardBankTransfer, 1000);
+            }
+        });
+
+        $.post('./php/conversionrate/getconversionrate.php', {
+        }, function(response) {
+            if (response[0] === 'success') {
+                conversionRate = parseInt(response[1]);
+                $("#conversionRateText").text(conversionRate);
+                $("#myAccountConversionButton").prop('disabled', false);
+            }
+        }, 'json').fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', 'Error', "Err or: Something went wrong with capturing payment");
+        });
+
+        $.get("./php/quizzes/getstarttimefromalluserscheduledquizzes.php", {
+        }, function(response) {
+            if (response.substr(0, 4) === 'fail') {
+                displayMessage('error', '', 'Error getting the used timeslots. Please use the contact form to inform the web admin of this problem.');
+            } else {
+                usedTimeSlots = JSON.parse(response);
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', "Error: Something went wrong with  AJAX GET");
+        });
+
+        $.post("./php/users/getmyaccountinfo.php", {
+            username: sessionStorage.username
+        }, function(response) {
+            if (response[0] === 'success') {
+                userInfo = response[1][0][0];
+
+                if (response[1][1].length > 0) {
+                    quizResults = response[1][1];
                 }
-            }).fail(function (request, textStatus, errorThrown) {
-                //displayMessage('error', 'Error', "Err or: Something went wrong with login function");
-                currentPasswordCorrect = false;
-            });
-        }
-    });
 
-    $("#confirmPassword").on({
-        blur: areSamePassword
-    });
+                if (response[1][2].length > 0) {
+                    withdrawals = response[1][2];
+                }
 
-    $("#newPassword").on({
-        blur: areSamePassword
-    });
+                if (response[1][3].length > 0) {
+                    purchaseHistory = response[1][3];
+                }
 
-    $("#numQuizetos").on({
-        input: function() {
-            $("#costQuizetos").text($("#numQuizetos").val());
-        }
-    });
+                if (response[1][4].length > 0) {
+                    taxations = response[1][4];
+                }
 
-    $("#purchaseButton").click(function(e) {
-        if ($("#numQuizetos").val() % 50 === 0) {
-            options.amount = parseInt($("#numQuizetos").val()) * 100;
-            options.notes.userID = sessionStorage.userID;
-            options.notes.username = sessionStorage.username;
-            rzp1 = new Razorpay(options);
-            rzp1.open();
-            e.preventDefault();
-        } else {
-            displayMessage("warning", "", "You can only purchase quizetos in multiples of 50");
-        }
-    });
+                if (response[1][5].length > 0) {
+                    quizMasterInfo = response[1][5][0];
+                }
 
-    $("#numFreeQuizetos").on({
-        input: function() {
-            $("#numRealQuizetos").text(Math.floor($("#numFreeQuizetos").val() / conversionRate));
-        }
-    });
+                if (response[1][6].length > 0) {
+                    rejectedQuestions = response[1][6];
+                }
 
-    $("#numRealRedeemQuizetos").on({
-        input: function() {
-            $("#cashAmount").text('₹' + $("#numRealRedeemQuizetos").val());
-        }
-    });
-
-    /*
-    $("#withdrawChequePhone").intlTelInput({
-        initialCountry: "auto",
-        geoIpLookup: function(callback) {
-            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                var countryCode = (resp && resp.country) ? resp.country : "";
-                callback(countryCode);
-            });
-        },
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
-    });
-
-    $("#withdrawBankTransferPhone").intlTelInput({
-        initialCountry: "auto",
-        geoIpLookup: function(callback) {
-            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                var countryCode = (resp && resp.country) ? resp.country : "";
-                callback(countryCode);
-            });
-        },
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
-    });
-    */
-    $("#withdrawChequePhone").on({
-        input: function() {
-            checkMobileTimer = setTimeout(checkMobileCheque, 1000);
-        }
-    });
-
-    $("#withdrawBankTransferPhone").on({
-        input: function() {
-            checkMobileTimer = setTimeout(checkMobileBankTransfer, 1000);
-        }
-    });
-
-    $("#withdrawChequePancard").on({
-        input: function() {
-            checkPancardTimer = setTimeout(checkPancardCheque, 1000);
-        }
-    });
-
-    $("#withdrawBankTransferPancard").on({
-        input: function() {
-            checkPancardTimer = setTimeout(checkPancardBankTransfer, 1000);
-        }
-    });
-
-    $.post('./php/conversionrate/getconversionrate.php', {
-    }, function(response) {
-        if (response[0] === 'success') {
-            conversionRate = parseInt(response[1]);
-            $("#conversionRateText").text(conversionRate);
-            $("#myAccountConversionButton").prop('disabled', false);
-        }
-    }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with capturing payment");
-    });
-
-    $.get("./php/quizzes/getstarttimefromalluserscheduledquizzes.php", {
-    }, function(response) {
-        if (response.substr(0, 4) === 'fail') {
-            displayMessage('error', '', 'Error getting the used timeslots. Please use the contact form to inform the web admin of this problem.');
-        } else {
-            usedTimeSlots = JSON.parse(response);
-        }
-    }).fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', "Error: Something went wrong with  AJAX GET");
-    });
-
-    $.post("./php/users/getmyaccountinfo.php", {
-        username: sessionStorage.username
-    }, function(response) {
-        if (response[0] === 'success') {
-            userInfo = response[1][0][0];
-
-            if (response[1][1].length > 0) {
-                quizResults = response[1][1];
+                populateProfile();
+                populateQuizzes();
+                populateWithdrawals();
+                populatePurchases();
+                populateTaxations();
+                populateQuizMaster();
+            } else {
+                displayMessage('error', 'Error', 'Error getting account info');
             }
-
-            if (response[1][2].length > 0) {
-                withdrawals = response[1][2];
-            }
-
-            if (response[1][3].length > 0) {
-                purchaseHistory = response[1][3];
-            }
-
-            if (response[1][4].length > 0) {
-                taxations = response[1][4];
-            }
-
-            if (response[1][5].length > 0) {
-                quizMasterInfo = response[1][5][0];
-            }
-
-            if (response[1][6].length > 0) {
-                rejectedQuestions = response[1][6];
-            }
-
-            populateProfile();
-            populateQuizzes();
-            populateWithdrawals();
-            populatePurchases();
-            populateTaxations();
-            populateQuizMaster();
-        } else {
-            displayMessage('error', 'Error', 'Error getting account info');
-        }
-    }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', 'Error', "Error: Something went wrong with  AJAX POST");
-    });
+        }, 'json').fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', 'Error', 'Error', "Error: Something went wrong with  AJAX POST");
+        });
+    }
 };
 
 function populateProfile() {
@@ -1161,7 +1166,23 @@ function showScheduleQuiz() {
         quizBalance = $("#quizMasterUserInfo tr:eq(1) td:eq(3)").text();
     }
 
-    if ($("#myAccountProfilePancardView").text() === '') {
+    // Quizzes can only be scheduled between certain times set by the admin.
+    var h = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+    var st = JSON.parse(quizMasterInfo.schedulingTimes);
+    var startTime = parseInt(st[0]);
+    // If the schedule crosses midnight, then add 24 to the endTime index so the above array can be sliced.
+    var endTime = (parseInt(st[1]) < startTime ? parseInt(st[1]) + 24 : parseInt(st[1]));
+    var hoursThatCanBeScheduled = h.slice(startTime, endTime);
+    // Create a string with the start and end times in 12 hour format to use for the warning.
+    var scheduleString = get12HourTimeString(startTime) + " and " + get12HourTimeString(endTime);
+
+    // Get the current hour
+    var currentHour = moment().get('hour');
+
+    // Check if current hour is in list of hours in which quizzes can be scheduled
+    if (hoursThatCanBeScheduled.indexOf(currentHour) == -1) {
+        displayMessage('warning', "You can't schedule a quiz", "Quizzes can only be scheduled between " + scheduleString);
+    } else if ($("#myAccountProfilePancardView").text() === '') {
         displayMessage('warning', "You can't schedule a quiz", "Please update your PAN card under my profile section to start scheduling quiz");
     } else if (quizMasterInfo.quizzesScheduledToday >= 2) {
         displayMessage('warning', "You can't schedule a quiz", 'You have already scheduled 2 quiz for the day. Please try next day again');
@@ -1285,6 +1306,21 @@ function scheduleQuiz() {
 }
 
 function areScheduleQuizInputsValid() {
+    if ($("#quizMasterQuizName").val() === '') {
+        return [false, 'You need to enter a name for the quiz'];
+    }
+
+    if ($("#quizMasterQuizFee").val() < 50) {
+        return [false, 'The registration fee must be at least 50'];
+    }
+
+    if ($("#quizMasterQuizMinUsers").val() === '') {
+        return [false, 'You need to enter the minimum number of registered users required'];
+    }
+
+    if ($('.selectedTimeSlot').length === 0) {
+        return [false, 'You need to select a start time for your quiz'];
+    }
 
     return [true, ''];
 }

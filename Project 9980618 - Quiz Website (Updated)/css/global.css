@@ -8,6 +8,10 @@ body {
   color: #333;
 }
 
+#showIfLoggedIn {
+  display: none;
+}
+
 #homeIcon, #quizzesIcon, #myAccountIcon, #faqIcon {
   width: 30px;
   margin-bottom: 10px;

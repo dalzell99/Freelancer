@@ -8,16 +8,21 @@ window.onload = function () {
 
     $('li.active').removeClass('active');
     $("#quizzesMenuItem").addClass('active');
-
-    if (getUrlVars().type === 'free') {
-        sessionStorage.quizType = 'free';
+    
+    if (sessionStorage.loggedIn !== 'true') {
+        displayMessage("warning", "You must be logged in to see this.", "You need to either login above or signup for an account on the home page.");
     } else {
-        sessionStorage.quizType = 'admin';
-        $("#paidQuizTabs").show();
-    }
+        $("#showIfLoggedIn").show();
+        if (getUrlVars().type === 'free') {
+            sessionStorage.quizType = 'free';
+        } else {
+            sessionStorage.quizType = 'admin';
+            $("#paidQuizTabs").show();
+        }
 
-    updateQuizzes();
-    updateQuizzesTimer = setInterval(updateQuizzes, 5000);
+        updateQuizzes();
+        updateQuizzesTimer = setInterval(updateQuizzes, 5000);
+    }
 };
 
 function updateQuizzes() {

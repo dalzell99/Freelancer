@@ -13,56 +13,62 @@ window.onload = function () {
 
     $('li.active').removeClass('active');
     $("#quizzesMenuItem").addClass('active');
-    //('#quizQnsDiv').hide();
-    var quizID = getUrlVars().id;
 
-    $.post('./php/quizzes/getquizinfo.php', {
-        id: quizID
-    },
-            function (response) {
-                if (response[0] == 'success') {
-                    quiz = response[1];
+    if (sessionStorage.loggedIn !== 'true') {
+        displayMessage("warning", "You must be logged in to see this.", "You need to either login above or signup for an account on the home page.");
+    } else {
+        $("#showIfLoggedIn").show();
+        //('#quizQnsDiv').hide();
+        var quizID = getUrlVars().id;
 
-                    // If the editable GET variable is true, the quiz doesn't start in the next 4 hours (1000 milliseconds * 60 seconds * 60 minutes * 4 hours) and the current user was the one to schedule the quiz then set editable to true. This makes all info editable.
-                    if (getUrlVars().editable == 'true' && moment(quiz.startTime).diff(moment()) > 1000 * 60 * 60 * 4 && sessionStorage.username == quiz.creatorUsername) {
-                        editable = true;
+        $.post('./php/quizzes/getquizinfo.php', {
+            id: quizID
+        },
+                function (response) {
+                    if (response[0] == 'success') {
+                        quiz = response[1];
+
+                        // If the editable GET variable is true, the quiz doesn't start in the next 4 hours (1000 milliseconds * 60 seconds * 60 minutes * 4 hours) and the current user was the one to schedule the quiz then set editable to true. This makes all info editable.
+                        if (getUrlVars().editable == 'true' && moment(quiz.startTime).diff(moment()) > 1000 * 60 * 60 * 4 && sessionStorage.username == quiz.creatorUsername) {
+                            editable = true;
+                        } else {
+                            editable = false;
+                        }
+
+                        populateTitle();
+                        populateInfo();
+                        populatePrizes();
+                        populateLeaders();
+                        populateRules();
+                        $('#quizQnsDiv').hide();
+
+                        //displayMessage('info', '', 'sdfdsf');
+                        if (moment(quiz.endTime).diff(moment()) < 0) {
+                            $('#quizQnsDiv').show();
+                            populateQuestions();
+                        }
+
+                        // Only create this timer if the quiz starts in more than 10 minutes
+                        if (moment(quiz.startTime).diff(moment()) > 600000) {
+                            // Stop registration 10 minutes before start of quiz
+                            registrationQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 600000);
+                        }
+
+                        // Only create this timer if the quiz starts in more than 2 minutes
+                        if (moment(quiz.startTime).diff(moment()) > 120000) {
+                            // Update the prizes to reflect the redistributed prizes
+                            updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 120000);
+                        }
+
+                        // Don't allow people to start quiz after it has ended
+                        endQuizTimer = setTimeout(populateTitle, moment(quiz.endTime).diff(moment()));
                     } else {
-                        editable = false;
+                        displayMessage('error', 'Error', "Error: " + response[1]);
                     }
-
-                    populateTitle();
-                    populateInfo();
-                    populatePrizes();
-                    populateLeaders();
-                    populateRules();
-                    $('#quizQnsDiv').hide();
-
-                    //displayMessage('info', '', 'sdfdsf');
-                    if (moment(quiz.endTime).diff(moment()) < 0) {
-                        $('#quizQnsDiv').show();
-                        populateQuestions();
-                    }
-
-                    // Only create this timer if the quiz starts in more than 10 minutes
-                    if (moment(quiz.startTime).diff(moment()) > 600000) {
-                        // Stop registration 10 minutes before start of quiz
-                        registrationQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 600000);
-                    }
-
-                    // Only create this timer if the quiz starts in more than 2 minutes
-                    if (moment(quiz.startTime).diff(moment()) > 120000) {
-                        // Update the prizes to reflect the redistributed prizes
-                        updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 120000);
-                    }
-
-                    // Don't allow people to start quiz after it has ended
-                    endQuizTimer = setTimeout(populateTitle, moment(quiz.endTime).diff(moment()));
-                } else {
-                    displayMessage('error', 'Error', "Err or: " + response[1]);
-                }
-            }, 'json').fail(function (request, textStatus, errorThrown) {
-        //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
-    });
+                }, 'json').fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
+        });
+    }
 };
 
 // Show the start button so user can start quiz
@@ -98,7 +104,7 @@ function updatePrizes() {
             displayMessage('error', 'Error', 'Error checking if prizes have been updated');
         }
     }, 'json').fail(function (request, textStatus, errorThrown) {
-        displayMessage('error', 'Error', "Err or: Something went wrong with  AJAX POST");
+        //displayMessage('error', 'Error', "Err or: Something went wrong with  AJAX POST");
     });
 }
 
@@ -175,7 +181,7 @@ function populateTitle() {
                 setInterval(populateLeaders, 15000);
             } else if (secondsToEndTime >= 0) {
                 html += '    <div id="quizTitleRight" class="col-xs-3">ERROR</div>';
-                displayMessage('error', 'Error', "Err or checking if you are registered for this quiz or if you have already completed the quiz. Please contact web admin about this problem.");
+                displayMessage('error', 'Error', "Error checking if you are registered for this quiz or if you have already completed the quiz. Please contact web admin about this problem.");
             } else {
                 html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ ENDED</div>';
                 populateQuestions();
@@ -222,7 +228,7 @@ function populateInfo() {
     html += '<table  id="quizInfoTable1"  class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top" >';
     html += '    <tr>';
     html += '        <td>Start Time</td>';
-    html += '        <td>' + moment(quiz.startTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
+    html += '        <td onclick="showTimeslotChange()">' + moment(quiz.startTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
     html += '    </tr>';
     html += '    <tr>';
     html += '        <td>End Time</td>';
@@ -527,4 +533,100 @@ function addContentEditableEvents() {
             sessionStorage.contenteditable = $(this).text();
         }
     });
+}
+
+function showTimeslotChange() {
+    var html = '';
+    html += "<div id='quizMasterQuizDate'></div>";
+    html += "<table id='quizMasterQuizStartTimeTable'>";
+    for (var k = 0; k < 24; k += 1) {
+        html += "<tr>";
+        for (var j = 0; j < 6; j += 1) {
+            html += "<td class='ts" + pad(k, 2) + pad(j * 10, 2) +"' onclick='selectTimeSlot(this)'>" + (k > 12 ? k - 12 : (k === 0 ? 12 : k)) + ":" + pad(j * 10, 2) + (k > 11 ? 'pm' : 'am') + "</td>";
+        }
+        html += "</tr>";
+    }
+    html += "</table>";
+    $("#startTimeChangeModal .modal-body").empty().append(html);
+
+    // Init the date picker
+    $("#quizMasterQuizDate").datetimepicker({
+        format: "dd/MM/YYYY",
+        inline: true
+    });
+
+    $("#quizMasterQuizDate").on('dp.change', function () {
+        // If the date is changed, disable the timeslots for the new date
+        disableTimeSlots();
+    });
+
+    disableTimeSlots();
+    $("#startTimeChangeModal").modal();
+}
+
+function selectTimeSlot(elem) {
+    $(".selectedTimeSlot").removeClass('selectedTimeSlot');
+    $(elem).addClass('selectedTimeSlot');
+}
+
+function disableTimeSlots() {
+    $.get("./php/quizzes/getstarttimefromalluserscheduledquizzes.php", {
+    }, function(response) {
+        if (response.substr(0, 4) === 'fail') {
+            displayMessage('error', '', 'Error getting the used timeslots. Please use the contact form to inform the web admin of this problem.');
+        } else {
+            var usedTimeSlots = JSON.parse(response);
+            $(".selectedTimeSlot").removeClass('selectedTimeSlot');
+            $(".usedTimeSlot").removeClass('usedTimeSlot').on('onclick', 'selectTimeSlot(this)');
+
+            var date = $('#quizMasterQuizDate').data("DateTimePicker").date().format("YYYY-MM-DD");
+            usedTimeSlots.forEach(function (time) {
+                // Get quiz start time as local time
+                var usedTime = moment(time.startTime).local();
+                // Check if the quiz is scheduled to start on the date selected by user
+                if (usedTime.format("YYYY-MM-DD") === date) {
+                    // If it is then add usedTimeSlot class to the correct time slot for the users timezone and remove the click event for that timeslot
+                    $(".ts" + usedTime.format("HH") + usedTime.format("mm")).addClass('usedTimeSlot').prop('onclick', '');
+                }
+            });
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX GET");
+    });
+}
+
+function saveTimeChange() {
+    if ($('.selectedTimeSlot').length !== 0) {
+        // Get date as moment
+        var date = $('#quizMasterQuizDate').data("DateTimePicker").date();
+        // Get the selected timeslots class which contains the time as HHMM
+        var tc = $('.selectedTimeSlot')[0].className;
+        // Set the hours and minutes of the moment retrieved above
+        date.set({
+            'hour': parseInt(tc.substr(2, 2)),
+            'minute': parseInt(tc.substr(4, 2))
+        });
+        // Get the UTC ISO8601 string of the moment
+        var startTime = date.utc().toISOString();
+        $.post("./php/quizzes/changequizstarttime.php", {
+            quizID: quiz.quizID,
+            startTime: startTime
+        }, function(response) {
+            if (response == 'success') {
+                $("#quizInfoTable1 tr:eq(0) td:eq(1)").text(date.local().format("ddd Do MMM YYYY h:mm a"));
+                $("#quizInfoTable1 tr:eq(1) td:eq(1)").text(date.add(2, 'minutes').local().format("ddd Do MMM YYYY h:mm a"));
+
+                quiz.startTime = date;
+                quiz.startTime = date.add(2, 'minutes');
+                updateCountdownsTimer();
+                displayMessage('success', '', 'Quiz start time changed');
+            } else {
+                displayMessage('error', '', 'Error saving start time change. Please contact web admin about this problem.');
+            }
+        }).fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+        });
+    } else {
+
+    }
 }

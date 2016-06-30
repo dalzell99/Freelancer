@@ -31,13 +31,17 @@ $endTime[15] = '2';
 
 $rules = json_encode(["User need real quizeto balance to register in this quiz","Prize pool contains redeemable real quizeto","Winners will be decided based on maximum number of correct answer given in minimum time","User can unregister from the quiz until 10 minutes before the start of the quiz","Incase of less number of participant, quiz will be automatically cancelled","Quizeto will be refunded to respective user account if quiz gets cancelled"]);
 
-$sqlQuizMaster = "SELECT creatorEarnings, quizScheduleTarget FROM QuizMaster WHERE id = 1";
+$sqlQuizMaster = "SELECT creatorEarnings, quizScheduleTarget, userQuizzesUseAdminQuestions FROM QuizMaster WHERE id = 1";
 $resultQuizMaster = mysqli_query($con, $sqlQuizMaster);
 $rowQuizMaster = mysqli_fetch_assoc($resultQuizMaster);
 $creatorEarnings = $rowQuizMaster['creatorEarnings'];
 $quizScheduleTarget = $rowQuizMaster['quizScheduleTarget'];
+$userQuizzesUseAdminQuestions = $rowQuizMaster['userQuizzesUseAdminQuestions'];
 
-$sqlQuestion = "SELECT * From Questions WHERE creator <> '$creatorUsername' AND creator <> 'admin'";
+$sqlQuestion = "SELECT * From Questions WHERE creator <> '$creatorUsername'";
+if ($userQuizzesUseAdminQuestions != 'yes') {
+    $sqlQuestion .= " AND creator <> 'admin'";
+}
 $resultQuestion = mysqli_query($con, $sqlQuestion);
 $questionArray = [];
 while ($row = mysqli_fetch_assoc($resultQuestion)) {

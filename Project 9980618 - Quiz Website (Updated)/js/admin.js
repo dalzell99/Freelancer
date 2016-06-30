@@ -106,6 +106,24 @@ function setActivePage(page) {
     sessionStorage.page = page;
 }
 
+// Return string with number padding with leading zeros to certain length
+function pad(value, length) {
+    // Convert to string
+    value = '' + value;
+
+    // Add zeros to front until the desired length
+    while (value.length < length) {
+        value = "0" + value;
+    }
+
+    // return padded value as string
+    return value;
+}
+
+function get12HourTimeString(hour) {
+    return hour > 12 ? hour - 12 + "pm" : (hour === 0 ? 12 : hour) + 'am';
+}
+
 function isInt(value) {
   return !isNaN(value) &&
          parseInt(Number(value)) == value &&
@@ -1618,20 +1636,38 @@ function populateQuizMaster() {
             var newTableObject = document.getElementById('quizMasterTable');
             sorttable.makeSortable(newTableObject);
 
+            // Add options to schedule dropdowns
+            var htmlOptions = '';
+            for (var j = 0; j < 24; j += 1) {
+                htmlOptions += "<option value='" + pad(j, 2) + "'>" + get12HourTimeString(j) + "</option>";
+            }
+            $("#quizMasterScheduleStart").empty().append(htmlOptions);
+            $("#quizMasterScheduleEnd").empty().append(htmlOptions);
+
+            // Initialise all inputs, radio buttons and dropdowns
             $("#quizMasterUserScheduleTarget").val(quizMasterArray.quizScheduleTarget);
             $("#quizMasterCreatorCommission").val(quizMasterArray.creatorEarnings);
             $("#quizMasterQuizPackCost").val(quizMasterArray.costPerPurchase);
             $("#quizMasterQuizPackSize").val(quizMasterArray.numQuizzesPerPurchase);
             $("input[type='radio'][name='useAdminQuestions'][value='" + quizMasterArray.userQuizzesUseAdminQuestions + "']").prop('checked', true);
+            var st = JSON.parse(quizMasterArray.schedulingTimes);
+            $("#quizMasterScheduleStart").val(st[0]);
+            $("#quizMasterScheduleEnd").val(st[1]);
 
             $("#quizMasterSaveButton").on({
                 click: function () {
+                    var schedulingTimes = JSON.stringify([
+                        $("#quizMasterScheduleStart").val(),
+                        $("#quizMasterScheduleEnd").val()
+                    ]);
+
                     $.post("./php/quizmaster/updatequizmasterinfo.php", {
                         quizScheduleTarget: $("#quizMasterUserScheduleTarget").val(),
                         creatorEarnings: $("#quizMasterCreatorCommission").val(),
                         costPerPurchase: $("#quizMasterQuizPackCost").val(),
                         numQuizzesPerPurchase: $("#quizMasterQuizPackSize").val(),
-                        userQuizzesUseAdminQuestions: $("input[type='radio'][name='useAdminQuestions']:checked").val()
+                        userQuizzesUseAdminQuestions: $("input[type='radio'][name='useAdminQuestions']:checked").val(),
+                        schedulingTimes: schedulingTimes
                     }, function(response) {
                         if (response == 'success') {
                             displayMessage('info', 'Changes have been saved');
@@ -1773,7 +1809,8 @@ function acceptQuestion(id) {
 
 function rejectQuestion(id) {
     $.post("./php/pendingquestions/rejectquestion.php", {
-        questionID: pendingQuestionArray[id].questionID
+        questionID: pendingQuestionArray[id].questionID,
+        username: pendingQuestionArray[id].username
     }, function(response) {
         if (response == 'success') {
             displayMessage('info', 'Question rejected');
@@ -1783,4 +1820,10 @@ function rejectQuestion(id) {
     }).fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
+}
+
+function approveAllQuestions() {
+    for (var i = 0; i < pendingQuestionArray.length; i += 1) {
+        acceptQuestion(i);
+    }
 }

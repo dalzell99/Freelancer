@@ -7,7 +7,7 @@ echo '<script type="text/javascript" src="js/quizinfo.js?' . filemtime('js/quizi
 ?>
 <div class="container-fluid"  style=" background: url(images/backgrond.png); min-height:600px;">
 
-    <div class="container">
+    <div class="container" id='showIfLoggedIn'>
         <div id="no-more-tables" class="margin-top">
             <div class="col-md-2"></div>
             <table class="col-md-8 col-sm-8 col-lg-8 col-xs-12 table-bordered table-striped table-condensed cf margin-top">
@@ -76,6 +76,21 @@ echo '<script type="text/javascript" src="js/quizinfo.js?' . filemtime('js/quizi
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="startTimeChangeModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-default" data-dismiss="modal" onclick='saveTimeChange()'>Save</button>
+        <button type="submit" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <?php include('footer.php'); ?>

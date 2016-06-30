@@ -46,7 +46,7 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
 </style>
 <div class="container-fluid" style=" background: url(images/backgrond.png);">
 
-    <div class="container" style=" min-height:625px;">
+    <div class="container" id='showIfLoggedIn' style=" min-height:625px;">
         <div id='paidQuizTabs'>
             <div onclick="showPaidAdminQuizzes()">
                 Admin

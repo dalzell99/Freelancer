@@ -314,6 +314,11 @@
                     <input type="number" id='quizMasterQuizPackSize' class='form-control'>
                 </div>
                 <div class="form-group">
+                    <label for="#quizMasterQuizPackSize">Quiz Schedule Times</label>
+                    <select id='quizMasterScheduleStart' class='form-control'></select>
+                    <select id='quizMasterScheduleEnd' class='form-control'></select>
+                </div>
+                <div class="form-group">
                     <label for="#quizMasterUseAdminQuestions">Can user quizzes use admin questions?</label>
                     <form>
                         <input type="radio" value='yes' name='useAdminQuestions' class='form-control'> Yes
@@ -328,6 +333,7 @@
             </div>
 
             <div id="pendingQuestionContainer"  class="container">
+                <button onclick='approveAllQuestions()'>Approve All Questions</button>
                 <div class='tablePaginationContainer' id='createPendingQuestionPagination'></div>
                 <table class='databaseTable table-bordered table-striped table-condensed cf' id="pendingQuestionTable" style="margin-top:20px;"></table>
             </div>

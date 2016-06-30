@@ -63,8 +63,10 @@ if ($resultUsers = mysqli_query($con, $sql1)) {
                     if ($resultQuizMaster = mysqli_query($con, $sql6)) {
                         $quizQuizMaster = [];
                         while ($rowQuizMaster = mysqli_fetch_assoc($resultQuizMaster)) {
-                            $resultScheduleTarget = mysqli_query($con, "SELECT quizScheduleTarget FROM QuizMaster WHERE id=1");
-                            $rowQuizMaster['quizScheduleTarget'] = mysqli_fetch_assoc($resultScheduleTarget)['quizScheduleTarget'];
+                            $resultScheduleTarget = mysqli_query($con, "SELECT quizScheduleTarget, schedulingTimes FROM QuizMaster WHERE id=1");
+                            $row2 = mysqli_fetch_assoc($resultScheduleTarget);
+                            $rowQuizMaster['quizScheduleTarget'] = $row2['quizScheduleTarget'];
+                            $rowQuizMaster['schedulingTimes'] = $row2['schedulingTimes'];
 
                             $quizzes = [];
                             $resultScheduledQuizzes = mysqli_query($con, "SELECT category, startTime, userRegistered, winningUserID, creatorEarnings, pointsCost FROM Quizzes WHERE creatorUsername = '$username'");

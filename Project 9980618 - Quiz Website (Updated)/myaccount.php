@@ -6,7 +6,7 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <div class="container" style=" background: url(images/backgrond.png); min-height:582px;">
-    <div class="row">
+    <div class="row" id='showIfLoggedIn'>
 
         <div class="login-body">
             <article class="container-login center-block" style="margin-top: -40px !important;">
