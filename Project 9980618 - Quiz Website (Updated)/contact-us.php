@@ -28,6 +28,7 @@ echo '<script type="text/javascript" src="js/contact-us.js?' . filemtime('js/con
                         <option value="rewards@iqzeto.com">Rewards related query</option>
                         <option value="redeem@iqzeto.com">Redeem request related query</option>
                         <option value="quiz@iqzeto.com">Quiz related query</option>
+                        <option value="quizmaster@iqzeto.com">Quiz scheduling query</option>
                         <option value="query@iqzeto.com">Any other specific query</option>
                         <option value="feedback@iqzeto.com">Any feedback</option>
                       </select>

@@ -81,3 +81,26 @@ table:not(#quizMasterQuizDate) {
 .table-condensed td {
   padding: 10px;
 }
+
+.modal {
+    top: 20px;
+    bottom: 20px;
+}
+
+.modal-dialog {
+    width: 60%;
+    height: initial;
+    margin: auto;
+}
+
+.modal-content {
+    color: black;
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.btn-default:not(.dropdown-toggle) {
+    background-color: #FFF;
+}

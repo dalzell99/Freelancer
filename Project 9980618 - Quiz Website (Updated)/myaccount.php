@@ -190,7 +190,7 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
                                     ₹<span id='costQuizetos'>0</span>
                                 </div>
                                 <div class='form-group'>
-                                    <button class='btn btn-primary' id='purchaseButton'>Buy Real Qzetos</button>
+                                    <button class='btn btn-primary' id='purchaseButton'  data-toggle="modal" data-target="#purchaseModal">Buy Real Qzetos</button>
                                 </div>
                                 <div id='myAccountPurchaseHistory'>
 
@@ -313,6 +313,27 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
 
 </div></div>
 
+
+<!-- Modal -->
+<div id="purchaseModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Terms of Service</h4>
+      </div>
+      <div class="modal-body">
+        <?php include("termsofservicetext.php"); ?>
+      </div>
+      <div class="modal-footer">
+		    <button type="button" class="btn btn-default" onclick='displayPaymentGateway()' data-dismiss="modal">Agree</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Disagree</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <?php include('footer.php'); ?>

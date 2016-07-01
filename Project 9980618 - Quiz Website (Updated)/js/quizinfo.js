@@ -323,7 +323,7 @@ function populateRules() {
     html += '</table>';
     //   html += '</div>';
     //   html += '</div>';
-    $("#quizRules").empty().append(html).show();
+    $("#quizRules").empty().append(html);
 }
 
 function populateLeaders() {

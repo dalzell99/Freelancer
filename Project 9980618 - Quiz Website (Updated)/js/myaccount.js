@@ -113,19 +113,6 @@ window.onload = function() {
             }
         });
 
-        $("#purchaseButton").click(function(e) {
-            if ($("#numQuizetos").val() % 50 === 0) {
-                options.amount = parseInt($("#numQuizetos").val()) * 100;
-                options.notes.userID = sessionStorage.userID;
-                options.notes.username = sessionStorage.username;
-                rzp1 = new Razorpay(options);
-                rzp1.open();
-                e.preventDefault();
-            } else {
-                displayMessage("warning", "", "You can only purchase quizetos in multiples of 50");
-            }
-        });
-
         $("#numFreeQuizetos").on({
             input: function() {
                 $("#numRealQuizetos").text(Math.floor($("#numFreeQuizetos").val() / conversionRate));
@@ -660,6 +647,19 @@ function showWithdraw() {
 function showTaxation() {
     hideAllContainers();
     $("#myAccountTaxation").show();
+}
+
+function displayPaymentGateway() {
+    if ($("#numQuizetos").val() % 50 === 0) {
+        options.amount = parseInt($("#numQuizetos").val()) * 100;
+        options.notes.userID = sessionStorage.userID;
+        options.notes.username = sessionStorage.username;
+        rzp1 = new Razorpay(options);
+        rzp1.open();
+        e.preventDefault();
+    } else {
+        displayMessage("warning", "", "You can only purchase quizetos in multiples of 50");
+    }
 }
 
 function convertFreePoints() {

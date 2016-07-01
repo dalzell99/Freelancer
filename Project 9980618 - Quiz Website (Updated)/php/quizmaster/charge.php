@@ -41,9 +41,13 @@ if ($payment['status'] == 'captured') {
         $message = "
         <html>
             <body>
-                <p>Dear " . $row['username'] . ",<br>Thank you for your purchase on IQzeto.com! " . $paymentAmount / 100 . " Real Quizetos have been added to your account and are ready to be used.</p>
-                <p>Thanks & Regards,<br>Team IQzeto.com</p>
-            </body>
+                <p>Dear " . $row['username'] . ",</p>
+                <p>You have successfully unlocked scheduling of $numQuizzes paid quizzes. Please login to your account and check the details under My Account--Quiz Master--Activate as Quiz master tabFor any concern please feel free to write us to quizmaster@iqzeto.com,</p>
+
+                <p>We will be happy to assist</p>
+
+                <p>Happy Quizzing</p>
+                <p>RegardsTeam IQzeto</p>         </body>
         </html>
         ";
 

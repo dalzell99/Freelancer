@@ -3,7 +3,8 @@
 }
 
 .modal {
-    top: 50px;
+    top: 20px;
+    bottom: 20px;
 }
 
 .modal-dialog {
