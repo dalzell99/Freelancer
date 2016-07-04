@@ -111,3 +111,17 @@
 .highlightQuiz {
   border: 2px solid rgb(255, 0, 0);
 }
+
+.quizTitle > * {
+  display: inline-block;
+}
+
+.finished,
+.finished .demo-h3 {
+  color: red;
+}
+
+.notfinished,
+.notfinished .demo-h3 {
+  color: green;
+}

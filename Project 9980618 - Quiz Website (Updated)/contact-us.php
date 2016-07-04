@@ -98,6 +98,9 @@ echo '<script type="text/javascript" src="js/contact-us.js?' . filemtime('js/con
         </p>
     </div>
 
+    <div class='col-xs-12 col-sm-4'>
+        <img class='img-responsive' src="./images/contactPageRightSideImage.jpg" alt="">
+    </div>
 
      </div>
 

@@ -158,7 +158,7 @@ function addPromotions() {
         if (response[0] == 'success') {
             var html = '';
 
-            for (var i = 0; response[1] != null && i < response[1].length; i += 1) {
+            for (var i = 0; response[1] !== null && i < response[1].length; i += 1) {
                 html += '    <div class="item ">';
                 html += '        <div class="col-md-4">';
                 if (sessionStorage.loggedIn == 'true') {
@@ -175,7 +175,7 @@ function addPromotions() {
             $("#promotionCarousel .carousel-inner").empty().append(html);
             $("#promotionCarousel .carousel-inner :nth-child(1)").addClass('active');
 
-            if (response.length == 0) {
+            if (response.length === 0) {
                 $("#promotions").hide();
             }
 
@@ -183,7 +183,7 @@ function addPromotions() {
                 interval: 7000
             });
 
-            $('.carousel .item').each(function() {
+            $('#promotionCarousel.carousel .item').each(function() {
                 var next = $(this).next();
                 if (!next.length) {
                     next = $(this).siblings(':first');
@@ -221,7 +221,7 @@ function addTestimonials() {
 
                 html += '   <div class="item ">';
                 html += '       <div class="test1" >';
-                html += '            <img style="width:100px; height:100px;" class="testimonialImages" src="./php/testimonials/uploads/' + response[1][i].imageURL + '">';
+                html += '            <img style="width:100px; height:100px;" class="testimonialImages img-circle" src="./php/testimonials/uploads/' + response[1][i].imageURL + '">';
                 html += '       </div>';
                 html += '       <div class="test2"><span class="span1">' + response[1][i].username + ' </span> <br/> <span class="student"></span></div>';
                 html += '       <blockquote>';

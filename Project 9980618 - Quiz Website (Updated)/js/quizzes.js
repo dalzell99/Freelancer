@@ -2,6 +2,7 @@ var quizzes;
 var updateQuizzesTimer;
 var updateCountdownsTimer;
 var quizPage = 0;
+var update = false;
 
 window.onload = function () {
     global();
@@ -21,7 +22,8 @@ window.onload = function () {
         }
 
         updateQuizzes();
-        updateQuizzesTimer = setInterval(updateQuizzes, 5000);
+        // Check for new quizzes every 60 seconds
+        updateQuizzesTimer = setInterval(updateQuizzes, 60000);
     }
 };
 
@@ -79,11 +81,27 @@ function showFreeQuizzes() {
         //  html += '<div class="row quizRow">';
 
         html += '     <div class="item quizRow  col-xs-12 col-lg-4 col-lg-4 col-sm-4">';
-        html += '    <div class="hidden">' + q.quizID + '</div>';
+        html += '         <div class="hidden">' + q.quizID + '</div>';
         html += '         <div class="thumbnail quizInfoTable">';
 
         html += '           <div class="cover-card " style="">';
-        html += '               <h3 class="demo-h3">' + q.category + '</h3>';
+        html += '               <div class="quizTitle">';
+        html += '                   <!-- AddToAny BEGIN -->';
+        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
+        html += '                        <a class="a2a_button_pinterest"></a><br />';
+        html += '                        <a class="a2a_button_linkedin"></a><br />';
+        html += '                        <a class="a2a_button_tumblr"></a>';
+        html += '                   </div>';
+        html += '                   <!-- AddToAny END -->';
+        html += '                   <h3 class="demo-h3 col-xs-8">' + q.category + '</h3>';
+        html += '                   <!-- AddToAny BEGIN -->';
+        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
+        html += '                        <a class="a2a_button_facebook"></a><br />';
+        html += '                        <a class="a2a_button_twitter"></a><br />';
+        html += '                        <a class="a2a_button_google_plus"></a>';
+        html += '                   </div>';
+        html += '                   <!-- AddToAny END -->';
+        html += '               </div>';
         html += '               <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">';
         html += '                   <div><strong>Fee :</strong> ' + q.pointsCost + '</div>';
         html += '                   <div><strong>Register Users :</strong> ' + JSON.parse(q.userRegistered).length + '</div>';
@@ -104,6 +122,9 @@ function showFreeQuizzes() {
         //  html += '</div>';
 
     }
+
+    // Social button initialisation
+    html += '<script async src="https://static.addtoany.com/menu/page.js"></script>';
 
     $("#quizTable").empty().append(html);
     $("#paidButton").removeClass('active');
@@ -148,17 +169,33 @@ function showPaidAdminQuizzes() {
         }
         var startTime = moment(q.startTime).format("ddd Do MMM YYYY h:mm a");
         var endTime = moment(q.endTime).format("ddd Do MMM YYYY h:mm a");
-        var timeLimit = (q.timeLimit >= 60 ? String(q.timeLimit / 60) + 'hr ' + pad(q.timeLimit % 60, 2) : q.timeLimit) + ' mins';
-
+        // If the quiz has finished, the font will be set to red otherwise green
+        var finished = (moment().diff(moment(q.endTime)) > 0 ? 'finished' : 'notfinished');
 
         //  html += '<div class="row quizRow">';
 
-        html += '     <div class="item quizRow  col-xs-12 col-lg-4 col-lg-4 col-sm-4">';
-        html += '    <div class="hidden">' + q.quizID + '</div>';
+        html += '     <div class="item quizRow ' + finished + ' col-xs-12 col-lg-4 col-lg-4 col-sm-4">';
+        html += '         <div class="hidden">' + q.quizID + '</div>';
         html += '         <div class="thumbnail quizInfoTable">';
 
         html += '           <div class="cover-card " style="">';
-        html += '               <h3 class="demo-h3">' + q.category + '</h3>';
+        html += '               <div class="quizTitle">';
+        html += '                   <!-- AddToAny BEGIN -->';
+        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
+        html += '                        <a class="a2a_button_pinterest"></a><br />';
+        html += '                        <a class="a2a_button_linkedin"></a><br />';
+        html += '                        <a class="a2a_button_tumblr"></a>';
+        html += '                   </div>';
+        html += '                   <!-- AddToAny END -->';
+        html += '                   <h3 class="demo-h3 col-xs-8">' + q.category + '</h3>';
+        html += '                   <!-- AddToAny BEGIN -->';
+        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
+        html += '                        <a class="a2a_button_facebook"></a><br />';
+        html += '                        <a class="a2a_button_twitter"></a><br />';
+        html += '                        <a class="a2a_button_google_plus"></a>';
+        html += '                   </div>';
+        html += '                   <!-- AddToAny END -->';
+        html += '               </div>';
         html += '               <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">';
         html += '                   <div><strong>Fee :</strong> ' + q.pointsCost + '</div>';
         html += '                   <div><strong>Register Users :</strong> ' + JSON.parse(q.userRegistered).length + '</div>';
@@ -167,7 +204,7 @@ function showPaidAdminQuizzes() {
         html += '                   <div><strong>Quiz Start:</strong> ' + startTime + '</div>';
         html += '                   <div><strong>Quiz End:</strong> ' + endTime + '</div>';
 
-        html += (q.quizID === 2 ? '' : '<div class="countdown' + q.quizID + '"></div>');  // Don't include countdown fro demo quiz
+        html += (q.quizID === 2 ? '' : '<div class="countdown' + q.quizID + '"></div>');  // Don't include countdown for demo quiz
         html += '               </div>';
         html += '               <p>';
         if (sessionStorage.loggedIn === 'true') {
@@ -225,17 +262,35 @@ function showPaidUserQuizzes() {
         }
         var startTime = moment(q.startTime).format("ddd Do MMM YYYY h:mm a");
         var endTime = moment(q.endTime).format("ddd Do MMM YYYY h:mm a");
-        var timeLimit = (q.timeLimit >= 60 ? String(q.timeLimit / 60) + 'hr ' + pad(q.timeLimit % 60, 2) : q.timeLimit) + ' mins';
-
-
+        // Users own quizzes will be highlighted in some fashion.
         var highlight = (sessionStorage.username == q.creatorUsername ? 'highlightQuiz' : '');
+        // If the quiz has finished, the font will be set to red otherwise green
+        var finished = (moment().diff(moment(q.endTime)) > 0 ? 'finished' : 'notfinished');
+
         //  html += '<div class="row quizRow">';
-        html += '     <div class="item quizRow col-xs-12 col-lg-4 col-lg-4 col-sm-4">';
+
+        html += '     <div class="item quizRow ' + finished + ' col-xs-12 col-lg-4 col-lg-4 col-sm-4">';
         html += '         <div class="hidden">' + q.quizID + '</div>';
         html += '         <div class="thumbnail quizInfoTable ' + highlight + '">';
 
         html += '           <div class="cover-card " style="">';
-        html += '               <h3 class="demo-h3">' + q.category + '</h3>';
+        html += '               <div class="quizTitle">';
+        html += '                   <!-- AddToAny BEGIN -->';
+        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
+        html += '                        <a class="a2a_button_pinterest"></a><br />';
+        html += '                        <a class="a2a_button_linkedin"></a><br />';
+        html += '                        <a class="a2a_button_tumblr"></a>';
+        html += '                   </div>';
+        html += '                   <!-- AddToAny END -->';
+        html += '                   <h3 class="demo-h3 col-xs-8">' + q.category + '</h3>';
+        html += '                   <!-- AddToAny BEGIN -->';
+        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
+        html += '                        <a class="a2a_button_facebook"></a><br />';
+        html += '                        <a class="a2a_button_twitter"></a><br />';
+        html += '                        <a class="a2a_button_google_plus"></a>';
+        html += '                   </div>';
+        html += '                   <!-- AddToAny END -->';
+        html += '               </div>';
         html += '               <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">';
         html += '                   <div><strong>Fee :</strong> ' + q.pointsCost + '</div>';
         html += '                   <div><strong>Register Users :</strong> ' + JSON.parse(q.userRegistered).length + '</div>';

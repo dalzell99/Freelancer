@@ -186,11 +186,11 @@
 
                                             <li class=" dropdown">
                                                 <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="images/quiz-icon.png" class="menu-icons">Quizzes<span class="caret"></span></a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="quizzes.php?type=free"> Free Quizzes</a></li>
-                                                    <li><a href="quizzes.php?type=paid">Paid Quizzes </a></li>
-                                                    <li><a href="quizmaster.php">Quiz Master</a></li>
-                                                </ul>
+                                                <div class="dropdown-menu">
+                                                    <div class='col-xs-4'><a href="quizzes.php?type=free"> Free Quizzes</a></div>
+                                                    <div class='col-xs-4'><a href="quizzes.php?type=paid">Paid Quizzes </a></div>
+                                                    <div class='col-xs-4'><a href="quizmaster.php">Quiz Master</a></div>
+                                                </div>
                                             </li>
                                             <li id='myAccountMenuItem' ><a href="myaccount.php" class=""><img src="images/account-icon.png" class="menu-icons">My Account</a></li>
                                             <li><a href="contact-us.php"><img src="images/contact-icon.png" class="menu-icons">Contact Us</a></li>

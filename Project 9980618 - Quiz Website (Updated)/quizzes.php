@@ -22,9 +22,11 @@ echo '<script type="text/javascript" src="js/quizzes.js?' . filemtime('js/quizze
         font-size: 20px;
     }
     .cover-card:hover > p {
-        background-color: #003a6e; opacity:0.9;
+        background-color: #003a6e;
+        opacity:0.9;
         color: #000 !important;
-        margin: -69px 1px 1px 1px;     line-height: 70px;
+        /*margin: -69px 1px 1px 1px;*/
+        line-height: 70px;
         text-shadow: 3px 3px 10px #000;
     }
     .btn-demo{ background-color:#fff; color:#fff; border:none; box-shadow:none;}

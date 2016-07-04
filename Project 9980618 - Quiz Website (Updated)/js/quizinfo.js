@@ -7,6 +7,7 @@ var endQuizTimer;
 var isLeaderboardExpanded = false;
 var editable;
 var count = 0;
+var userSituation;
 
 window.onload = function () {
     global();
@@ -18,54 +19,53 @@ window.onload = function () {
         displayMessage("warning", "You must be logged in to see this.", "You need to either login above or signup for an account on the home page.");
     } else {
         $("#showIfLoggedIn").show();
-        //('#quizQnsDiv').hide();
         var quizID = getUrlVars().id;
 
         $.post('./php/quizzes/getquizinfo.php', {
             id: quizID
         },
-                function (response) {
-                    if (response[0] == 'success') {
-                        quiz = response[1];
+        function (response) {
+            if (response[0] == 'success') {
+                quiz = response[1];
 
-                        // If the editable GET variable is true, the quiz doesn't start in the next 4 hours (1000 milliseconds * 60 seconds * 60 minutes * 4 hours) and the current user was the one to schedule the quiz then set editable to true. This makes all info editable.
-                        if (getUrlVars().editable == 'true' && moment(quiz.startTime).diff(moment()) > 1000 * 60 * 60 * 4 && sessionStorage.username == quiz.creatorUsername) {
-                            editable = true;
-                        } else {
-                            editable = false;
-                        }
+                // If the editable GET variable is true, the quiz doesn't start in the next 4 hours (1000 milliseconds * 60 seconds * 60 minutes * 4 hours) and the current user was the one to schedule the quiz then set editable to true. This makes all info editable.
+                if (getUrlVars().editable == 'true' && moment(quiz.startTime).diff(moment()) > 1000 * 60 * 60 * 4 && sessionStorage.username == quiz.creatorUsername) {
+                    editable = true;
+                } else {
+                    editable = false;
+                }
 
-                        populateTitle();
-                        populateInfo();
-                        populatePrizes();
-                        populateLeaders();
-                        populateRules();
-                        $('#quizQnsDiv').hide();
+                populateTitle();
+                populateCountdown();
+                populateInfo();
+                populateLeaders();
+                populateSocial();
+                populateRegistration();
+                populatePrizes();
+                populateRules();
+                populateQuestions();
 
-                        //displayMessage('info', '', 'sdfdsf');
-                        if (moment(quiz.endTime).diff(moment()) < 0) {
-                            $('#quizQnsDiv').show();
-                            populateQuestions();
-                        }
+                // Only create this timer if the quiz starts in more than 10 minutes
+                if (moment(quiz.startTime).diff(moment()) > 600000) {
+                    // Stop registration 10 minutes before start of quiz
+                    registrationQuizTimer = setTimeout(stopUnregistration, moment(quiz.startTime).diff(moment()) - 600000);
+                }
 
-                        // Only create this timer if the quiz starts in more than 10 minutes
-                        if (moment(quiz.startTime).diff(moment()) > 600000) {
-                            // Stop registration 10 minutes before start of quiz
-                            registrationQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 600000);
-                        }
+                // Only create this timer if the quiz starts in more than 2 minutes
+                if (moment(quiz.startTime).diff(moment()) > 120000) {
+                    // Update the prizes to reflect the redistributed prizes
+                    updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 120000);
+                }
 
-                        // Only create this timer if the quiz starts in more than 2 minutes
-                        if (moment(quiz.startTime).diff(moment()) > 120000) {
-                            // Update the prizes to reflect the redistributed prizes
-                            updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 120000);
-                        }
+                // Don't allow people to start quiz after it has ended
+                endQuizTimer = setTimeout(stopQuizStart, moment(quiz.endTime).diff(moment()));
 
-                        // Don't allow people to start quiz after it has ended
-                        endQuizTimer = setTimeout(populateTitle, moment(quiz.endTime).diff(moment()));
-                    } else {
-                        displayMessage('error', 'Error', "Error: " + response[1]);
-                    }
-                }, 'json').fail(function (request, textStatus, errorThrown) {
+                // Update countdown every second
+                setInterval(populateCountdown, 1000);
+            } else {
+                displayMessage('error', 'Error', "Error: " + response[1]);
+            }
+        }, 'json').fail(function (request, textStatus, errorThrown) {
             //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
         });
     }
@@ -73,14 +73,11 @@ window.onload = function () {
 
 // Show the start button so user can start quiz
 function showQuizStart() {
-    var html = '';
-    html += '<div class="row">';
-    html += '    <div id="quizNameTitle" class="col-xs-6 col-xs-offset-3">' + quiz.category + '</div>';
-    html += '    <div id="quizTitleRight" class="col-xs-3">';
-    html += '        <button id="startButton" class="btn btn-default" onclick="startQuiz(' + quiz.quizID + ')">START</button>';
-    html += '    </div>';
-    html += '</div>';
-    $("#quizTitle").empty().append(html);
+    if (userSituation == 'registered') {
+        $("#quizInfoRegistration").html('<button id="startButton" onclick="startQuiz(' + quiz.quizID + ')">START</button>');
+    } else {
+        $("#quizInfoRegistration").html('<div>QUIZ STARTED</div>');
+    }
     setInterval(populateLeaders, 15000);
 }
 
@@ -98,8 +95,8 @@ function updatePrizes() {
             updatePrizesTimer = setTimeout(updatePrizes, 5000);
         }  else if (response == 'cancelled') {
             displayMessage('warning', 'Quiz Cancelled', "This quiz has been cancelled because not enough users registered for it. You have been refunded the quiz fee plus 1 bonus quizeto.");
-            $("#quizTitleRight").html('QUIZ CANCELLED');
-            $("#countdownText").hide();
+            $("#quizInfoRegistration").html('<div>QUIZ CANCELLED</div>');
+            $("#quizInfoCountdown").hide();
         } else {
             displayMessage('error', 'Error', 'Error checking if prizes have been updated');
         }
@@ -108,124 +105,88 @@ function updatePrizes() {
     });
 }
 
-function populateTitle() {
-    if (quiz.quizID == 1 || quiz.quizID == 2) { // These are the demo quizzes and users don't need to register for them
-        var html = '';
-        html += '<div class="row">';
-        html += '    <div id="quizNameTitle" class="col-xs-6 col-xs-offset-3">' + quiz.category + '</div>';
-        html += '    <div id="quizTitleRight" class="col-xs-3">';
-        html += '        <button id="startButton"  style="box-shadow:0 0 9px 3px rgba(0,0,0,.35)" class="btn btn-success btn-lg button" onclick="startQuiz(' + quiz.quizID + ')">START</button>';
-        html += '    </div>';
-        html += '</div>';
-        $("#quizTitle").empty().append(html);
-    } else {
-        $.post('./php/quizzes/checkregistration.php', {
-            userID: sessionStorage.userID,
-            quizID: quiz.quizID
-        }, function (response) {
-            var html = '';
-            var secondsToStartTime = Math.floor((moment(quiz.startTime).diff(moment())) / 1000);
-            var secondsToEndTime = Math.floor((moment(quiz.endTime).diff(moment())) / 1000);
-            // If editable is true, make the name part of the quiz name editable. User scheduled quiz names have ' by username' added to the quiz name.
-            var quizName;
-            if (editable) {
-                var n = quiz.category;
-                var index = n.indexOf(' by');
-                quizName = "<span class='category' contenteditable='true'>" + n.substr(0, index) + "</span>" + n.substr(index);
-            } else {
-                quizName = quiz.category;
-            }
-
-            html += '<div class="row">';
-            html += '    <div id="quizNameTitle" class="col-xs-3">';
-            html += '        <!-- AddToAny BEGIN -->';
-            html += '        <div class="a2a_kit a2a_kit_size_32 a2a_default_style">';
-            html += '            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>';
-            html += '            <a class="a2a_button_facebook"></a>';
-            html += '            <a class="a2a_button_twitter"></a>';
-            html += '            <a class="a2a_button_google_plus"></a>';
-            html += '            <a class="a2a_button_pinterest"></a>';
-            html += '            <a class="a2a_button_linkedin"></a>';
-            html += '        </div>';
-            html += '        <script async src="https://static.addtoany.com/menu/page.js"></script>';
-            html += '        <!-- AddToAny END -->';
-            html += '    </div>';
-            html += '    <div id="quizNameTitle" class="col-xs-6">' + quizName + '</div>';
-
-            if (response == 'cancelled') {
-                html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ CANCELLED</div>';
-            } else if (secondsToStartTime >= 600 && response == 'registered') {
-                html += '    <div id="quizTitleRight" class="col-xs-3">';
-                html += '        <button id="unregisterButton" class="btn btn-success btn-lg button" style="box-shadow:0 0 9px 3px rgba(0,0,0,.35)" onclick="unregisterQuiz(' + quiz.quizID + ')">UNREGISTER</button>';
-                html += '    </div>';
-            } else if (secondsToStartTime >= 0 && response == 'notregistered') { // Registration closes 10 minutes before start
-                html += '    <div id="quizTitleRight" class="col-xs-3">';
-                html += '        <button id="registerButton" class="btn btn-success btn-lg button" style="box-shadow:0 0 9px 3px rgba(0,0,0,.35)" onclick="registerQuiz(' + quiz.quizID + ', \'' + quiz.type + '\')">REGISTER</button>';
-                html += '    </div>';
-                // show start quiz button when timer hits zero
-                startQuizTimer = setTimeout(populateTitle, moment(quiz.startTime).diff(moment()) - 1000);
-            } else if (secondsToStartTime >= 0 && secondsToStartTime < 600 && response == 'registered') {
-                html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ STARTING SOON</div>';
-                // show start quiz button when timer hits zero
-                startQuizTimer = setTimeout(showQuizStart, moment(quiz.startTime).diff(moment()) - 1000);
-            } else if (secondsToEndTime > 0 && secondsToStartTime <= 0 && response == 'registered') {
-                html += '    <div id="quizTitleRight" class="col-xs-3">';
-                html += '        <button id="startButton" class="btn btn-success btn-lg button"  style="box-shadow:0 0 9px 3px rgba(0,0,0,.35)" onclick="startQuiz(' + quiz.quizID + ')">START</button>';
-                html += '    </div>';
-                setInterval(populateLeaders, 15000);
-            } else if (secondsToEndTime >= 0 && response == 'notregistered') {
-                html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ STARTED</div>';
-                setInterval(populateLeaders, 15000);
-            } else if (secondsToEndTime >= 0 && response == 'alreadydone') {
-                html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ ALREADY COMPLETED</div>';
-                setInterval(populateLeaders, 15000);
-            } else if (secondsToEndTime >= 0) {
-                html += '    <div id="quizTitleRight" class="col-xs-3">ERROR</div>';
-                displayMessage('error', 'Error', "Error checking if you are registered for this quiz or if you have already completed the quiz. Please contact web admin about this problem.");
-            } else {
-                html += '    <div id="quizTitleRight" class="col-xs-3">QUIZ ENDED</div>';
-                populateQuestions();
-            }
-            html += '</div>';
-
-            if ((secondsToStartTime > 0 || secondsToEndTime > 0) && response != 'cancelled') {
-                html += '<div class="row">';
-                html += '    <div id="countdownText" class="col-xs-12">' + getCountdownString(secondsToStartTime, secondsToEndTime) + '</div>';
-                html += '</div>';
-            }
-
-            $("#quizTitle").empty().append(html);
-
-            setInterval(updateCountdownsTimer, 500);
-
-            if (sessionStorage.loggedIn == 'false') {
-                $("#registerButton").hide();
-                $("#startButton").hide();
-            }
-
-            if (count === 1) {
-                addContentEditableEvents();
-                count = 0;
-            } else {
-                count += 1;
-            }
-        }).fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with populateTitles function");
-        });
+// Stop users unregistering in last 10 minutes
+function stopUnregistration() {
+    if (userSituation == 'registered') {
+        $("#quizInfoRegistration").html('<div>QUIZ STARTING SOON</div>');
+        // show start quiz button when timer hits zero
+        startQuizTimer = setTimeout(showQuizStart, moment(quiz.startTime).diff(moment()) - 1000);
     }
+}
+
+// Remove quiz start button when quiz has ended
+function stopQuizStart() {
+    $("#quizInfoRegistration").html('<div>QUIZ ENDED</div>');
+}
+
+function populateTitle() {
+    // If editable is true, make the name part of the quiz name editable. User scheduled quiz names have ' by username' added to the quiz name.
+    var quizName;
+    if (editable) {
+        var n = quiz.category;
+        var index = n.indexOf(' by');
+        quizName = "<span class='category' contenteditable='true'>" + n.substr(0, index) + "</span>" + n.substr(index);
+    } else {
+        quizName = "<span>" + quiz.category + "</span>";
+    }
+    $("#quizInfoTitle").html(quizName);
+}
+
+function populateCountdown() {
+    var secondsToGo, quizSituation;
+    if (moment(quiz.startTime).diff(moment()) > 0) {
+        // Quiz hasn't started
+        secondsToGo = Math.floor((moment(quiz.startTime).diff(moment())) / 1000);
+        quizSituation = 'Starts in';
+    } else if (moment(quiz.endTime).diff(moment()) > 0) {
+        // Quiz has started but not finished
+        secondsToGo = Math.floor((moment(quiz.endTime).diff(moment())) / 1000);
+        quizSituation = 'Ends in';
+    } else {
+        // Quiz has finished
+        secondsToGo = -1;
+        quizSituation = 'Ended';
+    }
+
+    var secsInMinute = 60;
+    var secsInHour = 60 * 60;
+    var secsInDay = 60 * 60 * 24;
+    var days = Math.floor(secondsToGo / secsInDay);
+    var hours = Math.floor((secondsToGo - days * secsInDay) / secsInHour);
+    var minutes = Math.floor((secondsToGo - (hours * secsInHour + days * secsInDay)) / secsInMinute);
+    var seconds = Math.floor(secondsToGo - (hours * secsInHour + days * secsInDay + minutes * secsInMinute));
+    var countdownString = pad(days, 2) + pad(hours, 2) + pad(minutes, 2) + pad(seconds, 2);
+    var html = '';
+
+    html += "<div>Quiz " + quizSituation + "</div>";
+    if (quizSituation != 'Ended') {
+        html += "<div>";
+        html += "    <div class='col-xs-3'>";
+        html += "        <div class='col-xs-6'>" + countdownString[0] + "</div>";
+        html += "        <div class='col-xs-6'>" + countdownString[1] + "</div>";
+        html += "    </div>";
+        html += "    <div class='col-xs-3'>";
+        html += "        <div class='col-xs-6'>" + countdownString[2] + "</div>";
+        html += "        <div class='col-xs-6'>" + countdownString[3] + "</div>";
+        html += "    </div>";
+        html += "    <div class='col-xs-3'>";
+        html += "        <div class='col-xs-6'>" + countdownString[4] + "</div>";
+        html += "        <div class='col-xs-6'>" + countdownString[5] + "</div>";
+        html += "    </div>";
+        html += "    <div class='col-xs-3'>";
+        html += "        <div class='col-xs-6'>" + countdownString[6] + "</div>";
+        html += "        <div class='col-xs-6'>" + countdownString[7] + "</div>";
+        html += "    </div>";
+        html += "</div>";
+    }
+
+    $("#quizInfoCountdown").html(html);
 }
 
 function populateInfo() {
     var html = '';
 
-    // html += '<div class="quizToggle" onclick="toggleQuizInfo()">Quiz Info</div>';
-    // html += ' <div class="panel panel1"><div class="panel-heading clickable"> 2. CAN I HAVE MORE THAN ONE QUIZ ACCOUNT?</h2></div><div class="panel-body line ">  Having multiple accounts is strictly prohibited on www.iqzeto.com. Each user is allowed to have only one account on the site. Making multiple accounts may result in deletion of all duplicate accounts.</div> </div>';
-
-    // html += '<div class="panel panel-success">';
-    // html += '<div class="panel-heading clickable"><h2 class="panel-title"> Quiz Info</h2><span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span></div>';
-
-    //  html += '<div class="panel-body line">';
-    html += '<table  id="quizInfoTable1"  class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top" >';
+    html += '<table>';
     html += '    <tr>';
     html += '        <td>Start Time</td>';
     html += '        <td onclick="showTimeslotChange()">' + moment(quiz.startTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
@@ -247,11 +208,9 @@ function populateInfo() {
     html += '        <td' + (editable ? " class='pointsCost' contenteditable='true'" : "") + '>' + quiz.pointsCost + '</td>';
     html += '    </tr>';
     html += '</table>';
-    //  html += '</div>';
 
-    // html += '</div>';
+    $("#quizInfoInfo").html(html);
 
-    $("#quizInfo").empty().append(html);
     if (count === 1) {
         addContentEditableEvents();
         count = 0;
@@ -260,14 +219,144 @@ function populateInfo() {
     }
 }
 
-function populatePrizes() {
+function populateLeaders() {
+    if (moment().isAfter(moment(quiz.startTime))) {
+        $.post('./php/quizresults/getquizresults.php', {
+            quizID: quiz.quizID
+        },
+        function (response) {
+            if (response[0] == 'success') {
+                var results = response[1];
+
+                var html = '';
+                html += '<table>';
+                for (var i = 0; results !== null && i < 15 && i < results.length; i += 1) {
+                    html += '    <tr>';
+                    html += '        <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
+                    html += '        <td><img class="leaderboardUserImage" src="./images/users/' + results[i].imageURL + '" /></td>';
+                    html += '        <td>' + results[i].username + '</td>';
+                    html += '        <td>' + results[i].correctPercent + '%</td>';
+                    html += '        <td>' + (results[i].timeTaken / 1000) + ' secs</td>';
+                    html += '    </tr>';
+                }
+                html += '</table>';
+                $("#quizInfoLeader").html(html);
+            } else {
+                displayMessage('error', 'Error', 'Error: ' + response[1]);
+            }
+        }, 'json').fail(function (request, textStatus, errorThrown) {
+            //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
+        });
+    } else {
+        var html = '';
+		html += '<table>';
+        html += '    <tr>';
+        html += '        <td>Leaderboard will be shown after the quiz starts.</td>';
+        html += '    </tr>';
+        html += '</table>';
+        $("#quizInfoLeader").html(html);
+    }
+}
+
+function populateSocial() {
     var html = '';
 
-    // html += '<div class="quizToggle" onclick="toggleQuizPrizes()">Quiz Prizes</div>';
-    // html += '<div class="panel panel-success">';
-    // html += '<div class="panel-heading clickable"><h2 class="panel-title"> Quiz Prizes</h2><span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span></div>';
-    // html += '<div class="panel-body line">';
-    html += '<table id="quizPrizesTable1"  class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top" >';
+    html += '<!-- AddToAny BEGIN -->';
+    html += '<div class="a2a_kit a2a_kit_size_32 a2a_default_style">';
+    html += '    <a class="a2a_button_facebook"></a>';
+    html += '    <a class="a2a_button_twitter"></a>';
+    html += '    <a class="a2a_button_google_plus"></a>';
+    html += '    <a class="a2a_button_pinterest"></a>';
+    html += '    <a class="a2a_button_linkedin"></a>';
+    html += '    <a class="a2a_button_tumblr"></a>';
+    html += '</div>';
+    html += '<script async src="https://static.addtoany.com/menu/page.js"></script>';
+    html += '<!-- AddToAny END -->';
+
+    $("#quizInfoSocial").html(html);
+}
+
+function populateRegistration() {
+    $.post('./php/quizzes/checkregistration.php', {
+        userID: sessionStorage.userID,
+        quizID: quiz.quizID
+    }, function (response) {
+        userSituation = response;
+        var html = '';
+        var secondsToStartTime = Math.floor((moment(quiz.startTime).diff(moment())) / 1000);
+        var secondsToEndTime = Math.floor((moment(quiz.endTime).diff(moment())) / 1000);
+
+        // Quiz has been cancelled
+        if (response == 'cancelled') {
+            html += '<div>QUIZ HAS BEEN CANCELLED</div>';
+            $("#quizInfoCountdown").hide();
+        }
+
+        // User can only unregister until 600 seconds from start of quiz
+        else if (secondsToStartTime >= 600 && response == 'registered') {
+            html += '<button id="unregisterButton" onclick="unregisterQuiz(' + quiz.quizID + ')">UNREGISTER</button>';
+        }
+
+        // User can register until start of quiz
+        else if (secondsToStartTime >= 0 && response == 'notregistered') {
+            html += '<button id="registerButton" onclick="registerQuiz(' + quiz.quizID + ', \'' + quiz.type + '\')">REGISTER</button>';
+            // show start quiz button when timer hits zero
+            startQuizTimer = setTimeout(showQuizStart, moment(quiz.startTime).diff(moment()) - 1000);
+        }
+
+        // If user has registered and there is less than 10 minutes to go until quiz starts, user can't unregister
+        else if (secondsToStartTime >= 0 && secondsToStartTime < 600 && response == 'registered') {
+            html += '<div>QUIZ STARTING SOON</div>';
+            // show start quiz button when timer hits zero
+            startQuizTimer = setTimeout(showQuizStart, moment(quiz.startTime).diff(moment()) - 1000);
+        }
+
+        // If user has registered, hasn't already completed the quiz and the quiz has started but not ended then the user can start the quiz
+        else if (secondsToEndTime > 0 && secondsToStartTime <= 0 && response == 'registered') {
+            html += '<button id="startButton" onclick="startQuiz(' + quiz.quizID + ')">START</button>';
+            setInterval(populateLeaders, 15000);
+        }
+
+        // If user didn't register and quiz has started then they can't take the quiz
+        else if (secondsToEndTime >= 0 && response == 'notregistered') {
+            html += '<div>QUIZ STARTED</div>';
+            setInterval(populateLeaders, 15000);
+        }
+
+        // If quiz has started and user has already completed the quiz then they can't take it again
+        else if (secondsToEndTime >= 0 && response == 'alreadydone') {
+            html += '<div>QUIZ ALREADY COMPLETED</div>';
+            setInterval(populateLeaders, 15000);
+        }
+
+        // If quiz hasn't finished and response wasn't any of the above responses then there was an error get registration info for this user
+        else if (secondsToEndTime >= 0) {
+            html += '<div>ERROR</div>';
+            displayMessage('error', 'Error', "Error checking if you are registered for this quiz or if you have already completed the quiz. Please contact web admin about this problem.");
+        }
+
+        // If none of the above are true then the quiz has ended
+        else {
+            html += '<div>QUIZ ENDED</div>';
+            populateQuestions();
+        }
+
+        $("#quizInfoRegistration").html(html);
+
+        if (count === 1) {
+            addContentEditableEvents();
+            count = 0;
+        } else {
+            count += 1;
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', 'Error', "Err or: Something went wrong with populateTitles function");
+    });
+}
+
+function populatePrizes() {
+    var html = '';
+    html += '<table>';
     if (quiz.type == 'paid') {
         var prizePool = 0;
         var prizes = JSON.parse(quiz.pointsRewards);
@@ -300,20 +389,15 @@ function populatePrizes() {
         html += '    </tr>';
     }
     html += '</table>';
-    // html += '</div>';
-    // html += '</div>';
-    $("#quizPrizes").empty().append(html);
+
+    $("#quizInfoPrizes").html(html);
 }
 
 function populateRules() {
     var html = '';
-    var rules = JSON.parse(quiz.rules);
 
-    // html += '<div class="quizToggle" onclick="toggleQuizRules()">Quiz Rules</div>';
-    // html += '<div class="panel panel-success">';
-    // html += '<div class="panel-heading clickable"><h2 class="panel-title"> Quiz Rules</h2><span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span></div>';
-    //  html += '<div class="panel-body line">';
-    html += '<table id="quizRulesTable1" class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top"  >';
+    var rules = JSON.parse(quiz.rules);
+    html += '<table>';
     for (var i = 0; i < rules.length; i += 1) {
         html += '    <tr>';
         html += '        <td>' + (i + 1) + '.</td>';
@@ -321,67 +405,16 @@ function populateRules() {
         html += '    </tr>';
     }
     html += '</table>';
-    //   html += '</div>';
-    //   html += '</div>';
-    $("#quizRules").empty().append(html);
-}
 
-function populateLeaders() {
-    if (moment().isAfter(moment(quiz.startTime))) {
-        $.post('./php/quizresults/getquizresults.php', {
-            quizID: quiz.quizID
-        },
-                function (response) {
-                    if (response[0] == 'success') {
-                        var html = '';
-                        var results = response[1];
-
-                        // html += '<div class="quizToggle" onclick="toggleQuizLeaders()">Quiz Leaders</div>';
-                        // html += '<div class="panel panel-success">';
-                        //  html += '<div class="panel-heading clickable"><h2 class="panel-title"> Quiz Leaders</h2><span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span></div>';
-                        //   html += '<div class="panel-body line">';
-                        html += '<table id="quizLeadersTable1" class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top"  style="background-color: #fff !important;">';
-                        for (var i = 0; results !== null && i < 15 && i < results.length; i += 1) {
-                            html += '    <tr>';
-                            html += '        <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
-                            html += '        <td><img class="leaderboardUserImage" src="./images/users/' + results[i].imageURL + '" /></td>';
-                            html += '        <td>' + results[i].username + '</td>';
-                            html += '        <td>' + results[i].correctPercent + '%</td>';
-                            html += '        <td>' + (results[i].timeTaken / 1000) + ' secs</td>';
-                            html += '    </tr>';
-                        }
-                        html += '</table>';
-                        //  html += '</div>';
-                        //  html += '</div>';
-                        $("#quizUsers").empty().append(html);
-                    } else {
-                        displayMessage('error', 'Error', 'Error: ' + response[1]);
-                    }
-                }, 'json').fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
-        });
-    } else {
-        var html = '';
-       // html += '<div class="quizToggle" onclick="toggleQuizLeaders()">Quiz Leaders</div>';
-		html += '<table id="quizLeadersTable1" class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top"  style="background-color: #fff !important;">';
-        html += '    <tr>';
-        html += '        <td>Leaderboard will be shown after the quiz starts.</td>';
-        html += '    </tr>';
-        html += '</table>';
-        $("#quizUsers").empty().append(html);
-
-		// $("#quizUsers").empty().append('<table class="table"><tr><th>Quiz Leaderboard</th></tr><tr><td>Leaderboard will be shown after the quiz starts.</td></tr></table>');
-    }
+    $("#quizInfoRules").html(html);
 }
 
 function populateQuestions() {
     var html = '';
-    if (moment(quiz.endTime).diff(moment()) < 0) {
+    if (moment().diff(moment(quiz.endTime)) > 0) {
         var questions = JSON.parse(quiz.questions);
-        //html += '<div class="quizToggle" onclick="toggleQuizQuestions()">Quiz Questions</div>';
-   //     html += '<table id="quizQuestionsTable" class="table">';
-		 html += '<table id="quizQuestionsTable1" class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top">';
-       for (var i = 0; i < questions.length; i += 1) {
+		html += '<table>';
+        for (var i = 0; i < questions.length; i += 1) {
             html += '    <tr>';
             html += '        <td>' + questions[i][0] + '</td>';
             html += '        <td>' + questions[i][1][questions[i][2]] + '</td>';
@@ -389,37 +422,16 @@ function populateQuestions() {
         }
         html += '</table>';
 
-        $("#quizQuestions").empty().append(html);
+        $("#quizInfoQuestions").html(html);
     } else {
-      //  html += '<div class="quizToggle" onclick="toggleQuizQuestions()">Quiz Questions</div>';
-		 html += '<table id="quizQuestionsTable1" class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top">';
+		 html += '<table>';
         html += '    <tr>';
         html += '        <td>The questions and answers will be shown after the quiz ends.</td>';
         html += '    </tr>';
         html += '</table>';
-        $("#quizQuestions").empty().append(html);
+        $("#quizInfoQuestions").html(html);
     }
-}
 
-function populateQuestionsold() {
-    var html = '';
-    var questions = JSON.parse(quiz.questions);
-    // html += '<div class="quizToggle" onclick="toggleQuizQuestions()">Quiz Questions</div>';
-    //  html += '<div class="panel panel-success">';
-    //  html += '<div class="panel-heading clickable"><h2 class="panel-title"> Quiz Questions</h2><span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span></div>';
-    //  html += '<div class="panel-body line">';
-    html += '<table id="quizQuestionsTable1" class="col-md-12 col-xs-12 col-sm-12 col-lg-12 table-bordered table-striped table-condensed cf margin-top">';
-    for (var i = 0; i < questions.length; i += 1) {
-        html += '    <tr>';
-        html += '        <td>' + questions[i][0] + '</td>';
-        html += '        <td>' + questions[i][1][questions[i][2]] + '</td>';
-        html += '    </tr>';
-    }
-    html += '</table>';
-    //  html += '</div>';
-    // html += '</div>';
-
-    $("#quizQuestions").empty().append(html).show();
 }
 
 function registerQuiz(id, type) {
@@ -474,33 +486,6 @@ function unregisterQuiz(id) {
 function startQuiz(id) {
     sessionStorage.quizID = id;
     window.location = 'quiz.php';
-}
-
-function updateCountdownsTimer() {
-    var secondsToStartTime = Math.floor((moment(quiz.startTime).diff(moment())) / 1000);
-    var secondsToEndTime = Math.floor((moment(quiz.endTime).diff(moment())) / 1000);
-    $("#countdownText").text(getCountdownString(secondsToStartTime, secondsToEndTime));
-}
-
-function toggleQuizInfo() {
-    $("#quizInfoTable").slideToggle();
-}
-
-function toggleQuizPrizes() {
-    $("#quizPrizesTable").slideToggle();
-}
-
-function toggleQuizLeaders() {
-    $("#quizLeadersTable").slideToggle();
-    isLeaderboardExpanded = (isLeaderboardExpanded ? false : true);
-}
-
-function toggleQuizQuestions() {
-    $("#quizQuestionsTable").slideToggle();
-}
-
-function toggleQuizRules() {
-    $("#quizRulesTable").slideToggle();
 }
 
 function addContentEditableEvents() {

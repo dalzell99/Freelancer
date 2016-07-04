@@ -7,7 +7,7 @@ echo '<script type="text/javascript" src="js/quizinfo.js?' . filemtime('js/quizi
 ?>
 <div class="container-fluid"  style=" background: url(images/backgrond.png); min-height:600px;">
 
-    <div class="container" id='showIfLoggedIn'>
+    <!-- <div class="container" id='showIfLoggedIn'>
         <div id="no-more-tables" class="margin-top">
             <div class="col-md-2"></div>
             <table class="col-md-8 col-sm-8 col-lg-8 col-xs-12 table-bordered table-striped table-condensed cf margin-top">
@@ -73,6 +73,43 @@ echo '<script type="text/javascript" src="js/quizinfo.js?' . filemtime('js/quizi
             </table>
 
         </div>
+    </div> -->
+    <div class='col-xs-10 col-xs-push-1'>
+        <div>
+            <div class='col-xs-8' id='quizInfoTitle'>
+                
+            </div>
+            <div class='col-xs-4' id='quizInfoCountdown'>
+
+            </div>
+        </div>
+        <div>
+            <div class='col-xs-4' id='quizInfoInfo'>
+
+            </div>
+            <div class='col-xs-4' id='quizInfoLeader'>
+
+            </div>
+            <div class='col-xs-4'>
+                <div id='quizInfoSocial'>
+
+                </div>
+                <div id='quizInfoRegistration'>
+
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class='col-xs-4' id='quizInfoPrizes'>
+
+            </div>
+            <div class='col-xs-4' id='quizInfoRules'>
+
+            </div>
+            <div class='col-xs-4' id='quizInfoQuestions'>
+
+            </div>
+        </div>
     </div>
 </div>
 
@@ -85,8 +122,8 @@ echo '<script type="text/javascript" src="js/quizinfo.js?' . filemtime('js/quizi
 
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-default" data-dismiss="modal" onclick='saveTimeChange()'>Save</button>
-        <button type="submit" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-default timeChangeButtons" data-dismiss="modal" onclick='saveTimeChange()'>Save</button>
+        <button type="submit" class="btn btn-default timeChangeButtons" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
