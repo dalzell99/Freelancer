@@ -925,8 +925,8 @@ function populateQuizMaster() {
     var totalQuizzesSchedulable, numQuizzesAlreadyScheduled, quizBalance;
 
     // Create yes and no buttons so user can choose which account to show
-    html += "<button style='width:49.5%;' onclick='showQuizMasterInfo()'>Activate as Quiz Master</button>";
-    html += "<button style='width:49.5%;' onclick='showUserInfo()'>Activate as User</button>";
+    html += "<button onclick='showQuizMasterInfo()'>Activate as Quiz Master</button>";
+    html += "<button onclick='showUserInfo()'>Activate as User</button>";
 
     // Create Quiz master info
     // number of quizzes purchased
@@ -945,10 +945,10 @@ function populateQuizMaster() {
     html += "    </tr>";
     html += "    <tr>";
     html += "        <td>" + totalQuizzesSchedulable + "</td>";
-    html += "        <td onclick='showUsersScheduledQuizzes()'>" + numQuizzesAlreadyScheduled + "</td>";
+    html += "        <td data-toggle='modal' data-target='#previousQuizModal'>" + numQuizzesAlreadyScheduled + "</td>";
     html += "        <td>" + quizBalance + "</td>";
     html += "        <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
-    html += "        <td onclick='showUsersRejectedQuestions()'>" + rejectedQuestions.length + "</td>";
+    html += "        <td data-toggle='modal' data-target='#rejectedQuestionModal'>" + rejectedQuestions.length + "</td>";
     html += "    </tr>";
     html += "</table>";
 
@@ -980,66 +980,15 @@ function populateQuizMaster() {
     html += "    <tr>";
     html += "        <td>" + quizMasterInfo.numQuizzesTaken + "</td>";
     html += "        <td>" + totalQuizzesSchedulable + "</td>";
-    html += "        <td onclick='showUsersScheduledQuizzes()'>" + numQuizzesAlreadyScheduled + "</td>";
+    html += "        <td data-toggle='modal' data-target='#previousQuizModal'>" + numQuizzesAlreadyScheduled + "</td>";
     html += "        <td>" + quizBalance + "</td>";
     html += "        <td>" + quizMasterInfo.approvedQuestionCount + "</td>";
-    html += "        <td onclick='showUsersRejectedQuestions()'>" + rejectedQuestions.length + "</td>";
+    html += "        <td data-toggle='modal' data-target='#rejectedQuestionModal'>" + rejectedQuestions.length + "</td>";
     html += "    </tr>";
     html += "</table>";
 
-    // Create table showing inof about users previously scheduled quizzes
-    html += "<table id='quizMasterPreviouslyScheduledQuizzes'>";
-    html += "    <tr>";
-    html += "        <th>Quiz Name</th>";
-    html += "        <th>Date</th>";
-    html += "        <th>Start Time</th>";
-    html += "        <th>Total registered users</th>";
-    html += "        <th>Winner</th>";
-    html += "        <th>Earnings</th>";
-    html += "    </tr>";
-
-    quizMasterInfo.previouslyScheduledQuizzes.forEach(function (quiz) {
-        var date = moment(quiz.startTime).format('ddd Do MMM YY');
-        var startTime = moment(quiz.startTime).format('H:mm a');
-        var numRegisteredUsers = JSON.parse(quiz.userRegistered).length;
-        var earnings = (numRegisteredUsers * quiz.pointsCost) * (quiz.creatorEarnings / 100);
-        html += "<tr>";
-        html += "    <td>" + quiz.category + "</td>";
-        html += "    <td>" + date + "</td>";
-        html += "    <td>" + startTime + "</td>";
-        html += "    <td>" + numRegisteredUsers + "</td>";
-        html += "    <td>" + quiz.winner + "</td>";
-        html += "    <td>" + earnings + "</td>";
-        html += "</tr>";
-    });
-    html += "</table>";
-
-    // Create table showing info about users rejected questions
-    html += "<table id='quizMasterRejectedQuestions'>";
-    html += "    <tr>";
-    html += "        <th>Question</th>";
-    html += "        <th>Answer 1</th>";
-    html += "        <th>Answer 2</th>";
-    html += "        <th>Answer 3</th>";
-    html += "        <th>Answer 4</th>";
-    html += "        <th>Correct Answer</th>";
-    html += "    </tr>";
-
-    rejectedQuestions.forEach(function (question) {
-        var q = JSON.parse(question.question);
-        html += "<tr>";
-        html += "    <td>" + q[0] + "</td>";
-        html += "    <td>" + q[1][0] + "</td>";
-        html += "    <td>" + q[1][1] + "</td>";
-        html += "    <td>" + q[1][2] + "</td>";
-        html += "    <td>" + q[1][3] + "</td>";
-        html += "    <td>Answer " + (parseInt(q[2]) + 1) + "</td>";
-        html += "</tr>";
-    });
-    html += "</table>";
-
-    html += "<button style='width:49.5%;' onclick='showUploadQuestion()'>Upload Question</button>";
-    html += "<button style='width:49.5%;' id='quizMasterScheduleButton' onclick='showScheduleQuiz()'>Schedule Quiz</button>";
+    html += "<button onclick='showUploadQuestion()'>Upload Question</button>";
+    html += "<button id='quizMasterScheduleButton' onclick='showScheduleQuiz()'>Schedule Quiz</button>";
 
     // Add quiz submission form
     html += "<table id='quizMasterQuestionSubmission'>";
@@ -1123,12 +1072,66 @@ function populateQuizMaster() {
     });
 
     disableTimeSlots();
+
+    // Create table showing info about users previously scheduled quizzes
+    var htmlQuiz = '';
+    htmlQuiz += "<table id='quizMasterPreviouslyScheduledQuizzes'>";
+    htmlQuiz += "    <tr>";
+    htmlQuiz += "        <th>Quiz Name</th>";
+    htmlQuiz += "        <th>Date</th>";
+    htmlQuiz += "        <th>Start Time</th>";
+    htmlQuiz += "        <th>Total registered users</th>";
+    htmlQuiz += "        <th>Winner</th>";
+    htmlQuiz += "        <th>Earnings</th>";
+    htmlQuiz += "    </tr>";
+
+    quizMasterInfo.previouslyScheduledQuizzes.forEach(function (quiz) {
+        var date = moment(quiz.startTime).format('ddd Do MMM YY');
+        var startTime = moment(quiz.startTime).format('H:mm a');
+        var numRegisteredUsers = JSON.parse(quiz.userRegistered).length;
+        var earnings = (numRegisteredUsers * quiz.pointsCost) * (quiz.creatorEarnings / 100);
+        htmlQuiz += "<tr>";
+        htmlQuiz += "    <td>" + quiz.category + "</td>";
+        htmlQuiz += "    <td>" + date + "</td>";
+        htmlQuiz += "    <td>" + startTime + "</td>";
+        htmlQuiz += "    <td>" + numRegisteredUsers + "</td>";
+        htmlQuiz += "    <td>" + quiz.winner + "</td>";
+        htmlQuiz += "    <td>" + earnings + "</td>";
+        htmlQuiz += "</tr>";
+    });
+    htmlQuiz += "</table>";
+    $("#previousQuizModal .modal-body").empty().append(htmlQuiz);
+
+    // Create table showing info about users rejected questions
+    var htmlRejected = '';
+    htmlRejected += "<table id='quizMasterRejectedQuestions'>";
+    htmlRejected += "    <tr>";
+    htmlRejected += "        <th>Question</th>";
+    htmlRejected += "        <th>Answer 1</th>";
+    htmlRejected += "        <th>Answer 2</th>";
+    htmlRejected += "        <th>Answer 3</th>";
+    htmlRejected += "        <th>Answer 4</th>";
+    htmlRejected += "        <th>Correct Answer</th>";
+    htmlRejected += "    </tr>";
+
+    rejectedQuestions.forEach(function (question) {
+        var q = JSON.parse(question.question);
+        htmlRejected += "<tr>";
+        htmlRejected += "    <td>" + q[0] + "</td>";
+        htmlRejected += "    <td>" + q[1][0] + "</td>";
+        htmlRejected += "    <td>" + q[1][1] + "</td>";
+        htmlRejected += "    <td>" + q[1][2] + "</td>";
+        htmlRejected += "    <td>" + q[1][3] + "</td>";
+        htmlRejected += "    <td>Answer " + (parseInt(q[2]) + 1) + "</td>";
+        htmlRejected += "</tr>";
+    });
+    htmlRejected += "</table>";
+    $("#rejectedQuestionModal .modal-body").empty().append(htmlRejected);
 }
 
 function showQuizMasterInfo() {
     $("#quizMasterQuizMasterInfo").show();
     $("#quizMasterUserInfo").hide();
-    $("#quizMasterPreviouslyScheduledQuizzes").hide();
 
     $("#quizMasterQuestionSubmission").hide();
     $("#quizMasterScheduleQuiz").hide();
@@ -1140,21 +1143,12 @@ function showQuizMasterInfo() {
 function showUserInfo() {
     $("#quizMasterQuizMasterInfo").hide();
     $("#quizMasterUserInfo").show();
-    $("#quizMasterPreviouslyScheduledQuizzes").hide();
 
     $("#quizMasterQuestionSubmission").hide();
     $("#quizMasterScheduleQuiz").hide();
     $("#quizMasterScheduleButton").show();
 
     sessionStorage.quizMaster = 'false';
-}
-
-function showUsersScheduledQuizzes() {
-    $("#quizMasterPreviouslyScheduledQuizzes").show();
-}
-
-function showUsersRejectedQuestions() {
-    $("#quizMasterRejectedQuestions").show();
 }
 
 function showUploadQuestion() {

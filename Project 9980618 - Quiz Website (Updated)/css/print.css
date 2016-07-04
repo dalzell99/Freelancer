@@ -11,7 +11,7 @@ body
 }
 
 .logo-area {height:264px;}
-.mid {height:50px;}
+.mid {height:0;}
 .logo {
 	text-align:center;
 	margin:0 auto;
@@ -254,6 +254,8 @@ body
     font-weight: 900;
     font-size: large;
     color: darkblue;
+	float: none;
+	padding: 10px;
 }
 
 .selectedAnswer {

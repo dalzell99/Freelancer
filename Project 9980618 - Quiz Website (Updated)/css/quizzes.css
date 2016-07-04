@@ -107,3 +107,7 @@
   border-radius: 0 15px 15px 0;
   margin: 10px 10px 10px 0;
 }
+
+.highlightQuiz {
+  border: 2px solid rgb(255, 0, 0);
+}

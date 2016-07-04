@@ -3,10 +3,9 @@
 #myAccountQuizzes, #myAccountChangePassword,
 #myAccountProfileImage, #myAccountProfileImageForm,
 #myAccountTaxation, #myAccountQuizMaster,
-#quizMasterPreviouslyScheduledQuizzes,
 #quizMasterUserInfo, #quizMasterQuizMasterInfo,
-#quizMasterRejectedQuestions, #quizMasterQuestionSubmission,
-#quizMasterScheduleQuiz, #quizMasterScheduleButton {
+#quizMasterQuestionSubmission,#quizMasterScheduleQuiz,
+#quizMasterScheduleButton {
   display: none;
 }
 

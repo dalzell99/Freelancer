@@ -51,9 +51,9 @@ function createQuestions() {
 
     for (var i = 0; i < questions.length; i += 1) {
         htmlQuestions += "<div class='bg-inner questionContainer " + i + "'>";
-    		htmlQuestions += "	<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12 bg-info'>";
+    		htmlQuestions += "	<div class='col-xs-12 bg-info'>";
     		htmlQuestions += "		<div class='bg-data-ques'>";
-    		htmlQuestions += "			<div class='wow fadeInLeft question' data-wow-delay='.5s'>";
+    		htmlQuestions += "			<div class='wow fadeInLeft question col-xs-10 col-xs-push-1' data-wow-delay='.5s'>";
     		htmlQuestions += "				<p>" + (i + 1) + ": <span>" + questions[i][0] + "</span></p>";
     		htmlQuestions += "			</div>";
     		htmlQuestions += "		</div>";
@@ -61,12 +61,12 @@ function createQuestions() {
     		htmlQuestions += "	<div class='col-md-12 col-lg-12 col-sm-12 col-xs-12'>";
     		htmlQuestions += "		<div class='col-md-5 col-lg-5 col-sm-5 col-xs-12 bg-info'>";
         htmlQuestions += "                <div class='bg-data-ans'>";
-      	htmlQuestions += "					<div class='wow fadeInLeft answer 0' onclick='selectAnswer(0)' data-wow-delay='1s'>";
+      	htmlQuestions += "					<div class='wow fadeInLeft answer 0 col-xs-10 col-xs-push-1' onclick='selectAnswer(0)' data-wow-delay='1s'>";
       	htmlQuestions += "						<p>A: <span>" + questions[i][1][0] + "</span></p>";
       	htmlQuestions += "					</div>";
         htmlQuestions += "                </div>";
         htmlQuestions += "                <div class='bg-data-ans'>";
-      	htmlQuestions += "					<div class='wow fadeInLeft answer 1' onclick='selectAnswer(1)' data-wow-delay='1.5s'>";
+      	htmlQuestions += "					<div class='wow fadeInLeft answer 1 col-xs-10 col-xs-push-1' onclick='selectAnswer(1)' data-wow-delay='1.5s'>";
       	htmlQuestions += "						<p>B: <span>" + questions[i][1][1] + "</span></p>";
       	htmlQuestions += "					</div>";
         htmlQuestions += "                </div>";
@@ -82,12 +82,12 @@ function createQuestions() {
 
 		    htmlQuestions += "		<div class='col-md-5 col-lg-5 col-sm-5 col-xs-12 bg-info'>";
         htmlQuestions += "                <div class='bg-data-ans'>";
-    	  htmlQuestions += "					<div class='wow fadeInLeft answer 2' onclick='selectAnswer(2)' data-wow-delay='2s'>";
+    	  htmlQuestions += "					<div class='wow fadeInLeft answer 2 col-xs-10 col-xs-push-1' onclick='selectAnswer(2)' data-wow-delay='2s'>";
     	  htmlQuestions += "						<p>C: <span>" + questions[i][1][2] + "</span></p>";
     	  htmlQuestions += "					</div>";
         htmlQuestions += "                </div>";
         htmlQuestions += "                <div class='bg-data-ans'>";
-    	  htmlQuestions += "					<div class='wow fadeInLeft answer 3' onclick='selectAnswer(3)' data-wow-delay='2.5s'>";
+    	  htmlQuestions += "					<div class='wow fadeInLeft answer 3 col-xs-10 col-xs-push-1' onclick='selectAnswer(3)' data-wow-delay='2.5s'>";
       	htmlQuestions += "						<p>D: <span>" + questions[i][1][3] + "</span></p>";
       	htmlQuestions += "					</div>";
         htmlQuestions += "                </div>";

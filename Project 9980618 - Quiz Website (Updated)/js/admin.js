@@ -1715,6 +1715,7 @@ function populateQuizMaster() {
                 html += '        <th>Email</th>';
                 html += '        <th>Mobile</th>';
                 html += '        <th>Pancard</th>';
+                html += '        <th>Number of Approved Questions</th>';
                 html += '        <th>Number of quiz which can be scheduled</th>';
                 html += '        <th>Number of quiz already scheduled</th>';
                 html += '        <th>Balance quiz number which can be scheduled</th>';
@@ -1727,6 +1728,7 @@ function populateQuizMaster() {
                     html += "    <td>" + userQuizMasterArray[i].email + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].mobile + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].pancard + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].approvedQuestionCount + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesPurchased + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesScheduledQuizMaster + "</td>";
                     html += "    <td>" + (userQuizMasterArray[i].numQuizzesPurchased - userQuizMasterArray[i].numQuizzesScheduledQuizMaster) + "</td>";
@@ -1738,6 +1740,7 @@ function populateQuizMaster() {
                 html += '    <tr>';
                 html += '        <th>Username</th>';
                 html += '        <th>Email</th>';
+                html += '        <th>Number of Approved Questions</th>';
                 html += '        <th>Number of paid quiz played</th>';
                 html += '        <th>Number of quiz which can be scheduled </th>';
                 html += '        <th>Number of quiz already scheduled</th>';
@@ -1749,6 +1752,7 @@ function populateQuizMaster() {
                     html += '<tr>';
                     html += "    <td>" + userQuizMasterArray[i].username + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].email + "</td>";
+                    html += "    <td>" + userQuizMasterArray[i].approvedQuestionCount + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesTaken + "</td>";
                     html += "    <td>" + (parseInt(userQuizMasterArray[i].numQuizzesScheduledUser) + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget)) + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesScheduledUser + "</td>";
@@ -1883,7 +1887,7 @@ function populatePendingQuestion() {
                 });
                 var correctAnswer = a[q[2]] + ") " + q[1][q[2]];
 
-                html += '<tr>';
+                html += "<tr id='pendingQuestion" + i + "'>";
                 html += "    <td>" + q[3] + "</td>";
                 html += "    <td>" + q[0] + "</td>";
                 html += "    <td>" + answers + "</td>";
@@ -1925,6 +1929,7 @@ function acceptQuestion(id) {
     }, function(response) {
         if (response == 'success') {
             displayMessage('info', 'Question approved');
+            $("#pendingQuestion" + id).hide();
         } else {
             displayMessage('error', 'Error accepting question');
         }

@@ -14,13 +14,13 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
                 <section>
                     <ul id="top-bar" class="nav nav-tabs nav-justified" style="letter-spacing: 1px;    border: 1px solid #557c83;">
                         <li class="active" style="background-color:#00b6f2 !important;"><a href="javascript:void(0)" onclick='showProfile()' style="background-color:#003a6e !important; color:#fff !important;"><strong style="text-align:center" >Profile</strong>  </a></li>
-                        <li><a href="javascript:void(0)" onclick='showChangePassword()'><strong style="text-align:center">Change Password</strong>  </a></li>
-                        <li><a href="javascript:void(0)" onclick='showQuizzes()'><strong style="text-align:center">Your Quizzes</strong>  </a></li>
+                        <li style="width: 3%;"><a href="javascript:void(0)" onclick='showChangePassword()'><strong style="text-align:center">Change Password</strong>  </a></li>
+                        <li style="width: 3%;"><a href="javascript:void(0)" onclick='showQuizzes()'><strong style="text-align:center">Your Quizzes</strong>  </a></li>
                         <li><a href="javascript:void(0)" id='myAccountConversionButton' onclick='showConversion()' disabled><strong style="text-align:center">Convert</strong>  </a></li>
                         <li><a href="javascript:void(0)" onclick='showDeposit()'><strong style="text-align:center">Purchase</strong>  </a></li>
                         <li><a href="javascript:void(0)" onclick='showWithdraw()'><strong style="text-align:center">Redeem</strong>  </a></li>
                         <li><a href="javascript:void(0)" onclick='showTaxation()'><strong style="text-align:center">Taxations</strong>  </a></li>
-                        <li><a href="javascript:void(0)" onclick='showQuizMaster()'><strong style="text-align:center">Quiz Master</strong>  </a></li>
+                        <li style="width: 3%;"><a href="javascript:void(0)" onclick='showQuizMaster()'><strong style="text-align:center">Quiz Master</strong>  </a></li>
                     </ul>
                     <div class="tab-content tabs-login col-lg-12 col-md-12 col-sm-12 cols-xs-12" style="box-shadow: 10px 21px 11px rgba(50, 50, 50, 0.15)">
                         <div id="login-access" class="tab-pane fade active in">
@@ -330,6 +330,34 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
       <div class="modal-footer">
 		    <button type="button" class="btn btn-default" onclick='displayPaymentGateway()' data-dismiss="modal">Agree</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Disagree</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="previousQuizModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="rejectedQuestionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

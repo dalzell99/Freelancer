@@ -8,20 +8,21 @@ if (mysqli_connect_errno()) {
 }
 
 $questionID = $_POST['questionID'];
-$question = $_POST['question'];
-$answers = $_POST['answers'];
+$question = mysqli_real_escape_string($con, $_POST['question']);
+$answers = mysqli_real_escape_string($con, $_POST['answers']);
 $correctAnswer = $_POST['correctAnswer'];
 $category = 'Miscellaneous';
 $creator = $_POST['creator'];
 
 $sql = "INSERT INTO Questions VALUES (DEFAULT, '$question', '$answers', '$correctAnswer', '$category', '$creator')";
-if (mysqli_query($con, $sql)) {
+$sqlUser = "UPDATE Users SET approvedQuestionCount = approvedQuestionCount + 1 WHERE username = '$creator'";
+if (mysqli_query($con, $sql) && mysqli_query($con, $sqlUser)) {
     echo 'success';
 
     $sqlDelete = "DELETE FROM PendingQuestions WHERE questionID = $questionID";
     mysqli_query($con, $sqlDelete);
 } else {
-    echo 'fail' . $sql;
+    echo "fail $sql $sqlUser";
 }
 
 mysqli_close($con);

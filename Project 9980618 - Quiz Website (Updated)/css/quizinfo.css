@@ -29,7 +29,7 @@ body {
   font-size: 1.3em;
 }
 
-#quizInfoTable, #quizPrizesTable, #quizLeadersTable, #quizQuestionsTable, #quizRulesTable1 {
+#quizInfoTable, #quizPrizesTable, #quizLeadersTable, #quizQuestionsTable, #quizRulesTable {
   display: none;
 }
 

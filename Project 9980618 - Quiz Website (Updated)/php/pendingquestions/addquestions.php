@@ -14,8 +14,8 @@ $response = 'success';
 // Add each question to pendingQuestions table
 foreach ($questions as $question) {
     $q = mysqli_real_escape_string($con, $question);
-    if (!mysqli_query($con, "INSERT INTO PendingQuestions VALUES (DEFAULT, '$username', '$q')")) {
-        $response = "fail INSERT INTO PendingQuestions VALUES (DEFAULT, '$username', '$q')";
+    if (!mysqli_query($con, "INSERT INTO PendingQuestions VALUES (DEFAULT, '$username', '$q', 'n')")) {
+        $response = "fail INSERT INTO PendingQuestions VALUES (DEFAULT, '$username', '$q', 'n')";
     }
 }
 
