@@ -7,7 +7,7 @@ $noReplyEmail = 'noreply@hostkeep.com.au';
 $hostkeepEmail = 'hello@hostkeep.com.au';
 $webAdminEmail = 'dalzell99@hotmail.com';
 $beyondPricing = 'https://api.beyondpricing.com/v1';
-$beyondPricingAPIKey = '';
+$beyondPricingAPIKey = '58cea83371b689feddf4cfc70589ab1a';
 
 function hashPassword($con, $password) {
     return sha1(md5(mysqli_real_escape_string($con, $password) . $salt));

@@ -39,7 +39,6 @@ window.onload = function () {
                 populateCountdown();
                 populateInfo();
                 populateLeaders();
-                populateSocial();
                 populateRegistration();
                 populatePrizes();
                 populateRules();
@@ -127,7 +126,7 @@ function populateTitle() {
         var index = n.indexOf(' by');
         quizName = "<span class='category' contenteditable='true'>" + n.substr(0, index) + "</span>" + n.substr(index);
     } else {
-        quizName = "<span>" + quiz.category + "</span>";
+        quizName = quiz.category;
     }
     $("#quizInfoTitle").html(quizName);
 }
@@ -162,21 +161,27 @@ function populateCountdown() {
     if (quizSituation != 'Ended') {
         html += "<div>";
         html += "    <div class='col-xs-3'>";
-        html += "        <div class='col-xs-6'>" + countdownString[0] + "</div>";
-        html += "        <div class='col-xs-6'>" + countdownString[1] + "</div>";
+        html += "        <div class='col-xs-6 digits'>" + countdownString[0] + "</div>";
+        html += "        <div class='col-xs-6 digits'>" + countdownString[1] + "</div>";
         html += "    </div>";
         html += "    <div class='col-xs-3'>";
-        html += "        <div class='col-xs-6'>" + countdownString[2] + "</div>";
-        html += "        <div class='col-xs-6'>" + countdownString[3] + "</div>";
+        html += "        <div class='col-xs-6 digits'>" + countdownString[2] + "</div>";
+        html += "        <div class='col-xs-6 digits'>" + countdownString[3] + "</div>";
         html += "    </div>";
         html += "    <div class='col-xs-3'>";
-        html += "        <div class='col-xs-6'>" + countdownString[4] + "</div>";
-        html += "        <div class='col-xs-6'>" + countdownString[5] + "</div>";
+        html += "        <div class='col-xs-6 digits'>" + countdownString[4] + "</div>";
+        html += "        <div class='col-xs-6 digits'>" + countdownString[5] + "</div>";
         html += "    </div>";
         html += "    <div class='col-xs-3'>";
-        html += "        <div class='col-xs-6'>" + countdownString[6] + "</div>";
-        html += "        <div class='col-xs-6'>" + countdownString[7] + "</div>";
+        html += "        <div class='col-xs-6 digits'>" + countdownString[6] + "</div>";
+        html += "        <div class='col-xs-6 digits'>" + countdownString[7] + "</div>";
         html += "    </div>";
+        html += "</div>";
+        html += "<div>";
+        html += "    <div class='col-xs-3'>Days</div>";
+        html += "    <div class='col-xs-3'>Hours</div>";
+        html += "    <div class='col-xs-3'>Minutes</div>";
+        html += "    <div class='col-xs-3'>Seconds</div>";
         html += "</div>";
     }
 
@@ -187,6 +192,9 @@ function populateInfo() {
     var html = '';
 
     html += '<table>';
+    html += '    <tr>';
+    html += '        <th colspan="2">Quiz Info</th>';
+    html += '    </tr>';
     html += '    <tr>';
     html += '        <td>Start Time</td>';
     html += '        <td onclick="showTimeslotChange()">' + moment(quiz.startTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
@@ -230,6 +238,9 @@ function populateLeaders() {
 
                 var html = '';
                 html += '<table>';
+                html += '    <tr>';
+                html += '        <th colspan="2">Quiz Leaderboard</th>';
+                html += '    </tr>';
                 for (var i = 0; results !== null && i < 15 && i < results.length; i += 1) {
                     html += '    <tr>';
                     html += '        <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
@@ -258,24 +269,6 @@ function populateLeaders() {
     }
 }
 
-function populateSocial() {
-    var html = '';
-
-    html += '<!-- AddToAny BEGIN -->';
-    html += '<div class="a2a_kit a2a_kit_size_32 a2a_default_style">';
-    html += '    <a class="a2a_button_facebook"></a>';
-    html += '    <a class="a2a_button_twitter"></a>';
-    html += '    <a class="a2a_button_google_plus"></a>';
-    html += '    <a class="a2a_button_pinterest"></a>';
-    html += '    <a class="a2a_button_linkedin"></a>';
-    html += '    <a class="a2a_button_tumblr"></a>';
-    html += '</div>';
-    html += '<script async src="https://static.addtoany.com/menu/page.js"></script>';
-    html += '<!-- AddToAny END -->';
-
-    $("#quizInfoSocial").html(html);
-}
-
 function populateRegistration() {
     $.post('./php/quizzes/checkregistration.php', {
         userID: sessionStorage.userID,
@@ -283,6 +276,29 @@ function populateRegistration() {
     }, function (response) {
         userSituation = response;
         var html = '';
+
+        html += '<table>';
+        html += '    <tr>';
+        html += '        <th colspan="2">Quiz Registration</th>';
+        html += '    </tr>';
+        html += '    <tr>';
+        html += '        <td>';
+        html += '            <!-- AddToAny BEGIN -->';
+        html += '            <div class="a2a_kit a2a_kit_size_32 a2a_default_style">';
+        html += '                <a class="a2a_button_facebook"></a>';
+        html += '                <a class="a2a_button_twitter"></a>';
+        html += '                <a class="a2a_button_google_plus"></a>';
+        html += '                <a class="a2a_button_pinterest"></a>';
+        html += '                <a class="a2a_button_linkedin"></a>';
+        html += '                <a class="a2a_button_tumblr"></a>';
+        html += '            </div>';
+        html += '            <script async src="https://static.addtoany.com/menu/page.js"></script>';
+        html += '            <!-- AddToAny END -->';
+        html += '        </td>';
+        html += '    </tr>';
+        html += '    <tr>';
+        html += '        <td>';
+
         var secondsToStartTime = Math.floor((moment(quiz.startTime).diff(moment())) / 1000);
         var secondsToEndTime = Math.floor((moment(quiz.endTime).diff(moment())) / 1000);
 
@@ -341,6 +357,10 @@ function populateRegistration() {
             populateQuestions();
         }
 
+        html += '        </td>';
+        html += '    </tr>';
+        html += '</table>';
+
         $("#quizInfoRegistration").html(html);
 
         if (count === 1) {
@@ -357,6 +377,9 @@ function populateRegistration() {
 function populatePrizes() {
     var html = '';
     html += '<table>';
+    html += '    <tr>';
+    html += '        <th colspan="2">Quiz Prizes</th>';
+    html += '    </tr>';
     if (quiz.type == 'paid') {
         var prizePool = 0;
         var prizes = JSON.parse(quiz.pointsRewards);
@@ -398,9 +421,12 @@ function populateRules() {
 
     var rules = JSON.parse(quiz.rules);
     html += '<table>';
+    html += '    <tr>';
+    html += '        <th colspan="2">Quiz Rules</th>';
+    html += '    </tr>';
     for (var i = 0; i < rules.length; i += 1) {
         html += '    <tr>';
-        html += '        <td>' + (i + 1) + '.</td>';
+        html += '        <td><strong>' + (i + 1) + '.</strong></td>';
         html += '        <td>' + rules[i] + '</td>';
         html += '    </tr>';
     }
@@ -411,9 +437,12 @@ function populateRules() {
 
 function populateQuestions() {
     var html = '';
+    html += '<table>';
+    html += '    <tr>';
+    html += '        <th colspan="2">Quiz Questions</th>';
+    html += '    </tr>';
     if (moment().diff(moment(quiz.endTime)) > 0) {
         var questions = JSON.parse(quiz.questions);
-		html += '<table>';
         for (var i = 0; i < questions.length; i += 1) {
             html += '    <tr>';
             html += '        <td>' + questions[i][0] + '</td>';
@@ -424,7 +453,6 @@ function populateQuestions() {
 
         $("#quizInfoQuestions").html(html);
     } else {
-		 html += '<table>';
         html += '    <tr>';
         html += '        <td>The questions and answers will be shown after the quiz ends.</td>';
         html += '    </tr>';
