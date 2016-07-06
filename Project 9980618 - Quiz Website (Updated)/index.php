@@ -237,7 +237,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
 </div>
 <!-- End Promotions -->
 
-<div class="container  animated fadeInDown wow" style=" margin-top:50px;">
+<div id='how-it-works' class="container  animated fadeInDown wow" style=" margin-top:50px;">
     <h2 class="h2-heading1  animated fadeInDown wow">How It Works<br/><img src="images/line.png" alt="" class=" mbl-none" /></h2>
     <div class="row animated fadeInDown wow" style="margin-right:0px; margin-left: -25px;">
 

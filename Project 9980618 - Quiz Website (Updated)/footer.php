@@ -11,6 +11,9 @@
 						<li><a href="legality.php">Legality</a> </li>
 						<li> <a href="terms-of-services.php">Terms of Use</a></li>
 						<li><a href="privacy-policy.php">Privacy Policy </a></li>
+						<li><a href="index.php#how-it-works">How It Works </a></li>
+						<li><a href="contact-us.php">Contact Us</a></li>
+
 
 					</ul>
 				</div>
@@ -35,8 +38,8 @@
 			<hr class="sepa">
 			<div class="row" style="margin:0px;">
 				<div style="margin-top:10px;padding-bottom:25px;">
-					<div style="float:left; font-size:13px;">Copyright © <?php echo date('Y');?> IQzeto. All Rights Reserved</div>
-					<div style="float:right; font-size:13px;">Designed by <a href="https://www.innasoft.in/" target="_blank"  style="color:#fff">Innasoft Technologies Pvt Ltd</a>.</div>
+					<div align="center" font-size:13px;">Copyright © <?php echo date('Y');?> IQzeto. All Rights Reserved</div>
+
 				</div>
 				<div class="clearfix"></div>
 			</div>

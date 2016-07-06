@@ -6,7 +6,7 @@ echo '<script type="text/javascript" src="js/quizmaster.js?' . filemtime('js/qui
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<div class="container margin-top" style=" background: url(images/backgrond.png); min-height:600px;">
+<div class="container margin-top" style=" background: url(images/quizmaster.jpg); min-height:600px;">
 	<div id='quizMasterButtons' class='col-xs-12'>
 		<div class='col-xs-6'>
 			<button class='quizMasterButtons left' id='quizMasterButton' data-toggle="modal" data-target="#quizMasterModal">Activate as QuizMaster</button>

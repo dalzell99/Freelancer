@@ -321,6 +321,34 @@
                 <div class='tablePaginationContainer' id='createPendingQuestionPagination'></div>
                 <table class='databaseTable table-bordered table-striped table-condensed cf' id="pendingQuestionTable" style="margin-top:20px;"></table>
             </div>
+
+            <div id="previousQuizModal" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-sm">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-body">
+                  </div>
+                  <div class="modal-footer">
+            		    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="rejectedQuestionModal" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-sm">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-body">
+                  </div>
+                  <div class="modal-footer">
+            		    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
         </main>
 
         <footer>

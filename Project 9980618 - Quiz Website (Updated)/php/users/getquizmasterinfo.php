@@ -7,13 +7,20 @@ if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
-$sql = "SELECT username, email, mobile, pancard, purchasedQuizzesRemaining, approvedQuestionCount, rejectedQuestions, numQuizzesTakenRemaining, numQuizzesPurchased, numQuizzesScheduledQuizMaster, numQuizzesScheduledUser, numQuizzesTaken FROM Users";
+$sql = "SELECT username, email, mobile, pancard, purchasedQuizzesRemaining, approvedQuestionCount,  numQuizzesTakenRemaining, numQuizzesPurchased, numQuizzesScheduledQuizMaster, numQuizzesScheduledUser, numQuizzesTaken FROM Users";
 $sql2 = "SELECT * FROM QuizMaster WHERE id = 1";
 $response = [];
 
 if (($result = mysqli_query($con, $sql)) && ($result2 = mysqli_query($con, $sql2))) {
 
     while ($row = mysqli_fetch_assoc($result)) {
+        $sqlRejected = "SELECT * FROM PendingQuestions WHERE rejected = 'y' AND username = '" . $row['username'] . "'";
+        $resultRejected = mysqli_query($con, $sqlRejected);
+        $rejectedQuestions = [];
+        while ($rowRejected = mysqli_fetch_assoc($resultRejected)) {
+            $rejectedQuestions[] = $rowRejected;
+        }
+        $row['rejectedQuestions'] = $rejectedQuestions;
         $response[] = $row;
     }
 

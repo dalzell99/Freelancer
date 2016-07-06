@@ -683,11 +683,19 @@ function convertFreePoints() {
 
 function redeemRealPoints(method) {
     if (method === 'cheque') {
-        $("#withdrawChequeAddress").slideDown();
-        $("#withdrawBankTransferDetails").slideUp();
+        if ($("#withdrawChequeAddress").css('display') == 'none') {
+            $("#withdrawChequeAddress").slideDown();
+            $("#withdrawBankTransferDetails").slideUp();
+        } else {
+            $("#withdrawChequeAddress").slideUp();
+        }
     } else if (method === 'banktransfer') {
-        $("#withdrawBankTransferDetails").slideDown();
-        $("#withdrawChequeAddress").slideUp();
+        if ($("#withdrawBankTransferDetails").css('display') == 'none') {
+            $("#withdrawBankTransferDetails").slideDown();
+            $("#withdrawChequeAddress").slideUp();
+        } else {
+            $("#withdrawBankTransferDetails").slideUp();
+        }
     }
 }
 
@@ -1130,30 +1138,42 @@ function populateQuizMaster() {
 }
 
 function showQuizMasterInfo() {
-    $("#quizMasterQuizMasterInfo").show();
-    $("#quizMasterUserInfo").hide();
+    if ($("#quizMasterQuizMasterInfo").css('display') == 'none') {
+        $("#quizMasterQuizMasterInfo").show();
+        $("#quizMasterUserInfo").hide();
 
-    $("#quizMasterQuestionSubmission").hide();
-    $("#quizMasterScheduleQuiz").hide();
-    $("#quizMasterScheduleButton").show();
+        $("#quizMasterQuestionSubmission").hide();
+        $("#quizMasterScheduleQuiz").hide();
+        $("#quizMasterScheduleButton").show();
 
-    sessionStorage.quizMaster = 'true';
+        sessionStorage.quizMaster = 'true';
+    } else {
+        $("#quizMasterQuizMasterInfo").hide();
+    }
 }
 
 function showUserInfo() {
-    $("#quizMasterQuizMasterInfo").hide();
-    $("#quizMasterUserInfo").show();
+    if ($("#quizMasterUserInfo").css('display') == 'none') {
+        $("#quizMasterQuizMasterInfo").hide();
+        $("#quizMasterUserInfo").show();
 
-    $("#quizMasterQuestionSubmission").hide();
-    $("#quizMasterScheduleQuiz").hide();
-    $("#quizMasterScheduleButton").show();
+        $("#quizMasterQuestionSubmission").hide();
+        $("#quizMasterScheduleQuiz").hide();
+        $("#quizMasterScheduleButton").show();
 
-    sessionStorage.quizMaster = 'false';
+        sessionStorage.quizMaster = 'false';
+    } else {
+        $("#quizMasterUserInfo").hide();
+    }
 }
 
 function showUploadQuestion() {
-    $("#quizMasterQuestionSubmission").show();
-    $("#quizMasterScheduleQuiz").hide();
+    if ($("#quizMasterQuestionSubmission").css('display') == 'none') {
+        $("#quizMasterQuestionSubmission").show();
+        $("#quizMasterScheduleQuiz").hide();
+    } else {
+        $("#quizMasterQuestionSubmission").hide();
+    }
 }
 
 function showScheduleQuiz() {
@@ -1189,8 +1209,12 @@ function showScheduleQuiz() {
     } else if (quizMasterInfo.quizzesScheduledToday >= 2) {
         displayMessage('warning', "You can't schedule a quiz", 'You have already scheduled 2 quiz for the day. Please try next day again');
     } else if ((quizBalance === "Unlimited" || quizBalance > 0) && quizMasterInfo.approvedQuestionCount >= 10) {
-        $("#quizMasterQuestionSubmission").hide();
-        $("#quizMasterScheduleQuiz").show();
+        if ($("#quizMasterScheduleQuiz").css('display') == 'none') {
+            $("#quizMasterQuestionSubmission").hide();
+            $("#quizMasterScheduleQuiz").show();
+        } else {
+            $("#quizMasterScheduleQuiz").hide();
+        }
     } else if (quizMasterInfo.approvedQuestionCount < 10) {
         displayMessage('warning', "You can't schedule a quiz", "You need to have 10 or more approved question before you can schedule a quiz");
     } else if (qm) {

@@ -1681,6 +1681,8 @@ function populateTaxation() {
 ----------------------- Quiz Master Page -----------------------
 ---------------------------------------------------------------*/
 
+var userQuizMasterArray;
+
 function quizMaster() {
     if (sessionStorage.loggedIn == 'true') {
         hideAllContainers();
@@ -1693,7 +1695,7 @@ function populateQuizMaster() {
     $.post('./php/users/getquizmasterinfo.php', {},
     function(response) {
         if (response[0] == 'success') {
-            var userQuizMasterArray = response[1];
+            userQuizMasterArray = response[1];
             var quizMasterArray = response[2];
             // Add pagination buttons
             var htmlPage = '';
@@ -1716,6 +1718,7 @@ function populateQuizMaster() {
                 html += '        <th>Mobile</th>';
                 html += '        <th>Pancard</th>';
                 html += '        <th>Number of Approved Questions</th>';
+                html += '        <th>Number of Rejected Questions</th>';
                 html += '        <th>Number of quiz which can be scheduled</th>';
                 html += '        <th>Number of quiz already scheduled</th>';
                 html += '        <th>Balance quiz number which can be scheduled</th>';
@@ -1729,8 +1732,9 @@ function populateQuizMaster() {
                     html += "    <td>" + userQuizMasterArray[i].mobile + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].pancard + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].approvedQuestionCount + "</td>";
+                    html += "    <td onclick='showRejectedQuestions(" + i + ")'>" + userQuizMasterArray[i].rejectedQuestions.length + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesPurchased + "</td>";
-                    html += "    <td>" + userQuizMasterArray[i].numQuizzesScheduledQuizMaster + "</td>";
+                    html += "    <td onclick='showScheduledQuizzes(" + i + ")'>" + userQuizMasterArray[i].numQuizzesScheduledQuizMaster + "</td>";
                     html += "    <td>" + (userQuizMasterArray[i].numQuizzesPurchased - userQuizMasterArray[i].numQuizzesScheduledQuizMaster) + "</td>";
                     html += '</tr>';
                 }
@@ -1741,6 +1745,7 @@ function populateQuizMaster() {
                 html += '        <th>Username</th>';
                 html += '        <th>Email</th>';
                 html += '        <th>Number of Approved Questions</th>';
+                html += '        <th>Number of Rejected Questions</th>';
                 html += '        <th>Number of paid quiz played</th>';
                 html += '        <th>Number of quiz which can be scheduled </th>';
                 html += '        <th>Number of quiz already scheduled</th>';
@@ -1753,9 +1758,10 @@ function populateQuizMaster() {
                     html += "    <td>" + userQuizMasterArray[i].username + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].email + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].approvedQuestionCount + "</td>";
+                    html += "    <td onclick='showRejectedQuestions(" + i + ")'>" + userQuizMasterArray[i].rejectedQuestions.length + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesTaken + "</td>";
                     html += "    <td>" + (parseInt(userQuizMasterArray[i].numQuizzesScheduledUser) + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget)) + "</td>";
-                    html += "    <td>" + userQuizMasterArray[i].numQuizzesScheduledUser + "</td>";
+                    html += "    <td onclick='showScheduledQuizzes(" + i + ")'>" + userQuizMasterArray[i].numQuizzesScheduledUser + "</td>";
                     html += "    <td>" + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget) + "</td>";
                     html += '</tr>';
                 }
@@ -1835,6 +1841,79 @@ function populateQuizMaster() {
 function changeQuizMasterPage(page) {
     tablePages.quizMaster = page;
     populateQuizMaster();
+}
+
+function showRejectedQuestions(index) {
+    var rq = userQuizMasterArray[index].rejectedQuestions;
+    var html = "";
+
+    html += "<table id='quizMasterRejectedQuestions'>";
+    html += "    <tr>";
+    html += "        <th>Question</th>";
+    html += "        <th>Answer 1</th>";
+    html += "        <th>Answer 2</th>";
+    html += "        <th>Answer 3</th>";
+    html += "        <th>Answer 4</th>";
+    html += "        <th>Correct Answer</th>";
+    html += "    </tr>";
+
+    rq.forEach(function (question) {
+        var q = JSON.parse(question.question);
+        html += "<tr>";
+        html += "    <td>" + q[0] + "</td>";
+        html += "    <td>" + q[1][0] + "</td>";
+        html += "    <td>" + q[1][1] + "</td>";
+        html += "    <td>" + q[1][2] + "</td>";
+        html += "    <td>" + q[1][3] + "</td>";
+        html += "    <td>Answer " + (parseInt(q[2]) + 1) + "</td>";
+        html += "</tr>";
+    });
+    html += "</table>";
+
+    $("#rejectedQuestionModal .modal-body").html(html);
+    $("#rejectedQuestionModal").modal();
+}
+
+function showScheduledQuizzes(index) {
+    $.get("./php/quizzes/getusersscheduledquizzes.php", {
+        username: userQuizMasterArray[index].username
+    }, function(response) {
+        if (response.substr(0, 4) != 'fail') {
+            var html = '';
+            html += "<table id='quizMasterPreviouslyScheduledQuizzes'>";
+            html += "    <tr>";
+            html += "        <th>Quiz Name</th>";
+            html += "        <th>Date</th>";
+            html += "        <th>Start Time</th>";
+            html += "        <th>Total registered users</th>";
+            html += "        <th>Winner</th>";
+            html += "        <th>Earnings</th>";
+            html += "    </tr>";
+
+            JSON.parse(response).forEach(function (quiz) {
+                var date = moment(quiz.startTime).format('ddd Do MMM YY');
+                var startTime = moment(quiz.startTime).format('H:mm a');
+                var numRegisteredUsers = JSON.parse(quiz.userRegistered).length;
+                var earnings = (numRegisteredUsers * quiz.pointsCost) * (quiz.creatorEarnings / 100);
+                html += "<tr>";
+                html += "    <td>" + quiz.category + "</td>";
+                html += "    <td>" + date + "</td>";
+                html += "    <td>" + startTime + "</td>";
+                html += "    <td>" + numRegisteredUsers + "</td>";
+                html += "    <td>" + quiz.winner + "</td>";
+                html += "    <td>" + earnings + "</td>";
+                html += "</tr>";
+            });
+            html += "</table>";
+
+            $("#previousQuizModal .modal-body").html(html);
+            $("#previousQuizModal").modal();
+        } else {
+            displayMessage('error', 'Error getting quizzes scheduled by this user');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX GET");
+    });
 }
 
 /* -------------------------------------------------------------

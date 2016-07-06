@@ -2,6 +2,10 @@ body {
   color: initial;
 }
 
+.container-fluid {
+  background: lightblue;
+}
+
 .leaderboardUserImage {
   max-height: 30px;
 }
@@ -47,9 +51,17 @@ body {
 }
 
 #quizInfoTitle {
-  text-align: center;
-  font-size: 3em;
   padding-top: 15px;
+}
+
+#quizInfoTitle #title {
+  text-align: center;
+  display: inline-block;
+  width: 60%;
+  font-weight: bold;
+  color: red;
+  font-size: 15pt;
+  font-family: Arial, sans-serif;
 }
 
 div#quizInfoCountdown * {
@@ -61,10 +73,11 @@ div#quizInfoCountdown * {
 div#quizInfoCountdown > div:nth-child(1) {
   text-align: center;
   font-size: 1.5em;
+  font-weight: 900;
 }
 
 #quizInfoCountdown .digits {
-  border: 1px solid white;
+  border: 1px solid lightblue;
   border-radius: 5px;
   color: white;
   background-color: red;
@@ -79,6 +92,7 @@ div#quizInfoCountdown > div:nth-child(1) {
 #quizInfoRules table,
 #quizInfoQuestions table {
   width: 100%;
+  background-color: white;
   height: 17em;
 }
 
@@ -91,6 +105,15 @@ div#quizInfoCountdown > div:nth-child(1) {
   height: 2.5em;
 }
 
+#quizInfoLeader table tr {
+  padding-bottom: 15px;
+}
+
+.scrollable {
+  height: 17em;
+  overflow: auto;
+}
+
 .row {
   margin-bottom: 20px;
 }
@@ -101,13 +124,50 @@ td, th {
 }
 
 th {
-  font-size: 1.3em;
+  font-size: 14pt;
+  font-weight: 900;
+  color: orange;
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
 
 #quizInfoRegistration button {
   margin: auto;
   display: block;
-  background: papayawhip;
-  font-size: 2em;
-  padding: 15px 40px;
+  background: red;
+  font-size: 1.5em;
+  padding: 10px 25px;
+  color: white;
+  border-radius: 0;
+  margin-top: 1em;
+}
+
+#quizInfoRegistration button:disabled {
+  background-color: rgb(112, 3, 3);
+}
+
+#quizInfoRegistration button:disabled:hover {
+  cursor: not-allowed;
+}
+
+.subheading {
+  font-weight: bold;
+  font-family: Calibri, sans-serif;
+  font-size: 12pt;
+}
+
+.value {
+  font-weight: bold;
+  color: green;
+  font-family: Calibri, sans-serif;
+  font-size: 12pt;
+}
+
+.socialButtons {
+  width: 240px;
+  display: inline-block;
+}
+
+#quizInfoRegistration {
+  display: none;
 }

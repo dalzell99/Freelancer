@@ -73,9 +73,13 @@ window.onload = function () {
 // Show the start button so user can start quiz
 function showQuizStart() {
     if (userSituation == 'registered') {
-        $("#quizInfoRegistration").html('<button id="startButton" onclick="startQuiz(' + quiz.quizID + ')">START</button>');
+        $("#registerButton").prop('disabled', true);
+        $("#unregisterButton").prop('disabled', true);
+        $("#startButton").prop('disabled', false);
     } else {
-        $("#quizInfoRegistration").html('<div>QUIZ STARTED</div>');
+        $("#registerButton").prop('disabled', true);
+        $("#unregisterButton").prop('disabled', true);
+        $("#startButton").prop('disabled', true);
     }
     setInterval(populateLeaders, 15000);
 }
@@ -107,7 +111,9 @@ function updatePrizes() {
 // Stop users unregistering in last 10 minutes
 function stopUnregistration() {
     if (userSituation == 'registered') {
-        $("#quizInfoRegistration").html('<div>QUIZ STARTING SOON</div>');
+        $("#registerButton").prop('disabled', true);
+        $("#unregisterButton").prop('disabled', true);
+        $("#startButton").prop('disabled', true);
         // show start quiz button when timer hits zero
         startQuizTimer = setTimeout(showQuizStart, moment(quiz.startTime).diff(moment()) - 1000);
     }
@@ -115,20 +121,35 @@ function stopUnregistration() {
 
 // Remove quiz start button when quiz has ended
 function stopQuizStart() {
-    $("#quizInfoRegistration").html('<div>QUIZ ENDED</div>');
+    $("#registerButton").prop('disabled', true);
+    $("#unregisterButton").prop('disabled', true);
+    $("#startButton").prop('disabled', true);
 }
 
 function populateTitle() {
     // If editable is true, make the name part of the quiz name editable. User scheduled quiz names have ' by username' added to the quiz name.
-    var quizName;
+    var html = "";
+
+    html += '<!-- AddToAny BEGIN -->';
+    html += '<div class="a2a_kit a2a_kit_size_32 a2a_default_style socialButtons">';
+    html += '    <a class="a2a_button_facebook"></a>';
+    html += '    <a class="a2a_button_twitter"></a>';
+    html += '    <a class="a2a_button_google_plus"></a>';
+    html += '    <a class="a2a_button_pinterest"></a>';
+    html += '    <a class="a2a_button_linkedin"></a>';
+    html += '    <a class="a2a_button_tumblr"></a>';
+    html += '</div>';
+    html += '<script async src="https://static.addtoany.com/menu/page.js"></script>';
+    html += '<!-- AddToAny END -->';
+
     if (editable) {
         var n = quiz.category;
         var index = n.indexOf(' by');
-        quizName = "<span class='category' contenteditable='true'>" + n.substr(0, index) + "</span>" + n.substr(index);
+        html += "<div id='title'><span class='category' contenteditable='true'>" + n.substr(0, index).toUpperCase() + "</span>" + n.substr(index).toUpperCase() + "</div>";
     } else {
-        quizName = quiz.category;
+        html += "<div id='title'>" + quiz.category.toUpperCase() + "</div>";
     }
-    $("#quizInfoTitle").html(quizName);
+    $("#quizInfoTitle").html(html);
 }
 
 function populateCountdown() {
@@ -191,32 +212,33 @@ function populateCountdown() {
 function populateInfo() {
     var html = '';
 
+    html += '<div class="scrollable">';
     html += '<table>';
     html += '    <tr>';
     html += '        <th colspan="2">Quiz Info</th>';
     html += '    </tr>';
     html += '    <tr>';
-    html += '        <td>Start Time</td>';
-    html += '        <td onclick="showTimeslotChange()">' + moment(quiz.startTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
+    html += '        <td class="subheading">Start Time</td>';
+    html += '        <td class="value" onclick="showTimeslotChange()">' + moment(quiz.startTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
     html += '    </tr>';
     html += '    <tr>';
-    html += '        <td>End Time</td>';
-    html += '        <td>' + moment(quiz.endTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
+    html += '        <td class="subheading">End Time</td>';
+    html += '        <td class="value">' + moment(quiz.endTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
     html += '    </tr>';
     html += '    <tr>';
-    html += '        <td>Number of Questions</td>';
-    html += '        <td>' + JSON.parse(quiz.questions).length + '</td>';
+    html += '        <td class="subheading">Number of Questions</td>';
+    html += '        <td class="value">' + JSON.parse(quiz.questions).length + '</td>';
     html += '    </tr>';
     html += '    <tr>';
-    html += '        <td>Registered Players</td>';
-    html += '        <td>' + JSON.parse(quiz.userRegistered).length + '</td>';
+    html += '        <td class="subheading">Registered Players</td>';
+    html += '        <td class="value">' + JSON.parse(quiz.userRegistered).length + '</td>';
     html += '    </tr>';
     html += '    <tr>';
-    html += '        <td>Registration Fee</td>';
-    html += '        <td' + (editable ? " class='pointsCost' contenteditable='true'" : "") + '>' + quiz.pointsCost + '</td>';
+    html += '        <td class="subheading">Registration Fee</td>';
+    html += '        <td class="value' + (editable ? ' pointsCost" contenteditable="true"' : "") + '">' + quiz.pointsCost + '</td>';
     html += '    </tr>';
     html += '</table>';
-
+    html += '</div>';
     $("#quizInfoInfo").html(html);
 
     if (count === 1) {
@@ -237,9 +259,10 @@ function populateLeaders() {
                 var results = response[1];
 
                 var html = '';
+                html += '<div class="scrollable">';
                 html += '<table>';
                 html += '    <tr>';
-                html += '        <th colspan="2">Quiz Leaderboard</th>';
+                html += '        <th colspan="2">Leaderboard</th>';
                 html += '    </tr>';
                 for (var i = 0; results !== null && i < 15 && i < results.length; i += 1) {
                     html += '    <tr>';
@@ -251,6 +274,7 @@ function populateLeaders() {
                     html += '    </tr>';
                 }
                 html += '</table>';
+                html += '</div>';
                 $("#quizInfoLeader").html(html);
             } else {
                 displayMessage('error', 'Error', 'Error: ' + response[1]);
@@ -261,6 +285,9 @@ function populateLeaders() {
     } else {
         var html = '';
 		html += '<table>';
+        html += '    <tr>';
+        html += '        <th colspan="2">Leaderboard</th>';
+        html += '    </tr>';
         html += '    <tr>';
         html += '        <td>Leaderboard will be shown after the quiz starts.</td>';
         html += '    </tr>';
@@ -275,93 +302,106 @@ function populateRegistration() {
         quizID: quiz.quizID
     }, function (response) {
         userSituation = response;
-        var html = '';
-
-        html += '<table>';
-        html += '    <tr>';
-        html += '        <th colspan="2">Quiz Registration</th>';
-        html += '    </tr>';
-        html += '    <tr>';
-        html += '        <td>';
-        html += '            <!-- AddToAny BEGIN -->';
-        html += '            <div class="a2a_kit a2a_kit_size_32 a2a_default_style">';
-        html += '                <a class="a2a_button_facebook"></a>';
-        html += '                <a class="a2a_button_twitter"></a>';
-        html += '                <a class="a2a_button_google_plus"></a>';
-        html += '                <a class="a2a_button_pinterest"></a>';
-        html += '                <a class="a2a_button_linkedin"></a>';
-        html += '                <a class="a2a_button_tumblr"></a>';
-        html += '            </div>';
-        html += '            <script async src="https://static.addtoany.com/menu/page.js"></script>';
-        html += '            <!-- AddToAny END -->';
-        html += '        </td>';
-        html += '    </tr>';
-        html += '    <tr>';
-        html += '        <td>';
-
         var secondsToStartTime = Math.floor((moment(quiz.startTime).diff(moment())) / 1000);
         var secondsToEndTime = Math.floor((moment(quiz.endTime).diff(moment())) / 1000);
 
+        var html = "";
+
+        html += "<table>";
+        html += "    <tr>";
+        html += "        <th colspan='2'>";
+        html += "            Registration";
+        html += "        </th>";
+        html += "    </tr>";
+        html += "    <tr>";
+        html += "        <td>";
+        html += "            <button id='registerButton' onclick='registerQuiz(" + quiz.quizID + ", \"" + quiz.type + "\")'>REGISTER</button>";
+        html += "        </td>";
+        html += "        <td>";
+        html += "            <button id='unregisterButton' onclick='unregisterQuiz(" + quiz.quizID + ")'>UNREGISTER</button>";
+        html += "        </td>";
+        html += "    </tr>";
+        html += "    <tr>";
+        html += "        <td colspan='2'>";
+        html += "            <button id='startButton' onclick='startQuiz(" + quiz.quizID + ")'>START</button>";
+        html += "        </td>";
+        html += "    </tr>";
+        html += "</table>";
+
+        $("#quizInfoRegistration").html(html).show();
+
         // Quiz has been cancelled
         if (response == 'cancelled') {
-            html += '<div>QUIZ HAS BEEN CANCELLED</div>';
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', true);
             $("#quizInfoCountdown").hide();
         }
 
         // User can only unregister until 600 seconds from start of quiz
         else if (secondsToStartTime >= 600 && response == 'registered') {
-            html += '<button id="unregisterButton" onclick="unregisterQuiz(' + quiz.quizID + ')">UNREGISTER</button>';
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', false);
+            $("#startButton").prop('disabled', true);
         }
 
         // User can register until start of quiz
         else if (secondsToStartTime >= 0 && response == 'notregistered') {
-            html += '<button id="registerButton" onclick="registerQuiz(' + quiz.quizID + ', \'' + quiz.type + '\')">REGISTER</button>';
+            $("#registerButton").prop('disabled', false);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', true);
             // show start quiz button when timer hits zero
             startQuizTimer = setTimeout(showQuizStart, moment(quiz.startTime).diff(moment()) - 1000);
         }
 
         // If user has registered and there is less than 10 minutes to go until quiz starts, user can't unregister
         else if (secondsToStartTime >= 0 && secondsToStartTime < 600 && response == 'registered') {
-            html += '<div>QUIZ STARTING SOON</div>';
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', true);
             // show start quiz button when timer hits zero
             startQuizTimer = setTimeout(showQuizStart, moment(quiz.startTime).diff(moment()) - 1000);
         }
 
         // If user has registered, hasn't already completed the quiz and the quiz has started but not ended then the user can start the quiz
         else if (secondsToEndTime > 0 && secondsToStartTime <= 0 && response == 'registered') {
-            html += '<button id="startButton" onclick="startQuiz(' + quiz.quizID + ')">START</button>';
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', false);
             setInterval(populateLeaders, 15000);
         }
 
         // If user didn't register and quiz has started then they can't take the quiz
         else if (secondsToEndTime >= 0 && response == 'notregistered') {
-            html += '<div>QUIZ STARTED</div>';
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', true);
             setInterval(populateLeaders, 15000);
         }
 
         // If quiz has started and user has already completed the quiz then they can't take it again
         else if (secondsToEndTime >= 0 && response == 'alreadydone') {
-            html += '<div>QUIZ ALREADY COMPLETED</div>';
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', true);
             setInterval(populateLeaders, 15000);
         }
 
         // If quiz hasn't finished and response wasn't any of the above responses then there was an error get registration info for this user
         else if (secondsToEndTime >= 0) {
-            html += '<div>ERROR</div>';
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', true);
             displayMessage('error', 'Error', "Error checking if you are registered for this quiz or if you have already completed the quiz. Please contact web admin about this problem.");
         }
 
         // If none of the above are true then the quiz has ended
         else {
-            html += '<div>QUIZ ENDED</div>';
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', true);
             populateQuestions();
         }
-
-        html += '        </td>';
-        html += '    </tr>';
-        html += '</table>';
-
-        $("#quizInfoRegistration").html(html);
 
         if (count === 1) {
             addContentEditableEvents();
@@ -376,9 +416,10 @@ function populateRegistration() {
 
 function populatePrizes() {
     var html = '';
+    html += '<div class="scrollable">';
     html += '<table>';
     html += '    <tr>';
-    html += '        <th colspan="2">Quiz Prizes</th>';
+    html += '        <th colspan="2">Prize Pool</th>';
     html += '    </tr>';
     if (quiz.type == 'paid') {
         var prizePool = 0;
@@ -387,32 +428,32 @@ function populatePrizes() {
             prizePool += parseInt(value);
         });
         html += '    <tr>';
-        html += '        <td>Prize Pool</td>';
-        html += '        <td>' + prizePool + '</td>';
+        html += '        <td class="subheading">Prize Pool</td>';
+        html += '        <td class="value">' + prizePool + '</td>';
         html += '    </tr>';
         html += '    <tr>';
-        html += '        <td>Prize Type</td>';
-        html += '        <td>Real Quizetos</td>';
+        html += '        <td class="subheading">Prize Type</td>';
+        html += '        <td class="value">Real Quizetos</td>';
         html += '    </tr>';
         html += '    <tr>';
-        html += '        <td>Number of Places</td>';
-        html += '        <td>' + prizes.length + '</td>';
+        html += '        <td class="subheading">Number of Places</td>';
+        html += '        <td class="value">' + prizes.length + '</td>';
         html += '    </tr>';
 
         for (var i = 0; i < prizes.length; i += 1) {
             html += '    <tr>';
-            html += '        <td>' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
-            html += '        <td>' + prizes[i] + '</td>';
+            html += '        <td class="subheading">' + (i + 1) + place[(i > 3 ? 3 : i)] + '</td>';
+            html += '        <td class="value">' + prizes[i] + '</td>';
             html += '    </tr>';
         }
     } else {
         html += '    <tr>';
-        html += '        <td>Prize</td>';
-        html += '        <td>1 quizeto for every correct answer</td>';
+        html += '        <td class="subheading">Prize</td>';
+        html += '        <td class="value">1 quizeto for every correct answer</td>';
         html += '    </tr>';
     }
     html += '</table>';
-
+    html += '</div>';
     $("#quizInfoPrizes").html(html);
 }
 
@@ -420,43 +461,47 @@ function populateRules() {
     var html = '';
 
     var rules = JSON.parse(quiz.rules);
+    html += '<div class="scrollable">';
     html += '<table>';
     html += '    <tr>';
     html += '        <th colspan="2">Quiz Rules</th>';
     html += '    </tr>';
     for (var i = 0; i < rules.length; i += 1) {
         html += '    <tr>';
-        html += '        <td><strong>' + (i + 1) + '.</strong></td>';
-        html += '        <td>' + rules[i] + '</td>';
+        html += '        <td class="subheading">' + (i + 1) + '.</td>';
+        html += '        <td class="subheading">' + rules[i] + '</td>';
         html += '    </tr>';
     }
     html += '</table>';
+    html += '</div>';
 
     $("#quizInfoRules").html(html);
 }
 
 function populateQuestions() {
     var html = '';
+    html += '<div class="scrollable">';
     html += '<table>';
     html += '    <tr>';
-    html += '        <th colspan="2">Quiz Questions</th>';
+    html += '        <th colspan="2">Knowledge Bank</th>';
     html += '    </tr>';
     if (moment().diff(moment(quiz.endTime)) > 0) {
         var questions = JSON.parse(quiz.questions);
         for (var i = 0; i < questions.length; i += 1) {
             html += '    <tr>';
-            html += '        <td>' + questions[i][0] + '</td>';
-            html += '        <td>' + questions[i][1][questions[i][2]] + '</td>';
+            html += '        <td class="subheading">' + questions[i][0] + '</td>';
+            html += '        <td class="subheading">' + questions[i][1][questions[i][2]] + '</td>';
             html += '    </tr>';
         }
         html += '</table>';
-
+        html += '</div>';
         $("#quizInfoQuestions").html(html);
     } else {
         html += '    <tr>';
-        html += '        <td>The questions and answers will be shown after the quiz ends.</td>';
+        html += '        <td class="subheading">The questions and answers will be shown after the quiz ends.</td>';
         html += '    </tr>';
         html += '</table>';
+        html += '</div>';
         $("#quizInfoQuestions").html(html);
     }
 
@@ -478,7 +523,7 @@ function registerQuiz(id, type) {
     },
             function (response) {
                 if (response[0] == 'success') {
-                    populateTitle();
+                    populateRegistration();
                     updatePoints();
                     displayMessage('info', 'Registration Successful', 'You have been registered for this quiz.');
                 } else if (response[0] == 'notenoughpoints') {
@@ -499,7 +544,7 @@ function unregisterQuiz(id) {
     },
             function (response) {
                 if (response[0] == 'success') {
-                    populateTitle();
+                    populateRegistration();
                     updatePoints();
                     displayMessage('info', 'Unregistration Successful', 'You have been unregistered from this quiz.');
                 } else {
