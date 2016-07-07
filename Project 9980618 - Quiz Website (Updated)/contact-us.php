@@ -99,7 +99,29 @@ echo '<script type="text/javascript" src="js/contact-us.js?' . filemtime('js/con
     </div>
 
     <div class='col-xs-12 col-sm-4'>
-        <img class='img-responsive' src="./images/contactPageRightSideImage.jpg" alt="">
+        <div>
+            <img class='img-responsive' src="./images/contactPageRightSideImage.jpg" alt="">
+        </div>
+        <div>
+            <p>
+                <br />
+                Contact Us<br />
+                -----------<br />
+                We are here to help! Get in touch with us in one click <br />
+                and we will be more than happy to assist you<br />
+                <br />
+                Let us know what you think, We want to hear from you.<br />
+                <br />
+                <br />
+                Office Address<br />
+                -------------------------<br />
+                IQvirus Services Pvt Ltd<br />
+                Plot No - 160<br />
+                Sector-1, Block-H<br />
+                Alkapoor Township<br />
+                Hyderabad-500081<br />
+            </p>
+        </div>
     </div>
 
      </div>

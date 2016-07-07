@@ -36,7 +36,9 @@ window.onload = function () {
                 }
 
                 populateTitle();
-                populateCountdown();
+                if (quiz.quizID != 1 && quiz.quizID != 2) {
+                    populateCountdown();
+                }
                 populateInfo();
                 populateLeaders();
                 populateRegistration();
@@ -44,23 +46,25 @@ window.onload = function () {
                 populateRules();
                 populateQuestions();
 
-                // Only create this timer if the quiz starts in more than 10 minutes
-                if (moment(quiz.startTime).diff(moment()) > 600000) {
-                    // Stop registration 10 minutes before start of quiz
-                    registrationQuizTimer = setTimeout(stopUnregistration, moment(quiz.startTime).diff(moment()) - 600000);
+                if (quiz.quizID != 1 && quiz.quizID != 2) {
+                    // Only create this timer if the quiz starts in more than 10 minutes
+                    if (moment(quiz.startTime).diff(moment()) > 600000) {
+                        // Stop registration 10 minutes before start of quiz
+                        registrationQuizTimer = setTimeout(stopUnregistration, moment(quiz.startTime).diff(moment()) - 600000);
+                    }
+
+                    // Only create this timer if the quiz starts in more than 2 minutes
+                    if (moment(quiz.startTime).diff(moment()) > 120000) {
+                        // Update the prizes to reflect the redistributed prizes
+                        updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 120000);
+                    }
+
+                    // Don't allow people to start quiz after it has ended
+                    endQuizTimer = setTimeout(stopQuizStart, moment(quiz.endTime).diff(moment()));
+
+                    // Update countdown every second
+                    setInterval(populateCountdown, 1000);
                 }
-
-                // Only create this timer if the quiz starts in more than 2 minutes
-                if (moment(quiz.startTime).diff(moment()) > 120000) {
-                    // Update the prizes to reflect the redistributed prizes
-                    updatePrizesTimer = setTimeout(updatePrizes, moment(quiz.startTime).diff(moment()) - 120000);
-                }
-
-                // Don't allow people to start quiz after it has ended
-                endQuizTimer = setTimeout(stopQuizStart, moment(quiz.endTime).diff(moment()));
-
-                // Update countdown every second
-                setInterval(populateCountdown, 1000);
             } else {
                 displayMessage('error', 'Error', "Error: " + response[1]);
             }
@@ -124,6 +128,7 @@ function stopQuizStart() {
     $("#registerButton").prop('disabled', true);
     $("#unregisterButton").prop('disabled', true);
     $("#startButton").prop('disabled', true);
+    populateQuestions();
 }
 
 function populateTitle() {
@@ -178,7 +183,7 @@ function populateCountdown() {
     var countdownString = pad(days, 2) + pad(hours, 2) + pad(minutes, 2) + pad(seconds, 2);
     var html = '';
 
-    html += "<div>Quiz " + quizSituation + "</div>";
+    html += "<div id='quizSituationTitle'>Quiz " + quizSituation + "</div>";
     if (quizSituation != 'Ended') {
         html += "<div>";
         html += "    <div class='col-xs-3'>";
@@ -207,6 +212,10 @@ function populateCountdown() {
     }
 
     $("#quizInfoCountdown").html(html);
+
+    if (quizSituation == 'Ended') {
+        $("#quizSituationTitle").css('padding-top', '2rem');
+    }
 }
 
 function populateInfo() {
@@ -330,8 +339,16 @@ function populateRegistration() {
 
         $("#quizInfoRegistration").html(html).show();
 
+        // If quiz is one of the demo quizzes enable start button
+        if (quiz.quizID == 1 || quiz.quizID == 2) {
+            $("#registerButton").prop('disabled', true);
+            $("#unregisterButton").prop('disabled', true);
+            $("#startButton").prop('disabled', false);
+            $("#quizInfoCountdown").hide();
+        }
+
         // Quiz has been cancelled
-        if (response == 'cancelled') {
+        else if (response == 'cancelled') {
             $("#registerButton").prop('disabled', true);
             $("#unregisterButton").prop('disabled', true);
             $("#startButton").prop('disabled', true);
@@ -449,7 +466,7 @@ function populatePrizes() {
     } else {
         html += '    <tr>';
         html += '        <td class="subheading">Prize</td>';
-        html += '        <td class="value">1 quizeto for every correct answer</td>';
+        html += '        <td class="value">5 quizeto for 100%<br />3 quizeto for 95-99%<br />1 quizeto for 90-94%</td>';
         html += '    </tr>';
     }
     html += '</table>';
@@ -485,7 +502,8 @@ function populateQuestions() {
     html += '    <tr>';
     html += '        <th colspan="2">Knowledge Bank</th>';
     html += '    </tr>';
-    if (moment().diff(moment(quiz.endTime)) > 0) {
+    var diff = moment().diff(moment(quiz.endTime));
+    if (diff > -5000) {
         var questions = JSON.parse(quiz.questions);
         for (var i = 0; i < questions.length; i += 1) {
             html += '    <tr>';

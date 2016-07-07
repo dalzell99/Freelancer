@@ -1709,6 +1709,7 @@ function populateQuizMaster() {
 
             var html = '';
             var i;
+            var lock;
 
             if (sessionStorage.quizMaster === 'true') {
                 html += '<thead>';
@@ -1722,10 +1723,13 @@ function populateQuizMaster() {
                 html += '        <th>Number of quiz which can be scheduled</th>';
                 html += '        <th>Number of quiz already scheduled</th>';
                 html += '        <th>Balance quiz number which can be scheduled</th>';
+                html += '        <th></th>';
                 html += '    </tr>';
                 html += '</thead>';
                 html += '<tbody>';
                 for (i = 20 * tablePages.quizMaster; userQuizMasterArray !== null && i < userQuizMasterArray.length && i < 20 * (tablePages.quizMaster + 1); i += 1) {
+                    // If the account was locked in the last 24 hours then show account as locked otherwise show button to lock it.
+                    lock = (moment().diff(moment(userQuizMasterArray[i].lockStart)) > (1000 * 60 * 60 * 24) ? "<button class='quizMasterLockButton" + userQuizMasterArray[i].username + "' onclick='lockAccount(\"" + userQuizMasterArray[i].username + "\", \"" + userQuizMasterArray[i].email + "\", \"" + userQuizMasterArray[i].rejectedQuestions.length + "\")'>Lock</button>" : "<button style='background-color:#999;'>Locked</button>");
                     html += '<tr>';
                     html += "    <td>" + userQuizMasterArray[i].username + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].email + "</td>";
@@ -1736,6 +1740,7 @@ function populateQuizMaster() {
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesPurchased + "</td>";
                     html += "    <td onclick='showScheduledQuizzes(" + i + ")'>" + userQuizMasterArray[i].numQuizzesScheduledQuizMaster + "</td>";
                     html += "    <td>" + (userQuizMasterArray[i].numQuizzesPurchased - userQuizMasterArray[i].numQuizzesScheduledQuizMaster) + "</td>";
+                    html += "    <td>" + lock + "</td>";
                     html += '</tr>';
                 }
                 html += '</tbody>';
@@ -1750,10 +1755,13 @@ function populateQuizMaster() {
                 html += '        <th>Number of quiz which can be scheduled </th>';
                 html += '        <th>Number of quiz already scheduled</th>';
                 html += '        <th>Balance quiz number which can be scheduled</th>';
+                html += '        <th></th>';
                 html += '    </tr>';
                 html += '</thead>';
                 html += '<tbody>';
                 for (i = 20 * tablePages.quizMaster; userQuizMasterArray !== null && i < userQuizMasterArray.length && i < 20 * (tablePages.quizMaster + 1); i += 1) {
+                    // If the account was locked in the last 24 hours then show account as locked otherwise show button to lock it.
+                    lock = (moment().diff(moment(userQuizMasterArray[i].lockStart)) > (1000 * 60 * 60 * 24) ? "<button class='quizMasterLockButton" + userQuizMasterArray[i].username + "' onclick='lockAccount(\"" + userQuizMasterArray[i].username + "\", \"" + userQuizMasterArray[i].email + "\", \"" + userQuizMasterArray[i].rejectedQuestions.length + "\")'>Lock</button>" : "<button style='background-color:#999;'>Locked</button>");
                     html += '<tr>';
                     html += "    <td>" + userQuizMasterArray[i].username + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].email + "</td>";
@@ -1763,6 +1771,7 @@ function populateQuizMaster() {
                     html += "    <td>" + (parseInt(userQuizMasterArray[i].numQuizzesScheduledUser) + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget)) + "</td>";
                     html += "    <td onclick='showScheduledQuizzes(" + i + ")'>" + userQuizMasterArray[i].numQuizzesScheduledUser + "</td>";
                     html += "    <td>" + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget) + "</td>";
+                    html += "    <td>" + lock + "</td>";
                     html += '</tr>';
                 }
                 html += '</tbody>';
@@ -1891,7 +1900,7 @@ function showScheduledQuizzes(index) {
             html += "    </tr>";
 
             JSON.parse(response).forEach(function (quiz) {
-                var date = moment(quiz.startTime).format('ddd Do MMM YY');
+                var date = moment(quiz.startTime).format('ddd Do MMM YYYY');
                 var startTime = moment(quiz.startTime).format('H:mm a');
                 var numRegisteredUsers = JSON.parse(quiz.userRegistered).length;
                 var earnings = (numRegisteredUsers * quiz.pointsCost) * (quiz.creatorEarnings / 100);
@@ -1900,7 +1909,7 @@ function showScheduledQuizzes(index) {
                 html += "    <td>" + date + "</td>";
                 html += "    <td>" + startTime + "</td>";
                 html += "    <td>" + numRegisteredUsers + "</td>";
-                html += "    <td>" + quiz.winner + "</td>";
+                html += "    <td>" + (quiz.winner === null ? "Hasn't finished" : quiz.winner) + "</td>";
                 html += "    <td>" + earnings + "</td>";
                 html += "</tr>";
             });
@@ -1913,6 +1922,23 @@ function showScheduledQuizzes(index) {
         }
     }).fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', "Error: Something went wrong with  AJAX GET");
+    });
+}
+
+function lockAccount(username, email, numRejected) {
+    $.post("./php/users/lockaccount.php", {
+        username: username,
+        email: email,
+        numRejected: numRejected
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('success', 'Account has been locked');
+            $(".quizMasterLockButton" + username).text("Locked").css('background-color', '#999');
+        } else {
+            displayMessage('error', 'Error locking users account');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
 }
 

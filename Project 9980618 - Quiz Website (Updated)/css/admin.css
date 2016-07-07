@@ -111,3 +111,8 @@ body {
 .modal-body {
   padding: 15px;
 }
+
+#quizMasterPreviouslyScheduledQuizzes,
+#quizMasterRejectedQuestions {
+  width: 100%;
+}
