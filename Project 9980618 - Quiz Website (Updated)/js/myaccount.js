@@ -665,6 +665,7 @@ function displayPaymentGateway() {
 function convertFreePoints() {
     $.post('./php/users/convertpoints.php', {
         userID: sessionStorage.userID,
+        username: sessionStorage.username,
         freePoints: $("#numFreeQuizetos").val()
     }, function(response) {
         if (response.substr(0, 7) === 'success') {
@@ -1089,6 +1090,7 @@ function populateQuizMaster() {
     htmlQuiz += "        <th>Date</th>";
     htmlQuiz += "        <th>Start Time</th>";
     htmlQuiz += "        <th>Total registered users</th>";
+    htmlQuiz += "        <th>Registration Fee</th>";
     htmlQuiz += "        <th>Winner</th>";
     htmlQuiz += "        <th>Earnings</th>";
     htmlQuiz += "    </tr>";
@@ -1103,7 +1105,8 @@ function populateQuizMaster() {
         htmlQuiz += "    <td>" + date + "</td>";
         htmlQuiz += "    <td>" + startTime + "</td>";
         htmlQuiz += "    <td>" + numRegisteredUsers + "</td>";
-        htmlQuiz += "    <td>" + quiz.winner + "</td>";
+        htmlQuiz += "    <td>" + quiz.pointsCost + "</td>";
+        htmlQuiz += "    <td>" + (quiz.winner === null ? "Hasn't Finished" : quiz.winner) + "</td>";
         htmlQuiz += "    <td>" + earnings + "</td>";
         htmlQuiz += "</tr>";
     });
@@ -1201,8 +1204,12 @@ function showScheduleQuiz() {
     // Get the current hour
     var currentHour = moment().get('hour');
 
-    // Check if current hour is in list of hours in which quizzes can be scheduled
-    if (hoursThatCanBeScheduled.indexOf(currentHour) == -1) {
+    // If users account has been locked in the last 24 hours then they can't schedule quiz
+    if (moment().diff(moment(userInfo.lockStart)) < (1000 * 60 * 60 * 24)) {
+        var timeString = getRemainingAccountLockedString();
+        displayMessage('warning', 'Your account is locked', "You can't start scheduling quizzes for " + timeString);
+    } else if (hoursThatCanBeScheduled.indexOf(currentHour) == -1) {
+        // Check if current hour is in list of hours in which quizzes can be scheduled
         displayMessage('warning', "You can't schedule a quiz", "Quizzes can only be scheduled between " + scheduleString);
     } else if ($("#myAccountProfilePancardView").text() === '') {
         displayMessage('warning', "You can't schedule a quiz", "Please update your PAN card under my profile section to start scheduling quiz");
@@ -1349,4 +1356,22 @@ function areScheduleQuizInputsValid() {
     }
 
     return [true, ''];
+}
+
+function getRemainingAccountLockedString() {
+    var b = 1000 * 60; // milliseconds in 1 minute
+    var c = b * 60; // milliseconds in 1 hour
+    var mule = moment().diff(moment(userInfo.lockStart)); // msls = milliseconds until lock ends
+
+    if (mule > c) {
+        // more than 1 hour until lock ends
+        var hours = Math.floor(mule / c);
+        var minutes = Math.floor((mule - c * hours) / b);
+        return hours + ' hours and ' + minutes + ' minutes.';
+    } else if (mule > b) {
+        var minutes = Math.floor(mule / b);
+        return minutes + ' minutes.';
+    } else {
+        return 'less than a minute.';
+    }
 }

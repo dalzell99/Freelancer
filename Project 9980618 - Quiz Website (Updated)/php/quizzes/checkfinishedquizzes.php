@@ -56,7 +56,7 @@ foreach ($quizArray as $quiz) {
                     $netQuizetos = $grossQuizetos - $taxAmount;
 
                     // Insert into taxation table
-                    $sql7 = "INSERT INTO Taxation VALUES (DEFAULT, '$username', '$mobile', '$email', '$grossQuizetos', '$taxAmount', '$netQuizetos')";
+                    $sql7 = "INSERT INTO Taxation VALUES (DEFAULT, '" . $quiz['quizID'] . "', '$username', '$mobile', '$email', '$grossQuizetos', '$taxAmount', '$netQuizetos')";
                     if (mysqli_query($con, $sql7)) {
                         // do nothing
                     } else {

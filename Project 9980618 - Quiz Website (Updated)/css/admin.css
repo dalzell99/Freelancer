@@ -7,7 +7,7 @@
 #createQuestionUpdateButton, #createQuizQuestionsRandom,
 #distributionContainer, #taxationContainer,
 #myAccountRemoveProfileImageButton, #quizMasterContainer,
-#pendingQuestionContainer {
+#pendingQuestionContainer, #archivedQuizzesContainer {
   display: none;
 }
 
@@ -115,4 +115,52 @@ body {
 #quizMasterPreviouslyScheduledQuizzes,
 #quizMasterRejectedQuestions {
   width: 100%;
+}
+
+#userInfoModalQuiz,
+#userInfoModalConversion,
+#userInfoModalRedeem,
+#userInfoModalTaxation,
+#userInfoModalPurchase {
+  margin-bottom: 20px;
+  border: 1px solid black;
+}
+
+#userInfoModalQuiz table,
+#userInfoModalConversion table,
+#userInfoModalRedeem table,
+#userInfoModalTaxation table,
+#userInfoModalPurchase table {
+  width: 100%;
+}
+
+#userInfoModalQuiz table td,
+#userInfoModalConversion table td,
+#userInfoModalRedeem table td,
+#userInfoModalTaxation table td,
+#userInfoModalPurchase table td,
+#userInfoModalQuiz table th,
+#userInfoModalConversion table th,
+#userInfoModalRedeem table th,
+#userInfoModalTaxation table th,
+#userInfoModalPurchase table th {
+  padding: .75rem;
+}
+
+#userInfoModalQuizTable,
+#userInfoModalConversionTable,
+#userInfoModalRedeemTable,
+#userInfoModalPurchaseTable,
+#userInfoModalTaxationTable {
+  display: none;
+}
+
+#userInfoModalQuiz div:first-of-type,
+#userInfoModalConversion div:first-of-type,
+#userInfoModalRedeem div:first-of-type,
+#userInfoModalTaxation div:first-of-type,
+#userInfoModalPurchase div:first-of-type {
+  font-size: 1.3em;
+  padding: 10px;
+  font-weight: 900;
 }

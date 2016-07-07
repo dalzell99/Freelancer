@@ -6,6 +6,7 @@ var pendingQuestionArray;
 var place = ['st', 'nd', 'rd', 'th'];
 var tablePages = {
     quizzes: 0,
+    archivedQuizzes: 0,
     questions: 0,
     users: 0,
     testimonials: 0,
@@ -42,6 +43,7 @@ window.onload = function() {
         switch (sessionStorage.page) {
             case 'users': users(); break;
             case 'quizzes': quizzes(); break;
+            case 'archivedQuizzes': archivedQuizzes(); break;
             case 'questions': questions(); break;
             case 'testimonials': testimonials(); break;
             case 'promotions': promotions(); break;
@@ -89,6 +91,7 @@ function hideAllContainers() {
     $("#passwordContainer").hide();
     $("#userContainer").hide();
     $("#quizContainer").hide();
+    $("#archivedQuizzesContainer").hide();
     $("#questionsContainer").hide();
     $("#testimonialContainer").hide();
     $("#promotionContainer").hide();
@@ -161,6 +164,7 @@ function checkPassword() {
 function populateTables() {
     populateUsers();
     populateQuizzes();
+    populateArchivedQuizzes();
     populateQuestions();
     populateTestimonials();
     populatePromotions();
@@ -204,7 +208,7 @@ function populateQuizzes() {
             }
 
             $("#createQuizPagination").empty().append(htmlPage);
-            $("#createQuizPagination .paginationButton" + tablePages.questions).addClass('active');
+            $("#createQuizPagination .paginationButton" + tablePages.quizzes).addClass('active');
 
             // Fill table with quiz data
             var html = '';
@@ -212,8 +216,8 @@ function populateQuizzes() {
             html += '<thead>';
             html += '    <tr>';
             html += '        <th>Quiz ID</th>';
+            html += '        <th>Name</th>';
             html += '        <th>Type</th>';
-            html += '        <th>Category</th>';
             html += '        <th>Questions</th>';
             html += '        <th>Points Rewards</th>';
             html += '        <th>Points Cost</th>';
@@ -259,8 +263,8 @@ function populateQuizzes() {
 
                 html += '<tr>';
                 html += '    <td>' + quizzesArray[i].quizID + '</td>';
-                html += '    <td>' + quizzesArray[i].type + '</td>';
                 html += '    <td>' + quizzesArray[i].category + '</td>';
+                html += '    <td>' + quizzesArray[i].type + '</td>';
                 html += '    <td class="collapsable"><div>' + questionsString + '</div></td>';
                 html += '    <td>' + pointsRewards + '</td>';
                 html += '    <td>' + quizzesArray[i].pointsCost + '</td>';
@@ -829,6 +833,140 @@ function areScheduleQuizInputsValid() {
 }
 
 /* -------------------------------------------------------------
+------------------- Archived Quizzes Page ----------------------
+---------------------------------------------------------------*/
+
+function archivedQuizzes() {
+    if (sessionStorage.loggedIn == 'true') {
+        hideAllContainers();
+        setActivePage('archivedQuizzes');
+        $("#archivedQuizzesContainer").show();
+    }
+}
+
+function populateArchivedQuizzes() {
+    $.post('./php/quizzes/getallarchivedquizzes.php', {},
+    function(response) {
+        if (response[0] == 'success') {
+            var archivedQuizzesArray = response[1];
+            var totalPlatformFee = 0;
+            // Add pagination buttons
+            var htmlPage = '';
+
+            for (var l = 0; archivedQuizzesArray.length > 20 && l < archivedQuizzesArray.length / 20; l += 1) {
+                htmlPage += "<button class='paginationButton" + l + "' onclick='changeArchivedQuizPage(" + l + ")'>" + (l + 1) + "</button>";
+            }
+
+            $("#createArchivedQuizzesPagination").empty().append(htmlPage);
+            $("#createArchivedQuizzesPagination .paginationButton" + tablePages.archivedQuizzes).addClass('active');
+
+            // Fill table with quiz data
+            var html = '';
+
+            html += '<thead>';
+            html += '    <tr>';
+            html += '        <th>Name</th>';
+            html += '        <th>Date</th>';
+            html += '        <th>Type</th>';
+            html += '        <th>Registration Fee</th>';
+            html += '        <th>Total Players</th>';
+            html += '        <th>Prize Pool</th>';
+            html += '        <th>1st Place User</th>';
+            html += '        <th>2nd Place User</th>';
+            html += '        <th>3rd Place User</th>';
+            html += '        <th>1st Place Prize</th>';
+            html += '        <th>2nd Place Prize</th>';
+            html += '        <th>3rd Place Prize</th>';
+            html += '        <th>1st Place Tax</th>';
+            html += '        <th>2nd Place Tax</th>';
+            html += '        <th>3rd Place Tax</th>';
+            html += '        <th>Platform Fee</th>';
+            html += '    </tr>';
+            html += '</thead>';
+
+            html += '<tbody>';
+            for (var i = 20 * tablePages.archivedQuizzes; archivedQuizzesArray !== null && i < archivedQuizzesArray.length && i < 20 * (tablePages.archivedQuizzes + 1); i += 1) {
+                var type = archivedQuizzesArray[i].type;
+                var date = moment(archivedQuizzesArray[i].startDate).format('ddd Do MMM YYYY');
+                var firstUser = archivedQuizzesArray[i].winners[0];
+                var secondUser = archivedQuizzesArray[i].winners[1];
+                var thirdUser = archivedQuizzesArray[i].winners[2];
+                var pr = JSON.parse(archivedQuizzesArray[i].pointsRewards);
+                var firstPrize = pr[0];
+                var secondPrize = pr[1];
+                var thirdPrize = pr[2];
+                var prizePool = firstPrize + secondPrize + thirdPrize;
+                var firstTax = archivedQuizzesArray[i].tax[0];
+                var secondTax = archivedQuizzesArray[i].tax[1];
+                var thirdTax = archivedQuizzesArray[i].tax[2];
+                var numPlayers = JSON.parse(archivedQuizzesArray[i].userRegistered).length;
+                var registrationFee = archivedQuizzesArray[i].pointsCost;
+                var platformFee;
+                if (archivedQuizzesArray[i].cancelled === 'n' && type === 'paid') {
+                    platformFee = (numPlayers * registrationFee) - prizePool;
+                } else if (type === 'free') {
+                    platformFee = 0;
+                } else {
+                    platformFee = 'Cancelled';
+                }
+
+                html += '<tr>';
+                html += '    <td>' + archivedQuizzesArray[i].category + '</td>';
+                html += '    <td>' + date + '</td>';
+                html += '    <td>' + type + '</td>';
+                html += '    <td>' + registrationFee + '</td>';
+                html += '    <td>' + numPlayers + '</td>';
+                html += '    <td>' + prizePool + '</td>';
+                html += '    <td>' + firstUser + '</td>';
+                html += '    <td>' + secondUser + '</td>';
+                html += '    <td>' + thirdUser + '</td>';
+                html += '    <td>' + firstPrize + '</td>';
+                html += '    <td>' + secondPrize + '</td>';
+                html += '    <td>' + thirdPrize + '</td>';
+                html += '    <td>' + firstTax + '</td>';
+                html += '    <td>' + secondTax + '</td>';
+                html += '    <td>' + thirdTax + '</td>';
+                html += '    <td>' + platformFee + '</td>';
+                html += '</tr>';
+            }
+            html += '</tbody>';
+
+            $("#archivedQuizzesTable").empty().append(html);
+            var newTableObject = document.getElementById('archivedQuizzesTable');
+            sorttable.makeSortable(newTableObject);
+
+            // Get the total platform fee (the amount of total registration fee the admin gets) across all quizzes
+            $("#archivedQuizzesTotalPlatformFee").text(archivedQuizzesArray.reduce(function (sum, quiz) {
+                var type = quiz.type;
+                var pr = JSON.parse(quiz.pointsRewards);
+                var firstPrize = pr[0];
+                var secondPrize = pr[1];
+                var thirdPrize = pr[2];
+                var prizePool = firstPrize + secondPrize + thirdPrize;
+                var numPlayers = JSON.parse(quiz.userRegistered).length;
+                var registrationFee = quiz.pointsCost;
+                var platformFee;
+                if (quiz.cancelled === 'n' && type === 'paid') {
+                    platformFee = (numPlayers * registrationFee) - prizePool;
+                } else {
+                    platformFee = 0;
+                }
+                return sum + platformFee;
+            }, 0));
+        } else {
+            displayMessage('error', 'Error', 'Error: ' + response[1]);
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', 'Error', "Err or: Something went wrong with populateQuizzes function");
+    });
+}
+
+function changeArchivedQuizPage(page) {
+    tablePages.archivedQuizzes = page;
+    populateArchivedQuizzes();
+}
+
+/* -------------------------------------------------------------
 ------------------------- Questions Page ----------------------------
 ---------------------------------------------------------------*/
 
@@ -1284,7 +1422,7 @@ function populateUsers() {
 
             html += '<tbody>';
             for (var i = 20 * tablePages.users; userArray !== null && i < userArray.length && i < 20 * (tablePages.users + 1); i += 1) {
-                html += '<tr>';
+                html += '<tr onclick="showUserInfo(\'' + userArray[i].username + '\')">';
                 html += '    <td style="display: none">' + userArray[i].userID + '</td>';
                 html += '    <td>' + userArray[i].username + '</td>';
                 html += '    <td contenteditable="true">' + userArray[i].paidPointsBalance + '</td>';
@@ -1308,6 +1446,10 @@ function populateUsers() {
             $("#userTable").empty().append(html);
             var newTableObject = document.getElementById('userTable');
             sorttable.makeSortable(newTableObject);
+
+            $("#userTotalRealQuizeto").text(userArray.reduce(function (sum, user) {
+                return sum + parseInt(user.paidPointsBalance);
+            }, 0));
 
             $("#convertRate").val(response[2].rate);
 
@@ -1367,6 +1509,130 @@ function populateUsers() {
 function changeUserPage(page) {
     tablePages.users = page;
     populateUsers();
+}
+
+function showUserInfo(username) {
+    $.get("./php/users/getalluserinfo.php", {
+        username: username
+    }, function(response) {
+        if (response.substr(0, 4) != 'fail') {
+            response = JSON.parse(response);
+            var html = "";
+
+            html += "<div id='userInfoModalQuiz'>";
+            html += "    <div onclick='$(\"#userInfoModalQuizTable\").toggle()'>Quiz Results</div>";
+            html += "    <table id='userInfoModalQuizTable'>";
+            html += "        <tr>";
+            html += "            <th>Quiz Name</th>";
+            html += "            <th>Date</th>";
+            html += "            <th>Type</th>";
+            html += "            <th>Registration Fee</th>";
+            html += "            <th>Rank</th>";
+            html += "        </tr>";
+            response[0].forEach(function (quiz) {
+                var date = moment(quiz.date).format('ddd Do MMM YYYY')
+                html += "    <tr>";
+                html += "        <td>" + quiz.name + "</td>";
+                html += "        <td>" + date + "</td>";
+                html += "        <td>" + quiz.type + "</td>";
+                html += "        <td>" + quiz.registrationFee + "</td>";
+                html += "        <td>" + quiz.userRank + "</td>";
+                html += "    </tr>";
+            });
+            html += "    </table>";
+            html += "</div>";
+
+            html += "<div id='userInfoModalConversion'>";
+            html += "    <div onclick='$(\"#userInfoModalConversionTable\").toggle()'>Conversions</div>";
+            html += "    <table id='userInfoModalConversionTable'>";
+            html += "        <tr>";
+            html += "            <th>Date</th>";
+            html += "            <th>Bonus Quizetos</th>";
+            html += "            <th>Real Quizetos</th>";
+            html += "        </tr>";
+            response[1].forEach(function (conversion) {
+                var date = moment(conversion.date).format('ddd Do MMM YYYY')
+                html += "    <tr>";
+                html += "        <td>" + date + "</td>";
+                html += "        <td>" + conversion.bonusQuizetos + "</td>";
+                html += "        <td>" + conversion.realQuizetos + "</td>";
+                html += "    </tr>";
+            });
+            html += "    </table>";
+            html += "</div>";
+
+            html += "<div id='userInfoModalPurchase'>";
+            html += "    <div onclick='$(\"#userInfoModalPurchaseTable\").toggle()'>Purchases</div>";
+            html += "    <table id='userInfoModalPurchaseTable'>";
+            html += "        <tr>";
+            html += "            <th>Date</th>";
+            html += "            <th>Amount</th>";
+            html += "        </tr>";
+
+            response[2].forEach(function (purchase) {
+                var date = moment(purchase.datePurchased).format('ddd Do MMM YYYY')
+                html += "    <tr>";
+                html += "        <td>" + date + "</td>";
+                html += "        <td>" + purchase.amount + "</td>";
+                html += "    </tr>";
+            });
+            html += "    </table>";
+            html += "</div>";
+
+            html += "<div id='userInfoModalRedeem'>";
+            html += "    <div onclick='$(\"#userInfoModalRedeemTable\").toggle()'>Redemptions</div>";
+            html += "    <table id='userInfoModalRedeemTable'>";
+            html += "        <tr>";
+            html += "            <th>Date</th>";
+            html += "            <th>Amount</th>";
+            html += "            <th>Method</th>";
+            html += "            <th>Processed</th>";
+            html += "        </tr>";
+            response[3].forEach(function (redeem) {
+                var date = moment(redeem.time).format('ddd Do MMM YYYY')
+                html += "    <tr>";
+                html += "        <td>" + date + "</td>";
+                html += "        <td>" + redeem.amount + "</td>";
+                html += "        <td>" + redeem.method + "</td>";
+                html += "        <td>" + (redeem.done === 'y' ? 'Yes' : 'No') + "</td>";
+                html += "    </tr>";
+            });
+            html += "    </table>";
+            html += "</div>";
+
+            html += "<div id='userInfoModalTaxation'>";
+            html += "    <div onclick='$(\"#userInfoModalTaxationTable\").toggle()'>Taxation</div>";
+            html += "    <table id='userInfoModalTaxationTable'>";
+            html += "        <tr>";
+            html += "            <th>Date</th>";
+            html += "            <th>Quiz Name</th>";
+            html += "            <th>Registration Fee</th>";
+            html += "            <th>Quizetos Won</th>";
+            html += "            <th>Tax Amount</th>";
+            html += "            <th>Net Quizetos</th>";
+            html += "        </tr>";
+            response[4].forEach(function (taxation) {
+                var date = moment(taxation.date).format('ddd Do MMM YYYY')
+                html += "    <tr>";
+                html += "        <td>" + date + "</td>";
+                html += "        <td>" + taxation.name + "</td>";
+                html += "        <td>" + taxation.registrationFee + "</td>";
+                html += "        <td>" + taxation.grossQuizetos + "</td>";
+                html += "        <td>" + taxation.taxAmount + "</td>";
+                html += "        <td>" + taxation.netQuizetos + "</td>";
+                html += "    </tr>";
+            });
+            html += "    </table>";
+            html += "</div>";
+
+            $("#userInfoModal .modal-body").html(html);
+            $("#userInfoModal").modal();
+        } else {
+            displayMessage('error', 'Error getting this users info');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX GET");
+    });
 }
 
 /* -------------------------------------------------------------
@@ -1728,8 +1994,8 @@ function populateQuizMaster() {
                 html += '</thead>';
                 html += '<tbody>';
                 for (i = 20 * tablePages.quizMaster; userQuizMasterArray !== null && i < userQuizMasterArray.length && i < 20 * (tablePages.quizMaster + 1); i += 1) {
-                    // If the account was locked in the last 24 hours then show account as locked otherwise show button to lock it.
-                    lock = (moment().diff(moment(userQuizMasterArray[i].lockStart)) > (1000 * 60 * 60 * 24) ? "<button class='quizMasterLockButton" + userQuizMasterArray[i].username + "' onclick='lockAccount(\"" + userQuizMasterArray[i].username + "\", \"" + userQuizMasterArray[i].email + "\", \"" + userQuizMasterArray[i].rejectedQuestions.length + "\")'>Lock</button>" : "<button style='background-color:#999;'>Locked</button>");
+                    // If the account was locked in the last 24 hours then show unlock button otherwise lock button.
+                    locked = (moment().diff(moment(userQuizMasterArray[i].lockStart)) > (1000 * 60 * 60 * 24) ? true : false);
                     html += '<tr>';
                     html += "    <td>" + userQuizMasterArray[i].username + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].email + "</td>";
@@ -1740,7 +2006,7 @@ function populateQuizMaster() {
                     html += "    <td>" + userQuizMasterArray[i].numQuizzesPurchased + "</td>";
                     html += "    <td onclick='showScheduledQuizzes(" + i + ")'>" + userQuizMasterArray[i].numQuizzesScheduledQuizMaster + "</td>";
                     html += "    <td>" + (userQuizMasterArray[i].numQuizzesPurchased - userQuizMasterArray[i].numQuizzesScheduledQuizMaster) + "</td>";
-                    html += "    <td>" + lock + "</td>";
+                    html += "    <td><button class='quizMasterLockButton" + userQuizMasterArray[i].username + "' onclick='lockAccount(\"" + userQuizMasterArray[i].username + "\", \"" + userQuizMasterArray[i].email + "\", \"" + userQuizMasterArray[i].rejectedQuestions.length + "\")' " + (locked ? "" : "style='display: none'") + ">Lock</button><button class='quizMasterUnlockButton" + userQuizMasterArray[i].username + "' onclick='unlockAccount(\"" + userQuizMasterArray[i].username + "\", \"" + userQuizMasterArray[i].email + "\", \"" + userQuizMasterArray[i].rejectedQuestions.length + "\")'" + (locked ? "style='display: none'" : "") + ">Unlock</button></td>";
                     html += '</tr>';
                 }
                 html += '</tbody>';
@@ -1760,8 +2026,8 @@ function populateQuizMaster() {
                 html += '</thead>';
                 html += '<tbody>';
                 for (i = 20 * tablePages.quizMaster; userQuizMasterArray !== null && i < userQuizMasterArray.length && i < 20 * (tablePages.quizMaster + 1); i += 1) {
-                    // If the account was locked in the last 24 hours then show account as locked otherwise show button to lock it.
-                    lock = (moment().diff(moment(userQuizMasterArray[i].lockStart)) > (1000 * 60 * 60 * 24) ? "<button class='quizMasterLockButton" + userQuizMasterArray[i].username + "' onclick='lockAccount(\"" + userQuizMasterArray[i].username + "\", \"" + userQuizMasterArray[i].email + "\", \"" + userQuizMasterArray[i].rejectedQuestions.length + "\")'>Lock</button>" : "<button style='background-color:#999;'>Locked</button>");
+                    // If the account was locked in the last 24 hours then show unlock button otherwise lock button.
+                    locked = (moment().diff(moment(userQuizMasterArray[i].lockStart)) > (1000 * 60 * 60 * 24) ? true : false);
                     html += '<tr>';
                     html += "    <td>" + userQuizMasterArray[i].username + "</td>";
                     html += "    <td>" + userQuizMasterArray[i].email + "</td>";
@@ -1771,7 +2037,7 @@ function populateQuizMaster() {
                     html += "    <td>" + (parseInt(userQuizMasterArray[i].numQuizzesScheduledUser) + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget)) + "</td>";
                     html += "    <td onclick='showScheduledQuizzes(" + i + ")'>" + userQuizMasterArray[i].numQuizzesScheduledUser + "</td>";
                     html += "    <td>" + (userQuizMasterArray[i].numQuizzesTakenRemaining / quizMasterArray.quizScheduleTarget) + "</td>";
-                    html += "    <td>" + lock + "</td>";
+                    html += "    <td><button class='quizMasterLockButton" + userQuizMasterArray[i].username + "' onclick='lockAccount(\"" + userQuizMasterArray[i].username + "\", \"" + userQuizMasterArray[i].email + "\", \"" + userQuizMasterArray[i].rejectedQuestions.length + "\")' " + (locked ? "" : "style='display: none'") + ">Lock</button><button class='quizMasterUnlockButton" + userQuizMasterArray[i].username + "' onclick='unlockAccount(\"" + userQuizMasterArray[i].username + "\", \"" + userQuizMasterArray[i].email + "\", \"" + userQuizMasterArray[i].rejectedQuestions.length + "\")'" + (locked ? "style='display: none'" : "") + ">Unlock</button></td>";
                     html += '</tr>';
                 }
                 html += '</tbody>';
@@ -1895,6 +2161,7 @@ function showScheduledQuizzes(index) {
             html += "        <th>Date</th>";
             html += "        <th>Start Time</th>";
             html += "        <th>Total registered users</th>";
+            html += "        <th>Registration Fee</th>";
             html += "        <th>Winner</th>";
             html += "        <th>Earnings</th>";
             html += "    </tr>";
@@ -1909,6 +2176,7 @@ function showScheduledQuizzes(index) {
                 html += "    <td>" + date + "</td>";
                 html += "    <td>" + startTime + "</td>";
                 html += "    <td>" + numRegisteredUsers + "</td>";
+                html += "    <td>" + quiz.pointsCost + "</td>";
                 html += "    <td>" + (quiz.winner === null ? "Hasn't finished" : quiz.winner) + "</td>";
                 html += "    <td>" + earnings + "</td>";
                 html += "</tr>";
@@ -1933,7 +2201,26 @@ function lockAccount(username, email, numRejected) {
     }, function(response) {
         if (response == 'success') {
             displayMessage('success', 'Account has been locked');
-            $(".quizMasterLockButton" + username).text("Locked").css('background-color', '#999');
+            $(".quizMasterLockButton" + username).hide();
+            $(".quizMasterUnlockButton" + username).show();
+        } else {
+            displayMessage('error', 'Error locking users account');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
+}
+
+function unlockAccount(username, email, numRejected) {
+    $.post("./php/users/unlockaccount.php", {
+        username: username,
+        email: email,
+        numRejected: numRejected
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('success', 'Account has been unlocked');
+            $(".quizMasterLockButton" + username).show();
+            $(".quizMasterUnlockButton" + username).hide();
         } else {
             displayMessage('error', 'Error locking users account');
         }

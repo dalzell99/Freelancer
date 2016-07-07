@@ -35,6 +35,7 @@
                         <ul class="nav navbar-nav">
                             <li class="users active" onclick='users()'><a>Users</a></li>
                             <li class="quizzes" onclick='quizzes()'><a>Quizzes</a></li>
+                            <li class="archivedQuizzes" onclick='archivedQuizzes()'><a>Archived Quizzes</a></li>
                             <li class="questions" onclick='questions()'><a>Questions</a></li>
                             <li class="testimonials" onclick='testimonials()'><a>Testimonials</a></li>
                             <li class="promotions" onclick='promotions()'><a>Promotions</a></li>
@@ -59,6 +60,9 @@
             </div>
 
             <div id='userContainer' class="container">
+                <div>
+                    Total Real Quizetos: <span id='userTotalRealQuizeto'></span>
+                </div>
                 <div class="form-group">
                     <label for="#convertRate" style="display: inline-block;max-width: 100%;margin-bottom: 15px;font-weight: 700;font-size: 16px;padding: 2px 19px 4px 9px;">Number of Free Quizetos required for 1 Real Quizeto</label>
                     <input type="number" contenteditable="true" id='convertRate' class='form-control'>
@@ -135,6 +139,14 @@
                 </div>
                 <div class='tablePaginationContainer' id='createQuizPagination'></div>
                 <table class='databaseTable table-bordered table-striped table-condensed cf' id='quizTable' style="margin-top:20px;"></table>
+            </div>
+
+            <div id='archivedQuizzesContainer' class="container">
+                <div>
+                    Total Platform Fee: <span id='archivedQuizzesTotalPlatformFee'></span>
+                </div>
+                <div class='tablePaginationContainer' id='createArchivedQuizzesPagination'></div>
+                <table class='databaseTable table-bordered table-striped table-condensed cf' id='archivedQuizzesTable' style="margin-top:20px;"></table>
             </div>
 
             <div id='questionsContainer' class="container">
@@ -337,6 +349,20 @@
             </div>
 
             <div id="rejectedQuestionModal" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-sm">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-body">
+                  </div>
+                  <div class="modal-footer">
+            		    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="userInfoModal" class="modal fade" role="dialog">
               <div class="modal-dialog modal-sm">
 
                 <!-- Modal content-->

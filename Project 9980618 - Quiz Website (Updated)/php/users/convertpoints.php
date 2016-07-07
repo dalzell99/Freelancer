@@ -8,6 +8,7 @@ if (mysqli_connect_errno()) {
 }
 
 $userID = $_POST['userID'];
+$username = $_POST['username'];
 $points = $_POST['freePoints'];
 
 $sql = "SELECT freeConvertablePointsBalance FROM Users WHERE userID = '$userID'";
@@ -19,10 +20,11 @@ if ($result = mysqli_query($con, $sql)) {
     if ($row['freeConvertablePointsBalance'] >= $points && $points > $rate) {
         $change = floor($points / $rate);
         $sqlConvert = "UPDATE Users SET paidPointsBalance = paidPointsBalance + " . $change . ", freeConvertablePointsBalance = freeConvertablePointsBalance - " . ($change * $rate) . " WHERE userID = '$userID'";
-        if (mysqli_query($con, $sqlConvert)) {
-            echo 'success'. $change;
+        $sqlConversion = "INSERT INTO Conversions VALUES (default, '$username', '" . date('c') . "', $points, $change)";
+        if (mysqli_query($con, $sqlConvert) && mysqli_query($con, $sqlConversion)) {
+            echo "success$change";
         } else {
-            echo 'sql fail. ' . $sqlConvert;
+            echo "fail $sqlConvert $sqlConversion";
         }
     } else {
         echo 'notenoughpoints';

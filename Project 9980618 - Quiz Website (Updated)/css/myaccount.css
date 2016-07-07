@@ -103,3 +103,8 @@ table:not(#quizMasterQuizDate) {
 .btn-default:not(.dropdown-toggle) {
     background-color: #FFF;
 }
+
+td[data-toggle='modal'] {
+  cursor: pointer;
+  background-color: rgb(251, 240, 158);
+}
