@@ -1,6 +1,7 @@
 <?php
-
 require '../global.php';
+$beyondPricingAPIKey = '58cea83371b689feddf4cfc70589ab1a';
+
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
@@ -27,14 +28,22 @@ if ($result = mysqli_query($con, $sql)) {
             ),
         ));
 
-        $response = json_decode(curl_exec($curl));
+        $response = (array) json_decode(curl_exec($curl));
         $err = curl_error($curl);
 
         curl_close($curl);
 
-        if (!$err) {
+        if (!$err && $response['min_price'] != null) {
+            // Update base and min prices
             $sqlUpdate = "UPDATE Properties SET basePrice = " . $response['base_price'] . ", minimumNightlyPrice = " . $response['min_price'] . " WHERE beyondPricingID = " . $row['beyondPricingID'];
-            mysqli_query($con, $sqlUpdate);
+            if (!mysqli_query($con, $sqlUpdate)) { echo $sqlUpdate . '<br />'; }
+
+            // Update bookings for this property
+            foreach ($response['calendar'] as $day) {
+                $day = (array) $day;
+                $sqlBooking = "INSERT INTO Bookings VALUES (" . $row['beyondPricingID'] . ", '" . $day['date'] . "', '" . $day['availability'] . "', " . $day['price_scraped'] . ") ON DUPLICATE KEY UPDATE availability = '" . $day['availability'] . "', price = " . $day['price_scraped'];
+                if(!mysqli_query($con, $sqlBooking)) { echo $sqlBooking . '<br />'; }
+            }
         }
     }
 } else {

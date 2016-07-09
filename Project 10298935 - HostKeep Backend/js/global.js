@@ -38,3 +38,12 @@ function isInt(value) {
          parseInt(Number(value)) == value &&
          !isNaN(parseInt(value, 10));
 }
+
+function pad(num, len) {
+    num = '' + num;
+    while (num.length < len) {
+        num = '0' + num;
+    }
+
+    return num;
+}

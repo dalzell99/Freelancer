@@ -239,8 +239,16 @@ main > div#properties #propertySubpage #propertySubpageCommencementFeeReceivedNo
   width: 30px;
 }
 
+main > div#properties #propertySubpage #infoContainer table td:first-child {
+  width: 130px;
+}
+
 main > div#properties #propertySubpage table {
   width: 100%;
+}
+
+main > div#properties #propertySubpage table td, main > div#properties #propertySubpage table th {
+  padding: 5px 0;
 }
 
 main > div#properties #propertySubpage table#propertySubpageImageAndButton td {
@@ -248,12 +256,20 @@ main > div#properties #propertySubpage table#propertySubpageImageAndButton td {
   color: white;
 }
 
-main > div#properties #propertySubpage table td {
-  padding: 5px 0;
+main > div#properties #propertySubpage table#bookingCalendar td, main > div#properties #propertySubpage table#bookingCalendar th {
+  color: #00b7a6;
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 
-main > div#properties #propertySubpage table td:first-child {
-  width: 130px;
+main > div#properties #propertySubpage table#bookingCalendar th {
+  text-align: center;
+  font-size: 2rem;
+}
+
+main > div#properties #propertySubpage table#bookingCalendar .available {
+  background-color: #00b7a6;
+  color: white;
 }
 
 main > div#properties #propertySubpage table div[contenteditable='true'] {

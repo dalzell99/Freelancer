@@ -1,6 +1,8 @@
 <?php
 require('../global.php');
 require('../sendemail.php');
+$beyondPricingAPIKey = '58cea83371b689feddf4cfc70589ab1a';
+
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
@@ -11,9 +13,10 @@ if (mysqli_connect_errno()) {
 // Get current min and base prices to check if they have been changed
 $sqlGetPrices = "SELECT basePrice, minimumNightlyPrice, beyondPricingID FROM Properties WHERE propertyID = '" . $_POST['propertyID'] . "'";
 $resultGetPrices = mysqli_query($con, $sqlGetPrices);
-$minPrice = $resultGetPrices['minimumNightlyPrice'];
-$basePrice = $resultGetPrices['basePrice'];
-$beyondPricingID = $resultGetPrices['beyondPricingID'];
+$rowGetPrices = mysqli_fetch_assoc($resultGetPrices);
+$minPrice = $rowGetPrices['minimumNightlyPrice'];
+$basePrice = $rowGetPrices['basePrice'];
+$beyondPricingID = $rowGetPrices['beyondPricingID'];
 
 // If either price is different, update the prices in beyond pricing
 if ($minPrice != $_POST['minimumNightlyPrice'] || $basePrice != $_POST['basePrice']) {
@@ -30,7 +33,7 @@ if ($minPrice != $_POST['minimumNightlyPrice'] || $basePrice != $_POST['basePric
         CURLOPT_POSTFIELDS => "{
             \"min_price\":" . $_POST['minimumNightlyPrice'] . ",
             \"base_price\":" . $_POST['basePrice'] . ",
-            \"id\":$beyondPricingID
+            \"id\":" . $beyondPricingID . "
         }",
         CURLOPT_HTTPHEADER => array(
             "accept: application/json",

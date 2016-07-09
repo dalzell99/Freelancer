@@ -183,18 +183,32 @@ main > div
       #propertySubpageCommencementFeeReceivedNo
         width: 30px
 
+      #infoContainer table td:first-child
+          width: 130px
+
       table
         width: 100%
+
+        td, th
+          padding: 5px 0
 
         &#propertySubpageImageAndButton td
           text-align: center
           color: white
 
-        td
-          padding: 5px 0
+        &#bookingCalendar
+          td, th
+            color: $company-color
+            font-weight: bold
+            font-size: 1.3rem
 
-          &:first-child
-            width: 130px
+          th
+            text-align: center
+            font-size: 2rem
+
+          .available
+            background-color: $company-color
+            color: white
 
         div[contenteditable='true']
           display: inline-block

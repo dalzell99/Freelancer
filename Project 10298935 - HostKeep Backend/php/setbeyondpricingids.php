@@ -1,5 +1,7 @@
 <?php
-require('../global.php');
+require('global.php');
+$beyondPricingAPIKey = '58cea83371b689feddf4cfc70589ab1a';
+
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
@@ -19,11 +21,11 @@ curl_setopt_array($curl, array(
     CURLOPT_CUSTOMREQUEST => "GET",
     CURLOPT_HTTPHEADER => array(
         "accept: application/json",
-        "token: $beyondPricingAPIKey"
+        "token: " . $beyondPricingAPIKey
     ),
 ));
 
-$response = json_decode(curl_exec($curl));
+$response = (array) json_decode(curl_exec($curl));
 $err = curl_error($curl);
 
 curl_close($curl);
@@ -31,7 +33,11 @@ curl_close($curl);
 if ($err) {
     echo "cURL Error #:" . $err;
 } else {
-    foreach ($response['listings'] as $property) {
+    $accounts = (array)$response['accounts'][0];
+    $listings = $accounts['listings'];
+
+    foreach ($listings as $property) {
+        $property = (array) $property;
         $sql = "UPDATE Properties SET beyondPricingID = '" . $property['id'] . "' WHERE airbnbURL = '" . $property['channel_id'] . "'";
         mysqli_query($con, $sql);
     }

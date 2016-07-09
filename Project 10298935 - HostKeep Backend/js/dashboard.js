@@ -16,14 +16,20 @@ var done = 0;
 var currentProperty;
 var checkinDatePicker;
 var checkoutDatePicker;
+var currentYear;
+var currentMonth;
+var currentPropertyBeyondPricingID;
 
 $(function() {
-    if (sessionStorage.loggedIn == 'true') {
+    if (sessionStorage.loggedIn === 'true') {
+        currentYear = moment().get('year');
+        currentMonth = moment().get('month');
+
         // Change the displayed section based on the url hash
         $(window).on({
             // Fake responsive because of my bad planning. Switches between the property layouts based on viewport width. Used when switching from property subpage to property list page.
             resize: function () {
-                if (window.location.hash.substr(1) == 'my-properties') {
+                if (window.location.hash.substr(1) === 'my-properties') {
                     var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
                     if (width <= 600) {
@@ -63,7 +69,7 @@ $(function() {
                     default:
                         var propertyName = window.location.hash.substr(1);
                         var exists = userPropertyList.some(function (value) {
-                            if (value.name == propertyName) {
+                            if (value.name === propertyName) {
                                 sessionStorage.propertySubpage = value.propertyID;
                                 return true;
                             } else {
@@ -93,23 +99,23 @@ $(function() {
         });
 
         // Set the admin sessionStorage vaiable to true if the admin account is used.
-        if (sessionStorage.username == ADMIN_USERNAME) {
+        if (sessionStorage.username === ADMIN_USERNAME) {
             sessionStorage.admin = 'true';
             // Show admin section of dashboard if logged in as admin
             $(".admin").show();
             // Change the nav item widths to accommodate the Admin nav
             $("nav table td").css('width', '16.67%');
-        } else if (sessionStorage.lastLogin != '') {
+        } else if (sessionStorage.lastLogin !== '') {
             // If the user isn't admin, show username and last login time and IP address
             $("#headerCustomerInfo").html(sessionStorage.username);
         }
 
         // Get customer list if admin logged in
-        if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
+        if (sessionStorage.admin !== null && sessionStorage.admin === 'true') {
             $.post("./php/customer/getallcustomers.php", {
 
             }, function(response) {
-                if (response == 'fail') {
+                if (response === 'fail') {
                     displayMessage('error', 'Something went wrong getting the customer list. The web admin has been notified and will fix the problem as soon as possible.');
                 } else {
                     // Dynamically create customer dropdown
@@ -138,7 +144,7 @@ $(function() {
                             $.post("./php/customer/getuserinfo.php", {
                                 username: $(this).val()
                             }, function(response) {
-                                if (response == 'fail') {
+                                if (response === 'fail') {
                                     displayMessage('error', 'Something went wrong getting the customer information. The web admin has been notified and will fix the problem as soon as possible.');
                                 } else {
                                     changeUser(JSON.parse(response));
@@ -154,7 +160,7 @@ $(function() {
             });
         } else {
             // Restrict the access of a user with a proposal account status
-            if (sessionStorage.status == 'proposal') {
+            if (sessionStorage.status === 'proposal') {
                 $("#welcome .nonProposalUser").hide();
                 $("#welcome .proposalUser").show();
                 $("nav .properties, nav .documents, nav .directBooking").hide();
@@ -165,13 +171,13 @@ $(function() {
         $.post("./php/directbooking/getbookings.php", {
             customerID: sessionStorage.customerID
         }, function(response) {
-            if (response == 'fail') {
+            if (response === 'fail') {
                 displayMessage('error', 'Error retrieving the direct booking list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
                 bookingList = JSON.parse(response);
 
                 // Check if the getProperties and getDocuments post AJAX have finished
-                if (done == 3) {
+                if (done === 3) {
                     $(window).hashchange();
                     done = 0;
                 } else {
@@ -188,13 +194,13 @@ $(function() {
         $.post("./php/properties/getproperties.php", {
             username: sessionStorage.username
         }, function(response) {
-            if (response == 'fail') {
+            if (response === 'fail') {
                 displayMessage('error', 'Error retrieving user property list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
                 userPropertyList = JSON.parse(response);
 
                 // Check if the getBookings (if user isn't admin) and getDocuments post AJAX have finished
-                if (done == 3) {
+                if (done === 3) {
                     $(window).hashchange();
                     done = 0;
                 } else {
@@ -210,11 +216,11 @@ $(function() {
         $.post("./php/properties/getallproperties.php", {
 
         }, function(response) {
-            if (response == 'fail') {
+            if (response === 'fail') {
                 displayMessage('error', 'Error retrieving all property list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
                 allPropertyList = JSON.parse(response).sort(function (a, b) {
-                    if (a.name == b.name) {
+                    if (a.name === b.name) {
                         return 0;
                     } else if (a.name > b.name) {
                         return 1;
@@ -224,7 +230,7 @@ $(function() {
                 });
 
                 // Check if the other post AJAXs have finished
-                if (done == 3) {
+                if (done === 3) {
                     $(window).hashchange();
                     done = 0;
                 } else {
@@ -239,7 +245,7 @@ $(function() {
         $.post("./php/documents/getdocuments.php", {
             username: sessionStorage.username
         }, function(response) {
-            if (response == 'fail') {
+            if (response === 'fail') {
                 displayMessage('error', 'Error retrieving document list. The web admin has been notified and will fix the problem as soon as possible.');
             } else {
                 documentList = response[0];
@@ -250,7 +256,7 @@ $(function() {
                 filenameList.sort();
 
                 // Check if the getBookings (if user isn't admin) and getProperties post AJAX have finished
-                if (done == 3) {
+                if (done === 3) {
                     $(window).hashchange();
                     done = 0;
                 } else {
@@ -269,30 +275,30 @@ $(function() {
 
 // Set sessionStorage variables and reload page
 function changeUser(userInfo) {
-    sessionStorage.customerID = userInfo['customerID'];
-    sessionStorage.username = userInfo['username'];
-    sessionStorage.salutation = userInfo['salutation'];
-    sessionStorage.firstName = userInfo['firstName'];
-    sessionStorage.lastName = userInfo['lastName'];
-    sessionStorage.propertyIDs = userInfo['propertyIDs'];
-    sessionStorage.documentIDs = userInfo['documentIDs'];
-    sessionStorage.company = userInfo['company'];
-    sessionStorage.phoneNumber = userInfo['phoneNumber'];
-    sessionStorage.mobileNumber = userInfo['mobileNumber'];
-    sessionStorage.bankName = userInfo['bankName'];
-    sessionStorage.bsb = userInfo['bsb'];
-    sessionStorage.accountNumber = userInfo['accountNumber'];
-    sessionStorage.postalAddress = userInfo['postalAddress'];
-    sessionStorage.suburb = userInfo['suburb'];
-    sessionStorage.state = userInfo['state'];
-    sessionStorage.postcode = userInfo['postcode'];
-    sessionStorage.country = userInfo['country'];
-    sessionStorage.lastModified = userInfo['lastModified'];
-    sessionStorage.lastLogin = userInfo['lastLogin'];
-    sessionStorage.lastLoginIP = userInfo['lastLoginIP'];
+    sessionStorage.customerID = userInfo.customerID;
+    sessionStorage.username = userInfo.username;
+    sessionStorage.salutation = userInfo.salutation;
+    sessionStorage.firstName = userInfo.firstName;
+    sessionStorage.lastName = userInfo.lastName;
+    sessionStorage.propertyIDs = userInfo.propertyIDs;
+    sessionStorage.documentIDs = userInfo.documentIDs;
+    sessionStorage.company = userInfo.company;
+    sessionStorage.phoneNumber = userInfo.phoneNumber;
+    sessionStorage.mobileNumber = userInfo.mobileNumber;
+    sessionStorage.bankName = userInfo.bankName;
+    sessionStorage.bsb = userInfo.bsb;
+    sessionStorage.accountNumber = userInfo.accountNumber;
+    sessionStorage.postalAddress = userInfo.postalAddress;
+    sessionStorage.suburb = userInfo.suburb;
+    sessionStorage.state = userInfo.state;
+    sessionStorage.postcode = userInfo.postcode;
+    sessionStorage.country = userInfo.country;
+    sessionStorage.lastModified = userInfo.lastModified;
+    sessionStorage.lastLogin = userInfo.lastLogin;
+    sessionStorage.lastLoginIP = userInfo.lastLoginIP;
 
     // If the admin is on a property subpage, change the hash to my-properties before reloading the page.
-    if (['', 'welcome', 'my-profile', 'my-properties', 'documents', 'direct-booking', 'change-password', 'admin'].indexOf(window.location.hash.substr(1)) == -1) {
+    if (['', 'welcome', 'my-profile', 'my-properties', 'documents', 'direct-booking', 'change-password', 'admin'].indexOf(window.location.hash.substr(1)) === -1) {
         window.location.hash = 'my-properties';
     }
 
@@ -342,7 +348,7 @@ function welcome() {
     $("div#headerTitle").text("Welcome");
     $("nav .active").removeClass("active");
     $("nav .welcome").addClass("active");
-    $("#welcomeLastLogin").text(sessionStorage.lastLogin != '' ? "[Last login: " + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + "]" : "");
+    $("#welcomeLastLogin").text(sessionStorage.lastLogin !== '' ? "[Last login: " + moment(sessionStorage.lastLogin).format("ddd Do MMM YYYY h:mm a") + "]" : "");
     $("div#welcome").show();
 }
 
@@ -352,10 +358,10 @@ function profile() {
     $("nav .active").removeClass("active");
     $("nav .profile").addClass("active");
 
-    if (sessionStorage.admin != 'true') {
-        if (sessionStorage.salutation != '') { $("#profileSalutation").prop('disabled', true); }
-        if (sessionStorage.firstName != '') { $("#profileFirstName").prop('disabled', true); }
-        if (sessionStorage.lastName != '') { $("#profileLastName").prop('disabled', true); }
+    if (sessionStorage.admin !== 'true') {
+        if (sessionStorage.salutation !== '') { $("#profileSalutation").prop('disabled', true); }
+        if (sessionStorage.firstName !== '') { $("#profileFirstName").prop('disabled', true); }
+        if (sessionStorage.lastName !== '') { $("#profileLastName").prop('disabled', true); }
     }
 
     $("#profileSalutation").val(sessionStorage.salutation);
@@ -378,7 +384,7 @@ function profile() {
     // Record what changes are made
     $("input.changeable, textarea.changeable").on({
         blur: function () {
-            if ($(this).val() != sessionStorage.contenteditable) {
+            if ($(this).val() !== sessionStorage.contenteditable) {
                 var classList = this.className.split(/\s+/);
                 changes.push(classList[1]);
             }
@@ -419,7 +425,7 @@ function profile() {
                 postcode: $("#profilePostcode").val(),
                 country: $("#profileCountry").val()
             }, function(response) {
-                if (response == 'success') {
+                if (response === 'success') {
                     displayMessage('info', 'Your profile changes have been saved.');
                     // Change last modified text to the current time
                     $("#profileLastModified").text("[Last modified: " + moment().format("ddd Do MMM YYYY h:mm a") + "]");
@@ -448,7 +454,7 @@ function properties() {
     var html = '';
     var htmlMobile = '';
     userPropertyList.forEach(function(value, index, array) {
-        var imageURL = (value.imageURL == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=No+Image&w=200&h=130&fm=png&txttrack=0' : value.imageURL);
+        var imageURL = (value.imageURL === '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=No+Image&w=200&h=130&fm=png&txttrack=0' : value.imageURL);
         html += "<tr>";
         html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
         html += "    <td class='propertyID' style='display:none'>" + value.propertyID + "</td>";
@@ -480,7 +486,7 @@ function properties() {
     addPropertySubpageEvent();
 
     // Show add property button if user is admin
-    if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
+    if (sessionStorage.admin !== null && sessionStorage.admin === 'true') {
         $("#propertiesAdd").show();
     }
 
@@ -490,12 +496,12 @@ function properties() {
     // Toggle add property section
     $("#propertiesShowAdd").on({
         click: function () {
-            if ($("#propertiesAddNewProperty").css('display') == 'none') {
+            if ($("#propertiesAddNewProperty").css('display') === 'none') {
                 $("#propertiesAddNewProperty").slideDown();
                 $("#propertiesShowAdd").text("Hide Add New Property");
             } else {
                 $("#propertiesAddNewProperty").slideUp();
-                $("#propertiesShowAdd").text("Show Add New Property")
+                $("#propertiesShowAdd").text("Show Add New Property");
             }
         }
     });
@@ -503,7 +509,7 @@ function properties() {
     // Add property to the current user
     $("#propertiesAddButton").on({
         click: function () {
-            var filename = $("#propertiesAddImageURL").val() != '' ?
+            var filename = $("#propertiesAddImageURL").val() !== '' ?
                 $("#propertiesAddImageURL").val() :
                 "http://owners.hostkeep.com.au/images/properties/" + $("#propertiesDropzone").find(".dz-filename:first > *").text();
 
@@ -519,13 +525,13 @@ function properties() {
                     propertyFee: $("#propertiesAddFee").val(),
                     imageURL: filename
                 }, function(response) {
-                    if (response.substr(0, 7) == 'success') {
+                    if (response.substr(0, 7) === 'success') {
                         displayMessage('info', 'The property has been added to the current customer');
 
                         // Add new property to table
                         var html = '';
-                        var a = (sessionStorage.admin == 'true' ? true : false);
-                        var imageURL = (filename == '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=No+Image&w=200&h=130&fm=png&txttrack=0' : filename);
+                        var a = (sessionStorage.admin === 'true' ? true : false);
+                        var imageURL = (filename === '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&txt=No+Image&w=200&h=130&fm=png&txttrack=0' : filename);
                         html += "<tr>";
                         html += "    <td class='imageURL'><img src='" + imageURL + "' alt='' /></td>";
                         html += "    <td class='propertyID' style='display:none'>" + $("#propertiesAddID").val() + "</td>";
@@ -587,7 +593,7 @@ function properties() {
 function propertySubpage() {
     // get property info from list of users properties
     var exists = userPropertyList.some(function (value) {
-        if (value.propertyID == sessionStorage.propertySubpage) {
+        if (value.propertyID === sessionStorage.propertySubpage) {
             propertyInfo = value;
             return true;
         } else {
@@ -596,8 +602,8 @@ function propertySubpage() {
     });
 
     if (exists) {
-        var a = (sessionStorage.admin == 'true' ? true : false);
-        var imageURL = (propertyInfo.imageURL== '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&w=200&h=130&fm=png&txttrack=0' : propertyInfo.imageURL);
+        var a = (sessionStorage.admin === 'true' ? true : false);
+        var imageURL = (propertyInfo.imageURL=== '' ? 'https://placeholdit.imgix.net/~text?txtsize=25&bg=ffffff&w=200&h=130&fm=png&txttrack=0' : propertyInfo.imageURL);
 
         var html = '';
 
@@ -610,7 +616,13 @@ function propertySubpage() {
         html += "            <td class='propertySubpageSeparator'></td>";
         html += "        </tr>";
         html += "        <tr>";
-        html += "            <td><div class='calendar-container'><iframe src='https://calendar.google.com/calendar/embed?showTitle=0&amp;showDate=0&amp;showPrint=0&amp;showCalendars=0&amp;height=350&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=" + propertyInfo.icalURL + "&amp;color=%232952A3&amp;ctz=Australia%2FSydney' style='border-width:0' width='100%' height='350' frameborder='0' scrolling='no'></iframe></div></td>";
+        html += "            <td>";
+        html += "                <div>";
+        html += "                    <button onclick='showPreviousMonth()'>Previous</button>";
+        html += "                    <button onclick='showNextMonth()'>Next</button>";
+        html += "                </div>";
+        html += "                <div id='calendarContainer'></div>";
+        html += "            </td>";
         html += "        </tr>";
         html += "        <tr>";
         html += "            <td>";
@@ -621,7 +633,7 @@ function propertySubpage() {
         html += "    </table>";
         html += "</div>";
 
-        html += "<div class='col-md-7 col-md-pull-5 col-xs-12'>";
+        html += "<div id='infoContainer' class='col-md-7 col-md-pull-5 col-xs-12'>";
         html += "    <div class='row'>";
         html += "        <div class='col-xs-12'>";
         html += "            <table>";
@@ -675,13 +687,13 @@ function propertySubpage() {
         html += "                <tr>";
         html += "                    <td>Commencement date</td>";
         if (a) {
-            if (propertyInfo.commencementDate != '') {
+            if (propertyInfo.commencementDate !== '') {
                 html += "            <td><input id='propertySubpageCommencementDate' type='date' data-value='" + propertyInfo.commencementDate + "' /></td>";
             } else {
                 html += "            <td><input id='propertySubpageCommencementDate' type='date' /></td>";
             }
         } else {
-            if (propertyInfo.commencementDate != '') {
+            if (propertyInfo.commencementDate !== '') {
                 html += "            <td>" + moment(propertyInfo.commencementDate).format('ddd Do MMM YYYY') + "</td>";
             } else {
                 html += "            <td>Hasn't been set yet</td>";
@@ -693,7 +705,7 @@ function propertySubpage() {
         if (a) {
             html += "                    <td><div id='propertySubpagePropertyFee' contenteditable=true>" + propertyInfo.propertyFee + "</div>%</td>";
         } else {
-            if (propertyInfo.propertyFee == '') {
+            if (propertyInfo.propertyFee === '') {
                 html += "                    <td><span id='propertySubpagePropertyFee'></span>Hasn't been set yet</td>";
             } else {
                 html += "                    <td><span id='propertySubpagePropertyFee'>" + propertyInfo.propertyFee + "</span>%</td>";
@@ -705,7 +717,7 @@ function propertySubpage() {
         if (a) {
             html += "                    <td>$<div id='propertySubpageCleaningFee' contenteditable=true>" + propertyInfo.cleaningFee + "</div></td>";
         } else {
-            if (propertyInfo.cleaningFee == '') {
+            if (propertyInfo.cleaningFee === '') {
                 html += "                    <td><span id='propertySubpageCleaningFee'></span>Hasn't been set yet</td>";
             } else {
                 html += "                    <td>$<span id='propertySubpageCleaningFee'>" + propertyInfo.cleaningFee + "</span></td>";
@@ -727,7 +739,7 @@ function propertySubpage() {
         if (a) {
             html += "                    <td>" + AIRBNB_URL + "<div id='propertySubpageAirbnbURL' contenteditable=true>" + propertyInfo.airbnbURL + "</div></td>";
         } else {
-            if (propertyInfo.airbnbURL == '') {
+            if (propertyInfo.airbnbURL === '') {
                 html += "                    <td><span id='propertySubpageAirbnbURL'></span>Hasn't been set yet</td>";
             } else {
                 html += "                    <td><a href='" + AIRBNB_URL + propertyInfo.airbnbURL + "' target='_blank'>" + AIRBNB_URL + "<span id='propertySubpageAirbnbURL'>" + propertyInfo.airbnbURL + "</span></a></td>";
@@ -740,7 +752,7 @@ function propertySubpage() {
         if (a) {
             html += "                    <td id='propertySubpageGuestGreetURL' contenteditable=true>" + propertyInfo.guestGreetURL + "</td>";
         } else {
-            if (propertyInfo.guestGreetURL == '') {
+            if (propertyInfo.guestGreetURL === '') {
                 html += "                    <td><span id='propertySubpageGuestGreetURL'></span>Hasn't been set yet</td>";
             } else {
                 html += "                    <td><a href='" + propertyInfo.guestGreetURL + "' target='_blank'><span id='propertySubpageGuestGreetURL'>" + propertyInfo.guestGreetURL + "</span></a></td>";
@@ -752,7 +764,7 @@ function propertySubpage() {
         if (a) {
             html += "                    <td id='propertySubpageSelfCheckinURL' contenteditable=true>" + propertyInfo.selfCheckinURL + "</td>";
         } else {
-            if (propertyInfo.selfCheckinURL == '') {
+            if (propertyInfo.selfCheckinURL === '') {
                 html += "                    <td><span id='propertySubpageSelfCheckinURL'></span>Hasn't been set yet</td>";
             } else {
                 html += "                    <td><a href='" + propertyInfo.selfCheckinURL + "' target='_blank'><span id='propertySubpageSelfCheckinURL'>" + propertyInfo.selfCheckinURL + "</span></a></td>";
@@ -797,7 +809,7 @@ function propertySubpage() {
         if (a) {
             html += "                    <td>$<div id='propertySubpageCommencementFee' contenteditable=true>" + propertyInfo.commencementFee + "</div></td>";
         } else {
-            if (propertyInfo.commencementFee == '') {
+            if (propertyInfo.commencementFee === '') {
                 html += "                    <td><span id='propertySubpageCommencementFee'></span>Hasn't been set yet</td>";
             } else {
                 html += "                    <td>$<span id='propertySubpageCommencementFee'>" + propertyInfo.commencementFee + "</span></td>";
@@ -835,7 +847,7 @@ function propertySubpage() {
 
             $("#propertySubpagePropertyStatus").val(propertyInfo.status);
 
-            if (propertyInfo.commencementFeeReceived == 'true') {
+            if (propertyInfo.commencementFeeReceived === 'true') {
                 $("#propertySubpageCommencementFeeReceivedYes").prop('checked', true);
             } else {
                 $("#propertySubpageCommencementFeeReceivedNo").prop('checked', true);
@@ -843,6 +855,10 @@ function propertySubpage() {
         }
 
         addPropertySubpageImageEvent();
+
+        // Create calendar
+        currentPropertyBeyondPricingID = propertyInfo.beyondPricingID;
+        createCalendar(currentYear, currentMonth);
 
         $("#footer #calendarIconLink").show();
         $("div#properties").show();
@@ -856,23 +872,27 @@ function viewListingPage(url) {
 }
 
 function saveSubpageInfo() {
+    var commencementFeeReceived;
+    var status;
+    var commencementDate;
+
     if ($("#propertySubpageCommencementFeeReceivedYes").prop('checked')) {
-        var commencementFeeReceived = 'true';
+        commencementFeeReceived = 'true';
     } else {
-        var commencementFeeReceived = 'false';
+        commencementFeeReceived = 'false';
     }
 
-    if (sessionStorage.admin == 'true') {
-        var status = $("#propertySubpagePropertyStatus").val();
+    if (sessionStorage.admin === 'true') {
+        status = $("#propertySubpagePropertyStatus").val();
     } else {
-        var status = $("#propertySubpagePropertyStatus").text();
+        status = $("#propertySubpagePropertyStatus").text();
     }
 
-    if ($("#propertySubpage input[type='hidden']:eq(0)").val() == 'undefined') {
-        var commencementDate = '';
+    if ($("#propertySubpage input[type='hidden']:eq(0)").val() === 'undefined') {
+        commencementDate = '';
     } else {
         // The datepicker dates are stored in a hidden input. This gets the first one
-        var commencementDate = $("#propertySubpage input[type='hidden']:eq(0)").val();
+        commencementDate = $("#propertySubpage input[type='hidden']:eq(0)").val();
     }
 
     $.post("./php/properties/savesubpagechanges.php", {
@@ -893,7 +913,7 @@ function saveSubpageInfo() {
         commencementFee: $("#propertySubpageCommencementFee").text(),
         commencementFeeReceived: commencementFeeReceived
     }, function(response) {
-        if (response == 'success') {
+        if (response === 'success') {
             displayMessage('info', 'Changes have been saved');
         } else {
             displayMessage('error', 'Something went wrong saving the changes you have made. The web admin has been notified and will fix the problem as soon as possible.');
@@ -904,29 +924,29 @@ function saveSubpageInfo() {
 }
 
 function arePropertyInputsValid() {
-    if ($("#propertiesAddID").val() == '') {
+    if ($("#propertiesAddID").val() === '') {
         return [false, "Please enter an ID"];
     }
 
-    if ($("#propertiesAddName").val() == '') {
+    if ($("#propertiesAddName").val() === '') {
         return [false, "Please enter a property name"];
     }
 
-    if ($("#propertiesAddDescription").val() == '') {
+    if ($("#propertiesAddDescription").val() === '') {
         return [false, "Please enter a description"];
     }
 
-    if ($("#propertiesAddAddress").val() == '') {
+    if ($("#propertiesAddAddress").val() === '') {
         return [false, "Please enter an address"];
     }
 
-    if ($("#propertiesAddPrice").val() == '') {
+    if ($("#propertiesAddPrice").val() === '') {
         return [false, "Please enter a minimum nightly price"];
     } else if (!isInt($("#propertiesAddPrice").val().substr(1))) {
         return [false, "The minimum nightly price must be a whole number"];
     }
 
-    if ($("#propertiesDropzone").find(".dz-filename:first > *").text() == '' && $("#propertiesAddImageURL").val() == '') {
+    if ($("#propertiesDropzone").find(".dz-filename:first > *").text() === '' && $("#propertiesAddImageURL").val() === '') {
         return [false, "Please add an image"];
     }
 
@@ -944,13 +964,13 @@ function documents() {
     // Create property table
     var html = '';
     documentList.forEach(function(value, index, array) {
-        var a = (sessionStorage.admin == 'true' ? true : false);
+        var a = (sessionStorage.admin === 'true' ? true : false);
         html += "<tr>";
         html += "    <td class='name'><div onclick='viewDocument(\"" + value.documentFilename + "\")'>" + value.name + "</div></td>";
         html += "    <td class='propertyID'>" + value.propertyName + "</td>";
         html += "    <td class='month' sorttable_customkey='" + months.indexOf(value.month) + "'>" + value.month + "</td>";
         html += "    <td><img src='images/download.png' alt='' onclick='viewDocument(\"" + value.documentFilename + "\")' /></td>";
-        if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
+        if (sessionStorage.admin !== null && sessionStorage.admin === 'true') {
             html += "    <td><img src='images/delete.png' alt='' onclick='deleteDocument(\"" + value.documentID + "\")' /></td>";
         }
         html += "    <td></td>";
@@ -969,7 +989,7 @@ function documents() {
     sorttable.innerSortFunction.apply(monthHeader, []);
 
     // If user is admin, add filenames to dropdown to be selected
-    if (sessionStorage.admin == 'true') {
+    if (sessionStorage.admin === 'true') {
         // Add filenames to dropdown
         var htmlFilename = "<option value=''></option>";
 
@@ -984,7 +1004,7 @@ function documents() {
     addDocumentChangeEvent();
 
     // Show add property button if user is admin
-    if (sessionStorage.admin != null && sessionStorage.admin == 'true') {
+    if (sessionStorage.admin !== null && sessionStorage.admin === 'true') {
         $("#documentsAdd").show();
     }
 
@@ -1004,12 +1024,12 @@ function documents() {
     // Toggle add property section
     $("#documentsShowAdd").on({
         click: function () {
-            if ($("#documentsAddNewDocument").css('display') == 'none') {
+            if ($("#documentsAddNewDocument").css('display') === 'none') {
                 $("#documentsAddNewDocument").slideDown();
                 $("#documentsShowAdd").text("Hide Add New Document");
             } else {
                 $("#documentsAddNewDocument").slideUp();
-                $("#documentsShowAdd").text("Show Add New Document")
+                $("#documentsShowAdd").text("Show Add New Document");
             }
         }
     });
@@ -1017,13 +1037,13 @@ function documents() {
     $("#documentsAddButton").on({
         click: function () {
             // Get the filename value from the span child of the first dz-filename (DropZone)
-            var filename = $("#documentsAddFilename").val() != '' ?
+            var filename = $("#documentsAddFilename").val() !== '' ?
                 $("#documentsAddFilename").val() :
                 $("#documentsDropzone").find(".dz-filename:first > *").text();
 
             var filenameMinusExtension = filename.substr(0, filename.lastIndexOf("."));
 
-            if (filename != '') {
+            if (filename !== '') {
                 $.post("./php/documents/adddocument.php", {
                     name: filenameMinusExtension,
                     propertyID: $("#documentsAddPropertyID").val(),
@@ -1031,13 +1051,13 @@ function documents() {
                     notes: $("#documentsAddNotes").val(),
                     filename: filename
                 }, function(response) {
-                    if (response[0] == 'success') {
+                    if (response[0] === 'success') {
                         displayMessage('info', 'The document has been added to the current customer');
 
-                        if (response[1] == sessionStorage.username) {
+                        if (response[1] === sessionStorage.username) {
                             // Add new document to table
                             var html = '';
-                            var a = (sessionStorage.admin == 'true' ? true : false);
+                            var a = (sessionStorage.admin === 'true' ? true : false);
                             html += "<tr>";
                             html += "    <td class='name'><div onclick='viewDocument(\"" + filename + "\")'>" + filenameMinusExtension + "</div></td>";
                             html += "    <td class='propertyID'>" + $("#documentsAddPropertyID option:selected").text() + "</td>";
@@ -1102,7 +1122,7 @@ function deleteDocument(id) {
     $.post("./php/documents/deletedocument.php", {
         documentID: id
     }, function(response) {
-        if (response == 'success') {
+        if (response === 'success') {
             displayMessage('info', 'Document has been deleted.');
             location.reload();
         } else {
@@ -1138,7 +1158,7 @@ function password() {
                     username: sessionStorage.username,
                     password: $("#changepasswordNewPassword").val()
                 }, function(response) {
-                    if (response == 'success') {
+                    if (response === 'success') {
                         displayMessage('info', 'Your password has been changed');
                     } else {
                         displayMessage('error', 'Error while changing your password. The web admin has been notified and will fix the problem as soon as possible.');
@@ -1164,12 +1184,12 @@ function checkCurrentPassword() {
         username: sessionStorage.username,
         password: $("#changepasswordCurrentPassword").val()
     }, function(response) {
-        if (response == 'correct') {
+        if (response === 'correct') {
             toastr.clear();
             currentPasswordCorrect = true;
             $("#changepasswordCurrentPasswordCross").hide();
             $("#changepasswordCurrentPasswordCheck").show();
-        } else if (response == 'incorrect') {
+        } else if (response === 'incorrect') {
             displayMessage('error', "The password entered doesn't match your current password.");
             currentPasswordCorrect = false;
             $("#changepasswordCurrentPasswordCheck").hide();
@@ -1189,8 +1209,8 @@ function checkCurrentPassword() {
 function doPasswordsMatch() {
     var newPassword = $("#changepasswordNewPassword").val();
     var confirmPassword = $("#changepasswordConfirmPassword").val();
-    if (newPassword != '' && confirmPassword != '') {
-        if (newPassword == confirmPassword) {
+    if (newPassword !== '' && confirmPassword !== '') {
+        if (newPassword === confirmPassword) {
             toastr.clear();
             passwordsMatch = true;
             $("#changepasswordConfirmPasswordCross").hide();
@@ -1229,9 +1249,9 @@ function directBooking() {
         html += "    <td class='guestName'>" + value.guestName + "</td>";
         html += "    <td class='guestCheckIn'>" + moment(value.guestCheckIn).format('ddd Do MMM YYYY') + "</td>";
         html += "    <td class='guestCheckOut'>" +  moment(value.guestCheckOut).format('ddd Do MMM YYYY') + "</td>";
-        html += "    <td class='invoiced'><input type='checkbox' " + (value.invoiced == 'true' ? 'checked' : '') + " /></td>";
+        html += "    <td class='invoiced'><input type='checkbox' " + (value.invoiced === 'true' ? 'checked' : '') + " /></td>";
         html += "    <td class='cleanUp'>" + value.cleanUp + "</td>";
-        if (value.invoiced == 'true') {
+        if (value.invoiced === 'true') {
             html += "    <td class='nightlyRate'>$" + value.nightlyRate + "</td>";
         } else {
             html += "    <td></td>";
@@ -1279,12 +1299,13 @@ function directBooking() {
             if (valid[0]) {
                 var invoice = ($("#directBookingAddInvoiceYes").prop('checked') ? 'true' : 'false');
 
+                var cleanUp;
                 if ($("#directBookingAddInvoiceHostkeep").prop('checked')) {
-                    var cleanUp = 'HostKeep - Guest Invoiced';
+                    cleanUp = 'HostKeep - Guest Invoiced';
                 } else if ($("#directBookingAddInvoiceHostkeepBilled").prop('checked')) {
-                    var cleanUp = 'HostKeep - Owners Billed';
+                    cleanUp = 'HostKeep - Owners Billed';
                 } else {
-                    var cleanUp = 'Guest';
+                    cleanUp = 'Guest';
                 }
 
                 $.post("./php/directbooking/addbooking.php", {
@@ -1303,7 +1324,7 @@ function directBooking() {
                     username: sessionStorage.username,
                     propertyName: $("#directBookingAddProperty option:selected").text()
                 }, function(response) {
-                    if (response.substr(0, 7) == 'success') {
+                    if (response.substr(0, 7) === 'success') {
                         displayMessage('info', 'The booking has been added');
 
                         // Add new property to table
@@ -1313,7 +1334,7 @@ function directBooking() {
                         html += "    <td class='guestName'>" + $("#directBookingAddGuestName").val() + "</td>";
                         html += "    <td class='guestCheckIn'>" + $("#directBookingAddCheckIn").val() + "</td>";
                         html += "    <td class='guestCheckOut'>" + $("#directBookingAddCheckOut").val() + "</td>";
-                        html += "    <td class='invoiced'><input type='checkbox' " + (invoice == 'true' ? 'checked' : '') + " /></td>";
+                        html += "    <td class='invoiced'><input type='checkbox' " + (invoice === 'true' ? 'checked' : '') + " /></td>";
                         html += "    <td class='cleanUp'>" + cleanUp + "</td>";
                         html += "    <td class='nightlyRate'>$" + $("#directBookingNightlyRate").val() + "</td>";
                         html += "    <td><img src='images/delete.png' alt='' onclick='deleteBooking(" + response.substr(7) + ")' />";
@@ -1362,23 +1383,23 @@ function directBooking() {
 }
 
 function areDirectBookingInputsValid() {
-    if ($("#directBookingAddGuestName").val() == '') {
+    if ($("#directBookingAddGuestName").val() === '') {
         return [false, "Please enter the guests name"];
     }
 
-    if ($("#directBookingAddGuestEmail").val() == '') {
+    if ($("#directBookingAddGuestEmail").val() === '') {
         return [false, "Please enter the guests email"];
     }
 
-    if ($("#directBooking input[type='hidden']:eq(0)").val() == '') {
+    if ($("#directBooking input[type='hidden']:eq(0)").val() === '') {
         return [false, "Please enter the check-in date"];
     }
 
-    if ($("#directBooking input[type='hidden']:eq(1)").val() == '') {
+    if ($("#directBooking input[type='hidden']:eq(1)").val() === '') {
         return [false, "Please enter the check-out date"];
     }
 
-    if ($("#directBookingAddInvoiceYes").prop('checked') && $("#directBookingNightlyRate").val() == '') {
+    if ($("#directBookingAddInvoiceYes").prop('checked') && $("#directBookingNightlyRate").val() === '') {
         return [false, "Please enter the nightly rate"];
     }
 
@@ -1396,7 +1417,7 @@ function setDisabledDates() {
         response.forEach(function (dateArray) {
             var f = dateArray[0];
             var fromArray;
-            if (f.substr(4, 2) == "00") {
+            if (f.substr(4, 2) === "00") {
                 fromArray = [f.substr(0, 4) - 1, "12", f.substr(6, 2)];
             } else {
                 fromArray = [f.substr(0, 4), f.substr(4, 2) - 1, f.substr(6, 2)];
@@ -1404,7 +1425,7 @@ function setDisabledDates() {
 
             var t = dateArray[1];
             var toArray;
-            if (t.substr(4, 2) == "00") {
+            if (t.substr(4, 2) === "00") {
                 toArray = [t.substr(0, 4) - 1, "12", t.substr(6, 2)];
             } else {
                 toArray = [t.substr(0, 4), t.substr(4, 2) - 1, t.substr(6, 2) - 1];
@@ -1434,7 +1455,7 @@ function deleteBooking(id) {
     $.post("./php/directbooking/deletebooking.php", {
         bookingID: id
     }, function(response) {
-        if (response == 'success') {
+        if (response === 'success') {
             displayMessage('info', 'Booking has been deleted');
             location.reload();
         } else {
@@ -1465,7 +1486,7 @@ function admin() {
         html += "    <td>" + value.firstName + " " + value.lastName + "</td>";
         html += "    <td>" + value.username + "</td>";
         html += "    <td>" + propertyString + "</td>";
-        html += "    <td>" + (value.lastLogin != '' ? moment(value.lastLogin).format("ddd Do MMM YYYY h:mm a") : "Hasn't logged in yet") + "</td>";
+        html += "    <td>" + (value.lastLogin !== '' ? moment(value.lastLogin).format("ddd Do MMM YYYY h:mm a") : "Hasn't logged in yet") + "</td>";
         html += "    <td>";
         html += "        <select class='status " + value.customerID + "'>";
         html += "            <option value='active'>Active</option>";
@@ -1488,7 +1509,7 @@ function admin() {
                 customerID: this.classList[1],
                 status: $(this).val()
             }, function(response) {
-                if (response == 'success') {
+                if (response === 'success') {
                     displayMessage('info', 'Status has been changed');
                 } else {
                     displayMessage('error', 'Error creating changing the users status. The web admin has been notified and will fix the problem as soon as possible.');
@@ -1507,7 +1528,7 @@ function sendWelcomeEmail(username) {
     $.post("./php/customer/sendwelcomeemail.php", {
         username: username
     }, function(response) {
-        if (response == 'success') {
+        if (response === 'success') {
             displayMessage('info', 'The welcome email has been sent');
         } else {
             displayMessage('error', 'Error sending the welcome email. The web admin has been notified and will fix the problem as soon as possible.');
@@ -1522,7 +1543,7 @@ function deleteCustomer(username) {
         $.post("./php/customer/deletecustomer.php", {
             username: username
         }, function(response) {
-            if (response == 'success') {
+            if (response === 'success') {
                 displayMessage('info', 'The client has been deleted');
                 location.reload();
             } else {
@@ -1542,7 +1563,7 @@ function addPropertySubpageEvent() {
             sessionStorage.propertySubpage = propertyID;
             // get property name from users property list and chnage hash to property name
             userPropertyList.forEach(function (value) {
-                if (value.propertyID == propertyID) {
+                if (value.propertyID === propertyID) {
                     window.location.hash = "#" + value.name;
                 }
             });
@@ -1570,7 +1591,7 @@ function addPropertySubpageImageEvent() {
                         propertyID: currentProperty,
                         imageURL: imageURL
                     }, function(response) {
-                        if (response == 'success') {
+                        if (response === 'success') {
                             displayMessage('info', 'The property image has been changed');
                             $("#propertySubpage table#propertySubpageImageAndButton img.propertyImage").prop("src", imageURL);
                         } else {
@@ -1580,7 +1601,7 @@ function addPropertySubpageImageEvent() {
                         //displayMessage('error', "Error: Something went wrong with  AJAX POST");
                     });
                 }
-            })
+            });
         }
     });
 }
@@ -1589,14 +1610,14 @@ function addPropertySubpageImageEvent() {
 function addDocumentChangeEvent() {
     $("#documents [contenteditable=true]").on({
         blur: function() {
-            if ($(this).text != sessionStorage.contenteditable) {
+            if ($(this).text !== sessionStorage.contenteditable) {
                 var column = this.classList[0];
                 $.post("./php/documents/changedocumentinfo.php", {
                     documentID: $(this).parent().children(':nth-child(7)').text(),
                     column: column,
                     value: $(this).text()
                 }, function(response) {
-                    if (response == 'success') {
+                    if (response === 'success') {
                         displayMessage('info', 'The document ' + column + ' has been updated');
                     } else {
                         displayMessage('error', 'Something went wrong updating the document ' + column);
@@ -1621,7 +1642,7 @@ function createNewUser() {
         firstName: $("#adminNewCustomerFirstName").val(),
         lastName: $("#adminNewCustomerLastName").val()
     }, function(response) {
-        if (response.substr(0, 7) == 'success') {
+        if (response.substr(0, 7) === 'success') {
             displayMessage('info', 'Customer has been created');
 
             // Add new client to table
@@ -1644,7 +1665,7 @@ function createNewUser() {
             html += "</tr>";
 
             $("#userTable tbody").append(html);
-        } else if (response == 'alreadyexists') {
+        } else if (response === 'alreadyexists') {
             displayMessage('error', 'There is already a customer with that email');
         } else {
             displayMessage('error', 'Error creating new customer. The web admin has been notified and will fix the problem as soon as possible.');
@@ -1652,4 +1673,98 @@ function createNewUser() {
     }).fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', "Error: Something went wrong with  AJAX POST");
     });
+}
+
+function createCalendar() {
+    var daysInMonth = [31, currentYear % 4 === 0 ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var weekDay = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+
+    // create instance of first day of month, and extract the day on which it occurs
+    var firstDay = new Date(currentYear, currentMonth, 1).getDay() + 1;
+
+    // number of days in current month
+    var lastDate = daysInMonth[currentMonth];
+
+    // Name of month
+    var monthName = monthNames[currentMonth];
+
+    // create basic table structure
+    var html = "";
+    html += "<table id='bookingCalendar'>";
+    html += "    <tr>";
+    html += "        <th colspan='7'>" + monthName + " " + currentYear + "</th>";
+    html += "    </tr>";
+    html += "    <tr>";
+    for (var dayNum = 0; dayNum < 7; dayNum += 1) {
+        html +=  "    <td>" + weekDay[dayNum] + "</td>";
+    }
+    html += "    </tr>";
+
+    // declaration and initialization of two variables to help with tables
+    var dateOfMonth = 1;
+    var currentCell = 1;
+
+    for (var row = 0; row < Math.ceil((lastDate + firstDay - 1) / 7); row += 1) {
+        html += "<tr>";
+        for (var dayOfWeek = 0; dayOfWeek < 7; dayOfWeek += 1) {
+            if (dateOfMonth > lastDate) {
+                break;
+            }
+
+            if (currentCell < firstDay) {
+                html += "<td></td>";
+                currentCell += 1;
+            } else {
+                html += "<td class='" + currentYear + "-" + pad(currentMonth + 1, 2) + "-" + pad(dateOfMonth, 2) + "'>" + dateOfMonth + "</td>";
+                dateOfMonth += 1;
+            }
+        }
+        html += "</tr>";
+    }
+
+    html += "</table>";
+
+    $("#calendarContainer").html(html);
+
+    addInfoToCalendar();
+}
+
+function addInfoToCalendar() {
+    $.get("./php/bookings/getbookings.php", {
+        beyondPricingID: currentPropertyBeyondPricingID
+    }, function(response) {
+        if (response.substr(0, 4) !== 'fail') {
+            JSON.parse(response).forEach(function (booking) {
+                var html = $("." + booking.date).html() + "<br />$" + booking.price;
+                $("." + booking.date).addClass(booking.availability).html(html);
+            });
+        } else {
+            displayMessage('error', 'Error getting the bookings for this property');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX GET");
+    });
+}
+
+function showPreviousMonth() {
+    if (currentMonth === 0) {
+        currentMonth = 11;
+        currentYear -= 1;
+    } else {
+        currentMonth -= 1;
+    }
+
+    createCalendar();
+}
+
+function showNextMonth() {
+    if (currentMonth === 11) {
+        currentMonth = 0;
+        currentYear += 1;
+    } else {
+        currentMonth += 1;
+    }
+
+    createCalendar();
 }
