@@ -63,7 +63,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
                     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                         <p><img src="images/1image.png" alt="" class="1image" style="margin-left: -345px;height: 400px; margin-top: -33px;"/></p>
                         <span class="da-link" style="top: 320px;">
-                            <a href="quizzes.php" class="">
+                            <a href="quizzes" class="">
                                 <span  class=" btn1 btn btn-success btn-lg"> Get Started</span>
 
                             </a>
@@ -76,7 +76,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
                         <p><img src="images/2-image.png" alt="" class="img-responsive" style="  margin: -56px 0px -6px 340px;
                                 "/></p>
                         <span class="da-link" style="top: 285px;margin-left: 8px;">
-                            <a href="quizzes.php" class="">
+                            <a href="quizzes" class="">
                                 <span  class=" btn1 btn btn-success btn-lg"> Get Started</span>
                             </a>
                         </span>
@@ -88,7 +88,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
 
                         <p><img src="images/3image.png" alt="" class="3image" style="margin-left: -318px;"/></p>
                         <span class="da-link" style="margin:45px 0px 0px -10px;">
-                            <a href="quizzes.php" class="">
+                            <a href="quizzes" class="">
                                 <span  class=" btn1 btn btn-success btn-lg"> Get Started</span>
                             </a>
                         </span>
@@ -98,7 +98,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
                     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                         <p><img src="images/4image.png" alt="" class="" style="margin: 45px -7px -7px -326px;height: 400px;"/></p>
                         <span class="da-link">
-                            <a href="quizzes.php" class="">
+                            <a href="quizzes" class="">
                                 <span  class=" btn1 btn btn-success btn-lg"> Get Started</span>
 
                             </a>
@@ -111,7 +111,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
 
                         <p><img src="images/5image.png" alt="" class="" style="  margin-left: -291px;"/></p>
                         <span class="da-link" style="    margin: -12px 0px 0px -10px;">
-                            <a href="quizzes.php" class="">
+                            <a href="quizzes" class="">
                                 <span  class=" btn1 btn btn-success btn-lg"> Get Started</span>
                             </a>
                         </span>
@@ -129,7 +129,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
                         <input type="text" id="userRegisterPhone" class="form-control input-sm chat-input" placeholder="Mobile Number" style="margin-bottom:15px; margin-top:15px !important;" /> </br>
                         <div style="font-family: Homizio Nova; font-size:10px;">
                             <input type="checkbox" id="userRegisterTerms" value="1" style="    width: 11px;height: 11px;">
-                            <span>I agree to the <a href="terms-of-services.php" > Terms of Service and Privacy Policy</a></span>
+                            <span>I agree to the <a href="terms-of-services" > Terms of Service and Privacy Policy</a></span>
                         </div>
                         <div class="wrapper">
                             <button class="btn btn-default btn-lg btn-1" id='userRegisterSignup' onclick='createNewUser()'>SIGN UP</button>
@@ -161,7 +161,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
                                     <br/> 	<br/>
                                 </p>
                                 <div class="more1  animated fadeInDown wow">
-                                    <a href="about-us.php" title="Title Link">
+                                    <a href="about-us" title="Title Link">
                                         Read More <i class="fa fa-angle-double-right"></i>
                                     </a>
                                 </div>
@@ -182,7 +182,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
                                     Here at IQzeto.com we consider our Social Responsibility important. We adore doing great for our kindred man and offering back to the group that made us. We empower everyone with the capacity to develop their intelligence and IQ in an entertaining and rewarding way.
                                 </p>
                                 <div class="more1  animated fadeInDown wow">
-                                    <a href="about-us.php" title="Title Link">
+                                    <a href="about-us" title="Title Link">
                                         Read More <i class="fa fa-angle-double-right"></i>
                                     </a>
                                 </div>
@@ -205,7 +205,7 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
 
                                 </p>
                                 <div class="more1  animated fadeInDown wow">
-                                    <a href="about-us.php" title="Title Link">
+                                    <a href="about-us" title="Title Link">
                                         Read More <i class="fa fa-angle-double-right"></i>
                                     </a>
                                 </div>

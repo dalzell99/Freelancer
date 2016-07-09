@@ -100,7 +100,7 @@ table:not(#quizMasterQuizDate) {
     padding: 15px;
 }
 
-.btn-default:not(.dropdown-toggle) {
+.btn-default:not(.dropdown-toggle, #withdrawChequeSubmit, #withdrawBankTransferSubmit) {
     background-color: #FFF;
 }
 

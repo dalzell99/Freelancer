@@ -76,32 +76,30 @@ echo '<script type="text/javascript" src="js/quizinfo.js?' . filemtime('js/quizi
     </div> -->
     <div class='col-xs-12 col-md-10 col-md-push-1'>
         <div class='row'>
-            <div class='col-xs-8' id='quizInfoTitle'>
+            <div class='col-md-8' id='quizInfoTitle'>
 
             </div>
-            <div class='col-xs-4' id='quizInfoCountdown'>
-
-            </div>
-        </div>
-        <div class='row'>
-            <div class='col-xs-4' id='quizInfoInfo'>
-
-            </div>
-            <div class='col-xs-4' id='quizInfoLeader'>
-
-            </div>
-            <div class='col-xs-4' id='quizInfoRegistration'>
+            <div class='col-md-4' id='quizInfoCountdown'>
 
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-4' id='quizInfoPrizes'>
+            <div class='col-sm-6 col-lg-4' id='quizInfoInfo'>
 
             </div>
-            <div class='col-xs-4' id='quizInfoRules'>
+            <div class='col-sm-6 col-lg-4' id='quizInfoLeader'>
 
             </div>
-            <div class='col-xs-4' id='quizInfoQuestions'>
+            <div class='col-sm-6 col-lg-4' id='quizInfoRegistration'>
+
+            </div>
+            <div class='col-sm-6 col-lg-4' id='quizInfoPrizes'>
+
+            </div>
+            <div class='col-sm-6 col-lg-4' id='quizInfoRules'>
+
+            </div>
+            <div class='col-sm-6 col-lg-4' id='quizInfoQuestions'>
 
             </div>
         </div>

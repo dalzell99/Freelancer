@@ -68,7 +68,7 @@
                     <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
                             <div class="logo" style=" margin-top:-10px;">
-                                <a href="index.php"><img src="images/logo.png" class="img-responsive logo-img margin-top-30" alt="" style="margin-top:30px;" ></a>
+                                <a href="index"><img src="images/logo.png" class="img-responsive logo-img margin-top-30" alt="" style="margin-top:30px;" ></a>
                             </div>
                         </div>
                         <div id="loginRow">
@@ -98,7 +98,7 @@
                                         </li>
                                         <li>
                                             <div class="col-md-12 col-xs-12 col-sm-6 col-lg-12 forgot-pwd"  style="">
-                                                <p class="forgot" style="float: right;"><a href="forgot-password.php" style="color:#fff"> Forgot Password ?</a></p>
+                                                <p class="forgot" style="float: right;"><a href="forgot-password" style="color:#fff"> Forgot Password ?</a></p>
                                             </div>
 
                                         </li>
@@ -137,8 +137,8 @@
                                             User Details <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu user-menuss" role="menu" style="z-index:2000;padding: 4px 0px; width:125px;" >
-                                            <li><a href="myaccount.php"> <img src="images/user.png" alt=""  style="width:20px; height:20px;" /> <span style="font-size:16px;" id='accountInfoUsername'></span></a></li>
-                                            <li><a href="quizzes.php?type=paid">  <img src="images/quiz.png" alt=""  style="width:20px; height:20px;"/>  <span style="font-size:16px;"> Quizzes</span></a></li>
+                                            <li><a href="myaccount"> <img src="images/user.png" alt=""  style="width:20px; height:20px;" /> <span style="font-size:16px;" id='accountInfoUsername'></span></a></li>
+                                            <li><a href="quizzes?type=paid">  <img src="images/quiz.png" alt=""  style="width:20px; height:20px;"/>  <span style="font-size:16px;"> Quizzes</span></a></li>
 
                                             <li><a href="#"> <img src="images/logout.png" alt="" style="width:20px; height:20px;"/> <span style="color:#000; font-size:16px; cursor: pointer;" onclick='logout()'>Sign Out</span></a></li>
                                         </ul>
@@ -181,19 +181,19 @@
                                     <div class=" col-md-7"></div>
                                     <div id="navbar" class="navbar-collapse collapse col-md-8 col-sm-8 col-lg-8 left-nav ">
                                         <ul class="nav navbar-nav">
-                                            <li class="active"><a href="index.php" class=""><img src="images/home-icon.png" class="menu-icons">Home</a></li>
-                                            <li><a href="about-us.php" class=""><img src="images/about-icon.png" class="menu-icons"> About Us</a></li>
+                                            <li class="active"><a href="index" class=""><img src="images/home-icon.png" class="menu-icons">Home</a></li>
+                                            <li><a href="about-us" class=""><img src="images/about-icon.png" class="menu-icons"> About Us</a></li>
 
                                             <li class=" dropdown">
                                                 <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="images/quiz-icon.png" class="menu-icons">Quizzes<span class="caret"></span></a>
                                                 <div class="dropdown-menu">
-                                                    <div class='col-xs-4'><a href="quizzes.php?type=free"> Free Quizzes</a></div>
-                                                    <div class='col-xs-4'><a href="quizzes.php?type=paid">Paid Quizzes </a></div>
-                                                    <div class='col-xs-4'><a href="quizmaster.php">Quiz Master</a></div>
+                                                    <div class='col-xs-4'><a href="quizzes?type=free"> Free Quizzes</a></div>
+                                                    <div class='col-xs-4'><a href="quizzes?type=paid">Paid Quizzes </a></div>
+                                                    <div class='col-xs-4'><a href="quizmaster">Quiz Master</a></div>
                                                 </div>
                                             </li>
-                                            <li id='myAccountMenuItem' ><a href="myaccount.php" class=""><img src="images/account-icon.png" class="menu-icons">My Account</a></li>
-                                            <li><a href="contact-us.php"><img src="images/contact-icon.png" class="menu-icons">Contact Us</a></li>
+                                            <li id='myAccountMenuItem' ><a href="myaccount" class=""><img src="images/account-icon.png" class="menu-icons">My Account</a></li>
+                                            <li><a href="contact-us"><img src="images/contact-icon.png" class="menu-icons">Contact Us</a></li>
                                         </ul>
                                     </div>
 

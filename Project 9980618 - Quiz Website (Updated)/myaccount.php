@@ -298,7 +298,14 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
 
                             <div id="myAccountTaxation" class="col-xs-12"></div>
 
-                            <div id="myAccountQuizMaster" class="col-xs-12"></div>
+                            <div id="myAccountQuizMaster" class="col-xs-12">
+                                <div id='quizMasterSideNav' class='col-sm-3'>
+
+                                </div>
+                                <div id='quizMasterContent' class='col-sm-9'>
+
+                                </div>
+                            </div>
 
 
                         </div>

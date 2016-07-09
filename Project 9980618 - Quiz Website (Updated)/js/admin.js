@@ -1754,6 +1754,7 @@ function populateWithdrawal() {
             html += '        <th>Method</th>';
             html += '        <th>Phone</th>';
             html += '        <th>Email</th>';
+            html += '        <th>Pancard</th>';
             html += '        <th>Address</th>';
             html += '        <th>Account Num</th>';
             html += '        <th>IFSC Code</th>';
@@ -1771,6 +1772,7 @@ function populateWithdrawal() {
                 html += '    <td>' + withdrawalArray[i].method + '</td>';
                 html += '    <td>' + withdrawalArray[i].phone + '</td>';
                 html += '    <td>' + withdrawalArray[i].email + '</td>';
+                html += '    <td>' + withdrawalArray[i].pancard + '</td>';
                 html += '    <td>' + withdrawalArray[i].address + '</td>';
                 html += '    <td>' + withdrawalArray[i].accountNum + '</td>';
                 html += '    <td>' + withdrawalArray[i].code + '</td>';

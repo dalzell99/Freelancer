@@ -171,3 +171,21 @@ th {
 #quizInfoRegistration {
   display: none;
 }
+
+#quizInfoInfo,
+#quizInfoLeader,
+#quizInfoRegistration {
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 992px) {
+  #quizInfoPrizes {
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #quizInfoRules {
+    margin-bottom: 1.25rem;
+  }
+}

@@ -255,62 +255,6 @@ function showResultsPage(correctAnswers, correctPercent, timeTaken, numQuestions
         } else {
             $("#resultText").text("You got " + correctAnswers + " out of " + numQuestions + " correct.");
         }
-
-        $.post('./php/quizresults/getquizresults.php', {
-            quizID: quiz.quizID
-        }, function(response) {
-            if (response[0] == 'success') {
-                var users = response[1];
-                var userInTop10 = -1;
-                html += "<table id='quizResultTable'>";
-                html += "    <tr>";
-                html += "         <th>Rank</th>";
-                html += "         <th></th>";
-                html += "         <th>Username</th>";
-                html += "         <th>Percent Correct</th>";
-                html += "         <th>Time Taken<br><small>secs</small></th>";
-                html += "    </tr>";
-                for (var i = 0; i < 10 && i < users.length; i += 1) {
-                    if (users[i].username == sessionStorage.username) {
-                        userInTop10 = i;
-                    }
-                    html += "    <tr class='leaderboard " + i + "'>";
-                    html += "         <td>" + (i + 1) + place[(i > 3 ? 3 : i)] + "</td>";
-                    html += '        <td><img class="leaderboardUserImage" src="../images/users/' + users[i].imageURL + '" /></td>';
-                    html += "         <td>" + users[i].username + "</td>";
-                    html += "         <td>" + users[i].correctPercent + "</td>";
-                    html += "         <td>" + (users[i].timeTaken / 1000) + "</td>";
-                    html += "    </tr>";
-                }
-                html += "</table>";
-
-                $("#resultsLeaderboard").empty().append(html);
-
-                if (userInTop10 != -1) {
-                    $(".leaderboard." + userInTop10).addClass('userRank');
-                } else {
-                    var usersRank = -1;
-                    for (var k = 10; k < users.length && usersRank == -1; k += 1) {
-                        if (users[k].username == sessionStorage.username) {
-                            usersRank = k;
-                            var htmlUserRank = '';
-                            htmlUserRank += "    <tr class='leaderboard user'>";
-                            htmlUserRank += "         <td>" + (k + 1) + "th</td>";
-                            htmlUserRank += "         <td>" + users[i].username + "</td>";
-                            htmlUserRank += "         <td>" + users[i].correctPercent + "</td>";
-                            htmlUserRank += "         <td>" + (users[i].timeTaken / 1000) + "</td>";
-                            htmlUserRank += "    </tr>";
-                            $("#quizResultTable").append(htmlUserRank);
-                            $(".leaderboard.user").css('backgroundColor', 'rgba(255, 255, 192, 0.44)');
-                        }
-                    }
-                }
-            } else {
-                displayMessage('error', 'Error', 'Error retrieving leaderboard. ' + response[1]);
-            }
-        }, 'json').fail(function (request, textStatus, errorThrown) {
-            //displayMessage('error', 'Error', "Err or: Something went wrong with showResultsPage function");
-        });
     }
 
     $("#quizResults").show();

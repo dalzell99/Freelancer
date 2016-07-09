@@ -125,38 +125,40 @@ window.onload = function() {
             }
         });
 
-        /*
+
         $("#withdrawChequePhone").intlTelInput({
-            initialCountry: "auto",
-            geoIpLookup: function(callback) {
-                $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                    var countryCode = (resp && resp.country) ? resp.country : "";
-                    callback(countryCode);
-                });
-            },
+            initialCountry: "in",
+            preferredCountries: "in",
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
         });
 
         $("#withdrawBankTransferPhone").intlTelInput({
-            initialCountry: "auto",
-            geoIpLookup: function(callback) {
-                $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                    var countryCode = (resp && resp.country) ? resp.country : "";
-                    callback(countryCode);
-                });
-            },
+            initialCountry: "in",
+            preferredCountries: "in",
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.9/js/utils.js"
         });
-        */
+
         $("#withdrawChequePhone").on({
             input: function() {
                 checkMobileTimer = setTimeout(checkMobileCheque, 1000);
+            },
+
+            countrychange: function () {
+                if ($(this).val() !== '') {
+                    checkMobileCheque();
+                }
             }
         });
 
         $("#withdrawBankTransferPhone").on({
             input: function() {
                 checkMobileTimer = setTimeout(checkMobileBankTransfer, 1000);
+            },
+
+            countrychange: function () {
+                if ($(this).val() !== '') {
+                    checkMobileBankTransfer();
+                }
             }
         });
 
@@ -782,7 +784,7 @@ function areInputsValidCheque() {
     }
 
     if(!isMobileNumberCorrect) {
-        return [false, "The phone number you entered doesn't match the number with your account."];
+        return [false, "The phone number you entered doesn't match the number with your account. Make sure you choose the correct country from the dropdown"];
     }
 
     if($("#numRealRedeemQuizetos").val() === '') {
@@ -803,7 +805,7 @@ function areInputsValidBankTransfer() {
     }
 
     if(!isMobileNumberCorrect) {
-        return [false, "The phone number you entered doesn't match the number with your account."];
+        return [false, "The phone number you entered doesn't match the number with your account. Make sure you choose the correct country from the dropdown"];
     }
 
     if($("#numRealRedeemQuizetos").val() === '') {
@@ -928,14 +930,21 @@ function showQuizMaster() {
 }
 
 function populateQuizMaster() {
+    var htmlNav = '';
+
+    // Create yes and no buttons so user can choose which account to show
+    htmlNav += "<button onclick='showQuizMasterInfo()'>Activate as Quiz Master</button>";
+    htmlNav += "<button onclick='showUserInfo()'>Activate as User</button>";
+    htmlNav += "<button onclick='showUploadQuestion()'>Upload Question</button>";
+    htmlNav += "<button id='quizMasterScheduleButton' onclick='showScheduleQuiz()'>Schedule Quiz</button>";
+
+    $("#quizMasterSideNav").html(htmlNav);
+
     var html = '';
+
     // Check if user activated as quiz master
     var qm = sessionStorage.quizMaster === 'y' ? true : false;
     var totalQuizzesSchedulable, numQuizzesAlreadyScheduled, quizBalance;
-
-    // Create yes and no buttons so user can choose which account to show
-    html += "<button onclick='showQuizMasterInfo()'>Activate as Quiz Master</button>";
-    html += "<button onclick='showUserInfo()'>Activate as User</button>";
 
     // Create Quiz master info
     // number of quizzes purchased
@@ -995,9 +1004,6 @@ function populateQuizMaster() {
     html += "        <td data-toggle='modal' data-target='#rejectedQuestionModal'>" + rejectedQuestions.length + "</td>";
     html += "    </tr>";
     html += "</table>";
-
-    html += "<button onclick='showUploadQuestion()'>Upload Question</button>";
-    html += "<button id='quizMasterScheduleButton' onclick='showScheduleQuiz()'>Schedule Quiz</button>";
 
     // Add quiz submission form
     html += "<table id='quizMasterQuestionSubmission'>";
@@ -1067,7 +1073,7 @@ function populateQuizMaster() {
     html += "    </div>";
     html += "</div>";
 
-    $("#myAccountQuizMaster").empty().append(html);
+    $("#quizMasterContent").html(html);
 
     // Init the date picker
     $("#quizMasterQuizDate").datetimepicker({
@@ -1174,6 +1180,8 @@ function showUploadQuestion() {
     if ($("#quizMasterQuestionSubmission").css('display') == 'none') {
         $("#quizMasterQuestionSubmission").show();
         $("#quizMasterScheduleQuiz").hide();
+        $("#quizMasterUserInfo").hide();
+        $("#quizMasterQuizMasterInfo").hide();
     } else {
         $("#quizMasterQuestionSubmission").hide();
     }
@@ -1219,6 +1227,8 @@ function showScheduleQuiz() {
         if ($("#quizMasterScheduleQuiz").css('display') == 'none') {
             $("#quizMasterQuestionSubmission").hide();
             $("#quizMasterScheduleQuiz").show();
+            $("#quizMasterUserInfo").hide();
+            $("#quizMasterQuizMasterInfo").hide();
         } else {
             $("#quizMasterScheduleQuiz").hide();
         }

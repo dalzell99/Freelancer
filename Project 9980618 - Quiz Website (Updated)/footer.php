@@ -1,33 +1,54 @@
 
 <div class="container-fluid  animated fadeInDown wow" style=" background-color:#003a6e;  color:#fff">
-    <div class="container  animated fadeInDown wow">
+    <div class="container  animated fadeInDown wow" style='width: 100%;'>
 			<div class="row">
-			<div class="col-lg-12 col-md-12">
+			<div class="col-md-12">
 				<div class="ft-part">
-				<div class="col-lg-3 col-md-3">
-					<h3>Quick Links</h3>
-					<ul>
-						<li> <a href="faq.php">FAQ</a></li>
-						<li><a href="legality.php">Legality</a> </li>
-						<li> <a href="terms-of-services.php">Terms of Use</a></li>
-						<li><a href="privacy-policy.php">Privacy Policy </a></li>
-						<li><a href="index.php#how-it-works">How It Works </a></li>
-						<li><a href="contact-us.php">Contact Us</a></li>
-
-
-					</ul>
+				<div class="col-md-7">
+					<div class="col-md-3">
+						<h3>Quick Links</h3>
+						<ul>
+							<li> <a href="faq.php">FAQ</a></li>
+							<li><a href="legality.php">Legality</a> </li>
+							<li> <a href="terms-of-services.php">Terms of Use</a></li>
+							<li><a href="privacy-policy.php">Privacy Policy </a></li>
+							<li><a href="howitworks.php">How It Works </a></li>
+							<li><a href="contact-us.php">Contact Us</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h3>Placeholder</h3>
+						<ul>
+							<li> <a href="">Placeholder</a></li>
+							<li><a href="">Placeholder</a> </li>
+							<li> <a href="">Placeholder</a></li>
+							<li><a href="">Placeholder</a></li>
+							<li><a href="">Placeholder</a></li>
+							<li><a href="">Placeholder</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h3>Follow Us</h3>
+						<ul>
+							<li> <a href="terms-of-services.php">Facebook &nbsp;<img src="images/facebook.png"></a></li>
+							<li><a href="privacy-policy.php">Twitter &nbsp; <img src="images/twitter.png"></a></li>
+							<li> <a href="faq.php">Linkedin &nbsp; <img src="images/linkedin.png"></a></li>
+							<li><a href="legality.php">Google Plus &nbsp; <img src="images/googleplus.png"></a> </li>
+							<li><a href="legality.php">Pinterest &nbsp; <img src="images/pinterest.png"></a> </li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h3>Office Address</h3>
+						<p>
+							IQvirus Services Pvt Ltd<br />
+							Plot No - 160<br />
+							Sector-1, Block-H<br />
+							Alkapoor Township<br />
+							Hyderabad-500081<br />
+						</p>
+					</div>
 				</div>
-				<div class="col-lg-3 col-md-3">
-					<h3>Follow Us</h3>
-					<ul>
-						<li> <a href="terms-of-services.php">Facebook &nbsp;<img src="images/facebook.png"></a></li>
-						<li><a href="privacy-policy.php">Twitter &nbsp; <img src="images/twitter.png"></a></li>
-						<li> <a href="faq.php">Linkedin &nbsp; <img src="images/linkedin.png"></a></li>
-						<li><a href="legality.php">Google Plus &nbsp; <img src="images/googleplus.png"></a> </li>
-						<li><a href="legality.php">Pinterest &nbsp; <img src="images/pinterest.png"></a> </li>
-					</ul>
-				</div>
-				<div class="col-lg-6 col-md-6">
+				<div class="col-md-5">
 					<div class="payment-part">
 						<h3>Our Payment Options</h3>
 						<img src="images/payment.png" class="img-responsive">

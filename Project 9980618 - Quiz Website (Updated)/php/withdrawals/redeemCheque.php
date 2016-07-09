@@ -23,7 +23,7 @@ if ($result = mysqli_query($con, $sql)) {
     if ($row['paidPointsBalance'] >= $amount) {
         $email = $row['email'];
         $sqlConvert = "UPDATE Users SET pancard = '$pancard', paidPointsBalance = paidPointsBalance - " . $amount . " WHERE username = '$username'";
-        $sqlWithdrawal = "INSERT INTO Withdrawal VALUES (Default, '$username', $amount, 'cheque', '$phone', '$email', '$address', '', '', '" . date('c') . "', 'n')";
+        $sqlWithdrawal = "INSERT INTO Withdrawal VALUES (Default, '$username', $amount, 'cheque', '$phone', '$email', '$address', '', '', '" . date('c') . "', 'n', '$pancard')";
         if (mysqli_query($con, $sqlConvert) && mysqli_query($con, $sqlWithdrawal)) {
             $to = array($databasephpWithdrawalEmail, $email);
             $from = $databasephpNoReplyEmail;

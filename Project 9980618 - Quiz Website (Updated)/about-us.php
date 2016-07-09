@@ -19,7 +19,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
 					</div>
 					<div class="col-md-6 col-lg-6">
 						<h2 class="abttle">Mission</h2>
-						<p>Our core mission is to innovate and build a platform to spread knowledge & develop IQ in an entertaining and rewarding way that reaches to the society. </p>
+						<p align="justify">Our core mission is to innovate and build a platform to spread knowledge & develop IQ in an entertaining and rewarding way that reaches to the society. </p>
 					</div>
 				</div>
 			</div>
@@ -30,7 +30,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
 					</div>
 					<div class="col-md-6 col-lg-6">
 						<h2 class="abttle">Vision</h2>
-						<p>Here at IQzeto.com we consider our Social Responsibility important. We adore doing great for our kindred man and offering back to the group that made us. We empower everyone with the capacity to develop their intelligence and IQ in an entertaining and rewarding way.    </p>
+						<p align="justify">Here at IQzeto.com we consider our Social Responsibility important. We adore doing great for our kindred man and offering back to the group that made us. We empower everyone with the capacity to develop their intelligence and IQ in an entertaining and rewarding way.    </p>
 					</div>
 				</div>
 			</div>
@@ -40,7 +40,8 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
 		<div class="col-md-12 col-lg-12" style="margin-bottom:20px;">
 			<div class="col-lg-6 col-md-6">
 				<h2 class="abttle">What We Offer</h2>
-				<p>We at IQzeto.com empower life learning and follow the principle of 'earning while learning'. We do this with Quiz Alerts with an end goal to test information about different subjects at the same time helping everyone to become monetarily independent. We pride ourselves on being family-accommodating and empower friendly rivalry by means of our Leader board. </p>
+				<p align="justify">Are you feeling smart? Do you like to take challenges and win cash rewards? Are you one of those people that want to have it all? Do you want to feel the adrenalin and rush of blood in your veins while you take respect and earn big time? Well, we might have something just for you..
+IQzeto.com is an online quiz platform which lets users participate in various quizzes from all sorts of fields and disciplines, learning new things and winning millions of cash rewards. Users may take quizzes with people with similar interests and different IQ levels. </p>
 
 			</div>
 			<div class="col-md-6 col-lg-6">
@@ -53,15 +54,14 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
         <p class="margin-top">
 		
 		
-		         <p> IQzeto.com is a part based online trivia game show to give individuals an online platform to participate in quiz from different disciplines all around the world and win millions of cash reward. We offer users the privilege of partaking in any form of the quiz online, with people of like mind and different I.Q levels. IQzeto.com is a place where scholars, students, working professionals and each one of us with basic internet knowledge have 100% eligibility to participate irrespective of the profession or class in the society. 
-        </p>
-        <p> 
-                            Look over your brains and participate in this remarkable game of quiz – Battle of Brains on IQzeto. This platform gives you not just a chance of getting the learning about different fields as an Inquest, additionally to win after every right hit. </p>
-                           <p>
-                            And all you got the opportunity to do is, register with us free to play this challenging and entertaining quiz 24/7 on our platform. Contribute a little time to answer the quiz questions and these wringers can be General awareness, Arithmetical, Historical, Any subject specific or whatever other enclosure. It is only your adroitness and exactitude to mind…</p>
-                        <p>
-                            Consistently consistent…!! We make new victors for each next inquiry. Giving ceaselessly extra focuses on speediness and rightness.
-</p>
+		         <p align="justify"> The platform offers unlimited amount of quizzes with opportunity of winning cash rewards every single minute which make it a preferred choice for millions of happy players all around the globe. Feel the excitement and the adrenalin that never leave your body till the last question pops in. Experience the rush of winning both rewards and respect from other quiz takers. Lift yourself on the top of the system that rewards knowledge and fair play. Battle your way to the millions reserved for the winners. </p>
+
+        <p align="justify"> Take quizzes, test your skills and keep on learning. IQzeto.com is not just about taking quizzes, it is about challenging yourself, gathering knowledge every time and cashing this knowledge. Every right hit let you win cash rewards. So the game never stops, Excitements never end, & Reward never stop coming.</p>
+
+<p align="justify">You are just few clicks away from taking all those entertaining quizzes and cashing in big time. And there are no bounders for you. Just choose a topic where you feel strong, it could be any subject of your interest. </p>
+                        
+<p align="justify">So what are you waiting for? Millions of other players are already on the platform and winning. 
+Register today and start taking quizzes on IQzeto.com Your one stop for learning new things, winning cash rewards and having fun on the Internet.</p>
 		
 		
 

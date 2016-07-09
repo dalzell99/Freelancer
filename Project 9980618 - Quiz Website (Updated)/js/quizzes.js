@@ -29,19 +29,19 @@ window.onload = function () {
 
 function updateQuizzes() {
     $.post('./php/quizzes/getallquizzes.php', {},
-            function (response) {
-                if (response[0] === 'success') {
-                    quizzes = response[1];
-                    if (sessionStorage.quizType === 'free') {
-                        showFreeQuizzes();
-                    } else if (sessionStorage.quizType === 'user') {
-                        showPaidUserQuizzes();
-                    } else {
-                        showPaidAdminQuizzes();
-                    }
-                    updateCountdownsTimer = setInterval(updateCountdownTimers, 1000);
-                }
-            }, 'json').fail(function (request, textStatus, errorThrown) {
+    function (response) {
+        if (response[0] === 'success') {
+            quizzes = response[1];
+            if (sessionStorage.quizType === 'free') {
+                showFreeQuizzes();
+            } else if (sessionStorage.quizType === 'user') {
+                showPaidUserQuizzes();
+            } else {
+                showPaidAdminQuizzes();
+            }
+            updateCountdownsTimer = setInterval(updateCountdownTimers, 1000);
+        }
+    }, 'json').fail(function (request, textStatus, errorThrown) {
         //displayMessage('error', 'Error', "Err or: Something went wrong with onload function");
     });
 }
@@ -164,21 +164,7 @@ function showPaidAdminQuizzes() {
 
         html += '           <div class="cover-card " style="">';
         html += '               <div class="quizTitle">';
-        html += '                   <!-- AddToAny BEGIN -->';
-        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
-        html += '                        <a class="a2a_button_pinterest"></a><br />';
-        html += '                        <a class="a2a_button_linkedin"></a><br />';
-        html += '                        <a class="a2a_button_tumblr"></a>';
-        html += '                   </div>';
-        html += '                   <!-- AddToAny END -->';
-        html += '                   <h3 class="demo-h3 col-xs-8">' + q.category + '</h3>';
-        html += '                   <!-- AddToAny BEGIN -->';
-        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
-        html += '                        <a class="a2a_button_facebook"></a><br />';
-        html += '                        <a class="a2a_button_twitter"></a><br />';
-        html += '                        <a class="a2a_button_google_plus"></a>';
-        html += '                   </div>';
-        html += '                   <!-- AddToAny END -->';
+        html += '                   <h3 class="demo-h3 col-xs-12">' + q.category + '</h3>';
         html += '               </div>';
         html += '               <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">';
         html += '                   <div><strong>Fee :</strong> ' + q.pointsCost + '</div>';
@@ -261,21 +247,7 @@ function showPaidUserQuizzes() {
 
         html += '           <div class="cover-card " style="">';
         html += '               <div class="quizTitle">';
-        html += '                   <!-- AddToAny BEGIN -->';
-        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
-        html += '                        <a class="a2a_button_pinterest"></a><br />';
-        html += '                        <a class="a2a_button_linkedin"></a><br />';
-        html += '                        <a class="a2a_button_tumblr"></a>';
-        html += '                   </div>';
-        html += '                   <!-- AddToAny END -->';
-        html += '                   <h3 class="demo-h3 col-xs-8">' + q.category + '</h3>';
-        html += '                   <!-- AddToAny BEGIN -->';
-        html += '                   <div class="a2a_kit a2a_kit_size_24 a2a_default_style col-xs-2">';
-        html += '                        <a class="a2a_button_facebook"></a><br />';
-        html += '                        <a class="a2a_button_twitter"></a><br />';
-        html += '                        <a class="a2a_button_google_plus"></a>';
-        html += '                   </div>';
-        html += '                   <!-- AddToAny END -->';
+        html += '                   <h3 class="demo-h3 col-xs-12">' + q.category + '</h3>';
         html += '               </div>';
         html += '               <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 text-center">';
         html += '                   <div><strong>Fee :</strong> ' + q.pointsCost + '</div>';
