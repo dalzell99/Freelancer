@@ -8,33 +8,37 @@
 					<div class="col-md-3">
 						<h3>Quick Links</h3>
 						<ul>
-							<li> <a href="faq.php">FAQ</a></li>
+							<li> <a href="about-us.php">About Us</a></li>
 							<li><a href="legality.php">Legality</a> </li>
-							<li> <a href="terms-of-services.php">Terms of Use</a></li>
+							<li> <a href="terms-of-services.php">Terms of Services</a></li>
 							<li><a href="privacy-policy.php">Privacy Policy </a></li>
-							<li><a href="howitworks.php">How It Works </a></li>
-							<li><a href="contact-us.php">Contact Us</a></li>
+							<li><a href="sitemap.php">Site Map</a></li>
+							<li><a href="testimonial.php">Testimonials</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
-						<h3>Placeholder</h3>
+						<h3>Support</h3>
 						<ul>
-							<li> <a href="">Placeholder</a></li>
-							<li><a href="">Placeholder</a> </li>
-							<li> <a href="">Placeholder</a></li>
-							<li><a href="">Placeholder</a></li>
-							<li><a href="">Placeholder</a></li>
-							<li><a href="">Placeholder</a></li>
+							<li> <a href="faq.php">FAQ</a></li>
+							<li><a href="howitworks.php">Get Started</a> </li>
+<li><a href="contact-us.php">Contact Us</a></li>
+
+							<li> <a href="payment.php">Payment Policy</a></li>
+							
+							<li><a href="quizmaster.php">Quizmaster</a></li>
+							
 						</ul>
 					</div>
 					<div class="col-md-3">
 						<h3>Follow Us</h3>
 						<ul>
-							<li> <a href="terms-of-services.php">Facebook &nbsp;<img src="images/facebook.png"></a></li>
-							<li><a href="privacy-policy.php">Twitter &nbsp; <img src="images/twitter.png"></a></li>
-							<li> <a href="faq.php">Linkedin &nbsp; <img src="images/linkedin.png"></a></li>
-							<li><a href="legality.php">Google Plus &nbsp; <img src="images/googleplus.png"></a> </li>
-							<li><a href="legality.php">Pinterest &nbsp; <img src="images/pinterest.png"></a> </li>
+<li> <a target = '_blank' href="https://www.facebook.com/IQzeto-1706229703000965">Facebook &nbsp;<img src="images/facebook.png"></a></li>
+
+<li><a target = '_blank' href="https://twitter.com/iqzeto">Twitter &nbsp; <img src="images/twitter.png"></a></li>
+
+<li> <a target = '_blank'  href="https://www.linkedin.com/company/iqzeto">Linkedin &nbsp; <img src="images/linkedin.png"></a></li>
+							<li><a href="">Google Plus &nbsp; <img src="images/googleplus.png"></a> </li>
+							<li><a href="">Pinterest &nbsp; <img src="images/pinterest.png"></a> </li>
 						</ul>
 					</div>
 					<div class="col-md-3">

@@ -7,13 +7,27 @@ echo '<script type="text/javascript" src="js/quizmaster.js?' . filemtime('js/qui
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <div class="container margin-top" style=" background: url(images/quizmaster.jpg); min-height:600px;">
-	<div id='quizMasterButtons' class='col-xs-12'>
-		<div class='col-xs-6'>
+    <img src='https://placehold.it/1366x500' class='img-responsive' alt='' />
+
+    <div id='sideNav' class="col-sm-2">
+        <a class='quizMasterButtons' id='quizMasterButton' data-toggle="modal" data-target="#quizMasterModal">
+            <div>
+                Activate as QuizMaster
+            </div>
+        </a>
+        <a class='quizMasterButtons' id='userButton' data-toggle="modal" data-target="#userModal">
+            <div>
+                Activate as User
+            </div>
+        </a>
+    </div>
+	<div class='col-sm-10'>
+		<!-- <div class='col-xs-6'>
 			<button class='quizMasterButtons left' id='quizMasterButton' data-toggle="modal" data-target="#quizMasterModal">Activate as QuizMaster</button>
 		</div>
 		<div class='col-xs-6'>
 			<button class='quizMasterButtons right' id='userButton' data-toggle="modal" data-target="#userModal">Activate as User</button>
-		</div>
+		</div> -->
 	</div>
 </div>
 

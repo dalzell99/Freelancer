@@ -617,10 +617,10 @@ function propertySubpage() {
         html += "        </tr>";
         html += "        <tr>";
         html += "            <td>";
-        html += "                <div>";
-        html += "                    <button onclick='showPreviousMonth()'>Previous</button>";
-        html += "                    <button onclick='showNextMonth()'>Next</button>";
-        html += "                </div>";
+        // html += "                <div>";
+        // html += "                    <button onclick='showPreviousMonth()'>Previous</button>";
+        // html += "                    <button onclick='showNextMonth()'>Next</button>";
+        // html += "                </div>";
         html += "                <div id='calendarContainer'></div>";
         html += "            </td>";
         html += "        </tr>";
@@ -1693,7 +1693,11 @@ function createCalendar() {
     var html = "";
     html += "<table id='bookingCalendar'>";
     html += "    <tr>";
-    html += "        <th colspan='7'>" + monthName + " " + currentYear + "</th>";
+    html += "        <th colspan='7'>";
+    html += "            <img src='./images/calendar-previous.png' alt='Previous Month' onclick='showPreviousMonth()'>";
+    html += monthName + " " + currentYear;
+    html += "            <img src='./images/calendar-next.png' alt='Next Month' onclick='showNextMonth()'>";
+    html += "        </th>";
     html += "    </tr>";
     html += "    <tr>";
     for (var dayNum = 0; dayNum < 7; dayNum += 1) {

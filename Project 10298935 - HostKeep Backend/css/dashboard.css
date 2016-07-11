@@ -267,8 +267,12 @@ main > div#properties #propertySubpage table#bookingCalendar th {
   font-size: 2rem;
 }
 
+main > div#properties #propertySubpage table#bookingCalendar th img {
+  margin: 0 5px;
+}
+
 main > div#properties #propertySubpage table#bookingCalendar .available {
-  background-color: #00b7a6;
+  background-color: #dce0e0;
   color: white;
 }
 
