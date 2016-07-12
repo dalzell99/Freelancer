@@ -150,7 +150,7 @@ function populateTitle() {
     if (editable) {
         var n = quiz.category;
         var index = n.indexOf(' by');
-        html += "<div id='title'><span class='category' contenteditable='true'>" + n.substr(0, index).toUpperCase() + "</span>" + n.substr(index).toUpperCase() + "</div>";
+        html += "<div id='title'><span class='category editable' contenteditable='true'>" + n.substr(0, index).toUpperCase() + "</span>" + n.substr(index).toUpperCase() + "</div>";
     } else {
         html += "<div id='title'>" + quiz.category.toUpperCase() + "</div>";
     }
@@ -228,7 +228,7 @@ function populateInfo() {
     html += '    </tr>';
     html += '    <tr>';
     html += '        <td class="subheading">Start Time</td>';
-    html += '        <td class="value" onclick="showTimeslotChange()">' + moment(quiz.startTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
+    html += '        <td class="value' +  (editable ? ' editable" onclick="showTimeslotChange()' : '') + '">' + moment(quiz.startTime).format("ddd Do MMM YYYY h:mm a") + '</td>';
     html += '    </tr>';
     html += '    <tr>';
     html += '        <td class="subheading">End Time</td>';
@@ -244,7 +244,7 @@ function populateInfo() {
     html += '    </tr>';
     html += '    <tr>';
     html += '        <td class="subheading">Registration Fee</td>';
-    html += '        <td class="value' + (editable ? ' pointsCost" contenteditable="true"' : "") + '">' + quiz.pointsCost + '</td>';
+    html += '        <td class="value' + (editable ? ' pointsCost editable" contenteditable="true"' : "") + '">' + quiz.pointsCost + '</td>';
     html += '    </tr>';
     html += '</table>';
     html += '</div>';

@@ -168,6 +168,11 @@ th {
   display: inline-block;
 }
 
+.editable {
+  cursor: pointer;
+  background-color: rgb(251, 240, 158);
+}
+
 #quizInfoRegistration {
   display: none;
 }

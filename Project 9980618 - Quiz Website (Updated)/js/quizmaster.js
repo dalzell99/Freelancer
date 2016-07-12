@@ -73,7 +73,7 @@ window.onload = function () {
 // If no, display message
 function goToQuizMasterPage(type) {
     if (type == 'user') {
-        if (sessionStorage.numQuizzesTakenRemaining > quizScheduleTarget) {
+        if (sessionStorage.numQuizzesTakenRemaining >= quizScheduleTarget) {
             // User has taken enough quizzes to schedule a quiz so redirect them to quiz master tab in my account
             sessionStorage.showQuizMaster = true;
             location.href = 'myaccount.php';

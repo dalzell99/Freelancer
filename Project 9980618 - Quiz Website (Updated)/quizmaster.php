@@ -10,24 +10,24 @@ echo '<script type="text/javascript" src="js/quizmaster.js?' . filemtime('js/qui
     <img src='https://placehold.it/1366x500' class='img-responsive' alt='' />
 
     <div id='sideNav' class="col-sm-2">
-        <a class='quizMasterButtons' id='quizMasterButton' data-toggle="modal" data-target="#quizMasterModal">
+        <a href='#'>
             <div>
-                Activate as QuizMaster
+                Link 1
             </div>
         </a>
-        <a class='quizMasterButtons' id='userButton' data-toggle="modal" data-target="#userModal">
+        <a href='#'>
             <div>
-                Activate as User
+                Link 2
             </div>
         </a>
     </div>
 	<div class='col-sm-10'>
-		<!-- <div class='col-xs-6'>
+		<div class='col-xs-6'>
 			<button class='quizMasterButtons left' id='quizMasterButton' data-toggle="modal" data-target="#quizMasterModal">Activate as QuizMaster</button>
 		</div>
 		<div class='col-xs-6'>
 			<button class='quizMasterButtons right' id='userButton' data-toggle="modal" data-target="#userModal">Activate as User</button>
-		</div> -->
+		</div>
 	</div>
 </div>
 
