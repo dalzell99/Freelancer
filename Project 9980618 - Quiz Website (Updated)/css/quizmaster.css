@@ -53,20 +53,13 @@
   padding: 10px;
   font-size: 2em;
   width: 100%;
-  display: inline-block;
+  display: none;
   text-align: center;
 }
 
 .quizMasterButtons:hover {
   background-color: #00b6f2;
   border-color: #00b6f2;
-  color: #ffffff;
-  border-radius: 0;
-  font-size: 20px !important;
-  line-height: 1.33;
-  padding: 10px 16px;
-  width: 100%;
-  margin-bottom: 5px
 }
 
 .quizMasterButtons.left {

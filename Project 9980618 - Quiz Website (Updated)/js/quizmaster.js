@@ -47,7 +47,7 @@ window.onload = function () {
 
     if (sessionStorage.loggedIn == 'true') {
         // User is logged in so show quiz master buttons
-        $("#quizMasterButtons").show();
+        $(".quizMasterButtons").show();
 
         $.get("./php/quizmaster/getquizmasterinfo.php", {
 
