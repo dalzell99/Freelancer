@@ -16,16 +16,21 @@ if (mysqli_num_rows($resultEmail) > 0) {
 }
 $password = md5(md5($_POST['password'] . strtolower($username)) . $salt);
 
-$sql = "SELECT password, loggedInToday FROM Users WHERE username = '$username' OR email = '$username'";
+$sql = "SELECT password, loggedInToday, loggedIn FROM Users WHERE username = '$username' OR email = '$username'";
 
 if ($result = mysqli_query($con, $sql)) {
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        if ($row['password'] == $password) {
+        if (time() - strtotime($row['loggedIn']) < 10) {
+            echo json_encode(array('loggedIn', ''));
+        } else if ($row['password'] == $password) {
             if ($row['loggedInToday'] == 'n') {
                 $sql3 = "UPDATE Users SET loggedInToday = 'y', freeUnconvertablePointsBalance = freeUnconvertablePointsBalance + 20 WHERE username = '$username'";
                 mysqli_query($con, $sql3);
             }
+
+            $sql4 = "UPDATE Users SET loggedIn = 'y' WHERE username = '$username'";
+            mysqli_query($con, $sql4);
 
             $sql2 = "SELECT userID, username, paidPointsBalance, freeConvertablePointsBalance, freeUnconvertablePointsBalance, email, emailConfirmed, notificationsArray, timeNotificationsViewed, numQuizzesTakenRemaining, quizMaster FROM Users WHERE username = '$username'";
             if ($result2 = mysqli_query($con, $sql2)) {
@@ -36,7 +41,7 @@ if ($result = mysqli_query($con, $sql)) {
             echo json_encode(array('incorrect', ''));
         }
     } else {
-        echo json_encode(array('fail', "usernamedoesntexist"));
+        echo json_encode(array('usernamedoesntexist', ""));
     }
 } else {
     echo json_encode(array('fail', $sql));

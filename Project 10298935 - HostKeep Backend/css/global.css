@@ -23,7 +23,7 @@ header > :first-child button {
 }
 
 header > :first-child span {
-  font-size: .85em;
+  font-size: 1.3rem;
 }
 
 header img {

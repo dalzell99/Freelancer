@@ -104,22 +104,18 @@ echo '<script type="text/javascript" src="js/contact-us.js?' . filemtime('js/con
         </div>
         <div>
             <p>
+We are here to help! Get in touch with us in one click and we will be more than happy to assist you. Let us know what you think.<br />
                 <br />
-                Contact Us<br />
-                -----------<br />
-                We are here to help! Get in touch with us in one click <br />
-                and we will be more than happy to assist you<br />
-                <br />
-                Let us know what you think, We want to hear from you.<br />
-                <br />
-                <br />
-                Office Address<br />
-                -------------------------<br />
-                IQvirus Services Pvt Ltd<br />
-                Plot No - 160<br />
-                Sector-1, Block-H<br />
-                Alkapoor Township<br />
-                Hyderabad-500081<br />
+                
+                <strong>Office Address</strong><br />
+                ------------<br />
+                <strong>IQvirus Services Pvt Ltd,</strong<br/>
+                <strong>Plot No - 160,</strong<br />
+                <strong>Sector-1, Block-H, </strong<br/>
+                <strong>Alkapoor Township,</strong<br/>
+                <strong>Hyderabad-500081,</strong<br/>
+			<strong>Telangana.</strong<br/>
+
             </p>
         </div>
     </div>

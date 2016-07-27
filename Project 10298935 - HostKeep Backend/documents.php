@@ -32,6 +32,15 @@
         </div>
 
         <div>
+            <label for="#documentsAddYear">Year</label>
+            <select id='documentsAddYear'>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <!-- <option value="2018">2018</option> -->
+            </select>
+        </div>
+
+        <div>
             <label for="#documentsAddNotes">Notes</label>
             <textarea id='documentsAddNotes' lines='4'></textarea>
         </div>
@@ -57,6 +66,15 @@
     </div>
 </div>
 
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#documentsAll">All</a></li>
+    <li><a data-toggle="tab" href="#documents2016">FY 2016</a></li>
+    <li><a data-toggle="tab" href="#documents2017">FY 2017</a></li>
+    <!-- <li><a data-toggle="tab" href="#documents2018">FY 2018</a></li> -->
+</ul>
+
+<?php
+$tableHTML = "
 <table>
     <thead>
         <tr>
@@ -68,6 +86,9 @@
             </th>
             <th>
                 Month
+            </th>
+            <th>
+                Year
             </th>
             <th>
 
@@ -84,3 +105,20 @@
         <!-- Documents dynamically added here -->
     </tbody>
 </table>
+";
+?>
+
+<div class="tab-content">
+    <div id="documentsAll" class="tab-pane fade in active">
+        <?php echo $tableHTML; ?>
+    </div>
+    <div id="documents2016" class="tab-pane fade">
+        <?php echo $tableHTML; ?>
+    </div>
+    <div id="documents2017" class="tab-pane fade">
+        <?php echo $tableHTML; ?>
+    </div>
+    <!-- <div id="documents2018" class="tab-pane fade">
+        <?php //echo $tableHTML; ?>
+    </div> -->
+</div>

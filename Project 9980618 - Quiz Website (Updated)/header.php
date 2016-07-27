@@ -2,7 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>IQZETO</title>
+	
+        <title>IQzeto</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="robots" content="index, follow" />
         <link rel="SHORTCUT ICON" href="images/favicon.png" />
@@ -69,6 +70,13 @@
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-12">
                             <div class="logo" style=" margin-top:-10px;">
                                 <a href="index"><img src="images/logo.png" class="img-responsive logo-img margin-top-30" alt="" style="margin-top:30px;" ></a>
+
+<marquee behavior="scroll" direction="left" scrollamount="5"><font color="white">This site is in beta testing phase.Paid formats of the quiz and some other functionalities are not available now</marquee>
+
+
+
+
+
                             </div>
                         </div>
                         <div id="loginRow">

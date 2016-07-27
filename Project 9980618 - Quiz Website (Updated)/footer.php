@@ -1,4 +1,3 @@
-
 <div class="container-fluid  animated fadeInDown wow" style=" background-color:#003a6e;  color:#fff">
     <div class="container  animated fadeInDown wow" style='width: 100%;'>
 			<div class="row">
@@ -25,7 +24,8 @@
 
 							<li> <a href="payment.php">Payment Policy</a></li>
 							
-							<li><a href="quizmaster.php">Quizmaster</a></li>
+							<li><a href="quizmaster.php">IQzetoMaster</a></li>
+<li><a href="quizmaster.php">We are Hiring</a></li>
 							
 						</ul>
 					</div>
@@ -49,6 +49,7 @@
 							Sector-1, Block-H<br />
 							Alkapoor Township<br />
 							Hyderabad-500081<br />
+							Telangana<br />
 						</p>
 					</div>
 				</div>
@@ -63,7 +64,7 @@
 			<hr class="sepa">
 			<div class="row" style="margin:0px;">
 				<div style="margin-top:10px;padding-bottom:25px;">
-					<div align="center" font-size:13px;">Copyright © <?php echo date('Y');?> IQzeto. All Rights Reserved</div>
+					<div align="center" font-size:13px;">Copyright © <?php echo date('Y');?> IQzeto. All Rights Reserved <span class="hidden"><a href="http://www.innasoft.in">Innasoft Technologies  Pvt Ltd.</a></span></div>
 
 				</div>
 				<div class="clearfix"></div>

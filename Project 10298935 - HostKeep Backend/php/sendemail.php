@@ -45,9 +45,9 @@ function sendEmail($to, $from, $subject, $message) {
     $mail->Body = $message;
 
     if(!$mail->send()) {
-        return "Mailer Error: " . $mail->ErrorInfo;
+        return false;
     } else {
-        return "success";
+        return true;
     }
 }
 

@@ -1,3 +1,15 @@
+<table id='adminContractExpiryEmailTimeTable'>
+    <tr>
+        <td><strong>Set Expiry Email Notification Time</strong></td>
+    </tr>
+    <tr>
+        <td><input type='number' id='adminContractExpiryEmailTime' /> <span>months</span></td>
+    </tr>
+    <tr>
+        <td><button onclick='saveContractExpiryEmailTime()'>Save</button></td>
+    </tr>
+</table>
+
 <table>
     <tr>
         <td>

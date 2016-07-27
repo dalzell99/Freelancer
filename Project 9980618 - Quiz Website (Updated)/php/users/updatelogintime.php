@@ -1,5 +1,5 @@
 <?php
-require('databasedetails.php');
+require('../database.php');
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
@@ -8,15 +8,12 @@ if (mysqli_connect_errno()) {
 }
 
 $username = $_POST['username'];
-$time = date("Y-m-d H:i:s");
 
-// Update game element with new values
-$update = "UPDATE Users SET lastTimeLoggedIn = '$time' WHERE username = '$username'";
-
-if (mysqli_query($con, $update)) {
+$sql = "UPDATE Users SET loggedIn = '" .  date('c') . "' WHERE username = '$username'";
+if ($result = mysqli_query($con, $sql)) {
     echo 'success';
 } else {
-    echo 'fail' . $update;
+    echo 'fail';
 }
 
 mysqli_close($con);

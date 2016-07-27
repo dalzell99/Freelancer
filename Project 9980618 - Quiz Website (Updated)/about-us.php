@@ -30,7 +30,7 @@ echo '<script type="text/javascript" src="js/termsofuse.js?' . filemtime('js/ter
 					</div>
 					<div class="col-md-6 col-lg-6">
 						<h2 class="abttle">Vision</h2>
-						<p align="justify">Here at IQzeto.com we consider our Social Responsibility important. We adore doing great for our kindred man and offering back to the group that made us. We empower everyone with the capacity to develop their intelligence and IQ in an entertaining and rewarding way.    </p>
+						<p align="justify">Here at www.iqzeto.com we consider our Social Responsibility important. We adore doing great for our kindred man and offering back to the group that made us. We empower everyone with the capacity to develop their intelligence and IQ in an entertaining and rewarding way.    </p>
 					</div>
 				</div>
 			</div>

@@ -10,6 +10,7 @@ echo '
 <script src="js/external/modal.min.js"></script>
 <script src="js/external/picker.js"></script>
 <script src="js/external/picker.date.js"></script>
+<script src="js/external/select2.full.min.js"></script>
 <script src="js/global.js?' . filemtime('js/global.js') . '"></script>
 
 <link href="css/external/bootstrap.min.css" rel="stylesheet" />
@@ -19,6 +20,7 @@ echo '
 <link href="css/external/dropzone.css" rel="stylesheet" />
 <link href="css/external/default.css" rel="stylesheet" />
 <link href="css/external/default.date.css" rel="stylesheet" />
+<link href="css/external/select2.min.css" rel="stylesheet" />
 <link href="css/global.css?' . filemtime('css/global.css') . '" rel="stylesheet" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">

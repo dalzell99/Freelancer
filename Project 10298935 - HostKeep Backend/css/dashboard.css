@@ -303,6 +303,10 @@ main > div#documents #orText {
   font-weight: bold;
 }
 
+main > div#documents .nav.nav-tabs {
+  margin-top: 20px;
+}
+
 main > div#documents table {
   width: 100%;
 }
@@ -448,6 +452,14 @@ main > div#admin button {
 main > div#admin .usersLabel {
   margin-top: 20px;
   margin-bottom: 5px;
+}
+
+main > div#admin #adminContractExpiryEmailTimeTable {
+  margin-bottom: 20px;
+}
+
+main > div#admin #adminContractExpiryEmailTimeTable input {
+  width: inherit;
 }
 
 main > div#admin table#userTable {

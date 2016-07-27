@@ -52,6 +52,14 @@ if ($minPrice != $_POST['minimumNightlyPrice'] || $basePrice != $_POST['basePric
     }
 }
 
+// If the contract expiry date was changed, reset the contractExpiryEmailSent value
+// in the database to 'n'
+if ($_POST['contractExpiryDateChanged'] == 'true') {
+    $contractExpiryDateChanged = ", contractExpiryEmailSent = 'n'";
+} else {
+    $contractExpiryDateChanged = "";
+}
+
 $sql = "UPDATE Properties SET
 name = '" . mysqli_real_escape_string($con, $_POST['name']) . "',
 description = '" . mysqli_real_escape_string($con, $_POST['description']) . "',
@@ -61,6 +69,7 @@ minimumNightlyPrice = '" . mysqli_real_escape_string($con, $_POST['minimumNightl
 commencementDate = '" . mysqli_real_escape_string($con, $_POST['commencementDate']) . "',
 propertyFee = '" . mysqli_real_escape_string($con, $_POST['propertyFee']) . "',
 cleaningFee = '" . mysqli_real_escape_string($con, $_POST['cleaningFee']) . "',
+contractExpiryDate = '" . mysqli_real_escape_string($con, $_POST['contractExpiryDate']) . "',
 airbnbURL = '" . mysqli_real_escape_string($con, $_POST['airbnbURL']) . "',
 guestGreetURL = '" . mysqli_real_escape_string($con, $_POST['guestGreetURL']) . "',
 selfCheckinURL = '" . mysqli_real_escape_string($con, $_POST['selfCheckinURL']) . "',
@@ -68,6 +77,7 @@ icalURL = '" . mysqli_real_escape_string($con, $_POST['icalURL']) . "',
 status = '" . $_POST['status'] . "',
 commencementFee = '" . mysqli_real_escape_string($con, $_POST['commencementFee']) . "',
 commencementFeeReceived = '" . mysqli_real_escape_string($con, $_POST['commencementFeeReceived']) . "'
+$contractExpiryDateChanged
 WHERE propertyID = '" . $_POST['propertyID'] . "'";
 
 if ($result = mysqli_query($con, $sql)) {

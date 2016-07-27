@@ -14,7 +14,7 @@ if ($result = mysqli_query($con, $sql)) {
     $response = [];
     while ($row = mysqli_fetch_assoc($result)) {
         // Get all the property names for each user and add to user info
-        $sqlProp = "SELECT name FROM Properties WHERE username = '" . $row['username'] . "'";
+        $sqlProp = "SELECT name, propertyID FROM Properties WHERE username = '" . $row['username'] . "'";
         $resultProp = mysqli_query($con, $sqlProp);
         $propList = [];
         while ($rowProp = mysqli_fetch_assoc($resultProp)) {

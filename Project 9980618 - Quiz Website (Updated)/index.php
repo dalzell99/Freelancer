@@ -293,16 +293,16 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
                 <div class="box-intro" style="padding: 0 21px;" >
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Give max answers in min time </p>
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Submit your answers till end</p>
-                    <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp; Check scoreboard for position </p>
+                    <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp; Check leaderboard for position </p>
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Three position will be paid</p>
-                       <!-- <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  wd4cgets credited in the winners acount</p>-->
+                       <!-- <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Real qzetos credited in the winners acount</p>-->
                 </div>
                 <div class="text">
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Give maximum answers in minimum time </p>
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Submit your answers to end the quiz</p>
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp; Check the leaderboard for your position </p>
                     <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Three position will be paid</p>
-                    <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  wd4cgets credited in the winners acount</p>
+                    <p class="para"><img src="images/icon1.png" alt="" class="" > &nbsp;  Real qzetos gets credited in the winners acount</p>
                     <!--<button class="btn btn-primary" style="text-align: center;    margin: 8px 0px 0px 48px;">Read More</button>-->
                 </div>
             </a>
@@ -342,12 +342,15 @@ echo '<script type="text/javascript" src="js/index.js?' . filemtime('js/index.js
 
             <div class="col-md-8 col-lg-8  animated fadeInDown wow">
 
-                <p class="para1  animated fadeInDown wow"><span style="color:#324c65">Welcome</span> to IQzeto, the best place for online quiz in the world. This is an online platform which enables users to participate in quiz of several formats from different fields with other best minds across the globe. IQzeto is the place where brains across the globe come together and competes with each other’s IQ and intelligence for millions of cash reward at stake. User register for free on this platform and have option to take both free as well as paid quizzes which are scheduled 24/7 on the platform. We strive to make your online quiz experience the best across the world.</p>
-                <p class="para2  animated fadeInDown wow">We are a team which offers online trivia game show which are completely challenging and guarantee 24 hour entertainment with knowledge add-on from various fields. Practice your knowledge across subject’s skills with free quiz and once you are confident, challenge the best mind across the globe in paid quizzes and win millions. </p>
-                <p class="para2  animated fadeInDown wow margin-bottom" style="margin-bottom: 50px;"><strong>IQzeto</strong> provides unlimited quizzes with cash rewards every minute, making it the preferred quiz site for everyone.</p>
+                <p class="para1  animated fadeInDown wow"><span style="color:#324c65">Do</span> you like learning new things? Do you like having fun and meeting new people? Do you like winning cash rewards in exciting online quiz show that take your last breath? Are you one of those people who love to live it all? Than we got something for you!
+.</p>
+                <p class="para2  animated fadeInDown wow">Welcome to IQzeto.com, your one stop for online quizzes. This platform let its fellow users participate in various quizzes from all sorts of fields. Stand shoulder to shoulder with the best minds from all across the globe in a challenging and rewarding battle that tests your IQ and intelligence for millions of cash rewards at stake. Registration on the platform is absolutely free and players are given chance to take both free and paid quizzes. IQzeto.com strives to give remarkable experience and unforgettable online moments. </p>
+
+                <p class="para2  animated fadeInDown wow margin-bottom" style="margin-bottom: 50px;"><strong>IQzeto.com</strong> provides the most spectacular trivia experience on the internet, guaranteed to keep you entertained and learning new things. Build up your knowledge base first by having fun and participating in the free quiz and then when you are ready, step up and challenge the best minds in the game in the paid quizzes and win millions.</p>
+
             </div>
             <div class="col-md-4 padding0  animated fadeInDown wow" style="  margin-top: 40px;">
-                <iframe src="https://www.youtube.com/embed/fRygg1fmTZc" frameborder="0" class="video-size" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/ECQxxlhB1T4?rel=0" frameborder="0" class="video-size" allowfullscreen></iframe>
             </div>
         </div>
     </div>

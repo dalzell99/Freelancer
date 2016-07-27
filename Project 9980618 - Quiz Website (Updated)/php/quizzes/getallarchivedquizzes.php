@@ -13,8 +13,27 @@ $response = [];
 if ($result = mysqli_query($con, $sql)) {
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $row['winners'] = ['dalzell99', 'dalzell98', 'cfd19'];
-        $row['tax'] = [10000, 5000, 0];
+        $winners = [];
+        $tax = [];
+
+        $resultWinners = mysqli_query($con, "SELECT username FROM QuizResults WHERE quizID = " . $row['quizID'] . " AND (userRank = 1 OR  userRank = 2 OR  userRank = 3) ORDER BY userRank DESC");
+        while ($rowWinners = mysqli_fetch_assoc($resultWinners)) { $winners[] = $rowWinners; }
+        $row['winners'] = $winners;
+
+        $winnersString = '';
+        foreach ($winners as $w) {
+            $winnersString .= "'" . $w['username'] . "',";
+        }
+        if (strlen($winnersString) > 0) {
+            $winnersString = '(' . substr($winnersString, 0, strlen($winnersString) - 1) . ')';
+        } else {
+            $winnersString = '()';
+        }
+
+        $resultTax = mysqli_query($con, "SELECT taxAmount FROM Taxation WHERE quizID = " . $row['quizID'] . " AND username IN $winnersString ORDER BY taxAmount DESC");
+        while ($rowTax = mysqli_fetch_assoc($resultTax)) { $tax[] = $rowTax; }
+        $row['tax'] = $tax;
+
         $response[] = $row;
     }
 

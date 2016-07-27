@@ -19,6 +19,7 @@ var checkoutDatePicker;
 var currentYear;
 var currentMonth;
 var currentPropertyBeyondPricingID;
+var currentContractExpiryDate = '';
 
 $(function() {
     if (sessionStorage.loggedIn === 'true') {
@@ -123,8 +124,8 @@ $(function() {
                     userList = JSON.parse(response);
                     userList.forEach(function(value, index, array) {
                         var propertyString = '';
-                        value.properties.forEach(function (propName) {
-                            propertyString += propName.name + ", ";
+                        value.properties.forEach(function (prop) {
+                            propertyString += prop.propertyID + ": " + prop.name + ", ";
                         });
 
                         // Remove last comma
@@ -137,6 +138,8 @@ $(function() {
                     $("#headerCustomerInfo").empty().append(html);
 
                     $("#headerUserSelect").val(sessionStorage.username);
+
+                    $("#headerUserSelect").select2();
 
                     // When a different user is selected change, get user info and call changeUser function
                     $("#headerUserSelect").on({
@@ -688,9 +691,9 @@ function propertySubpage() {
         html += "                    <td>Commencement date</td>";
         if (a) {
             if (propertyInfo.commencementDate !== '') {
-                html += "            <td><input id='propertySubpageCommencementDate' type='date' data-value='" + propertyInfo.commencementDate + "' /></td>";
+                html += "            <td><input id='propertySubpageCommencementDate' type='date' name='commencementDate' data-value='" + propertyInfo.commencementDate + "' /></td>";
             } else {
-                html += "            <td><input id='propertySubpageCommencementDate' type='date' /></td>";
+                html += "            <td><input id='propertySubpageCommencementDate' type='date' name='commencementDate' /></td>";
             }
         } else {
             if (propertyInfo.commencementDate !== '') {
@@ -724,6 +727,23 @@ function propertySubpage() {
             }
         }
 
+        html += "                </tr>";
+        html += "                <tr>";
+        html += "                    <td>Contract Expiry Date</td>";
+        if (a) {
+            if (propertyInfo.contractExpiryDate !== '') {
+                currentContractExpiryDate = propertyInfo.contractExpiryDate;
+                html += "            <td><input id='propertySubpageContractExpiryDate' type='date' name='contractExpiryDate' data-value='" + propertyInfo.contractExpiryDate + "' /></td>";
+            } else {
+                html += "            <td><input id='propertySubpageContractExpiryDate' type='date' name='contractExpiryDate' /></td>";
+            }
+        } else {
+            if (propertyInfo.contractExpiryDate !== '') {
+                html += "            <td>" + moment(propertyInfo.contractExpiryDate).format('ddd Do MMM YYYY') + "</td>";
+            } else {
+                html += "            <td>Hasn't been set yet</td>";
+            }
+        }
         html += "                </tr>";
         html += "            </table>";
         html += "        </div>";
@@ -841,7 +861,13 @@ function propertySubpage() {
         if (a) {
             $("#propertySubpageCommencementDate").pickadate({
                 format: 'ddd d mmm yyyy',
-                formatSubmit: 'yyyymmdd',
+                formatSubmit: 'yyyy/mm/dd',
+                hiddenName: true
+            });
+
+            $("#propertySubpageContractExpiryDate").pickadate({
+                format: 'ddd d mmm yyyy',
+                formatSubmit: 'yyyy/mm/dd',
                 hiddenName: true
             });
 
@@ -875,6 +901,7 @@ function saveSubpageInfo() {
     var commencementFeeReceived;
     var status;
     var commencementDate;
+    var contractExpiryDate;
 
     if ($("#propertySubpageCommencementFeeReceivedYes").prop('checked')) {
         commencementFeeReceived = 'true';
@@ -888,12 +915,23 @@ function saveSubpageInfo() {
         status = $("#propertySubpagePropertyStatus").text();
     }
 
-    if ($("#propertySubpage input[type='hidden']:eq(0)").val() === 'undefined') {
+    // This is undefined if the customer is saving the property info
+    if ($("#propertySubpage input[name='commencementDate']").val() === undefined) {
         commencementDate = '';
     } else {
         // The datepicker dates are stored in a hidden input. This gets the first one
-        commencementDate = $("#propertySubpage input[type='hidden']:eq(0)").val();
+        commencementDate = $("#propertySubpage input[name='commencementDate']").val();
     }
+
+    // This is undefined if the customer is saving the property info
+    if ($("#propertySubpage input[name='contractExpiryDate']").val() === undefined) {
+        contractExpiryDate = '';
+    } else {
+        // The datepicker dates are stored in a hidden input. This gets the second one
+        contractExpiryDate = $("#propertySubpage input[name='contractExpiryDate']").val();
+    }
+
+    var contractExpiryDateChanged = (contractExpiryDate != currentContractExpiryDate ? 'true' : 'false');
 
     $.post("./php/properties/savesubpagechanges.php", {
         propertyID: $("#propertySubpagePropertyID").text(),
@@ -905,6 +943,8 @@ function saveSubpageInfo() {
         commencementDate: commencementDate,
         propertyFee: $("#propertySubpagePropertyFee").text(),
         cleaningFee: $("#propertySubpageCleaningFee").text(),
+        contractExpiryDate: contractExpiryDate,
+        contractExpiryDateChanged: contractExpiryDateChanged,
         airbnbURL: $("#propertySubpageAirbnbURL").text(),
         guestGreetURL: $("#propertySubpageGuestGreetURL").text(),
         selfCheckinURL: $("#propertySubpageSelfCheckinURL").text(),
@@ -963,22 +1003,54 @@ function documents() {
 
     // Create property table
     var html = '';
+    var htmlTemp = '';
+    var html2016 = '';
+    var html2017 = '';
+    var html2018 = '';
     documentList.forEach(function(value, index, array) {
         var a = (sessionStorage.admin === 'true' ? true : false);
-        html += "<tr>";
-        html += "    <td class='name'><div onclick='viewDocument(\"" + value.documentFilename + "\")'>" + value.name + "</div></td>";
-        html += "    <td class='propertyID'>" + value.propertyName + "</td>";
-        html += "    <td class='month' sorttable_customkey='" + months.indexOf(value.month) + "'>" + value.month + "</td>";
-        html += "    <td><img src='images/download.png' alt='' onclick='viewDocument(\"" + value.documentFilename + "\")' /></td>";
+        htmlTemp += "<tr>";
+        htmlTemp += "    <td class='name'><div onclick='viewDocument(\"" + value.documentFilename + "\")'>" + value.name + "</div></td>";
+        htmlTemp += "    <td class='propertyID'>" + value.propertyName + "</td>";
+        htmlTemp += "    <td class='month' sorttable_customkey='" + value.year + pad(months.indexOf(value.month), 2) + "'>" + value.month + "</td>";
+        htmlTemp += "    <td class='year' sorttable_customkey='" + value.year +  pad(months.indexOf(value.month), 2) + "'>" + value.year + "</td>";
+        htmlTemp += "    <td><img src='images/download.png' alt='' onclick='viewDocument(\"" + value.documentFilename + "\")' /></td>";
         if (sessionStorage.admin !== null && sessionStorage.admin === 'true') {
-            html += "    <td><img src='images/delete.png' alt='' onclick='deleteDocument(\"" + value.documentID + "\")' /></td>";
+            htmlTemp += "    <td><img src='images/delete.png' alt='' onclick='deleteDocument(\"" + value.documentID + "\")' /></td>";
         }
-        html += "    <td></td>";
-        html += "    <td style='display:none'>" + value.documentID + "</td>";
-        html += "</tr>";
+        htmlTemp += "    <td></td>";
+        htmlTemp += "    <td style='display:none'>" + value.documentID + "</td>";
+        htmlTemp += "</tr>";
+
+        html += htmlTemp;
+        if (value.year == 2015) {
+            html2016 += htmlTemp;
+        } else if (value.year == 2016) {
+            if (months.indexOf(value.month) < 6) {
+                html2016 += htmlTemp;
+            } else {
+                html2017 += htmlTemp;
+            }
+        } else if (value.year == 2017) {
+            if (months.indexOf(value.month) < 6) {
+                html2017 += htmlTemp;
+            } else {
+                html2018 += htmlTemp;
+            }
+        } else if (value.year == 2018) {
+            if (months.indexOf(value.month) < 6) {
+                html2018 += htmlTemp;
+            }
+        }
+
+
+        htmlTemp = '';
     });
 
-    $("#documents tbody").empty().append(html);
+    $("#documents #documentsAll tbody").empty().append(html);
+    $("#documents #documents2016 tbody").empty().append(html2016);
+    $("#documents #documents2017 tbody").empty().append(html2017);
+    $("#documents #documents2018 tbody").empty().append(html2018);
 
     // Make table sortable
     var newTableObject = $("#documents table")[0];
@@ -1048,6 +1120,7 @@ function documents() {
                     name: filenameMinusExtension,
                     propertyID: $("#documentsAddPropertyID").val(),
                     month: $("#documentsAddMonth").val(),
+                    year: $("#documentsAddYear").val(),
                     notes: $("#documentsAddNotes").val(),
                     filename: filename
                 }, function(response) {
@@ -1520,6 +1593,11 @@ function admin() {
         }
     });
 
+    $.get("./php/contractexpiryemailtime/getcontractexpiryemailtime.php", {
+    }, function(response) {
+        $("#adminContractExpiryEmailTime").val(response);
+    });
+
     hideAllContainers();
     $("div#admin").show();
 }
@@ -1553,6 +1631,20 @@ function deleteCustomer(username) {
             //displayMessage('error', "Error: Something went wrong with  AJAX POST");
         });
     }
+}
+
+function saveContractExpiryEmailTime() {
+    $.post("./php/contractexpiryemailtime/savecontractexpiryemailtime.php", {
+        months: $("#adminContractExpiryEmailTime").val()
+    }, function(response) {
+        if (response == 'success') {
+            displayMessage('info', 'Saved successfully');
+        } else {
+            displayMessage('error', 'Error saving');
+        }
+    }).fail(function (request, textStatus, errorThrown) {
+        //displayMessage('error', "Error: Something went wrong with  AJAX POST");
+    });
 }
 
 // Add click event to display property subpage
@@ -1731,7 +1823,9 @@ function createCalendar() {
 
     $("#calendarContainer").html(html);
 
-    addInfoToCalendar();
+    if (currentPropertyBeyondPricingID !== '') {
+        addInfoToCalendar();
+    }
 }
 
 function addInfoToCalendar() {
