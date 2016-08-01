@@ -2,6 +2,7 @@
 require('../global.php');
 require('../sendemail.php');
 $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
+mysqli_set_charset($con, 'utf8');
 
 // Check connection
 if (mysqli_connect_errno()) {

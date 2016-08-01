@@ -29,7 +29,7 @@ if ($result = mysqli_query($con, $sql)) {
                 mysqli_query($con, $sql3);
             }
 
-            $sql4 = "UPDATE Users SET loggedIn = 'y' WHERE username = '$username'";
+            $sql4 = "UPDATE Users SET loggedIn = '" . date('c') . "' WHERE username = '$username'";
             mysqli_query($con, $sql4);
 
             $sql2 = "SELECT userID, username, paidPointsBalance, freeConvertablePointsBalance, freeUnconvertablePointsBalance, email, emailConfirmed, notificationsArray, timeNotificationsViewed, numQuizzesTakenRemaining, quizMaster FROM Users WHERE username = '$username'";
