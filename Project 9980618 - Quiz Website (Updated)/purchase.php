@@ -3,77 +3,79 @@
 echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myaccount.js') . '"></script>';
 ?>
 
-<div class="container-fluid" style=" background: url(images/backgrond.png); min-height:600px;">               
-    <div class="container">
-        <div class="row">
+<?php
+$orderAmount = $_GET['orderAmount'];
+$currency = "INR";
+$email = $_GET['email'];
+$mobile = $_GET['mobile'];
+$merchantTxnId = mktime();
+$merchantAccessKey = "2IVQIMKCXK5MHOOL3IIK";
+$secret_key = "ba9b96718d782755abf01a1f6809770bd28071c8";
+$vanityUrl = "iqzeto";
+$mode = "dropIn";
 
-            <div class="login-body">
-                <article class="container-login center-block" style="margin-top: -40px !important;">
+$data = $vanityUrl . $orderAmount . $merchantTxnId . $currency;
 
-                    <section>
-                        <ul id="top-bar" class="nav nav-tabs nav-justified" style="letter-spacing: 1px;border: 1px solid #ea533f;">
-                            <li><a href="my-account.php">	 <strong style="text-align:center">Change Your  Password   </strong>  </a></li>
-                            <li  ><a href="convert-quizetos.php"> <strong>Convert Free Quizetos to Real Quizetos</strong></a></li>
-                            <li  class="active" ><a href="buy-real-quiz.php">  <strong>Buy Real  Quizetos</strong> </a></li>
-                            <li onclick='showWithdraw()'><strong>Redeem</strong></li>
-                        </ul>
-                        <div class="tab-content tabs-login col-lg-12 col-md-12 col-sm-12 cols-xs-12" style="box-shadow: 10px 21px 11px rgba(50, 50, 50, 0.15)">
-                            <div id="login-access" class="tab-pane fade active in">
-                                <div class='form-group'>
-                                    <h3>Buy Real Quizetos</h3>
-                                </div>
-                                <div class='form-group'  style="font-size: 17px; margin-top:20px;">
-                                    <label for='#numQuizetos'>Enter the number of Real Quizetos you want to purchase.</label>
-                                    <input id='numQuizetos' class='form-control' type='number' tabindex="1">
-                                </div>
-                                <div class='form-group'>
-                                    <label for='#costQuizetos'>Cost : </label>
-                                    <span id='costQuizetos'>0</span>
-                                </div>
-                                <div class="col-md-4"></div>
-                                <div class="form-group ">				
-                                    <button type="submit" name="log-me-in" id='purchaseButton' tabindex="5" style="width: 39% !important;border-radius: 4px;padding: 4px 0px;" class="btn btn-lg btn-primary">Buy Real  Quizetos</button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </article>
-            </div>
+$secSignature = hash_hmac('sha1', $data, $secret_key);
+?>
 
-        </div>
+<form align="center" id="walletUrl">
+    Email: <input name="email" id="email" type="text" value="<?php echo $email ?>" /> <br />
+    Mobile: <input name="mobile" id="mobile" type="text" value="<?php echo $mobile ?>" /> <br />
+    Access Key: <input name="merchantAccessKey" type="text" id="merchantAccessKey" value="<?php echo $merchantAccessKey ?>" /> <br />
+    Amount: <input name="amount" id="orderAmount" type="text" value="<?php echo $orderAmount ?>" /> <br />
+    Mode: <input name="mode" id="mode" type="text" value="<?php echo $mode ?>" /> <br />
+    Currency: <input name="currency" id="currency" type="text" value="<?php echo $currency ?>" /> <br />
+    Signature: <input name="secSignature" id="secSignature" type="text" value="<?php echo $secSignature ?>" /> <br />
+    Merchant TXN ID: <input name="merchantTxnId" id="merchantTxnId" type="text" value="<?php echo $merchantTxnId ?>" /> <br />
+    Vanity: <input name="vanityUrl" id="vanityUrl" type="text" value= "<?php echo $vanityUrl ?>" > <br />
+    Notify URL: <input name="notifyUrl" id="notifyUrl" type="text" value="https://stgpg5.citruspay.com/icpkit/jsp/TestNotifyResponse.jsp"> <br />
+    Return URL: <input name="returnUrl" id="returnUrl" type="text" value="http://localhost/citrus-hosted/result.php"> <br />
+</form >
 
-
-    </div></div>
-<?php include('footer.php'); ?>
-<script>
-    $(document).on('click', '.panel-heading span.clickable', function (e) {
-        var $this = $(this);
-        if (!$this.hasClass('panel-collapsed')) {
-            $this.parents('.panel').find('.panel-body').slideUp();
-            $this.addClass('panel-collapsed');
-            $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
-        } else {
-            $this.parents('.panel').find('.panel-body').slideDown();
-            $this.removeClass('panel-collapsed');
-            $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+<script type="text/javascript">
+//write code to start loader citrusICP.launchIcp
+$(function() {
+    citrusICP.launchIcp({
+        orderAmount: $('#orderAmount').val(),
+        currency: $('#currency').val(),
+        phoneNumber: $('#mobile').val(),
+        email: $('#email').val(),
+        merchantAccessKey: $('#merchantAccessKey').val(),
+        merchantTxnId: $('#merchantTxnId').val(),
+        returnUrl: $('#returnUrl').val(),
+        secSignature: $('#secSignature').val(),
+        notifyUrl: $('#notifyUrl').val(),
+        vanityUrl: $('#vanityUrl').val(),
+        mode: $('#mode').val(),
+        addressStreet1: "street1",
+        addressStreet2: "street2",
+        addressCity: "Mumbai",
+        addressState: "MH",
+        addressCountry: "India",
+        addressZip: "400605",
+        firstName: "Chris",
+        lastName: "Dalzell"
+    },
+    {
+        icpUrl: "http://sboxcontext.citruspay.com/kiwi/kiwi-popover",
+        eventHandler: function(cbObj) {
+            if (cbObj.event === 'icpLaunched') {
+                //This is good place to stop loader
+                console.log('Citrus ICP pop-up is launched');
+            } else if (cbObj.event === 'icpClosed') {
+                console.log(JSON.stringify(cbObj.message));
+                console.log('Citrus ICP pop-up is closed');
+            }
         }
     });
-    $(document).on('click', '.panel div.clickable', function (e) {
-        var $this = $(this);
-        if (!$this.hasClass('panel-collapsed')) {
-            $this.parents('.panel').find('.panel-body').slideUp();
-            $this.addClass('panel-collapsed');
-            $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
-        } else {
-            $this.parents('.panel').find('.panel-body').slideDown();
-            $this.removeClass('panel-collapsed');
-            $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
-        }
-    });
-    $(document).ready(function () {
-        $('.panel-heading span.clickable').click();
-        $('.panel div.clickable').click();
-    });
-
+});
 </script>
 
+<style>
+form#walletUrl input {
+    width: 400px;
+}
+</style>
+
+<?php include('footer.php'); ?>

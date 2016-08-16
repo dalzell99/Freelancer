@@ -6,29 +6,29 @@
 #quizMasterUserInfo, #quizMasterQuizMasterInfo,
 #quizMasterQuestionSubmission,#quizMasterScheduleQuiz,
 #quizMasterScheduleButton {
-  display: none;
+	display: none;
 }
 
 #withdrawCheque, #withdrawBankTransfer {
-  background-color: #428bca;
-  font-size: 1.5em;
-  color: black;
-  padding: 8px 18px;
-  border-radius: 7px;
+	background-color: #428bca;
+	font-size: 1.5em;
+	color: black;
+	padding: 8px 18px;
+	border-radius: 7px;
 }
 
 #myAccountProfileImage {
-  width: 150px;
+	width: 150px;
 }
 
 #quizzesHistory,
 #purchasesHistory,
 #withdrawalHistory,
 #myAccountTaxationTable {
-  width: 100%;
-  font-size: 1.5em;
-  border-collapse: separate;
-  border-spacing: 3px;
+	width: 100%;
+	font-size: 1.5em;
+	border-collapse: separate;
+	border-spacing: 3px;
 }
 
 #quizzesHistory td,
@@ -39,72 +39,77 @@
 #withdrawalHistory th,
 #myAccountTaxationTable td,
 #myAccountTaxationTable th {
-  border: 1px solid white;
-  text-align: center;
-  padding: 10px;
+	border: 1px solid white;
+	text-align: center;
+	padding: 10px;
 }
 
 .tablePaginationContainer {
-  color: black;
+	color: black;
 }
 
 table:not(#quizMasterQuizDate) {
-  width: 100%;
+	width: 100%;
 }
 
 #quizMasterQuestionSubmission th,
 #quizMasterQuestionSubmission td,
 #quizMasterQuizStartTimeTable td {
-  border: 1px solid white;
-  text-align: center;
-  padding: 10px;
+	border: 1px solid white;
+	text-align: center;
+	padding: 10px;
 }
 
 .selectedTimeSlot {
-  background-color: rgb(156, 255, 176);
+	background-color: rgb(156, 255, 176);
 }
 
 .usedTimeSlot {
-  background-color: rgb(255, 193, 193);
+	background-color: rgb(255, 193, 193);
 }
 
 #quizMasterQuizDate {
-  width: 50%;
+	width: 50%;
 }
 
 .bootstrap-datetimepicker-widget {
-  height: 420px;
+	height: 420px;
 }
 
 .table-condensed th,
 .table-condensed td {
-  padding: 10px;
+	padding: 10px;
 }
 
 .modal {
-    top: 20px;
-    bottom: 20px;
+		top: 20px;
+		bottom: 20px;
 }
 
 .modal-dialog {
-    width: 60%;
-    height: initial;
-    margin: auto;
+		width: 60%;
+		height: initial;
+		margin: auto;
 }
 
 .modal-content {
-    color: black;
+		color: black;
 }
 
 .modal-body {
-    padding: 15px;
+		padding: 15px;
 }
 
 .btn-default:not(.dropdown-toggle, #withdrawChequeSubmit, #withdrawBankTransferSubmit) {
-    background-color: #FFF;
+		background-color: #FFF;
 }
 
 td[data-toggle='modal'] {
-  cursor: pointer;
-  background-color: rgb(251, 240, 158);
+	cursor: pointer;
+	background-color: rgb(251, 240, 158);
+}
+
+#purchaseCitrusPayButton,
+#purchasePayumoneyButton {
+	width: 49.4%;
 }

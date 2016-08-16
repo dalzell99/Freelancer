@@ -729,7 +729,7 @@ function propertySubpage() {
 
         html += "                </tr>";
         html += "                <tr>";
-        html += "                    <td>Contract Expiry Date</td>";
+        html += "                    <td>Contract renewal date</td>";
         if (a) {
             if (propertyInfo.contractExpiryDate !== '') {
                 currentContractExpiryDate = propertyInfo.contractExpiryDate;
