@@ -6,8 +6,8 @@ echo '<script type="text/javascript" src="js/quizmaster.js?' . filemtime('js/qui
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<div class="container margin-top" style=" background: url(images/quizmaster.jpg); min-height:600px;">
-		<img src='https://placehold.it/1366x500' class='img-responsive' alt='' />
+<div class="container margin-top" style=" background: url(images/quizmaster.png); min-height:600px;">
+		<img src='https://iqzeto.com/images/quizmaster.png' class='img-responsive' alt='' />
 
 		<div id='sideNav' class="col-sm-2">
 				<a href='#'>
