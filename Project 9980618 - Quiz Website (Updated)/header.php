@@ -157,8 +157,10 @@
 								</div>
 								<div class="col-md-2 col-xs-6 col-lg-2 col-sm-2 padding0 buy-quiz" style="" >
 									<div class=" padding0" style="margin-top: 10px;" >
-										<a href="javascript:void(0)" onclick='showBuyPoints()' id='buyVIPPointsButton'  ><span style="color:#fff"><img src="images/gif-image.gif" class="buy-real" alt="" style="
+										<a href="javascript:void(0)" data-toggle="modal" data-target="#purchaseModal1"><span style="color:#fff"><img src="images/gif-image.gif" class="buy-real" alt="" style="
 																																					   margin-top: 2px;" /></span></a>
+										<!-- <a href="javascript:void(0)" onclick='showBuyPoints()' id='buyVIPPointsButton'  ><span style="color:#fff"><img src="images/gif-image.gif" class="buy-real" alt="" style="
+																																					   margin-top: 2px;" /></span></a> -->
 									</div>
 
 
@@ -218,4 +220,77 @@
 				<div class="clearfix"></div>
 			</div>
 
+		</div>
+
+		<!-- First Purchase Modal -->
+		<div id="purchaseModal1" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-sm">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-success" role="alert">
+							Enter Number of Real Qzetos
+						</div>
+						<div>
+							<span>Amount</span>
+							₹<input type="number" id="purchaseModal1Input"/>
+						</div>
+						<div>
+							<input type="checkbox" id="purchaseModal1Checkbox" />
+							<span>I accept the <a href="terms-of-services.php" target="_blank">Terms & Conditions</a></span>
+						</div>
+						<div>
+							<button class="btn btn-default" onclick="showSecondPurchaseModal()">Buy Qzetos</button>
+						</div>
+						<div>
+							<img class="purchaseModalFooter" src="images/payment/purchase-modal-footer.jpg" alt="Cards accepted" />
+						</div>
+					</div>
+				</div>
+			  </div>
+		</div>
+
+		<!-- Second Purchase Modal -->
+		<div id="purchaseModal2" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-sm">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-success" role="alert">
+							Total Real Qzetos: <span class="purchaseModal2Span"></span>
+						</div>
+						<div>
+							<div class="col-xs-5">
+								<div class="PG payActive" value="citruspay" onclick="setActivePG($(this))">
+									<span>Citruspay</span>
+								</div>
+								<div class="PG" value="payumoney" onclick="setActivePG($(this))">
+									<span>PayUmoney</span>
+								</div>
+							</div>
+							<div class="col-xs-7">
+								<div>
+									Total Payment: Rs <span class="purchaseModal2Span"></span>
+
+								</div>
+								<div>
+									<button onclick="displayPaymentGateway()">CONTINUE</button>
+									<button onclick="goBackToFirstPurchaseModal()">BACK</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<img class="purchaseModalFooter" src="images/payment/purchase-modal-footer.jpg" alt="Cards accepted" />
+					</div>
+				</div>
+			</div>
 		</div>

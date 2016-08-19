@@ -35,7 +35,10 @@ if (mysqli_query($con, $sql) && mysqli_query($con, $sql3)) {
 	</html>
 	";
 
-	sendEmail($to, $from, $subject, $message);
+	if (sendEmail($to, $from, $subject, $message) != 'success') {
+		error_log("Email: " . print_r($to) . ", From: $from, Message: $message", 1, "dalzell99@hotmail.com");
+		error_log("Email: " . print_r($to) . ", From: $from, Message: $message");
+	}
 
 	echo "success";
 } else {

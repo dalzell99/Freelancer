@@ -9,7 +9,7 @@ $secret_key = "a7cc8d093d0e2b1265078de13742b0e382f142ab";
 $vanityUrl = "iqzeto";
 
 //Should be unique for every transaction
-$merchantTxnId = (string)mktime();
+$merchantTxnId = (string)time();
 
 //Need to change with your Order Amount
 $orderAmount = $_GET['orderAmount'];

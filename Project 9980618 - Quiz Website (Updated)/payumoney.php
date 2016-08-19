@@ -1,12 +1,12 @@
 <?php
 // Merchant key here as provided by Payu
-$MERCHANT_KEY = "fUwFB7tU";
+$MERCHANT_KEY = "jaCxpHvA";
 
 // Merchant Salt as provided by Payu
-$SALT = "3LvdHURZR5";
+$SALT = "eoBpYoWMyj";
 
-// End point - change to https://secure.payu.in for LIVE mode
-$PAYU_BASE_URL = "https://test.payu.in";
+// End point - change to https://test.payu.in for test mode
+$PAYU_BASE_URL = "https://secure.payu.in";
 
 $action = '';
 
@@ -26,7 +26,7 @@ if(empty($posted['txnid'])) {
 	$txnid = $posted['txnid'];
 }
 
-$posted['productinfo'] = json_encode(json_decode("[{'name': 'quizetos', 'description': '', 'value': '" . (empty($posted['amount']) ? '' : $posted['amount']) . "', 'isRequired': 'false'}]"));
+$posted['productinfo'] = json_encode(json_decode("[{'name': 'paid quizzes', 'description': '', 'value': '" . (empty($posted['amount']) ? '' : $posted['amount']) . "', 'isRequired': 'false'}]"));
 if (!isset($posted['firstname'])) {
 	$posted['firstname'] = "Unknown";
 }
@@ -54,6 +54,22 @@ if(empty($posted['hash']) && sizeof($posted) > 0) {
 } elseif(!empty($posted['hash'])) {
 	$hash = $posted['hash'];
 	$action = $PAYU_BASE_URL . '/_payment';
+}
+
+require('php/database.php');
+$con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
+
+// Check connection
+if (mysqli_connect_errno()) {
+	echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+$sql4 = "SELECT costPerPurchase FROM QuizMaster WHERE id = 1";
+
+if ($resultQuizMaster = mysqli_query($con, $sql4)) {
+	$costPerPurchase = mysqli_fetch_assoc($resultQuizMaster)['costPerPurchase'];
+} else {
+	$costPerPurchase = 'error';
 }
 ?>
 
@@ -261,12 +277,6 @@ if(empty($posted['hash']) && sizeof($posted) > 0) {
 
 		</div>
 		<div id="payumoneyContainer">
-			<?php if($formError) { ?>
-
-				<span style="color:red">Please fill all mandatory fields.</span>
-				<br/>
-				<br/>
-			<?php } ?>
 			<form action="<?php echo $action; ?>" method="post" name="payuForm">
 				<input type="hidden" name="key" value="<?php echo $MERCHANT_KEY ?>" />
 				<input type="hidden" name="hash" value="<?php echo $hash ?>"/>
@@ -278,19 +288,7 @@ if(empty($posted['hash']) && sizeof($posted) > 0) {
 				<input type="hidden" name="surl" value="https://www.iqzeto.com/success.php" />
 				<input type="hidden" name="furl" value="https://www.iqzeto.com/failure.php" />
 				<input type="hidden" name="service_provider" value="payu_paisa" />
-				<div class='form-group'>
-					<label for='#numQuizetos'>Enter the number of Real Qzetos you want to purchase.</label><br />
-					<input id="numQuizetos" name="amount" value="<?php echo (empty($posted['amount']) ? '' : $posted['amount']) ?>" />
-				</div>
-				<div class='form-group'>
-					<label for='#costQuizetos'>Cost</label>
-					₹<span id='costQuizetos'>0</span>
-				</div>
-				<?php if (!$hash) : ?>
-					<div class='form-group'>
-						<input type="submit" value="Submit" />
-					</div>
-				<?php endif; ?>
+				<input type="hidden" name="amount" id="numQuizetos" />
 			</form>
 		</div>
 
@@ -301,20 +299,11 @@ if(empty($posted['hash']) && sizeof($posted) > 0) {
 				$("#firstname").val(fn);
 				$("#email").val(sessionStorage.email);
 				$("#phone").val(sessionStorage.mobile);
-
-				if (hash === '') {
-					return;
-				}
+				$("#numQuizetos").val(sessionStorage.amount);
 
 				var payuForm = document.forms.payuForm;
 				payuForm.submit();
 			}
-
-			$("#numQuizetos").on({
-				input: function() {
-					$("#costQuizetos").text($("#numQuizetos").val());
-				}
-			});
 		</script>
 	</body>
 </html>

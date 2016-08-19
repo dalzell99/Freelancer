@@ -22,37 +22,6 @@ var tablePages = {
 	taxation: 0
 };
 
-var options = {
-	orderAmount: '',
-	currency:  'INR',
-	merchantTxnId:  '',
-	vanityUrl: 'iqzeto',
-	secSignature:  '',
-	phoneNumber: '',
-	email: '',
-	notifyUrl:'https://www.iqzeto.com/php/citruspay/charge.php',
-	returnUrl:'https://www.iqzeto.com/myaccount.php',
-	addressStreet1: "Unknown",
-	addressStreet2: "Unknown",
-	addressCity: "Unknown",
-	addressState: "Unknown",
-	addressCountry: "Unknown",
-	addressZip: "400605",
-	firstName: "Unknown",
-	lastName: "Unknown"
-};
-
-var configObj = {
-	eventHandler: function(cbObj) {
-		if (cbObj.event === 'icpLaunched') {
-			console.log('Citrus ICP pop-up is launched');
-		} else if (cbObj.event === 'icpClosed') {
-			console.log('Citrus ICP pop-up is closed');
-			console.log(JSON.stringify(cbObj.message));
-		}
-	}
-};
-
 window.onload = function() {
 	global();
 
@@ -648,33 +617,6 @@ function showWithdraw() {
 function showTaxation() {
 	hideAllContainers();
 	$("#myAccountTaxation").show();
-}
-
-function displayPaymentGateway(pg) {
-	if ($("#numQuizetos").val() % 50 === 0) {
-		if (pg === 'citruspay') {
-			var orderAmount = parseInt($("#numQuizetos").val());
-			$.get("./php/citruspay/signature.php", {
-				orderAmount: orderAmount
-			}, function(response) {
-				options.orderAmount = parseInt($("#numQuizetos").val());
-				options.phoneNumber = userInfo.mobile;
-				options.email = userInfo.email;
-				options.secSignature = response[0];
-				options.merchantTxnId = response[1];
-				citrusICP.launchIcp(options, configObj);
-			}, 'json').fail(function (request, textStatus, errorThrown) {
-				//displayMessage('error', "Error: Something went wrong with  AJAX GET");
-			});
-		} else {
-			sessionStorage.firstName = userInfo.firstName;
-			sessionStorage.email = userInfo.email;
-			sessionStorage.mobile = userInfo.mobile;
-			window.location.href = 'payumoney.php';
-		}
-	} else {
-		displayMessage("warning", "", "You can only purchase quizetos in multiples of 50");
-	}
 }
 
 function convertFreePoints() {

@@ -8,6 +8,37 @@ var isEmailAddressValid = false;
 var inactivityTimer;
 var inactivityTimeout = 1000 * 60 * 5; // 5 minutes
 
+var options = {
+	orderAmount: '',
+	currency:  'INR',
+	merchantTxnId:  '',
+	vanityUrl: 'iqzeto',
+	secSignature:  '',
+	phoneNumber: '',
+	email: '',
+	notifyUrl:'https://www.iqzeto.com/php/citruspay/charge.php',
+	returnUrl:'https://www.iqzeto.com/myaccount.php',
+	addressStreet1: "Unknown",
+	addressStreet2: "Unknown",
+	addressCity: "Unknown",
+	addressState: "Unknown",
+	addressCountry: "Unknown",
+	addressZip: "400605",
+	firstName: "Unknown",
+	lastName: "Unknown"
+};
+
+var configObj = {
+	eventHandler: function(cbObj) {
+		if (cbObj.event === 'icpLaunched') {
+			console.log('Citrus ICP pop-up is launched');
+		} else if (cbObj.event === 'icpClosed') {
+			console.log('Citrus ICP pop-up is closed');
+			console.log(JSON.stringify(cbObj.message));
+		}
+	}
+};
+
 window.onload = global;
 
 function global() {
@@ -380,4 +411,55 @@ function updateLoginTime() {
 		username: sessionStorage.username
 	}, function(response) {
 	});
+}
+
+function showSecondPurchaseModal() {
+	var v = $("#purchaseModal1Input").val();
+	var c = $("#purchaseModal1Checkbox")[0].checked;
+	if (v % 50 === 0 && c) {
+		$(".purchaseModal2Span").text(v);
+		$("#purchaseModal1").modal('hide');
+		$("#purchaseModal2").modal();
+	} else {
+		if (c) {
+			displayMessage("warning", "", "You can only purchase quizetos in multiples of 50");
+		} else {
+			displayMessage("warning", "", "You need to accept the terms and conditions above");
+		}
+	}
+}
+
+function setActivePG(elem) {
+	$(".payActive").removeClass("payActive");
+	elem.addClass("payActive");
+}
+
+function goBackToFirstPurchaseModal() {
+	$("#purchaseModal2").modal('hide');
+	$("#purchaseModal1").modal();
+}
+
+
+function displayPaymentGateway() {
+	var pg = $(".payActive span").text().toLowerCase();
+	if (pg === 'citruspay') {
+		var orderAmount = parseInt($("#purchaseModal1Input").val());
+		$.get("./php/citruspay/signature.php", {
+			orderAmount: orderAmount
+		}, function(response) {
+			options.orderAmount = parseInt($("#purchaseModal1Input").val());
+			options.phoneNumber = sessionStorage.mobile;
+			options.email = sessionStorage.email;
+			options.secSignature = response[0];
+			options.merchantTxnId = response[1];
+			$("#purchaseModal1").modal('hide');
+			$("#purchaseModal2").modal('hide');
+			citrusICP.launchIcp(options, configObj);
+		}, 'json').fail(function (request, textStatus, errorThrown) {
+			//displayMessage('error', "Error: Something went wrong with  AJAX GET");
+		});
+	} else {
+		sessionStorage.amount = parseInt($("#purchaseModal1Input").val());
+		location.href = "payumoney.php";
+	}
 }
