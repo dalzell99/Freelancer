@@ -10,6 +10,7 @@ $(function () {
 		amount: amount
 	}, function(response) {
 		if (response == 'success') {
+			sessionStorage.payumoneyAmount = parseInt(<?php echo $_POST['amount']; ?>);
 			location.href = "myaccount";
 		} else {
 			displayMessage('error', '', 'There was an error adding the quizetos to your account. Please contact us so we can fix this.');

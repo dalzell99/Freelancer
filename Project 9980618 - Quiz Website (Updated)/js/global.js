@@ -35,6 +35,12 @@ var configObj = {
 		} else if (cbObj.event === 'icpClosed') {
 			console.log('Citrus ICP pop-up is closed');
 			console.log(JSON.stringify(cbObj.message));
+			if (cbObj.message.TxStatus === 'SUCCESS') {
+				updatePoints();
+				displayMessage('success', '', 'The payment was successful and ' + parseInt(cbObj.message.amount) + ' qzetos have been added to your account');
+			} else {
+				displayMessage('error', '', 'The payment failed. Please make sure you entered your payment info correctly');
+			}
 		}
 	}
 };
@@ -160,6 +166,11 @@ function global() {
 			}
 
 			localStorage.removeItem("quizResults");
+		}
+
+		if (sessionStorage.payumoneyAmount !== undefined) {
+			displayMessage('success', '', 'The payment was successful and ' + parseInt(sessionStorage.payumoneyAmount) + ' qzetos have been added to your account');
+			sessionStorage.removeItem('payumoneyAmount');
 		}
 	} else {
 		$("#loginNotLoggedIn").show();
@@ -416,7 +427,7 @@ function updateLoginTime() {
 function showSecondPurchaseModal() {
 	var v = $("#purchaseModal1Input").val();
 	var c = $("#purchaseModal1Checkbox")[0].checked;
-	if (v % 50 === 0 && c) {
+	if (/*v % 50 === 0 && */c) {
 		$(".purchaseModal2Span").text(v);
 		$("#purchaseModal1").modal('hide');
 		$("#purchaseModal2").modal();
@@ -438,7 +449,6 @@ function goBackToFirstPurchaseModal() {
 	$("#purchaseModal2").modal('hide');
 	$("#purchaseModal1").modal();
 }
-
 
 function displayPaymentGateway() {
 	var pg = $(".payActive span").text().toLowerCase();

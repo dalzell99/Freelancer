@@ -56,7 +56,8 @@
 		<script src="js/external/datetimepicker.js" type="application/javascript"></script>
 
 		<!-- Citrus Pay -->
-		<script type="text/javascript" id="context" src="https://context.citruspay.com/static/kiwi/app-js/icp.min.js"> </script>
+		<script type="text/javascript" id="context" src="https://context.citruspay.com/static/kiwi/app-js/icp.min.js"></script>
+		<!-- <script type="text/javascript" id="context" src="https://sboxcontext.citruspay.com/static/kiwi/app-js/icp.js"></script> -->
 
 		<!-- User Script -->
 		<?php echo '<link rel="stylesheet" type="text/css" href="css/global.css?' . filemtime('css/global.css') . '" />'; ?>

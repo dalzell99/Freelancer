@@ -1,9 +1,10 @@
 <?php
-//Need to replace the last part of URL("your-vanityUrlPart") with your Testing/Live URL
+// I don't know what this is for but it was in the sample code so I left it
 $formPostUrl = "https://citruspay.com/sslperf/iqzeto";
 
 //Need to change with your Secret Key
-$secret_key = "a7cc8d093d0e2b1265078de13742b0e382f142ab";
+$secret_key = "a7cc8d093d0e2b1265078de13742b0e382f142ab"; // Live
+// $secret_key = "ba9b96718d782755abf01a1f6809770bd28071c8"; // Test
 
 //Need to change with your Vanity URL Key from the citrus panel
 $vanityUrl = "iqzeto";

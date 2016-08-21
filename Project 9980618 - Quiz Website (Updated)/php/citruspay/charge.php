@@ -39,9 +39,10 @@ if ($_POST['TxStatus'] == 'SUCCESS' && ($result = mysqli_query($con, $sql2))) {
 		";
 
 		if (sendEmail($to, $from, $subject, $message) != 'success') {
-			error_log("Email: " . print_r($to) . ", From: $from, Message: $message", 1, "dalzell99@hotmail.com");
-			error_log("Email: " . print_r($to) . ", From: $from, Message: $message");
+			error_log("Email: " . $to[0] . ", From: $from, Message: $message");
 		}
+	} else {
+		error_log("SQL: $sql, SQL3: $sql3");
 	}
 }
 ?>
