@@ -5,7 +5,7 @@ $con = mysqli_connect('localhost', $dbusername, $dbpassword, $dbname);
 
 // Check connection
 if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
 $userID = $_POST['userID'];
@@ -18,29 +18,29 @@ $from = $databasephpNoReplyEmail;
 $subject = "IQzeto Verification Email";
 $message = "
 <html>
-    <body>
+	<body>
 
-        <p><b>Greetings $username,</b></p>
+		<p><b>Greetings $username,</b></p>
 
-        <p><a href='https://www.iqzeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
+		<p><a href='https://www.iqzeto.com/emailverification.php?email=$email&code=$emailCode'>Click here to verify your email address</a></p>
 
 
-        <p><b>Regards</b></p>
+		<p><b>Regards</b></p>
 
-        <p><b>Team IQzeto</b> </p>
-    </body>
+		<p><b>Team IQzeto</b> </p>
+	</body>
 </html>
 ";
 
 if (mysqli_query($con, $sql)) {
-    $sendEmailResult = sendEmail($to, $from, $subject, $message);
-    if ($sendEmailResult == 'success') {
-        echo 'success';
-    } else {
-        echo 'mail fail';
-    }
+	$sendEmailResult = sendEmail($to, $from, $subject, $message);
+	if ($sendEmailResult == 'success') {
+		echo 'success';
+	} else {
+		echo 'mail fail';
+	}
 } else {
-    echo 'fail' . $sql;
+	echo 'fail' . $sql;
 }
 
 mysqli_close($con);

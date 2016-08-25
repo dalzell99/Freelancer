@@ -580,38 +580,42 @@ function showWithdraw() {
 		hideAllContainers();
 		$("#myAccountWithdraw").show();
 	} else {
-		var result = prompt("You haven't verified your email. You can either enter your email below or click the link in the welcome email you received.");
-
-		if (result !== null) {
-			$.post('./php/users/checkemailredeem.php', {
-				userID: sessionStorage.userID,
-				email: result
-			}, function(response) {
-				if (response === 'exists') {
-					$.post('./php/users/sendverificationemail.php', {
-						userID: sessionStorage.userID,
-						email: result,
-						code: createEmailCode()
-					}, function(response) {
-						if (response === 'success') {
-							displayMessage('info', 'Verification Email Sent', "A verification email has been sent to the entered email address. Please click it to be allowed to redeem your real quizetos for money.");
-						} else {
-							displayMessage('error', 'Error', "Err or sending verification email. Please try again.");
-						}
-					}).fail(function (request, textStatus, errorThrown) {
-						//displayMessage('error', 'Error', "Err or: Something went wrong with sending verification email.");
-					});
-				} else if (response === 'notexists') {
-					displayMessage('warning', 'Incorrect Email', "The email entered doesn't match the email attached to your account.");
-				} else {
-					displayMessage('error', 'Error', "Err or checking email. Please try again.");
-				}
-			}).fail(function (request, textStatus, errorThrown) {
-				//displayMessage('error', 'Error', "Err or: Something went wrong with sending verification email.");
-			});
-		}
+		$("#emailModal").modal();
 	}
 
+}
+
+function sendVerificationEmail() {
+	var result = $("#emailModalInput").val();
+
+	if (result !== null) {
+		$.post('./php/users/checkemailredeem.php', {
+			userID: sessionStorage.userID,
+			email: result
+		}, function(response) {
+			if (response === 'exists') {
+				$.post('./php/users/sendverificationemail.php', {
+					userID: sessionStorage.userID,
+					email: result,
+					code: createEmailCode()
+				}, function(response) {
+					if (response === 'success') {
+						displayMessage('info', 'Verification Email Sent', "A verification email has been sent to the entered email address. Please click it to be allowed to redeem your real quizetos for money.");
+					} else {
+						displayMessage('error', 'Error', "Err or sending verification email. Please try again.");
+					}
+				}).fail(function (request, textStatus, errorThrown) {
+					//displayMessage('error', 'Error', "Err or: Something went wrong with sending verification email.");
+				});
+			} else if (response === 'notexists') {
+				displayMessage('warning', 'Incorrect Email', "The email entered doesn't match the email attached to your account.");
+			} else {
+				displayMessage('error', 'Error', "Err or checking email. Please try again.");
+			}
+		}).fail(function (request, textStatus, errorThrown) {
+			//displayMessage('error', 'Error', "Err or: Something went wrong with sending verification email.");
+		});
+	}
 }
 
 function showTaxation() {
@@ -738,6 +742,7 @@ function areInputsValidCheque() {
 		return [false, "The pancard you entered doesn't match the pancard with your account."];
 	}
 
+	checkMobileCheque();
 	if(!isMobileNumberCorrect) {
 		return [false, "The phone number you entered doesn't match the number with your account. Make sure you choose the correct country from the dropdown"];
 	}
@@ -759,6 +764,7 @@ function areInputsValidBankTransfer() {
 		return [false, "The pancard you entered doesn't match the pancard with your account."];
 	}
 
+	checkMobileBankTransfer();
 	if(!isMobileNumberCorrect) {
 		return [false, "The phone number you entered doesn't match the number with your account. Make sure you choose the correct country from the dropdown"];
 	}

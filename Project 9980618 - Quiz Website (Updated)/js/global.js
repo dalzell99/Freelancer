@@ -286,7 +286,7 @@ function areInputsValidSignUp() {
 		return [false, 'Your email address needs to include an @ and a . in it'];
 	}
 
-	if (!isMobileNumberValid) {
+	if (!$("#userRegisterPhone").intlTelInput("isValidNumber")) {
 		return [false, 'The mobile number you entered is invalid'];
 	}
 
@@ -427,7 +427,7 @@ function updateLoginTime() {
 function showSecondPurchaseModal() {
 	var v = $("#purchaseModal1Input").val();
 	var c = $("#purchaseModal1Checkbox")[0].checked;
-	if (/*v % 50 === 0 && */c) {
+	if (v > 0 && v % 50 === 0 && c) {
 		$(".purchaseModal2Span").text(v);
 		$("#purchaseModal1").modal('hide');
 		$("#purchaseModal2").modal();

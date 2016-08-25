@@ -26,6 +26,11 @@ var configObj = {
 		} else if (cbObj.event === 'icpClosed') {
 			console.log(JSON.stringify(cbObj.message));
 			console.log('Citrus ICP pop-up is closed');
+			if (cbObj.message.TxStatus === 'SUCCESS') {
+				displayMessage('success', '', 'The payment was successful');
+			} else {
+				displayMessage('error', '', 'The payment failed. Please make sure you entered your payment info correctly');
+			}
 		}
 	}
 };

@@ -178,11 +178,11 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
 							</div>
 
 							<div id='myAccountBuy' class='col-xs-12'>
-								<div>
+								<!-- <div>
 									<div class='form-group'>
 										<button data-toggle="modal" data-target="#purchaseModal1">Buy Real Qzetos</button>
 									</div>
-									<!-- <div class='form-group'>
+									<div class='form-group'>
 										<h3>Buy Real Qzetos</h3>
 									</div>
 									<div class='form-group'>
@@ -196,8 +196,8 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
 									<div class='form-group'>
 										<button class='btn btn-primary' id='purchaseCitrusPayButton'  data-toggle="modal" data-target="#purchaseCitrusPayModal">Pay using CitrusPay</button>
 										<button class='btn btn-primary' id='purchasePayumoneyButton'  data-toggle="modal" data-target="#purchasePayumoneyModal">Pay using Payumoney</button>
-									</div> -->
-								</div>
+									</div>
+								</div> -->
 
 								<div id='myAccountPurchaseHistory'>
 
@@ -395,6 +395,25 @@ echo '<script type="text/javascript" src="js/myaccount.js?' . filemtime('js/myac
 	  </div>
 	</div>
   </div>
+</div>
+
+<div id="emailModal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-sm">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<p>
+					You haven't verified your email. You can either enter your email below or click the link in the welcome email you received.
+				</p>
+				<input type="text" id="emailModalInput" />
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" onclick="sendVerificationEmail()">Submit</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 

@@ -2,10 +2,10 @@
 .clr {clear:both;}
 body
 {
-    margin:0;
-    width:100%;
-    padding:0;
-    border:0; background-image: url('../images/bg2.jpg');
+	margin:0;
+	width:100%;
+	padding:0;
+	border:0; background-image: url('../images/bg2.jpg');
 	background-size: 100% 110%;
 	background-repeat: no-repeat;
 }
@@ -17,16 +17,16 @@ body
 	margin:0 auto;
 	width:300px;
 	background-color: none;
-    background-image: url('../images/7.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+	background-image: url('../images/7.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
 	height:260px;
 }
 
 .logo img.text-img {
-    height: 85px;
-    margin-top: 95px;
-    margin-left: 15px;
+	height: 65px;
+	margin-top: 95px;
+	margin-left: 15px;
 }
 
 #image{
@@ -34,10 +34,10 @@ body
 }
 
 /*.bg {
-    background-image: url('../images/bg2.jpg');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    min-height:667px;
+	background-image: url('../images/bg2.jpg');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	min-height:667px;
 }*/
 .life-lines {text-align:center; margin-bottom:2%;}
 .life-lines img {height:86px;}
@@ -47,14 +47,14 @@ body
 .bg-info {background:none; text-align:center;}
 
 .bg-timer {
-    background-color: none;
-    background-image: url('../images/glossy-blue-button-hi.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    text-align: center;
-    padding: 0;
-    margin:14% 0;
-    width:100%;
+	background-color: none;
+	background-image: url('../images/glossy-blue-button-hi.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	text-align: center;
+	padding: 0;
+	margin:14% 0;
+	width:100%;
 }
 .bg-timer img { width:100%;}
 .bg-timer span {color:#fff; font-size:50px;}
@@ -100,160 +100,160 @@ body
 .button-right {border-radius:5px; float:right; padding:0.5em 2em; margin:1em 0; background: linear-gradient(#172130, #4066A0); color:#fff; }
 
 .footer-button-bck {
-    height: 47px;
-    background-image: url('../images/back-img.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    width:30%;
-    float:left;
+	height: 47px;
+	background-image: url('../images/back-img.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width:30%;
+	float:left;
 }
 .footer-button-bck:hover {
-    height: 47px;
-    background-image: url('../images/back-act.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    width:30%;
-    float:left;
+	height: 47px;
+	background-image: url('../images/back-act.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width:30%;
+	float:left;
 }
 
 .footer-button-nxt {
-    height: 47px;
-    background-image: url('../images/next-img.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    width:30%;
-    float:right;
+	height: 47px;
+	background-image: url('../images/next-img.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width:30%;
+	float:right;
 }
 .footer-button-nxt:hover {
-    height: 47px;
-    background-image: url('../images/next-act.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    width:30%;
-    float:right;
+	height: 47px;
+	background-image: url('../images/next-act.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width:30%;
+	float:right;
 }
 .footer-button img.back {float:left;}
 .footer-button img.next {float:right;}
 
 @media screen and (max-width: 767px)
 {
-    .logo {height:200px; width:200px; margin:0 auto;}
-    .logo img.text-img {height:45px; margin-top:75px;}
+	.logo {height:200px; width:200px; margin:0 auto;}
+	.logo img.text-img {height:45px; margin-top:75px;}
 	  .bg-inner {width:100%; margin:0 auto; padding:0}
-    .bg-timer { width:30%; margin:0 auto;}
-    .bg-data-ans {width:70%; margin:5% auto;}
+	.bg-timer { width:30%; margin:0 auto;}
+	.bg-data-ans {width:70%; margin:5% auto;}
 	  .bg-data-ans:hover {width:70%; margin:5% auto;}
-    .life-lines img {height:53px;}
-    .footer-button-bck {width:77%;}
-    .footer-button-nxt {width:77%;}
-    .footer-button-bck:hover {width:77%;}
-    .footer-button-nxt:hover {width:77%;}
+	.life-lines img {height:53px;}
+	.footer-button-bck {width:77%;}
+	.footer-button-nxt {width:77%;}
+	.footer-button-bck:hover {width:77%;}
+	.footer-button-nxt:hover {width:77%;}
 }
 
 .questionContainer, .footer-button {
-    display: none;
+	display: none;
 }
 
 .currentQuestion {
-    display: block;
+	display: block;
 }
 
 .submitAnswersButtonHeader, .submitAnswersButtonCenter, .questionButton button {
-    moz-box-shadow: inset 5px -40px 5px -15px #4D4D4D;
-    -webkit-box-shadow: inset 5px -40px 5px -15px #4D4D4D;
-    box-shadow: inset 5px -40px 5px -15px #181818;
-    background-color: #4D4D4D;
-    -moz-border-radius: 11px;
-    -webkit-border-radius: 11px;
-    border-radius: 11px;
-    border: 1px solid #FCEDC7;
-    display: inline-block;
-    cursor: pointer;
-    color: #ffffff;
-    text-decoration: none;
+	moz-box-shadow: inset 5px -40px 5px -15px #4D4D4D;
+	-webkit-box-shadow: inset 5px -40px 5px -15px #4D4D4D;
+	box-shadow: inset 5px -40px 5px -15px #181818;
+	background-color: #4D4D4D;
+	-moz-border-radius: 11px;
+	-webkit-border-radius: 11px;
+	border-radius: 11px;
+	border: 1px solid #FCEDC7;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	text-decoration: none;
 }
 
 .submitAnswersButtonHeader:hover, .submitAnswersButtonCenter:hover, .questionButton button:hover {
-  	background-color:#00AE00;
-    -moz-box-shadow:inset 5px -40px 10px -15px #007800;
+	  background-color:#00AE00;
+	-moz-box-shadow:inset 5px -40px 10px -15px #007800;
 	  -webkit-box-shadow:inset 5px -40px 10px -15px #007800;
 	  box-shadow:inset 5px -40px 10px -15px #007800;
-    color:#ffffff;
+	color:#ffffff;
 }
 
 .submitAnswersButtonCenter {
-    display: block;
-    margin: auto;
-    top: 50px;
-    position: relative;
-    height: 40px;
-    width: 250px;
-    font-size: 1em;
+	display: block;
+	margin: auto;
+	top: 50px;
+	position: relative;
+	height: 40px;
+	width: 250px;
+	font-size: 1em;
 }
 
 .submitAnswersButtonHeader {
-    display: block;
-    margin: auto;
-    top: 10px;
-    position: relative;
-    right: 20px;
-    height: 60px;
-    width: 130px;
-    font-size: 1em;
+	display: block;
+	margin: auto;
+	top: 10px;
+	position: relative;
+	right: 20px;
+	height: 60px;
+	width: 130px;
+	font-size: 1em;
 }
 
 #quizResults {
-    display: none;
-    margin-top: 120px;
+	display: none;
+	margin-top: 120px;
 }
 
 #quizResultTable {
-    width: 60%;
-    color: white;
-    margin: 0 auto;
+	width: 60%;
+	color: white;
+	margin: 0 auto;
 }
 
 #quizResultTable th {
-    font-weight: 900;
+	font-weight: 900;
 }
 
 #resultText {
-    color: white;
-    font-weight: 900;
+	color: white;
+	font-weight: 900;
 }
 
 .leaderboardUserImage {
-    width: 50px;
+	width: 50px;
 }
 
 .rowfix {
-    margin-left: 0px;
-    margin-right: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
 }
 
 .questionButton {
-    padding: 2px;
+	padding: 2px;
 }
 
 .questionButton button {
-    margin: 5px;
-    width: 100%;
-    padding: 10px;
+	margin: 5px;
+	width: 100%;
+	padding: 10px;
 }
 
 .userRank {
-    color: black;
-    background-color: rgba(255, 255, 192, 0.6);
+	color: black;
+	background-color: rgba(255, 255, 192, 0.6);
 }
 
 .leaderboard {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .question, .answer {
-    font-weight: 900;
-    font-size: large;
-    color: darkblue;
+	font-weight: 900;
+	font-size: large;
+	color: darkblue;
 	float: none;
 	padding: 10px;
 }
@@ -271,18 +271,18 @@ body
 }
 
 @media (max-width: 992px) {
-    #quizResultTable {
-        width: 80%;
-    }
+	#quizResultTable {
+		width: 80%;
+	}
 }
 
 @media (max-width: 768px) {
-    #quizResultTable {
-        width: 100%;
-    }
+	#quizResultTable {
+		width: 100%;
+	}
 
-    .submitAnswersButtonHeader {
-        right: 0;
-        top: 0;
-    }
+	.submitAnswersButtonHeader {
+		right: 0;
+		top: 0;
+	}
 }
